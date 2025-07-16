@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim | Tezcan Bilgisayar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .contact-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://source.unsplash.com/1600x900/?contact,communication') no-repeat center center/cover;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .contact-card {
+            transition: transform 0.3s;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header/Navbar (Tüm sayfalarda aynı) -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <i class="fas fa-laptop me-2"></i>Tezcan Bilgisayar
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Ana Sayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="hakkimizda.html"><i class="fas fa-info-circle me-1"></i>
+                                Hakkımızda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="hizmetler.html"><i class="fas fa-tools me-1"></i> Hizmetler</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="iletisim.html"><i class="fas fa-phone-alt me-1"></i>
+                                İletişim</a>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/905324694249" class="btn btn-success ms-3" target="_blank">
+                        <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Bize Ulaşın</h1>
+            <p class="lead">Sorularınız, önerileriniz veya randevu talepleriniz için bizimle iletişime geçebilirsiniz
+            </p>
+        </div>
+    </section>
+
+    <!-- İletişim Bilgileri -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4 contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Adresimiz</h4>
+                        <p>Karşıyaka Mahallesi<br>2446/2 Sokak No:8<br>Denizli, Türkiye</p>
+                        <a href="https://g.co/kgs/yNMfBXo" target="_blank" class="btn btn-outline-primary mt-2">Haritada
+                            Gör</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4 contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h4>Telefon</h4>
+                        <p>0532 469 4249</p>
+                        <p>Her Gün: 08:00 - 20:00</p>
+                        <a href="tel:+905324694249" class="btn btn-outline-primary mt-2">Hemen Ara</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4 contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>E-posta</h4>
+                        <p>tezcanbilgisayarhizmetleri@gmail.com</p>
+                        <p>En geç 24 saat içinde dönüş yapıyoruz</p>
+                        <a href="mailto:tezcanbilgisayarhizmetleri@gmail.com"
+                            class="btn btn-outline-primary mt-2">E-posta
+                            Gönder</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim Formu ve Harita -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card h-100 p-4">
+                        <h3 class="mb-4">Mesaj Gönderin</h3>
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Ad Soyad</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-posta Adresi</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Telefon (Opsiyonel)</label>
+                                <input type="tel" class="form-control" id="phone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Mesajınız</label>
+                                <textarea class="form-control" id="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Mesajı Gönder</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 p-0 overflow-hidden">
+                        <div class="map-container">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3125.123456789012!2d29.012345678901234!3d37.76543210987654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ1JzU1LjYiTiAyOcKwMDAnNDkuOSJF!5e0!3m2!1str!2str!4v1234567890123!5m2!1str!2str"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sosyal Medya -->
+    <section class="py-5">
+        <div class="container text-center">
+            <h3 class="mb-4">Sosyal Medyada Bizi Takip Edin</h3>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="https://instagram.com/tezcanbilgisayar" target="_blank" class="btn btn-danger btn-lg">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Tüm sayfalarda aynı) -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Tezcan Bilgisayar</h5>
+                    <p>Donanımda uzman, hizmette güvenilir</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Hızlı Linkler</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white">Ana Sayfa</a></li>
+                        <li><a href="hizmetler.html" class="text-white">Hizmetler</a></li>
+                        <li><a href="iletisim.html" class="text-white">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>İletişim</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-phone me-2"></i> 0532 469 4249</li>
+                        <li><i class="fas fa-envelope me-2"></i> tezcanbilgisayarhizmetleri@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Denizli, Türkiye</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Tezcan Bilgisayar. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Form Gönderim Scripti (Basit Örnek) -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>
