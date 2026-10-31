@@ -1,12 +1,13 @@
 # Tezcan Bilgisayar — Site Hazırlığı
 
-Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik web sitesidir. Şu anki sürüm kuruluş öncesi tanıtım ve teknik hazırlık içindir; siteden sipariş veya ödeme alınmaz, müşteri üyeliği ve profil özellikleri kapalıdır. Sayfalarda `noindex` kullanılır; kuruluş ve içerik hazırlığı bitmeden arama motorlarına açılmamalıdır.
+Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik web sitesidir. Şu anki sürüm kuruluş öncesi tanıtım ve teknik hazırlık içindir; siteden sipariş veya ödeme alınmaz. Müşteri hesabı açma ve giriş özellikleri kullanılabilir; şirket kuruluşu tamamlandığında veri sorumlusu ve altyapı bilgileri yeniden gözden geçirilmelidir. Sayfalarda `noindex` kullanılır; kuruluş ve içerik hazırlığı bitmeden arama motorlarına açılmamalıdır.
 
 ## Sade site düzeni
 
 - `index.html`: Ana sayfa, ürün grupları ve arama.
 - `iletisim.html`: Telefon, e-posta ve WhatsApp iletişimi.
-- `hesap.html` ve `hesabim.html`: Üyelik/giriş ve oturum açıldıktan sonra profil/adres yönetimi. Kayıtlar şimdilik kapalıdır.
+- `hesap.html` ve `hesabim.html`: Üyelik/giriş ve oturum açıldıktan sonra profil/adres yönetimi.
+- `kvkk-aydinlatma.html`: Hesap verilerinin işlenmesi hakkında bilgilendirme.
 - `yonetim.html`: Menüde gösterilmeyen, yetkili ürün yönetim ekranı.
 - `404.html`: Bulunmayan sayfalar.
 
@@ -15,10 +16,14 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 ## Katalog yapısı
 
 - `index.html`: Kategori keşfi ve katalog arayüzü. Ürünler önce Supabase tablolarından, erişilemezse `assets/data/catalog.json` yedeğinden yüklenir.
+- `assets/js/main.js`: Ürün arama, kategori filtreleme, ürün listesi ve aynı kategoride en fazla dört ürünü teknik özellikleriyle karşılaştırma.
+- `assets/js/pages/pc-builder.js`: Katalogdaki işlemci, anakart, RAM, ekran kartı, kasa ve güç kaynağı özelliklerinden sistem toplama listesi ve uyum uyarıları.
 - `assets/data/catalog.json`: Şimdilik planlanan ürün grupları. Gerçek ürün, SKU, fiyat ve stok eklenmemiştir.
 - `assets/data/catalog.schema.json`: Yedek katalog dosyasının veri şeması.
 - `supabase/migrations/20261031000100_product_catalog.sql`: Ürün/kategori tabloları, genel görüntüleme kuralları ve yönetici yazma izinleri.
 - `supabase/migrations/20261031000300_more_catalog_categories.sql`: Ana sayfadaki hazır sistem, bilgisayar, çevre birimi ve diğer kategori gruplarını kataloğa ekler.
+- `supabase/migrations/20261031000400_product_image_storage.sql`: Ürün fotoğrafları için herkese açık görüntüleme ve yalnızca yöneticiye yazma izni olan depolamayı kurar.
+- `supabase/migrations/20261031000500_product_category_attributes.sql`: Ürünlerin kategoriye özgü teknik özelliklerini JSONB nesnesi olarak saklar.
 - `supabase/migrations/20261028000100_customer_profiles.sql`: Kullanıcı profilleri ve özel teslimat adresleri.
 - `supabase/migrations/20261031000200_account_hardening.sql`: Profil alanı erişimini daraltır ve adres sorgularını hızlandırır.
 - `supabase/config.toml`: Docker ile yerel geliştirme için Supabase CLI ayarları.
@@ -26,14 +31,19 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `hesabim.html` / `assets/js/pages/profile.js`: Profil ve kullanıcının kendi adreslerini yönetme.
 - `yonetim.html`: Yetkili yönetici için ürün ve kategori ekranı. Yeni kullanıcı kaydı sunmaz.
 - `assets/js/pages/catalog-admin.js`: Yönetim ekranı işlemleri.
+- `assets/js/pages/category-attributes.js`: Kategoriye göre açılan teknik özellik alanları ve marka önerileri.
 - `KURULUS-ONCESI-HAZIRLIK.md`: İşletme, satış, kişisel veri ve teknik yayın kontrol listesi.
 
-Katalog ürünü `id`, `categoryId`, `name`, `description`, `brand`, `model`, `sku`, `image`, `price`, `currency`, `stock`, `status`, `sortOrder` ve `searchTerms` alanlarını kullanır. Yalnızca `status: "active"` ürünler sitede görünür. Görseller `assets/products/` altına konur. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
+Katalog ürününde temel alanlara ek olarak `attributes` nesnesi kategoriye özgü teknik özellikleri saklar. Bu nesnenin alanları `assets/js/pages/category-attributes.js` içinde kategoriye göre tanımlanır; örneğin RAM seçildiğinde kapasite, DDR türü, hız ve modül sayısı alanları açılır. Ürün kartında girilmiş teknik özellikler gösterilir. Marka alanı kategoriye göre bilinen markaları önerir, yeni marka yazılmasına da izin verir. Yalnızca `status: "active"` ürünler sitede görünür. Fotoğrafı yönetim panelindeki ürün formundan seçip önizleyebilir veya sürükleyip bırakabilirsin. Görseller Supabase Storage'daki `product-images` alanında saklanır; CSV ile eski `assets/products/` dosya yolları da kullanılabilir. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
+
+Aktif ürünler aynı kategoride en fazla dört ürün olarak karşılaştırılabilir. Karşılaştırma, yönetimde girilen teknik özellikleri ve fiyatı yan yana gösterir; eksik özellikleri `—` ile belirtir. Seçimler tarayıcıda saklanır, katalogda artık bulunmayan ürünler sonraki yüklemede listeden çıkarılır. Bu özellik sipariş veya uyumluluk garantisi oluşturmaz.
+
+Ana sayfadaki sistem toplama yardımcısı aktif katalog ürünlerinden parça seçtirir, işlemci/anakart soketini, anakart/RAM neslini, kasa/anakart boyutunu ve ekran kartı uzunluğunu kontrol eder. CPU ve GPU TDP değerlerinden ihtiyat paylı yaklaşık bir güç hedefi gösterir. Bu hesap üretici tavsiyesinin veya uyumluluk listesinin yerine geçmez. Sistem listesi WhatsApp üzerinden yalnızca kullanıcı düğmeye bastığında paylaşılır; sipariş oluşturmaz.
 
 ## Katalog yönetimini kurma
 
-1. Supabase Dashboard > SQL Editor bölümünde önce `supabase/migrations/20261031000100_product_catalog.sql`, sonra `supabase/migrations/20261031000300_more_catalog_categories.sql` dosyasını çalıştır. Tablolar ve ana sayfada kullanılan tüm ürün grupları oluşturulur.
-2. Supabase Authentication bölümünden yönetici hesabı oluştur. Sitede herkese açık üyelik kaydı yoktur.
+1. Supabase Dashboard > SQL Editor bölümünde sırayla `supabase/migrations/20261031000100_product_catalog.sql`, `supabase/migrations/20261031000300_more_catalog_categories.sql`, `supabase/migrations/20261031000400_product_image_storage.sql` ve `supabase/migrations/20261031000500_product_category_attributes.sql` dosyalarını çalıştır. Tablolar, ürün grupları, fotoğraf deposu ve kategoriye özel teknik özellik alanı oluşturulur.
+2. Supabase Authentication bölümünden katalog yöneticisi hesabı oluştur. Müşteri hesabı açma ve giriş özelliği ayrı olarak yayında açıktır.
 3. Bu kullanıcının UUID değerini bulup SQL Editor'da aşağıdaki sorgudaki UUID'yi değiştirerek çalıştır. Bu rolü yalnızca katalog yöneticisi olması gereken hesaba ver:
 
 ```sql
@@ -45,6 +55,7 @@ where id = 'YONETICI-KULLANICI-UUID';
 4. Yönetici hesabıyla oturumu yeniden açıp `yonetim.html` sayfasına git. RLS, ürün ve kategori değişikliklerini veritabanında ayrıca denetler.
 5. Yeni ürünler taslak olarak başlar. Ürün `Yayında` olduğunda ve kategorisi açık olduğunda ana sayfada gösterilir. Kategoriyi silmek yerine gizleyebilirsin; böylece bağlı ürünler korunur.
 6. Ürün görselini `assets/products/` klasörüne koyup `assets/products/ornek.jpg` biçimindeki yolu ürün formuna yaz.
+7. Yönetim panelindeki CSV dışa aktarma düğmesi mevcut ürünleri yedekler. Toplu yüklemede bu dosyanın sütun başlıklarını koru; arama kelimelerini `|` ile ayır. Önce satırlar denetlenir, ardından yeni ürün/güncelleme sayısı gösterilip onay istenir. Aynı `slug` değeri olan ürün güncellenir.
 
 Katalog verisi tarayıcıda okunabilmesi için yerel geliştirmede HTTP sunucusu üzerinden açılmalıdır (`file://` ile JSON yüklemesi tarayıcı tarafından engellenebilir). Tarayıcıya yalnızca Supabase publishable key konur; secret/service_role anahtarı site dosyalarına eklenmez. Supabase tabloları erişilemezse ana sayfa JSON yedeğini kullanır.
 
@@ -72,7 +83,7 @@ Canlı site için yönetilen Supabase kullanılmalı; kişisel bilgisayardaki Do
 2. Supabase Authentication ayarlarında e-posta kaydını/doğrulamasını aç; gerçek site URL'sini ve hesap sayfasındaki doğrulama/şifre dönüş adreslerini izinli adreslere ekle.
 3. Canlı e-posta için doğrulanmış alan adına ait SMTP sağlayıcısı kur. Varsayılan deneme e-posta kotası gerçek kullanıma uygun değildir.
 4. Supabase panelinde çok faktörlü koruma kullan, erişimi gereken kişilerle sınırla ve düzenli yedekleri etkin tut. Gizli/service role anahtarını site dosyalarına koyma.
-5. Şirket iletişim/veri sorumlusu bilgileri ve gerçek kişisel veri bilgilendirme metni yayımlanmadan `assets/js/config/supabase-config.js` içindeki `customerAccountsEnabled` değerini `true` yapma. Hazır olduğunda `privacyNoticeUrl` değerini yayımlanmış metnin bağlantısıyla doldur.
+5. Hesap oluşturma ve giriş bu sürümde açıktır. `kvkk-aydinlatma.html` hesap kayıt formunda gösterilir. Şirket kuruluşu ve veri altyapısı netleştiğinde veri sorumlusu, yurt dışı aktarım koşulları ve iletişim bilgilerini gözden geçirip metni güncelle. Supabase Auth yönlendirme listesine `https://tezcanbilgisayar.com/hesap.html` ve `https://www.tezcanbilgisayar.com/hesap.html` adreslerini ekle; site adresini yayındaki alan adına ayarla.
 
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 

@@ -42,13 +42,14 @@
         "brand": { "type": "string" },
         "model": { "type": "string" },
         "sku": { "type": "string" },
-        "image": { "type": "string", "pattern": "^assets/products/[A-Za-z0-9._/-]+$" },
+        "image": { "type": "string", "pattern": "^(assets/products/[A-Za-z0-9._/-]+|https://[A-Za-z0-9.-]+/storage/v1/object/public/product-images/[A-Za-z0-9._/-]+)$" },
         "price": { "type": ["number", "null"], "minimum": 0 },
         "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
         "stock": { "type": ["integer", "null"], "minimum": 0 },
         "status": { "enum": ["draft", "active"] },
         "sortOrder": { "type": "integer", "minimum": 0 },
-        "searchTerms": { "type": "array", "items": { "type": "string" } }
+        "searchTerms": { "type": "array", "items": { "type": "string" } },
+        "attributes": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } }
       },
       "additionalProperties": false
     }

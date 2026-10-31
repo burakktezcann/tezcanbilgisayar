@@ -28,8 +28,10 @@ create table if not exists public.catalog_products (
   status text not null default 'draft' check (status in ('draft', 'active')),
   sort_order integer not null default 0 check (sort_order >= 0),
   search_terms text[] not null default '{}',
+  attributes jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint catalog_products_attributes_object_check check (jsonb_typeof(attributes) = 'object')
 );
 
 create index if not exists catalog_products_public_order_idx
