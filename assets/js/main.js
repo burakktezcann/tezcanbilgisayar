@@ -52,7 +52,10 @@ function createProductCard(item,{isProduct=false}={}){
   const icon=document.createElement('i');
   const iconName=/^fa-[a-z0-9-]+$/.test(item.icon||'')?item.icon:'fa-box';
   icon.className=`fa-solid ${iconName}`;
-  const imagePath=typeof item.image==='string'&&/^assets\/products\/[A-Za-z0-9._/-]+$/.test(item.image)&&!item.image.includes('..')?item.image:'';
+  const imagePath=typeof item.image==='string'&&(
+    (/^assets\/products\/[A-Za-z0-9._/-]+$/.test(item.image)&&!item.image.includes('..'))||
+    /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(item.image)
+  )?item.image:'';
   if(imagePath){
     const image=document.createElement('img');
     image.className='product-image';
@@ -325,6 +328,7 @@ sendQuote.addEventListener('click',()=>{
   window.open('https://wa.me/905324694249?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
 });
 loadCatalog();
+
 
 
 

@@ -19,6 +19,7 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `assets/data/catalog.schema.json`: Yedek katalog dosyasının veri şeması.
 - `supabase/migrations/20261031000100_product_catalog.sql`: Ürün/kategori tabloları, genel görüntüleme kuralları ve yönetici yazma izinleri.
 - `supabase/migrations/20261031000300_more_catalog_categories.sql`: Ana sayfadaki hazır sistem, bilgisayar, çevre birimi ve diğer kategori gruplarını kataloğa ekler.
+- `supabase/migrations/20261031000400_product_image_storage.sql`: Ürün fotoğrafları için herkese açık görüntüleme ve yalnızca yöneticiye yazma izni olan depolamayı kurar.
 - `supabase/migrations/20261028000100_customer_profiles.sql`: Kullanıcı profilleri ve özel teslimat adresleri.
 - `supabase/migrations/20261031000200_account_hardening.sql`: Profil alanı erişimini daraltır ve adres sorgularını hızlandırır.
 - `supabase/config.toml`: Docker ile yerel geliştirme için Supabase CLI ayarları.
@@ -28,11 +29,11 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `assets/js/pages/catalog-admin.js`: Yönetim ekranı işlemleri.
 - `KURULUS-ONCESI-HAZIRLIK.md`: İşletme, satış, kişisel veri ve teknik yayın kontrol listesi.
 
-Katalog ürünü `id`, `categoryId`, `name`, `description`, `brand`, `model`, `sku`, `image`, `price`, `currency`, `stock`, `status`, `sortOrder` ve `searchTerms` alanlarını kullanır. Yalnızca `status: "active"` ürünler sitede görünür. Görseller `assets/products/` altına konur. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
+Katalog ürünü `id`, `categoryId`, `name`, `description`, `brand`, `model`, `sku`, `image`, `price`, `currency`, `stock`, `status`, `sortOrder` ve `searchTerms` alanlarını kullanır. Yalnızca `status: "active"` ürünler sitede görünür. Fotoğrafı yönetim panelindeki ürün formundan seçip önizleyebilir veya sürükleyip bırakabilirsin. Görseller Supabase Storage'daki `product-images` alanında saklanır; CSV ile eski `assets/products/` dosya yolları da kullanılabilir. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
 
 ## Katalog yönetimini kurma
 
-1. Supabase Dashboard > SQL Editor bölümünde önce `supabase/migrations/20261031000100_product_catalog.sql`, sonra `supabase/migrations/20261031000300_more_catalog_categories.sql` dosyasını çalıştır. Tablolar ve ana sayfada kullanılan tüm ürün grupları oluşturulur.
+1. Supabase Dashboard > SQL Editor bölümünde önce `supabase/migrations/20261031000100_product_catalog.sql`, sonra `supabase/migrations/20261031000300_more_catalog_categories.sql` ve `supabase/migrations/20261031000400_product_image_storage.sql` dosyalarını çalıştır. Tablolar, ürün grupları ve ürün fotoğrafları deposu oluşturulur.
 2. Supabase Authentication bölümünden yönetici hesabı oluştur. Sitede herkese açık üyelik kaydı yoktur.
 3. Bu kullanıcının UUID değerini bulup SQL Editor'da aşağıdaki sorgudaki UUID'yi değiştirerek çalıştır. Bu rolü yalnızca katalog yöneticisi olması gereken hesaba ver:
 
@@ -45,6 +46,7 @@ where id = 'YONETICI-KULLANICI-UUID';
 4. Yönetici hesabıyla oturumu yeniden açıp `yonetim.html` sayfasına git. RLS, ürün ve kategori değişikliklerini veritabanında ayrıca denetler.
 5. Yeni ürünler taslak olarak başlar. Ürün `Yayında` olduğunda ve kategorisi açık olduğunda ana sayfada gösterilir. Kategoriyi silmek yerine gizleyebilirsin; böylece bağlı ürünler korunur.
 6. Ürün görselini `assets/products/` klasörüne koyup `assets/products/ornek.jpg` biçimindeki yolu ürün formuna yaz.
+7. Yönetim panelindeki CSV dışa aktarma düğmesi mevcut ürünleri yedekler. Toplu yüklemede bu dosyanın sütun başlıklarını koru; arama kelimelerini `|` ile ayır. Önce satırlar denetlenir, ardından yeni ürün/güncelleme sayısı gösterilip onay istenir. Aynı `slug` değeri olan ürün güncellenir.
 
 Katalog verisi tarayıcıda okunabilmesi için yerel geliştirmede HTTP sunucusu üzerinden açılmalıdır (`file://` ile JSON yüklemesi tarayıcı tarafından engellenebilir). Tarayıcıya yalnızca Supabase publishable key konur; secret/service_role anahtarı site dosyalarına eklenmez. Supabase tabloları erişilemezse ana sayfa JSON yedeğini kullanır.
 
@@ -76,7 +78,7 @@ Canlı site için yönetilen Supabase kullanılmalı; kişisel bilgisayardaki Do
 
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 
-
 ## Ana sayfa kategori seçimi
 
 Ana sayfadaki ürün grubu kartları katalog listesini filtreler ve seçilen gruba kaydırır. Bu gruba henüz ürün girilmediyse hazırlık mesajı gösterilir. Yerel JSON yedeği bütün ana ürün gruplarını içerir; Supabase kataloğunun aynı grupları sunması için `20261031000300_more_catalog_categories.sql` migration'ı da uygulanmalıdır.
+

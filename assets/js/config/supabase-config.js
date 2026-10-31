@@ -7,3 +7,4 @@ window.SUPABASE_CONFIG = {
   customerAccountsEnabled: false,
   privacyNoticeUrl: ""
 };
+
