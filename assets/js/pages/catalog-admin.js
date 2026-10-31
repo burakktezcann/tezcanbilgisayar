@@ -163,7 +163,8 @@ function editCategory(id){
   categoryForm.scrollIntoView({behavior:'smooth',block:'start'});
 }
 loginForm.addEventListener('submit',async event=>{
-  event.preventDefault();if(!client)return;
+  event.preventDefault();
+  if(!client){message(loginMessage,'Bağlantı kurulamadı. Sayfayı yenileyip tekrar dene.','error');return;}
   const button=loginForm.querySelector('button[type="submit"]');button.disabled=true;
   message(loginMessage,'Giriş yapılıyor…');
   const form=new FormData(loginForm);
