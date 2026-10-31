@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "currency": "TRY",
+  "categories": [
+    { "id": "cpu", "name": "İşlemci", "description": "İşlemci modelleri ve uyumluluk seçenekleri.", "icon": "fa-microchip", "tone": "blue", "sortOrder": 1, "searchTerms": ["cpu", "processor"] },
+    { "id": "motherboard", "name": "Anakart", "description": "Sistem bileşenleriyle uyumlu anakart seçenekleri.", "icon": "fa-chess-board", "tone": "green", "sortOrder": 2, "searchTerms": ["motherboard"] },
+    { "id": "ram", "name": "RAM", "description": "Masaüstü ve dizüstü bellek seçenekleri.", "icon": "fa-memory", "tone": "purple", "sortOrder": 3, "searchTerms": ["bellek", "memory"] },
+    { "id": "gpu", "name": "Ekran Kartı", "description": "Kullanım amacına uygun ekran kartı seçenekleri.", "icon": "fa-display", "tone": "orange", "sortOrder": 4, "searchTerms": ["gpu", "graphics"] },
+    { "id": "disk", "name": "Depolama", "description": "SSD, sabit disk ve taşınabilir depolama seçenekleri.", "icon": "fa-hard-drive", "tone": "blue", "sortOrder": 5, "searchTerms": ["ssd", "hdd", "disk"] },
+    { "id": "case", "name": "Kasa", "description": "Farklı sistem türlerine uygun bilgisayar kasaları.", "icon": "fa-server", "tone": "green", "sortOrder": 6, "searchTerms": ["bilgisayar kasası", "case"] },
+    { "id": "psu", "name": "Güç Kaynağı", "description": "Sistemin güç ihtiyacına uygun güç kaynakları.", "icon": "fa-bolt", "tone": "purple", "sortOrder": 7, "searchTerms": ["power supply", "psu"] }
+  ],
+  "products": []
+}

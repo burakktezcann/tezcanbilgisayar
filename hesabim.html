@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="tr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#101b35"><title>Hesabım | Tezcan Bilgisayar</title><link rel="icon" type="image/png" sizes="32x32" href="32x32_favicon.png"><link rel="stylesheet" href="assets/css/pages/account.css"><link rel="stylesheet" href="assets/css/pages/profile.css"></head>
+<body class="profile-page"><main class="account-shell">
+  <section class="account-intro"><a class="account-brand" href="index.html"><span class="brand-mark">TB</span><span>TEZCAN BİLGİSAYAR</span></a><h1>Hesap <span>ayarların.</span></h1><p>Profil bilgilerini ve ileride kullanabileceğin teslimat adreslerini yönet.</p><div class="profile-top-actions"><a href="hesap.html">Hesap girişine dön</a><span id="profileEmail"></span></div></section>
+  <section class="account-card" aria-label="Hesap bilgileri">
+    <div id="profileLoading" class="profile-loading" role="status">Hesabın yükleniyor…</div>
+    <div class="account-setup" id="profileSetup" hidden>Hesap bilgileri şu an yüklenemedi. Lütfen daha sonra tekrar dene.</div>
+    <div id="profileContent" hidden>
+      <section class="profile-section"><div class="profile-section-heading"><div><h2>Kişisel bilgiler</h2><p>Yalnızca hesap için gerekli bilgileri saklıyoruz.</p></div><button class="secondary-button" id="profileSignOut" type="button">Çıkış yap</button></div>
+        <form id="profileForm"><div class="profile-grid"><div class="field field-wide"><label for="profileFullName">Ad soyad</label><input id="profileFullName" name="fullName" autocomplete="name" maxlength="100" required></div><div class="field"><label for="profilePhone">Telefon (isteğe bağlı)</label><input id="profilePhone" name="phone" type="tel" autocomplete="tel" maxlength="32"></div></div><div class="profile-actions"><button class="account-submit" type="submit">Bilgileri kaydet</button></div></form>
+      </section>
+      <section class="profile-section"><div class="profile-section-heading"><div><h2>Kayıtlı adresler</h2><p>Bir adres ekleyip daha sonra güncelleyebilir veya silebilirsin.</p></div></div>
+        <div class="saved-address-list" id="addressList"></div>
+        <form id="addressForm"><input type="hidden" id="addressId" name="addressId"><div class="profile-section-heading"><div><h3 id="addressFormTitle">Yeni adres ekle</h3></div></div><div class="profile-grid">
+          <div class="field"><label for="addressLabel">Adres adı</label><input id="addressLabel" name="label" placeholder="Ev, İş…" maxlength="60" required></div>
+          <div class="field"><label for="recipientName">Teslim alacak kişi</label><input id="recipientName" name="recipientName" autocomplete="name" maxlength="100" required></div>
+          <div class="field"><label for="addressPhone">Telefon</label><input id="addressPhone" name="phone" type="tel" autocomplete="tel" maxlength="32" required></div>
+          <div class="field"><label for="addressCity">İl</label><input id="addressCity" name="city" autocomplete="address-level1" maxlength="100" required></div>
+          <div class="field"><label for="addressDistrict">İlçe</label><input id="addressDistrict" name="district" autocomplete="address-level2" maxlength="100" required></div>
+          <div class="field"><label for="postalCode">Posta kodu (isteğe bağlı)</label><input id="postalCode" name="postalCode" autocomplete="postal-code" maxlength="20"></div>
+          <div class="field field-wide"><label for="addressLine">Açık adres</label><textarea id="addressLine" name="addressLine" autocomplete="street-address" maxlength="1000" required></textarea></div>
+        </div><div class="profile-actions"><button class="account-submit" id="saveAddress" type="submit">Adresi kaydet</button><button class="secondary-button" id="cancelAddressEdit" type="button" hidden>Vazgeç</button></div></form>
+      </section>
+      <p class="profile-notice">Bu hesap altyapısı hazırlık aşamasındadır. Henüz sipariş veya ödeme alınmaz.</p>
+    </div>
+    <p class="account-message" id="profileMessage" role="status" aria-live="polite"></p>
+  </section>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/config/supabase-config.js"></script><script src="assets/js/pages/profile.js"></script></body></html>
