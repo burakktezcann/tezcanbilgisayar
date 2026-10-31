@@ -77,6 +77,18 @@ function createProductCard(item,{isProduct=false}={}){
   title.textContent=item.name;
   const description=document.createElement('p');
   description.textContent=item.description||'';
+  const specificationList=document.createElement('ul');
+  specificationList.className='product-specs';
+  const attributeDefinition=window.PRODUCT_ATTRIBUTE_DEFINITIONS?.[item.categoryId];
+  (attributeDefinition?.fields||[]).forEach(field=>{
+    const value=item.attributes?.[field.key];
+    if(value===undefined||value===null||value==='')return;
+    const row=document.createElement('li');
+    const label=document.createElement('span');label.textContent=field.label;
+    const detail=document.createElement('strong');detail.textContent=`${value}${field.unit?` ${field.unit}`:''}`;
+    row.append(label,detail);specificationList.append(row);
+  });
+  specificationList.hidden=!specificationList.children.length;
   const meta=document.createElement('div');
   meta.className='price-ask';
   if(isProduct&&Number.isFinite(item.price)&&item.price>=0){
@@ -93,7 +105,7 @@ function createProductCard(item,{isProduct=false}={}){
   addButton.className='add-to-cart';
   addButton.dataset.addToCart=item.id;
   addButton.textContent=isProduct?'Ürün listeme ekle':'İlgileniyorum';
-  info.append(label,title,description,meta,addButton);
+  info.append(label,title,description,specificationList,meta,addButton);
   card.append(art,info);
   return card;
 }
@@ -146,13 +158,13 @@ async function fetchLiveCatalog(){
   const client=window.supabase.createClient(config.url,config.publishableKey);
   const [{data:categoryRows,error:categoryError},{data:productRows,error:productError}]=await Promise.all([
     client.from('catalog_categories').select('id,name,description,icon,tone,sort_order,search_terms').eq('is_active',true).order('sort_order'),
-    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms').eq('status','active').order('sort_order')
+    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes').eq('status','active').order('sort_order')
   ]);
   if(categoryError||productError||!categoryRows?.length)return null;
   return {
     currency:'TRY',
     categories:categoryRows.map(row=>({id:row.id,name:row.name,description:row.description,icon:row.icon,tone:row.tone,sortOrder:row.sort_order,searchTerms:row.search_terms||[]})),
-    products:(productRows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:row.category_id,name:row.name,description:row.description,brand:row.brand,model:row.model,sku:row.sku,image:row.image_path,price:row.price===null?null:Number(row.price),currency:row.currency,stock:row.stock,status:row.status,sortOrder:row.sort_order,searchTerms:row.search_terms||[]}))
+    products:(productRows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:row.category_id,name:row.name,description:row.description,brand:row.brand,model:row.model,sku:row.sku,image:row.image_path,price:row.price===null?null:Number(row.price),currency:row.currency,stock:row.stock,status:row.status,sortOrder:row.sort_order,searchTerms:row.search_terms||[],attributes:row.attributes||{}}))
   };
 }
 async function loadCatalog(){

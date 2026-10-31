@@ -21,6 +21,7 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `supabase/migrations/20261031000100_product_catalog.sql`: Ürün/kategori tabloları, genel görüntüleme kuralları ve yönetici yazma izinleri.
 - `supabase/migrations/20261031000300_more_catalog_categories.sql`: Ana sayfadaki hazır sistem, bilgisayar, çevre birimi ve diğer kategori gruplarını kataloğa ekler.
 - `supabase/migrations/20261031000400_product_image_storage.sql`: Ürün fotoğrafları için herkese açık görüntüleme ve yalnızca yöneticiye yazma izni olan depolamayı kurar.
+- `supabase/migrations/20261031000500_product_category_attributes.sql`: Ürünlerin kategoriye özgü teknik özelliklerini JSONB nesnesi olarak saklar.
 - `supabase/migrations/20261028000100_customer_profiles.sql`: Kullanıcı profilleri ve özel teslimat adresleri.
 - `supabase/migrations/20261031000200_account_hardening.sql`: Profil alanı erişimini daraltır ve adres sorgularını hızlandırır.
 - `supabase/config.toml`: Docker ile yerel geliştirme için Supabase CLI ayarları.
@@ -28,14 +29,15 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `hesabim.html` / `assets/js/pages/profile.js`: Profil ve kullanıcının kendi adreslerini yönetme.
 - `yonetim.html`: Yetkili yönetici için ürün ve kategori ekranı. Yeni kullanıcı kaydı sunmaz.
 - `assets/js/pages/catalog-admin.js`: Yönetim ekranı işlemleri.
+- `assets/js/pages/category-attributes.js`: Kategoriye göre açılan teknik özellik alanları ve marka önerileri.
 - `KURULUS-ONCESI-HAZIRLIK.md`: İşletme, satış, kişisel veri ve teknik yayın kontrol listesi.
 
-Katalog ürünü `id`, `categoryId`, `name`, `description`, `brand`, `model`, `sku`, `image`, `price`, `currency`, `stock`, `status`, `sortOrder` ve `searchTerms` alanlarını kullanır. Yalnızca `status: "active"` ürünler sitede görünür. Fotoğrafı yönetim panelindeki ürün formundan seçip önizleyebilir veya sürükleyip bırakabilirsin. Görseller Supabase Storage'daki `product-images` alanında saklanır; CSV ile eski `assets/products/` dosya yolları da kullanılabilir. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
+Katalog ürününde temel alanlara ek olarak `attributes` nesnesi kategoriye özgü teknik özellikleri saklar. Bu nesnenin alanları `assets/js/pages/category-attributes.js` içinde kategoriye göre tanımlanır; örneğin RAM seçildiğinde kapasite, DDR türü, hız ve modül sayısı alanları açılır. Ürün kartında girilmiş teknik özellikler gösterilir. Marka alanı kategoriye göre bilinen markaları önerir, yeni marka yazılmasına da izin verir. Yalnızca `status: "active"` ürünler sitede görünür. Fotoğrafı yönetim panelindeki ürün formundan seçip önizleyebilir veya sürükleyip bırakabilirsin. Görseller Supabase Storage'daki `product-images` alanında saklanır; CSV ile eski `assets/products/` dosya yolları da kullanılabilir. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
 
 ## Katalog yönetimini kurma
 
-1. Supabase Dashboard > SQL Editor bölümünde önce `supabase/migrations/20261031000100_product_catalog.sql`, sonra `supabase/migrations/20261031000300_more_catalog_categories.sql` ve `supabase/migrations/20261031000400_product_image_storage.sql` dosyalarını çalıştır. Tablolar, ürün grupları ve ürün fotoğrafları deposu oluşturulur.
-2. Supabase Authentication bölümünden yönetici hesabı oluştur. Sitede herkese açık üyelik kaydı yoktur.
+1. Supabase Dashboard > SQL Editor bölümünde sırayla `supabase/migrations/20261031000100_product_catalog.sql`, `supabase/migrations/20261031000300_more_catalog_categories.sql`, `supabase/migrations/20261031000400_product_image_storage.sql` ve `supabase/migrations/20261031000500_product_category_attributes.sql` dosyalarını çalıştır. Tablolar, ürün grupları, fotoğraf deposu ve kategoriye özel teknik özellik alanı oluşturulur.
+2. Supabase Authentication bölümünden katalog yöneticisi hesabı oluştur. Müşteri hesabı açma ve giriş özelliği ayrı olarak yayında açıktır.
 3. Bu kullanıcının UUID değerini bulup SQL Editor'da aşağıdaki sorgudaki UUID'yi değiştirerek çalıştır. Bu rolü yalnızca katalog yöneticisi olması gereken hesaba ver:
 
 ```sql

@@ -38,7 +38,8 @@
             <div class="field"><label for="productName">Ürün adı</label><input id="productName" maxlength="180" required></div>
             <div class="field"><label for="productSlug">Adres kısa adı</label><input id="productSlug" maxlength="180" pattern="[a-z0-9-]+" required></div>
             <div class="field"><label for="productCategory">Kategori</label><select id="productCategory" required></select></div>
-            <div class="field"><label for="productBrand">Marka</label><input id="productBrand" maxlength="100"></div>
+            <div class="field"><label for="productBrand">Marka seç veya yaz</label><input id="productBrand" list="productBrandOptions" maxlength="100" autocomplete="off" placeholder="Örn. Corsair"><datalist id="productBrandOptions"></datalist><small>Listeden seçebilir veya yeni bir marka yazabilirsin.</small></div>
+            <section class="category-attributes field-wide" id="categoryAttributeSection" hidden aria-live="polite"><div class="attribute-heading"><span class="eyebrow">KATEGORİYE ÖZEL</span><h3 id="categoryAttributeTitle">Teknik özellikler</h3><p id="categoryAttributeHint">Önce kategori seç; ilgili özellik alanları burada açılacak.</p></div><div class="attribute-fields" id="productAttributeFields"></div></section>
             <div class="field"><label for="productModel">Model</label><input id="productModel" maxlength="140"></div>
             <div class="field"><label for="productSku">Stok kodu (SKU)</label><input id="productSku" maxlength="100"></div>
             <div class="field field-wide"><label for="productDescription">Açıklama</label><textarea id="productDescription" rows="3" maxlength="2000"></textarea></div>
@@ -79,6 +80,7 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/config/supabase-config.js"></script>
+  <script src="assets/js/pages/category-attributes.js"></script>
   <script src="assets/js/pages/catalog-admin.js"></script>
 </body>
 </html>

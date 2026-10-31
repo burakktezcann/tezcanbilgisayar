@@ -11,6 +11,9 @@ const categoryForm=document.getElementById('categoryForm');
 const productRows=document.getElementById('productRows');
 const categoryRows=document.getElementById('categoryRows');
 const productCategory=document.getElementById('productCategory');
+const productBrand=document.getElementById('productBrand');
+const categoryAttributeDefinitions=window.PRODUCT_ATTRIBUTE_DEFINITIONS||{};
+const brandSuggestions=window.PRODUCT_BRAND_SUGGESTIONS||{};
 let client=null;
 let categories=[];
 let products=[];
@@ -51,6 +54,7 @@ async function restoreSession(){
 }
 function renderCategoryOptions(selectedId=''){
   productCategory.replaceChildren();
+  const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='Önce kategori seç';placeholder.selected=!selectedId;productCategory.append(placeholder);
   categories.forEach(category=>{
     const option=document.createElement('option');
     option.value=category.id;
@@ -58,6 +62,52 @@ function renderCategoryOptions(selectedId=''){
     option.selected=category.id===selectedId;
     productCategory.append(option);
   });
+  productCategory.value=selectedId||'';
+}
+function renderBrandOptions(categoryId){
+  const suggestions=document.getElementById('productBrandOptions');suggestions.replaceChildren();
+  const known=[...(brandSuggestions[categoryId]||[]),...products.filter(product=>product.category_id===categoryId).map(product=>product.brand)];
+  [...new Map(known.filter(Boolean).map(brand=>[brand.toLocaleLowerCase('tr-TR'),brand])).values()]
+    .sort((a,b)=>a.localeCompare(b,'tr'))
+    .forEach(brand=>{const option=document.createElement('option');option.value=brand;suggestions.append(option);});
+}
+function renderProductAttributes(categoryId,values={}){
+  const section=document.getElementById('categoryAttributeSection');
+  const container=document.getElementById('productAttributeFields');
+  container.replaceChildren();
+  const definition=categoryAttributeDefinitions[categoryId];
+  section.hidden=!definition?.fields?.length;
+  if(!definition?.fields?.length)return;
+  document.getElementById('categoryAttributeTitle').textContent=definition.title;
+  document.getElementById('categoryAttributeHint').textContent='Bu alanlar seçilen kategoriye göre açılır; yalnızca doldurdukların ürüne kaydedilir.';
+  definition.fields.forEach(field=>{
+    const wrapper=document.createElement('div');wrapper.className='field';
+    const inputId=`productAttribute_${field.key}`;
+    const label=document.createElement('label');label.htmlFor=inputId;label.textContent=field.label+(field.unit?` (${field.unit})`:'');
+    let input;
+    if(field.type==='select'){
+      input=document.createElement('select');
+      const blank=document.createElement('option');blank.value='';blank.textContent='Seçiniz';input.append(blank);
+      (field.options||[]).forEach(value=>{const option=document.createElement('option');option.value=value;option.textContent=value;input.append(option);});
+    }else{
+      input=document.createElement('input');input.type=field.type==='number'?'number':'text';
+      if(field.min!==undefined)input.min=String(field.min);
+      if(field.max!==undefined)input.max=String(field.max);
+      if(field.step!==undefined)input.step=String(field.step);
+      if(field.type==='number')input.inputMode='decimal';
+      if(field.placeholder)input.placeholder=field.placeholder;
+    }
+    input.id=inputId;input.dataset.attributeKey=field.key;input.required=Boolean(field.required);
+    input.value=values[field.key]===undefined||values[field.key]===null?'':String(values[field.key]);
+    wrapper.append(label,input);container.append(wrapper);
+  });
+}
+function readProductAttributes(){
+  const values={};
+  document.querySelectorAll('#productAttributeFields [data-attribute-key]').forEach(input=>{
+    const value=input.value.trim();if(value!=='')values[input.dataset.attributeKey]=input.type==='number'?Number(value):value;
+  });
+  return values;
 }
 function renderCategories(){
   categoryRows.replaceChildren();
@@ -112,7 +162,7 @@ async function loadCatalogData(){
   message(adminMessage,'Katalog yükleniyor…');
   const [{data:categoryRowsData,error:categoryError},{data:productRowsData,error:productError}]=await Promise.all([
     client.from('catalog_categories').select('id,name,description,icon,tone,sort_order,search_terms,is_active').order('sort_order'),
-    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms').order('sort_order')
+    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes').order('sort_order')
   ]);
   if(categoryError||productError){message(adminMessage,'Katalog tabloları okunamadı. Migration ve yetki rolünü kontrol et.','error');return;}
   categories=categoryRowsData||[];products=productRowsData||[];
@@ -127,7 +177,7 @@ function resetProductForm(){
   document.getElementById('productSortOrder').value='0';
   document.getElementById('productSlug').dataset.touched='';
   pendingImageFile=null;setImagePreview('');document.getElementById('productImage').value='';document.getElementById('productImageFile').value='';
-  renderCategoryOptions(categories.find(category=>category.is_active)?.id||'');
+  renderCategoryOptions('');renderBrandOptions('');renderProductAttributes('');
 }
 function setImagePreview(url){
   if(previewObjectUrl&&previewObjectUrl!==url)URL.revokeObjectURL(previewObjectUrl);
@@ -173,6 +223,7 @@ function editProduct(id){
   document.getElementById('productSearchTerms').value=(product.search_terms||[]).join(', ');
   document.getElementById('productStatus').value=product.status;
   renderCategoryOptions(product.category_id);
+  renderBrandOptions(product.category_id);renderProductAttributes(product.category_id,product.attributes||{});
   document.getElementById('productFormTitle').textContent='Ürünü düzenle';
   document.getElementById('saveProduct').textContent='Değişiklikleri kaydet';
   productForm.scrollIntoView({behavior:'smooth',block:'start'});
@@ -216,6 +267,10 @@ document.getElementById('productName').addEventListener('input',()=>{
   }
 });
 document.getElementById('productSlug').addEventListener('input',event=>{event.currentTarget.dataset.touched='true';});
+productCategory.addEventListener('change',()=>{
+  renderBrandOptions(productCategory.value);
+  renderProductAttributes(productCategory.value);
+});
 document.getElementById('productImageFile').addEventListener('change',event=>selectImage(event.currentTarget.files?.[0]));
 document.getElementById('productImageDropzone').addEventListener('dragover',event=>event.preventDefault());
 document.getElementById('productImageDropzone').addEventListener('drop',event=>{event.preventDefault();selectImage(event.dataTransfer.files?.[0]);});
@@ -246,6 +301,7 @@ productForm.addEventListener('submit',async event=>{
     status:document.getElementById('productStatus').value,
     sort_order:Number(document.getElementById('productSortOrder').value||0),
     search_terms:splitTerms(document.getElementById('productSearchTerms').value),
+    attributes:readProductAttributes(),
     updated_at:new Date().toISOString()
   };
   let result;
@@ -305,7 +361,7 @@ categoryRows.addEventListener('click',async event=>{
   await loadCatalogData();message(adminMessage,'Kategori durumu güncellendi.','success');
 });
 
-const csvColumns=['slug','category_id','name','description','brand','model','sku','image_path','price','currency','stock','status','sort_order','search_terms'];
+const csvColumns=['slug','category_id','name','description','brand','model','sku','image_path','price','currency','stock','status','sort_order','search_terms','attributes'];
 function parseCsv(text){
   const rows=[];let row=[],cell='',quoted=false;
   for(let i=0;i<text.length;i++){
@@ -320,17 +376,17 @@ function parseCsv(text){
   if(cell.length||row.length){row.push(cell.replace(/\r$/,''));rows.push(row);}
   return rows.filter(values=>values.some(value=>value.trim()!==''));
 }
-function csvEscape(value){const text=Array.isArray(value)?value.join('|'):value??'';return '"'+String(text).replace(/"/g,'""')+'"';}
+function csvEscape(value){const text=Array.isArray(value)?value.join('|'):(value&&typeof value==='object'?JSON.stringify(value):value??'');return '"'+String(text).replace(/"/g,'""')+'"';}
 function downloadCatalogCsv(){
   const lines=[csvColumns.map(csvEscape).join(',')];
-  products.forEach(product=>lines.push(csvColumns.map(column=>csvEscape(column==='search_terms'?(product.search_terms||[]).join('|'):product[column])).join(',')));
+  products.forEach(product=>lines.push(csvColumns.map(column=>csvEscape(column==='search_terms'?(product.search_terms||[]).join('|'):column==='attributes'?(product.attributes||{}):product[column])).join(',')));
   const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='tezcan-bilgisayar-katalog.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function validateCatalogCsv(text){
   const rows=parseCsv(text);if(rows.length<2)throw new Error('Dosyada başlık satırı ve en az bir ürün bulunmalı.');
   const headers=rows.shift().map(value=>value.trim().replace(/^\ufeff/,''));
-  const missing=csvColumns.filter(column=>!headers.includes(column));
+  const missing=csvColumns.filter(column=>column!=='attributes'&&!headers.includes(column));
   if(missing.length)throw new Error(`Eksik sütunlar: ${missing.join(', ')}.`);
   const existing=new Set(products.map(product=>product.slug));const seen=new Set();const parsed=[];
   rows.forEach((values,index)=>{
@@ -339,6 +395,9 @@ function validateCatalogCsv(text){
     if(!slug)throw new Error(`${rowNumber}. satır: kısa ad boş.`);
     if(seen.has(slug))throw new Error(`${rowNumber}. satır: ${slug} dosyada birden fazla kez geçiyor.`);seen.add(slug);
     if(!record.name)throw new Error(`${rowNumber}. satır: ürün adı boş.`);
+    let attributes={};
+    if(record.attributes){try{attributes=JSON.parse(record.attributes);}catch{throw new Error(`${rowNumber}. satır: özellikler geçerli JSON biçiminde değil.`);}}
+    if(!attributes||typeof attributes!=='object'||Array.isArray(attributes))throw new Error(`${rowNumber}. satır: özellikler JSON nesnesi olmalı.`);
     if(!categories.some(category=>category.id===categoryId))throw new Error(`${rowNumber}. satır: '${categoryId}' kategorisi bulunamadı.`);
     if(record.status&&!['active','draft'].includes(record.status))throw new Error(`${rowNumber}. satır: durum active veya draft olmalı.`);
     if(record.image_path&&!/^assets\/products\/[A-Za-z0-9._/-]+$/.test(record.image_path)&&!/^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(record.image_path))throw new Error(`${rowNumber}. satır: görsel yolu geçersiz.`);
@@ -347,7 +406,7 @@ function validateCatalogCsv(text){
     if(price!==null&&(!Number.isFinite(price)||price<0))throw new Error(`${rowNumber}. satır: fiyat sıfır veya daha büyük bir sayı olmalı.`);
     if(stock!==null&&(!Number.isInteger(stock)||stock<0))throw new Error(`${rowNumber}. satır: stok sıfır veya daha büyük tam sayı olmalı.`);
     if(!Number.isInteger(sortOrder)||sortOrder<0)throw new Error(`${rowNumber}. satır: sıralama sıfır veya daha büyük tam sayı olmalı.`);
-    parsed.push({slug,category_id:categoryId,name:record.name,description:record.description||'',brand:record.brand||'',model:record.model||'',sku:record.sku||'',image_path:record.image_path||'',price,currency:(record.currency||'TRY').toUpperCase(),stock,status:record.status||'draft',sort_order:sortOrder,search_terms:(record.search_terms||'').split('|').map(term=>term.trim()).filter(Boolean),updated_at:new Date().toISOString()});
+    parsed.push({slug,category_id:categoryId,name:record.name,description:record.description||'',brand:record.brand||'',model:record.model||'',sku:record.sku||'',image_path:record.image_path||'',price,currency:(record.currency||'TRY').toUpperCase(),stock,status:record.status||'draft',sort_order:sortOrder,search_terms:(record.search_terms||'').split('|').map(term=>term.trim()).filter(Boolean),attributes,updated_at:new Date().toISOString()});
   });
   return {parsed,updates:parsed.filter(product=>existing.has(product.slug)).length,creates:parsed.filter(product=>!existing.has(product.slug)).length};
 }
