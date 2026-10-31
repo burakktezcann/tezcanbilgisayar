@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#101b35">
+  <meta name="description" content="Tezcan Bilgisayar müşteri hesabı">
+  <title>Hesap | Tezcan Bilgisayar</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="32x32_favicon.png">
+  <link rel="stylesheet" href="assets/css/pages/account.css">
+</head>
+<body>
+  <main class="account-shell">
+    <section class="account-intro">
+      <a class="account-brand" href="index.html"><span class="brand-mark">TB</span><span>TEZCAN BİLGİSAYAR</span></a>
+      <h1>Hesabın, <span>tek yerde.</span></h1>
+      <p>İleride siparişlerin ve kayıtlı adreslerin için kullanabileceğin müşteri hesabı. Üyelik açıldığında e-posta doğrulaması ve güvenli şifre yenileme burada olacak.</p>
+      <a class="account-back" href="index.html">← Ana sayfaya dön</a>
+    </section>
+    <section class="account-card" aria-labelledby="accountTitle">
+      <div id="accountForms">
+        <div class="account-tabs" role="tablist" aria-label="Hesap işlemi">
+          <button class="account-tab" type="button" role="tab" aria-selected="true" aria-controls="signupPanel" data-account-tab="signup">Yeni hesap</button>
+          <button class="account-tab" type="button" role="tab" aria-selected="false" aria-controls="signinPanel" data-account-tab="signin">Giriş yap</button>
+        </div>
+        <div id="signupPanel" data-account-panel="signup" role="tabpanel">
+          <h2 id="accountTitle">Aramıza katıl</h2>
+          <p class="account-hint">Kayıt için yalnızca ad, e-posta ve şifre gerekir.</p>
+          <form id="signupForm" novalidate>
+            <div class="field"><label for="signupName">Ad soyad</label><input id="signupName" name="fullName" autocomplete="name" maxlength="100" required></div>
+            <div class="field"><label for="signupEmail">E-posta</label><input id="signupEmail" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+            <div class="field"><label for="signupPassword">Şifre</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="10" required aria-describedby="passwordHint"><small id="passwordHint">En az 10 karakter kullan.</small></div>
+            <div class="field"><label for="signupPasswordConfirm">Şifreyi tekrar yaz</label><input id="signupPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></div>
+            <p class="privacy-note">Üyelik açılmadan önce kişisel veriler hakkında bilgilendirme metni yayımlanacak.</p>
+            <button class="account-submit" type="submit">Hesap oluştur</button>
+          </form>
+        </div>
+        <div id="signinPanel" data-account-panel="signin" role="tabpanel" hidden>
+          <h2>Tekrar hoş geldin</h2>
+          <p class="account-hint">Hesabına e-posta adresinle giriş yap.</p>
+          <form id="signinForm" novalidate>
+            <div class="field"><label for="signinEmail">E-posta</label><input id="signinEmail" name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="signinPassword">Şifre</label><input id="signinPassword" name="password" type="password" autocomplete="current-password" required></div>
+            <button class="account-submit" type="submit">Giriş yap</button>
+          </form>
+          <button class="text-button" id="forgotPassword" type="button">Şifremi unuttum</button>
+        </div>
+        <p class="account-message" id="accountMessage" role="status" aria-live="polite"></p>
+        <div class="account-setup" id="accountSetup" hidden></div>
+      </div>
+      <div class="account-session" id="accountSession" hidden>
+        <span class="account-kicker">HESABIN</span><h2>Giriş yaptın</h2><p class="account-hint" id="signedInEmail"></p>
+        <a class="account-submit account-link-button" href="hesabim.html">Hesabıma git</a>
+        <button class="secondary-button" id="signOutButton" type="button">Güvenli çıkış yap</button>
+      </div>
+      <form id="passwordUpdateForm" hidden novalidate>
+        <h2>Yeni şifre belirle</h2><p class="account-hint">Hesabın için yeni bir şifre oluştur.</p>
+        <div class="field"><label for="newPassword">Yeni şifre</label><input id="newPassword" name="password" type="password" autocomplete="new-password" minlength="10" required></div>
+        <div class="field"><label for="newPasswordConfirm">Yeni şifreyi tekrar yaz</label><input id="newPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></div>
+        <button class="account-submit" type="submit">Şifreyi güncelle</button>
+      </form>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config/supabase-config.js"></script><script src="assets/js/pages/account.js"></script>
+</body>
+</html>

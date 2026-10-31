@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#101b35">
+  <title>Katalog Yönetimi | Tezcan Bilgisayar</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="32x32_favicon.png">
+  <link rel="stylesheet" href="assets/css/pages/catalog-admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <a href="index.html" class="admin-brand"><span class="admin-mark">TB</span><span><strong>Tezcan Bilgisayar</strong><small>Katalog yönetimi</small></span></a>
+      <a class="back-link" href="index.html">Siteye dön</a>
+    </header>
+    <section class="admin-intro"><div class="eyebrow">YÖNETİCİ ALANI</div><h1>Ürün kataloğu</h1><p>Ürünleri taslakta tutabilir, hazır olduklarında yayına alabilirsin. Yalnızca aktif ürünler mağaza sayfasında görünür.</p></section>
+    <section class="admin-card" id="setupNotice" hidden><h2>Bağlantı ayarı gerekli</h2><p>Supabase yapılandırması yüklenemedi. Site yöneticisi bağlantı ayarlarını kontrol etmeli.</p></section>
+    <section class="admin-card login-card" id="loginPanel">
+      <h2>Yönetici girişi</h2><p class="muted">Bu ekranda yeni hesap oluşturulamaz. Yetkili kullanıcı hesabıyla giriş yap.</p>
+      <form id="loginForm" class="form-grid">
+        <div class="field"><label for="adminEmail">E-posta</label><input id="adminEmail" name="email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="adminPassword">Şifre</label><input id="adminPassword" name="password" type="password" autocomplete="current-password" required></div>
+        <button class="primary-button" type="submit">Giriş yap</button>
+      </form>
+      <p class="form-message" id="loginMessage" role="status" aria-live="polite"></p>
+    </section>
+    <section class="admin-card access-card" id="accessDenied" hidden><h2>Bu hesap yetkili değil</h2><p>Bu kullanıcıya Supabase tarafında katalog yöneticisi rolü tanımlanmamış.</p><button class="secondary-button" id="deniedSignOut" type="button">Çıkış yap</button></section>
+    <section id="adminApp" hidden>
+      <div class="session-bar"><span id="adminIdentity"></span><button class="secondary-button" id="signOut" type="button">Çıkış yap</button></div>
+      <p class="form-message" id="adminMessage" role="status" aria-live="polite"></p>
+      <div class="admin-columns">
+        <section class="admin-card">
+          <div class="card-heading"><div><span class="eyebrow">ÜRÜN</span><h2 id="productFormTitle">Ürün ekle</h2></div><button class="text-button" id="resetProductForm" type="button">Yeni ürün</button></div>
+          <form id="productForm" class="form-grid">
+            <input type="hidden" id="productId">
+            <div class="field"><label for="productName">Ürün adı</label><input id="productName" maxlength="180" required></div>
+            <div class="field"><label for="productSlug">Adres kısa adı</label><input id="productSlug" maxlength="180" pattern="[a-z0-9-]+" required></div>
+            <div class="field"><label for="productCategory">Kategori</label><select id="productCategory" required></select></div>
+            <div class="field"><label for="productBrand">Marka</label><input id="productBrand" maxlength="100"></div>
+            <div class="field"><label for="productModel">Model</label><input id="productModel" maxlength="140"></div>
+            <div class="field"><label for="productSku">Stok kodu (SKU)</label><input id="productSku" maxlength="100"></div>
+            <div class="field field-wide"><label for="productDescription">Açıklama</label><textarea id="productDescription" rows="3" maxlength="2000"></textarea></div>
+            <div class="field"><label for="productPrice">Fiyat (₺, isteğe bağlı)</label><input id="productPrice" type="number" min="0" step="0.01" inputmode="decimal"></div>
+            <div class="field"><label for="productStock">Stok adedi (isteğe bağlı)</label><input id="productStock" type="number" min="0" step="1" inputmode="numeric"></div>
+            <div class="field"><label for="productImage">Görsel yolu</label><input id="productImage" placeholder="assets/products/urun.jpg" pattern="assets/products/[A-Za-z0-9._/-]+"><small>Görseli assets/products klasörüne ekle.</small></div>
+            <div class="field"><label for="productSortOrder">Sıralama</label><input id="productSortOrder" type="number" min="0" step="1" value="0"></div>
+            <div class="field field-wide"><label for="productSearchTerms">Arama kelimeleri</label><input id="productSearchTerms" placeholder="ör. ekran kartı, gpu, gaming"><small>Virgülle ayır.</small></div>
+            <div class="field"><label for="productStatus">Durum</label><select id="productStatus"><option value="draft">Taslak</option><option value="active">Yayında</option></select></div>
+            <div class="field field-wide"><button class="primary-button" type="submit" id="saveProduct">Ürünü kaydet</button></div>
+          </form>
+        </section>
+        <section class="admin-card">
+          <div class="card-heading"><div><span class="eyebrow">KATEGORİ</span><h2 id="categoryFormTitle">Kategori ekle</h2></div><button class="text-button" id="resetCategoryForm" type="button">Yeni kategori</button></div>
+          <form id="categoryForm" class="form-grid">
+            <input type="hidden" id="categoryOriginalId">
+            <div class="field"><label for="categoryId">Kısa ad</label><input id="categoryId" maxlength="60" pattern="[a-z0-9-]+" required></div>
+            <div class="field"><label for="categoryName">Kategori adı</label><input id="categoryName" maxlength="120" required></div>
+            <div class="field field-wide"><label for="categoryDescription">Açıklama</label><textarea id="categoryDescription" rows="2"></textarea></div>
+            <div class="field"><label for="categoryIcon">Simge kodu</label><input id="categoryIcon" value="fa-box" pattern="fa-[a-z0-9-]+" required></div>
+            <div class="field"><label for="categoryTone">Renk</label><select id="categoryTone"><option value="blue">Mavi</option><option value="green">Yeşil</option><option value="purple">Mor</option><option value="orange">Turuncu</option></select></div>
+            <div class="field"><label for="categorySortOrder">Sıralama</label><input id="categorySortOrder" type="number" min="0" step="1" value="0"></div>
+            <div class="field"><label for="categorySearchTerms">Arama kelimeleri</label><input id="categorySearchTerms" placeholder="cpu, processor"></div>
+            <label class="check-field field-wide"><input id="categoryActive" type="checkbox" checked> Sitede göster</label>
+            <div class="field field-wide"><button class="primary-button" type="submit" id="saveCategory">Kategoriyi kaydet</button></div>
+          </form>
+        </section>
+      </div>
+      <section class="admin-card list-card"><div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Ürünler</h2></div><span class="list-count" id="productCount">0 ürün</span></div><div class="table-wrap"><table><thead><tr><th>Ürün</th><th>Kategori</th><th>Fiyat</th><th>Stok</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="productRows"></tbody></table></div><p class="empty-list" id="emptyProducts" hidden>Henüz ürün eklenmemiş.</p></section>
+      <section class="admin-card list-card"><div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Kategoriler</h2></div><span class="list-count" id="categoryCount">0 kategori</span></div><div class="category-list" id="categoryRows"></div></section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config/supabase-config.js"></script>
+  <script src="assets/js/pages/catalog-admin.js"></script>
+</body>
+</html>
