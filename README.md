@@ -18,6 +18,7 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `assets/data/catalog.json`: Şimdilik planlanan ürün grupları. Gerçek ürün, SKU, fiyat ve stok eklenmemiştir.
 - `assets/data/catalog.schema.json`: Yedek katalog dosyasının veri şeması.
 - `supabase/migrations/20261031000100_product_catalog.sql`: Ürün/kategori tabloları, genel görüntüleme kuralları ve yönetici yazma izinleri.
+- `supabase/migrations/20261031000300_more_catalog_categories.sql`: Ana sayfadaki hazır sistem, bilgisayar, çevre birimi ve diğer kategori gruplarını kataloğa ekler.
 - `supabase/migrations/20261028000100_customer_profiles.sql`: Kullanıcı profilleri ve özel teslimat adresleri.
 - `supabase/migrations/20261031000200_account_hardening.sql`: Profil alanı erişimini daraltır ve adres sorgularını hızlandırır.
 - `supabase/config.toml`: Docker ile yerel geliştirme için Supabase CLI ayarları.
@@ -31,7 +32,7 @@ Katalog ürünü `id`, `categoryId`, `name`, `description`, `brand`, `model`, `s
 
 ## Katalog yönetimini kurma
 
-1. Supabase Dashboard > SQL Editor bölümünde `supabase/migrations/20261031000100_product_catalog.sql` dosyasını çalıştır. Tablolar ve başlangıç kategorileri oluşturulur.
+1. Supabase Dashboard > SQL Editor bölümünde önce `supabase/migrations/20261031000100_product_catalog.sql`, sonra `supabase/migrations/20261031000300_more_catalog_categories.sql` dosyasını çalıştır. Tablolar ve ana sayfada kullanılan tüm ürün grupları oluşturulur.
 2. Supabase Authentication bölümünden yönetici hesabı oluştur. Sitede herkese açık üyelik kaydı yoktur.
 3. Bu kullanıcının UUID değerini bulup SQL Editor'da aşağıdaki sorgudaki UUID'yi değiştirerek çalıştır. Bu rolü yalnızca katalog yöneticisi olması gereken hesaba ver:
 

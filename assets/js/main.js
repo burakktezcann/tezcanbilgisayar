@@ -16,11 +16,15 @@ const cartKey='tezcan-offer-list';
 const allowedTones=new Set(['blue','green','purple','orange']);
 let catalog={categories:[],products:[],currency:'TRY'};
 let productCards=[];
-let selectedProductCategory='';
+let selectedProductCategories=[];
+let selectedProductLabel='';
 let quoteIds=[];
 let savedQuoteIds=[];
+let cartItemsById=new Map();
+let catalogProductIds=new Set();
 let cartReturnFocus=null;
 let previousBodyOverflow='';
+const defaultPreviewCategories=['cpu','motherboard','ram','gpu','disk','case','psu'];
 
 try {
   const saved=JSON.parse(localStorage.getItem(cartKey)||'[]');
@@ -106,19 +110,30 @@ function sortCatalogItems(items){
 }
 function renderCatalog(){
   const products=catalog.products.filter(product=>product.status==='active');
-  const populatedCategories=new Set(products.map(product=>product.categoryId));
+  const visibleProducts=selectedProductCategories.length
+    ?products.filter(product=>selectedProductCategories.includes(product.categoryId))
+    :products;
+  const populatedCategories=new Set(visibleProducts.map(product=>product.categoryId));
+  const previewIds=selectedProductCategories.length?selectedProductCategories:defaultPreviewCategories;
   const categoryPreviews=catalog.categories
+    .filter(category=>previewIds.includes(category.id))
     .filter(category=>!populatedCategories.has(category.id))
     .map(category=>({...category,categoryId:category.id}));
-  const items=sortCatalogItems([...products,...categoryPreviews]);
+  const items=sortCatalogItems([...visibleProducts,...categoryPreviews]);
   productGrid.replaceChildren(...items.map(item=>createProductCard(item,{isProduct:products.includes(item)})));
   productCards=[...productGrid.querySelectorAll('.product-card')];
+  cartItemsById=new Map([
+    ...products.map(product=>[product.id,product]),
+    ...catalog.categories.map(category=>[category.id,{...category,categoryId:category.id}])
+  ]);
+  catalogProductIds=new Set(products.map(product=>product.id));
   const hasPrices=products.some(product=>Number.isFinite(product.price));
   productSort.querySelectorAll('[data-price-sort]').forEach(option=>option.disabled=!hasPrices);
   if(productSort.selectedOptions[0]?.disabled)productSort.value='featured';
-  const validIds=new Set(productCards.map(card=>card.dataset.productId));
-  quoteIds=savedQuoteIds.filter(id=>validIds.has(id));
+  quoteIds=savedQuoteIds.filter(id=>cartItemsById.has(id));
   saveQuote();
+  document.getElementById('productHeading').textContent=selectedProductLabel||'Bilgisayar Parçaları';
+  productFilterStatus.textContent=selectedProductLabel?'Seçilen kategori: '+selectedProductLabel:'Tüm alt kategoriler';
   renderCart();
   filterCards();
 }
@@ -130,35 +145,191 @@ async function fetchLiveCatalog(){
     client.from('catalog_categories').select('id,name,description,icon,tone,sort_order,search_terms').eq('is_active',true).order('sort_order'),
     client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms').eq('status','active').order('sort_order')
   ]);
-  if(categoryError|…7628 tokens truncated….getElementById('categorySearchTerms').value),
-    is_active:document.getElementById('categoryActive').checked,
-    updated_at:new Date().toISOString()
+  if(categoryError||productError||!categoryRows?.length)return null;
+  return {
+    currency:'TRY',
+    categories:categoryRows.map(row=>({id:row.id,name:row.name,description:row.description,icon:row.icon,tone:row.tone,sortOrder:row.sort_order,searchTerms:row.search_terms||[]})),
+    products:(productRows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:row.category_id,name:row.name,description:row.description,brand:row.brand,model:row.model,sku:row.sku,image:row.image_path,price:row.price===null?null:Number(row.price),currency:row.currency,stock:row.stock,status:row.status,sortOrder:row.sort_order,searchTerms:row.search_terms||[]}))
   };
-  const result=originalId?await client.from('catalog_categories').update(values).eq('id',originalId):await client.from('catalog_categories').insert(values);
-  setBusy(categoryForm,false);
-  if(result.error){message(adminMessage,'Kategori kaydedilemedi. Kısa adı benzersiz ve harf/rakam/tire biçiminde olmalı.','error');return;}
-  resetCategoryForm();await loadCatalogData();message(adminMessage,'Kategori kaydedildi.','success');
-});
-productRows.addEventListener('click',async event=>{
-  const edit=event.target.closest('[data-edit-product]');if(edit){editProduct(edit.dataset.editProduct);return;}
-  const remove=event.target.closest('[data-delete-product]');if(!remove||!window.confirm('Bu ürünü katalogdan silmek istiyor musun?'))return;
-  const {error}=await client.from('catalog_products').delete().eq('id',remove.dataset.deleteProduct);
-  if(error){message(adminMessage,'Ürün silinemedi.','error');return;}
-  await loadCatalogData();message(adminMessage,'Ürün silindi.','success');
-});
-categoryRows.addEventListener('click',async event=>{
-  const edit=event.target.closest('[data-edit-category]');if(edit){editCategory(edit.dataset.editCategory);return;}
-  const toggle=event.target.closest('[data-toggle-category]');if(!toggle)return;
-  const category=categories.find(item=>item.id===toggle.dataset.toggleCategory);if(!category)return;
-  const {error}=await client.from('catalog_categories').update({is_active:!category.is_active,updated_at:new Date().toISOString()}).eq('id',category.id);
-  if(error){message(adminMessage,'Kategori durumu güncellenemedi.','error');return;}
-  await loadCatalogData();message(adminMessage,'Kategori durumu güncellendi.','success');
-});
-
-if(!config.url||!config.publishableKey||!window.supabase?.createClient){
-  setupNotice.hidden=false;loginPanel.hidden=true;
-}else{
-  client=window.supabase.createClient(config.url,config.publishableKey);
-  restoreSession();
 }
+async function loadCatalog(){
+  try{
+    let data=null;
+    try{data=await fetchLiveCatalog();}catch{}
+    if(!data){
+      const response=await fetch('assets/data/catalog.json',{cache:'no-store'});
+      if(!response.ok)throw new Error('Katalog dosyası yüklenemedi.');
+      data=await response.json();
+    }
+    if(!Array.isArray(data.categories)||!Array.isArray(data.products))throw new Error('Katalog verisi eksik.');
+    catalog={...data,categories:data.categories,products:data.products,currency:data.currency||'TRY'};
+    renderCatalog();
+  }catch{
+    const error=document.createElement('p');
+    error.className='catalog-error';
+    error.textContent='Ürün grupları şu anda yüklenemiyor. Biraz sonra yeniden deneyin.';
+    productGrid.replaceChildren(error);
+    productCards=[];
+    quoteIds=[];
+    renderCart();
+  }
+}
+function filterCards(){
+  const query=normalizeText(searchInput.value.trim());
+  let visible=0;
+  [...categoryCards,...subcategoryButtons,...productCards].forEach(card=>{
+    let matches=!query||normalizeText(card.dataset.search||card.textContent).includes(query);
+    card.hidden=!matches;
+    if(matches)visible++;
+  });
+  const visibleProducts=productCards.filter(card=>!card.hidden).length;
+  const emptyCategory=selectedProductCategories.length>0&&productCards.length===0;
+  const emptySearch=query.length>0&&visibleProducts===0;
+  emptyState.hidden=!emptyCategory&&!emptySearch;
+  emptyState.textContent=emptyCategory
+    ?'Bu ürün grubuna henüz katalog kaydı eklenmedi.'
+    :'Aramana uygun ürün veya kategori bulamadık.';
+  if(query&&subcategoryButtons.some(button=>!button.hidden)){
+    componentSubcategories.hidden=false;
+    computerPartsToggle.setAttribute('aria-expanded','true');
+  }
+}
+function selectProductCategory(button){
+  selectedProductCategories=[button.dataset.selectCategory];
+  selectedProductLabel=button.textContent.trim();
+  searchInput.value='';
+  subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+  categoryCards.forEach(card=>card.classList.toggle('is-selected',card.dataset.selectCategory===button.dataset.selectCategory));
+  showAllProducts.hidden=false;
+  renderCatalog();
+  document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
+}
+function resetProductCategory(){
+  selectedProductCategories=[];
+  selectedProductLabel='';
+  subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
+  categoryCards.forEach(card=>card.classList.remove('is-selected'));
+  showAllProducts.hidden=true;
+  searchInput.value='';
+  renderCatalog();
+}
+function saveQuote(){
+  try { localStorage.setItem(cartKey,JSON.stringify(quoteIds)); } catch {}
+}
+function openCart(){
+  if(!cartOverlay.hidden)return;
+  cartReturnFocus=document.activeElement;
+  previousBodyOverflow=document.body.style.overflow;
+  cartOverlay.hidden=false;
+  document.body.style.overflow='hidden';
+  document.getElementById('closeCart').focus();
+}
+function closeCart(){
+  if(cartOverlay.hidden)return;
+  cartOverlay.hidden=true;
+  document.body.style.overflow=previousBodyOverflow;
+  if(cartReturnFocus instanceof HTMLElement&&cartReturnFocus.isConnected)cartReturnFocus.focus();
+  cartReturnFocus=null;
+}
+function renderCart(){
+  const counts={};
+  quoteIds.forEach(id=>counts[id]=(counts[id]||0)+1);
+  const total=quoteIds.length;
+  document.getElementById('cartCount').textContent=total;
+  document.getElementById('sectionCartCount').textContent='('+total+')';
+  sendQuote.disabled=total===0;
+  cartList.replaceChildren();
+  if(total===0){
+    const empty=document.createElement('div');
+    empty.className='cart-empty';
+    empty.textContent='Henüz ürün grubu eklemedin.';
+    cartList.append(empty);
+    return;
+  }
+  Object.entries(counts).forEach(([id,quantity])=>{
+    const item=cartItemsById.get(id);
+    if(!item)return;
+    const row=document.createElement('div');row.className='cart-line';
+    const info=document.createElement('div');
+    const title=document.createElement('strong');title.textContent=item.name;
+    const detail=document.createElement('small');detail.textContent=catalogProductIds.has(id)?'Adet: '+quantity+' · Ürün':'Planlanan ürün grubu';
+    info.append(title,detail);
+    const remove=document.createElement('button');remove.type='button';remove.className='remove-item';remove.dataset.removeItem=id;remove.textContent='Kaldır';
+    row.append(info,remove);cartList.append(row);
+  });
+}
+
+searchForm.addEventListener('submit',event=>{
+  event.preventDefault();filterCards();
+  document.getElementById((selectedProductCategories.length||(searchInput.value.trim()&&productCards.some(card=>!card.hidden)))?'urunler':'urun-kategorileri').scrollIntoView({behavior:'smooth'});
+});
+searchInput.addEventListener('input',filterCards);
+productSort.addEventListener('change',renderCatalog);
+document.getElementById('currentYear').textContent=new Date().getFullYear();
+computerPartsToggle.addEventListener('click',()=>{
+  const expanded=computerPartsToggle.getAttribute('aria-expanded')==='true';
+  computerPartsToggle.setAttribute('aria-expanded',String(!expanded));
+  componentSubcategories.hidden=expanded;
+});
+subcategoryButtons.forEach(button=>button.addEventListener('click',()=>selectProductCategory(button)));
+document.getElementById('categoryGrid').addEventListener('click',event=>{
+  const category=event.target.closest('[data-select-category]');
+  if(!category||category===computerPartsToggle)return;
+  event.preventDefault();
+  const title=category.querySelector('h3')?.textContent.trim()||category.dataset.selectCategory;
+  selectedProductCategories=[category.dataset.selectCategory];
+  selectedProductLabel=title;
+  searchInput.value='';
+  subcategoryButtons.forEach(button=>button.setAttribute('aria-pressed','false'));
+  categoryCards.forEach(card=>card.classList.toggle('is-selected',card===category));
+  showAllProducts.hidden=false;
+  renderCatalog();
+  document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
+});
+showAllProducts.addEventListener('click',resetProductCategory);
+document.getElementById('openCart').addEventListener('click',openCart);
+document.getElementById('openCartFromProducts').addEventListener('click',openCart);
+document.getElementById('closeCart').addEventListener('click',closeCart);
+cartOverlay.addEventListener('click',event=>{if(event.target===cartOverlay)closeCart();});
+document.addEventListener('keydown',event=>{
+  if(cartOverlay.hidden)return;
+  if(event.key==='Escape'){closeCart();return;}
+  if(event.key==='Tab'){
+    const focusable=[...cartOverlay.querySelectorAll('button:not(:disabled),a[href],[tabindex]')].filter(el=>!el.hidden&&el.tabIndex>=0);
+    if(!focusable.length)return;
+    const first=focusable[0],last=focusable[focusable.length-1];
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+  }
+});
+document.addEventListener('click',event=>{
+  const addButton=event.target.closest('[data-add-to-cart]');
+  if(addButton){
+    quoteIds.push(addButton.dataset.addToCart);savedQuoteIds=[...quoteIds];saveQuote();renderCart();openCart();return;
+  }
+  const removeButton=event.target.closest('[data-remove-item]');
+  if(removeButton){
+    const index=quoteIds.indexOf(removeButton.dataset.removeItem);
+    if(index!==-1)quoteIds.splice(index,1);
+    savedQuoteIds=[...quoteIds];saveQuote();renderCart();
+  }
+});
+sendQuote.addEventListener('click',()=>{
+  if(!quoteIds.length)return;
+  const counts={};quoteIds.forEach(id=>counts[id]=(counts[id]||0)+1);
+  const lines=Object.entries(counts).map(([id,quantity])=>{
+    const item=cartItemsById.get(id);
+    return item?'- '+item.name+(catalogProductIds.has(id)?' (adet: '+quantity+')':''):null;
+  }).filter(Boolean);
+  const message='Merhaba, Tezcan Bilgisayar açıldığında bu ürün gruplarıyla ilgileniyorum:\n'+lines.join('\n')+'\nKuruluş öncesi hazırlık sürecini takip etmek istiyorum.';
+  window.open('https://wa.me/905324694249?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
+});
+loadCatalog();
+
+
+
+
+
+
+
 
