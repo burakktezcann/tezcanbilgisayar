@@ -3,8 +3,7 @@
 window.SUPABASE_CONFIG = {
   url: "https://adxwcykecgbxbaoiqgos.supabase.co",
   publishableKey: "sb_publishable_29KXUA-rHax8_5VhTmXCqQ_ITKobUSm",
-  // Enable only after company details and the real personal-data notice are published.
-  customerAccountsEnabled: false,
-  privacyNoticeUrl: ""
+  customerAccountsEnabled: true,
+  privacyNoticeUrl: "kvkk-aydinlatma.html"
 };
 

@@ -13,7 +13,7 @@
     <section class="account-intro">
       <a class="account-brand" href="index.html"><span class="brand-mark">TB</span><span>TEZCAN BİLGİSAYAR</span></a>
       <h1>Hesabın, <span>tek yerde.</span></h1>
-      <p>İleride siparişlerin ve kayıtlı adreslerin için kullanabileceğin müşteri hesabı. Üyelik açıldığında e-posta doğrulaması ve güvenli şifre yenileme burada olacak.</p>
+      <p>Hesabını oluşturabilir, güvenli şekilde giriş yapabilir ve profil bilgilerini yönetebilirsin. Bu hazırlık sürümünde sipariş veya ödeme alınmaz.</p>
       <a class="account-back" href="index.html">← Ana sayfaya dön</a>
     </section>
     <section class="account-card" aria-labelledby="accountTitle">
@@ -30,13 +30,13 @@
             <div class="field"><label for="signupEmail">E-posta</label><input id="signupEmail" name="email" type="email" autocomplete="email" maxlength="254" required></div>
             <div class="field"><label for="signupPassword">Şifre</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="10" required aria-describedby="passwordHint"><small id="passwordHint">En az 10 karakter kullan.</small></div>
             <div class="field"><label for="signupPasswordConfirm">Şifreyi tekrar yaz</label><input id="signupPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></div>
-            <p class="privacy-note">Üyelik açılmadan önce kişisel veriler hakkında bilgilendirme metni yayımlanacak.</p>
+            <p class="privacy-note">Hesap açmadan önce kişisel veriler hakkında bilgilendirme metnini incele.</p>
             <button class="account-submit" type="submit">Hesap oluştur</button>
           </form>
         </div>
         <div id="signinPanel" data-account-panel="signin" role="tabpanel" hidden>
           <h2>Tekrar hoş geldin</h2>
-          <p class="account-hint">Hesabına e-posta adresinle giriş yap.</p>
+          <p class="account-hint">Hesabına e-posta adresin ve şifrenle giriş yap.</p>
           <form id="signinForm" novalidate>
             <div class="field"><label for="signinEmail">E-posta</label><input id="signinEmail" name="email" type="email" autocomplete="email" required></div>
             <div class="field"><label for="signinPassword">Şifre</label><input id="signinPassword" name="password" type="password" autocomplete="current-password" required></div>
@@ -64,3 +64,4 @@
   <script src="assets/js/config/supabase-config.js"></script><script src="assets/js/pages/account.js"></script>
 </body>
 </html>
+

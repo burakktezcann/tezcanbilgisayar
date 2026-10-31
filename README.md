@@ -1,12 +1,13 @@
 # Tezcan Bilgisayar — Site Hazırlığı
 
-Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik web sitesidir. Şu anki sürüm kuruluş öncesi tanıtım ve teknik hazırlık içindir; siteden sipariş veya ödeme alınmaz, müşteri üyeliği ve profil özellikleri kapalıdır. Sayfalarda `noindex` kullanılır; kuruluş ve içerik hazırlığı bitmeden arama motorlarına açılmamalıdır.
+Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik web sitesidir. Şu anki sürüm kuruluş öncesi tanıtım ve teknik hazırlık içindir; siteden sipariş veya ödeme alınmaz. Müşteri hesabı açma ve giriş özellikleri kullanılabilir; şirket kuruluşu tamamlandığında veri sorumlusu ve altyapı bilgileri yeniden gözden geçirilmelidir. Sayfalarda `noindex` kullanılır; kuruluş ve içerik hazırlığı bitmeden arama motorlarına açılmamalıdır.
 
 ## Sade site düzeni
 
 - `index.html`: Ana sayfa, ürün grupları ve arama.
 - `iletisim.html`: Telefon, e-posta ve WhatsApp iletişimi.
-- `hesap.html` ve `hesabim.html`: Üyelik/giriş ve oturum açıldıktan sonra profil/adres yönetimi. Kayıtlar şimdilik kapalıdır.
+- `hesap.html` ve `hesabim.html`: Üyelik/giriş ve oturum açıldıktan sonra profil/adres yönetimi.
+- `kvkk-aydinlatma.html`: Hesap verilerinin işlenmesi hakkında bilgilendirme.
 - `yonetim.html`: Menüde gösterilmeyen, yetkili ürün yönetim ekranı.
 - `404.html`: Bulunmayan sayfalar.
 
@@ -74,7 +75,7 @@ Canlı site için yönetilen Supabase kullanılmalı; kişisel bilgisayardaki Do
 2. Supabase Authentication ayarlarında e-posta kaydını/doğrulamasını aç; gerçek site URL'sini ve hesap sayfasındaki doğrulama/şifre dönüş adreslerini izinli adreslere ekle.
 3. Canlı e-posta için doğrulanmış alan adına ait SMTP sağlayıcısı kur. Varsayılan deneme e-posta kotası gerçek kullanıma uygun değildir.
 4. Supabase panelinde çok faktörlü koruma kullan, erişimi gereken kişilerle sınırla ve düzenli yedekleri etkin tut. Gizli/service role anahtarını site dosyalarına koyma.
-5. Şirket iletişim/veri sorumlusu bilgileri ve gerçek kişisel veri bilgilendirme metni yayımlanmadan `assets/js/config/supabase-config.js` içindeki `customerAccountsEnabled` değerini `true` yapma. Hazır olduğunda `privacyNoticeUrl` değerini yayımlanmış metnin bağlantısıyla doldur.
+5. Hesap oluşturma ve giriş bu sürümde açıktır. `kvkk-aydinlatma.html` hesap kayıt formunda gösterilir. Şirket kuruluşu ve veri altyapısı netleştiğinde veri sorumlusu, yurt dışı aktarım koşulları ve iletişim bilgilerini gözden geçirip metni güncelle. Supabase Auth yönlendirme listesine `https://tezcanbilgisayar.com/hesap.html` ve `https://www.tezcanbilgisayar.com/hesap.html` adreslerini ekle; site adresini yayındaki alan adına ayarla.
 
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 
