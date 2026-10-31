@@ -8,7 +8,15 @@
     { "id": "gpu", "name": "Ekran Kartı", "description": "Kullanım amacına uygun ekran kartı seçenekleri.", "icon": "fa-display", "tone": "orange", "sortOrder": 4, "searchTerms": ["gpu", "graphics"] },
     { "id": "disk", "name": "Depolama", "description": "SSD, sabit disk ve taşınabilir depolama seçenekleri.", "icon": "fa-hard-drive", "tone": "blue", "sortOrder": 5, "searchTerms": ["ssd", "hdd", "disk"] },
     { "id": "case", "name": "Kasa", "description": "Farklı sistem türlerine uygun bilgisayar kasaları.", "icon": "fa-server", "tone": "green", "sortOrder": 6, "searchTerms": ["bilgisayar kasası", "case"] },
-    { "id": "psu", "name": "Güç Kaynağı", "description": "Sistemin güç ihtiyacına uygun güç kaynakları.", "icon": "fa-bolt", "tone": "purple", "sortOrder": 7, "searchTerms": ["power supply", "psu"] }
+    { "id": "psu", "name": "Güç Kaynağı", "description": "Sistemin güç ihtiyacına uygun güç kaynakları.", "icon": "fa-bolt", "tone": "purple", "sortOrder": 7, "searchTerms": ["power supply", "psu"] },
+    { "id": "systems", "name": "Hazır Sistemler", "description": "Oyuncu ve günlük kullanım için hazırlanacak masaüstü sistemler.", "icon": "fa-computer", "tone": "orange", "sortOrder": 8, "searchTerms": ["oem", "oyuncu", "gaming"] },
+    { "id": "computers", "name": "Bilgisayarlar", "description": "Dizüstü, masaüstü ve kompakt bilgisayar grupları.", "icon": "fa-laptop", "tone": "blue", "sortOrder": 9, "searchTerms": ["notebook", "laptop", "masaüstü", "tablet"] },
+    { "id": "peripherals", "name": "Çevre Birimleri", "description": "Monitör, klavye, fare ve ses ekipmanları.", "icon": "fa-keyboard", "tone": "purple", "sortOrder": 10, "searchTerms": ["monitör", "klavye", "mouse", "kulaklık"] },
+    { "id": "gaming", "name": "Oyun ve Hobi", "description": "Konsol ve oyun ekipmanı grupları.", "icon": "fa-gamepad", "tone": "orange", "sortOrder": 11, "searchTerms": ["konsol", "gamepad", "oyuncu"] },
+    { "id": "networking", "name": "Ağ Ürünleri", "description": "Modem, router ve ağ bağlantı ürünleri.", "icon": "fa-wifi", "tone": "green", "sortOrder": 12, "searchTerms": ["network", "modem", "router"] },
+    { "id": "office", "name": "Ofis Ürünleri", "description": "Yazıcı, projeksiyon ve ofis sarf malzemeleri.", "icon": "fa-print", "tone": "purple", "sortOrder": 13, "searchTerms": ["yazıcı", "kartuş", "toner"] },
+    { "id": "accessories", "name": "Aksesuarlar", "description": "Kablo, adaptör ve tamamlayıcı ürün grupları.", "icon": "fa-plug", "tone": "orange", "sortOrder": 14, "searchTerms": ["kablo", "adaptör", "çanta"] },
+    { "id": "software", "name": "Yazılım", "description": "İşletim sistemi, ofis ve güvenlik yazılımları.", "icon": "fa-shield-halved", "tone": "blue", "sortOrder": 15, "searchTerms": ["windows", "office", "güvenlik"] }
   ],
   "products": []
 }
