@@ -75,3 +75,7 @@ Canlı site için yönetilen Supabase kullanılmalı; kişisel bilgisayardaki Do
 5. Şirket iletişim/veri sorumlusu bilgileri ve gerçek kişisel veri bilgilendirme metni yayımlanmadan `assets/js/config/supabase-config.js` içindeki `customerAccountsEnabled` değerini `true` yapma. Hazır olduğunda `privacyNoticeUrl` değerini yayımlanmış metnin bağlantısıyla doldur.
 
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
+
+## Ana sayfa kategori seçimi
+
+Ana sayfadaki ürün grubu kartları katalog listesini filtreler ve seçilen gruba kaydırır. Bu gruba henüz ürün girilmediyse hazırlık mesajı gösterilir. Yerel JSON yedeği bütün ana ürün gruplarını içerir; Supabase kataloğunun aynı grupları sunması için `20261031000300_more_catalog_categories.sql` migration'ı da uygulanmalıdır.
