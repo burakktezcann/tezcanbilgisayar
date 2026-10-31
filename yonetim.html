@@ -67,7 +67,12 @@
           </form>
         </section>
       </div>
-      <section class="admin-card list-card"><div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Ürünler</h2></div><span class="list-count" id="productCount">0 ürün</span></div><div class="table-wrap"><table><thead><tr><th>Ürün</th><th>Kategori</th><th>Fiyat</th><th>Stok</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="productRows"></tbody></table></div><p class="empty-list" id="emptyProducts" hidden>Henüz ürün eklenmemiş.</p></section>
+      <section class="admin-card list-card">
+        <div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Ürünler</h2></div><span class="list-count" id="productCount">0 ürün</span></div>
+        <div class="catalog-tools"><div><strong>Toplu ürün aktarımı</strong><small>CSV dosyasıyla ürün ekle veya güncelle. Önce dosya kontrol edilir.</small></div><div class="catalog-tool-actions"><button class="secondary-button" id="exportProducts" type="button">CSV dışa aktar</button><label class="secondary-button file-button" for="importProductsFile">CSV dosyası seç</label><input id="importProductsFile" type="file" accept=".csv,text/csv" hidden></div></div>
+        <p class="form-message" id="importMessage" role="status" aria-live="polite"></p>
+        <div class="table-wrap"><table><thead><tr><th>Ürün</th><th>Kategori</th><th>Fiyat</th><th>Stok</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="productRows"></tbody></table></div><p class="empty-list" id="emptyProducts" hidden>Henüz ürün eklenmemiş.</p>
+      </section>
       <section class="admin-card list-card"><div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Kategoriler</h2></div><span class="list-count" id="categoryCount">0 kategori</span></div><div class="category-list" id="categoryRows"></div></section>
     </section>
   </main>
@@ -76,3 +81,4 @@
   <script src="assets/js/pages/catalog-admin.js"></script>
 </body>
 </html>
+

@@ -296,8 +296,10 @@ function validateCatalogCsv(text){
   });
   return {parsed,updates:parsed.filter(product=>existing.has(product.slug)).length,creates:parsed.filter(product=>!existing.has(product.slug)).length};
 }
-document.getElementById('exportProducts').addEventListener('click',downloadCatalogCsv);
-document.getElementById('importProductsFile').addEventListener('change',async event=>{
+const exportProductsButton=document.getElementById('exportProducts');
+if(exportProductsButton)exportProductsButton.addEventListener('click',downloadCatalogCsv);
+const importProductsFile=document.getElementById('importProductsFile');
+if(importProductsFile)importProductsFile.addEventListener('change',async event=>{
   const file=event.currentTarget.files?.[0];event.currentTarget.value='';if(!file)return;
   const target=document.getElementById('importMessage');message(target,'CSV dosyası inceleniyor…');
   try{
