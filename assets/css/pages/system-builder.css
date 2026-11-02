@@ -28,3 +28,6 @@
 @media(max-width:720px){.cooler-grid{grid-template-columns:1fr;max-height:none;overflow:visible}.cloud-sync-status{text-align:left}}
 
 .builder-login-link{justify-self:start;color:var(--blue);font-size:.62rem;font-weight:800;text-decoration:none}.builder-login-link:hover{text-decoration:underline}
+
+.builder-header-actions{display:flex;align-items:center;gap:14px}.build-account-indicator{display:inline-flex;align-items:center;gap:7px;max-width:190px;padding:8px 12px;border:1px solid #e2e8f2;border-radius:999px;color:var(--ink);background:#fff;font-size:.72rem;font-weight:750;text-decoration:none}.build-account-indicator [data-account-label]{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.build-account-indicator.is-signed-in{color:#304bd0;background:#f5f7ff}.build-header-actions .back-to-store{white-space:nowrap}
+@media(max-width:500px){.builder-header-actions{gap:6px}.build-account-indicator{max-width:120px;padding:7px 9px;font-size:.64rem}.build-header-actions .back-to-store{font-size:.65rem}}

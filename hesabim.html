@@ -2,7 +2,7 @@
 <html lang="tr">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#101b35"><title>Hesabım | Tezcan Bilgisayar</title><link rel="icon" type="image/png" sizes="32x32" href="32x32_favicon.png"><link rel="stylesheet" href="assets/css/pages/account.css"><link rel="stylesheet" href="assets/css/pages/profile.css"><link rel="stylesheet" href="assets/css/responsive-overrides.css"></head>
 <body class="profile-page"><main class="account-shell">
-  <section class="account-intro"><a class="account-brand" href="index.html"><span class="brand-mark">TB</span><span>TEZCAN BİLGİSAYAR</span></a><h1>Hesap <span>ayarların.</span></h1><p>Profil bilgilerini ve ileride kullanabileceğin teslimat adreslerini yönet.</p><div class="profile-top-actions"><a href="hesap.html">Hesap girişine dön</a><span id="profileEmail"></span></div></section>
+  <section class="account-intro"><a class="account-brand" href="index.html"><span class="brand-mark">TB</span><span>TEZCAN BİLGİSAYAR</span></a><h1>Hesap <span>ayarların.</span></h1><p>Profil bilgilerini ve ileride kullanabileceğin teslimat adreslerini yönet.</p><div class="profile-top-actions"><a data-account-indicator href="hesabim.html"><span data-account-label>Hesabım</span></a><span id="profileEmail"></span></div></section>
   <section class="account-card" aria-label="Hesap bilgileri">
     <div id="profileLoading" class="profile-loading" role="status">Hesabın yükleniyor…</div>
     <div class="account-setup" id="profileSetup" hidden>Hesap bilgileri şu an yüklenemedi. Lütfen daha sonra tekrar dene.</div>
@@ -12,6 +12,7 @@
           <p class="profile-nav-title">HESABIM</p>
           <button type="button" class="profile-nav-item" data-profile-tab="overview" aria-current="page"><span class="profile-nav-icon" aria-hidden="true">⌂</span> Genel bakış</button>
           <button type="button" class="profile-nav-item" data-profile-tab="personal"><span class="profile-nav-icon" aria-hidden="true">♙</span> Kişisel bilgiler</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="systems"><span class="profile-nav-icon" aria-hidden="true">▦</span> Kayıtlı sistemlerim</button>
           <button type="button" class="profile-nav-item" data-profile-tab="addresses"><span class="profile-nav-icon" aria-hidden="true">⌖</span> Adreslerim</button>
           <button type="button" class="profile-nav-item" data-profile-tab="security"><span class="profile-nav-icon" aria-hidden="true">◇</span> Giriş ve güvenlik</button>
           <button class="profile-nav-item profile-signout" id="profileSignOut" type="button"><span class="profile-nav-icon" aria-hidden="true">↪</span> Çıkış yap</button>
@@ -21,6 +22,7 @@
             <div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP MERKEZİ</span><h2>Merhaba, <span id="profileGreeting">müşterimiz</span></h2><p>Hesap bilgilerini ve tercihlerini buradan kolayca yönetebilirsin.</p></div></div>
             <div class="profile-overview-grid">
               <button class="profile-overview-card" type="button" data-profile-tab="personal"><span class="overview-card-icon">♙</span><span><strong>Kişisel bilgiler</strong><small>Adını ve telefon numaranı güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+              <button class="profile-overview-card" type="button" data-profile-tab="systems"><span class="overview-card-icon">▦</span><span><strong>Kayıtlı sistemlerim</strong><small>Oluşturduğun sistem taslaklarına devam et</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
               <button class="profile-overview-card" type="button" data-profile-tab="addresses"><span class="overview-card-icon">⌖</span><span><strong>Adreslerim</strong><small id="addressSummary">Kayıtlı adreslerini yönet</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
               <button class="profile-overview-card" type="button" data-profile-tab="security"><span class="overview-card-icon">◇</span><span><strong>Giriş ve güvenlik</strong><small>Hesap şifreni güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
             </div>
@@ -28,6 +30,11 @@
           </section>
           <section class="profile-panel" data-profile-panel="personal" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP AYARLARI</span><h2>Kişisel bilgiler</h2><p>İletişim bilgilerini güncel tut.</p></div></div>
         <form id="profileForm"><div class="profile-grid"><div class="field field-wide"><label for="profileFullName">Ad soyad</label><input id="profileFullName" name="fullName" autocomplete="name" maxlength="100" required></div><div class="field"><label for="profilePhone">Telefon (isteğe bağlı)</label><input id="profilePhone" name="phone" type="tel" autocomplete="tel" maxlength="32"></div></div><div class="profile-actions"><button class="account-submit" type="submit">Bilgileri kaydet</button></div></form>
+          </section>
+          <section class="profile-panel" data-profile-panel="systems" hidden>
+            <div class="profile-section-heading"><div><span class="profile-eyebrow">BİLGİSAYAR TOPLAMA</span><h2>Kayıtlı sistemlerim</h2><p>Taslakların bu hesaba otomatik kaydedilir. İstediğin sistemden kaldığın yerden devam edebilirsin.</p></div></div>
+            <p class="systems-load-note" id="systemsLoadNote" role="status" hidden></p>
+            <div class="saved-system-grid" id="savedSystemList"></div>
           </section>
           <section class="profile-panel" data-profile-panel="addresses" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">TESLİMAT BİLGİLERİ</span><h2>Adreslerim</h2><p>Adreslerini kaydet, düzenle veya varsayılan adresini seç.</p></div><button class="account-submit profile-add-address" id="addAddress" type="button">＋ Adres ekle</button></div>
         <div class="saved-address-list" id="addressList"></div>
@@ -49,4 +56,4 @@
     </div>
     <p class="account-message" id="profileMessage" role="status" aria-live="polite"></p>
   </section>
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/config/supabase-config.js"></script><script src="assets/js/pages/profile.js"></script></body></html>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/config/supabase-config.js"></script><script src="assets/js/pages/profile.js"></script><script src="assets/js/account-indicator.js"></script></body></html>

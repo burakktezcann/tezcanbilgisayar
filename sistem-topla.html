@@ -12,7 +12,7 @@
 <body>
   <header class="build-header">
     <a class="build-brand" href="index.html"><span class="build-mark">TB</span><span><strong>TEZCAN</strong><small>BİLGİSAYAR</small></span></a>
-    <a class="back-to-store" href="index.html"><span aria-hidden="true">←</span> Mağazaya dön</a>
+    <div class="builder-header-actions"><a class="build-account-indicator" data-account-indicator href="hesap.html"><span aria-hidden="true">♙</span><span data-account-label>Hesabım</span></a><a class="back-to-store" href="index.html"><span aria-hidden="true">←</span> Mağazaya dön</a></div>
   </header>
   <main class="build-main">
     <nav class="breadcrumbs" aria-label="Sayfa konumu"><a href="index.html">Ana sayfa</a><span aria-hidden="true">/</span><span>Sistemini Topla</span></nav>
@@ -21,7 +21,7 @@
       <div class="build-progress-card"><span>İLERLEME</span><strong id="progressCount">0 <small>/ 8</small></strong><div class="progress-track"><span id="progressBar"></span></div><small id="progressCaption">İşlemci seçimi bekleniyor</small></div>
     </section>
     <section class="system-switcher" aria-label="Kayıtlı sistem taslakları">
-      <div class="system-switcher-copy"><strong>Sistem taslakların</strong><span>Üç farklı sistem oluşturabilir, parçaları seçtikçe otomatik kaydedebilirsin.</span><a class="builder-login-link" href="hesap.html?next=sistem-topla">Hesabınla giriş yap →</a></div>
+      <div class="system-switcher-copy"><strong>Sistem taslakların</strong><span>Üç farklı sistem oluşturabilir, parçaları seçtikçe otomatik kaydedebilirsin.</span><a class="builder-login-link" id="builderLoginLink" href="hesap.html?next=sistem-topla">Giriş yap →</a></div>
       <div class="system-tabs" id="systemTabs" aria-label="Sistem seç"></div><div class="cloud-sync-status" id="cloudSyncStatus" role="status" aria-live="polite">Bu tarayıcıya kaydediliyor.</div>
     </section>
     <div class="build-layout" id="buildLayout">
@@ -153,6 +153,7 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/config/supabase-config.js"></script>
+  <script src="assets/js/account-indicator.js"></script>
   <script src="assets/js/pages/system-builder-page.js"></script>
 </body>
 </html>

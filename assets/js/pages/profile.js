@@ -12,12 +12,15 @@ const addressList = document.getElementById('addressList');
 const cancelAddressEdit = document.getElementById('cancelAddressEdit');
 const changePasswordForm = document.getElementById('changePasswordForm');
 const addressEditor = document.getElementById('addressEditor');
+const savedSystemList = document.getElementById('savedSystemList');
+const systemsLoadNote = document.getElementById('systemsLoadNote');
+let savedSystemBuilds = [];
 let currentUser = null;
 let addresses = [];
 let defaultAddressFeatureReady = true;
 
 function openProfilePanel(name, updateHash = true) {
-  const panelName = ['overview', 'personal', 'addresses', 'security'].includes(name) ? name : 'overview';
+  const panelName = ['overview', 'personal', 'addresses', 'security', 'systems'].includes(name) ? name : 'overview';
   document.querySelectorAll('[data-profile-panel]').forEach(panel => { panel.hidden = panel.dataset.profilePanel !== panelName; });
   document.querySelectorAll('.profile-nav [data-profile-tab]').forEach(button => {
     if (button.dataset.profileTab === panelName) button.setAttribute('aria-current', 'page');
@@ -139,6 +142,77 @@ function renderAddresses() {
   });
 }
 
+const savedComponentNames = {
+  'asus-tuf-b760-plus-wifi': 'ASUS TUF GAMING B760-PLUS WIFI', 'asus-prime-b760m-a-d4': 'ASUS PRIME B760M-A D4', 'msi-mag-b760-tomahawk-wifi': 'MSI MAG B760 TOMAHAWK WIFI',
+  'asus-tuf-z890-plus-wifi': 'ASUS TUF GAMING Z890-PLUS WIFI', 'asus-prime-b860m-a-wifi': 'ASUS PRIME B860M-A WIFI', 'msi-pro-z890-s-wifi-pz': 'MSI PRO Z890-S WIFI PZ',
+  'asus-tuf-b650-plus-wifi': 'ASUS TUF GAMING B650-PLUS WIFI', 'asus-prime-b650m-a-wifi-ii': 'ASUS PRIME B650M-A WIFI II',
+  'kingston-fury-beast-ddr4-16': 'Kingston FURY Beast 16 GB DDR4', 'kingston-fury-beast-ddr4-32': 'Kingston FURY Beast 32 GB DDR4', 'kingston-fury-beast-ddr4-64': 'Kingston FURY Beast 64 GB DDR4',
+  'kingston-fury-beast-ddr5-32': 'Kingston FURY Beast 32 GB DDR5', 'corsair-vengeance-ddr5-32': 'CORSAIR VENGEANCE 32 GB DDR5', 'kingston-fury-beast-ddr5-64': 'Kingston FURY Beast 64 GB DDR5',
+  'bequiet-pure-rock-3-black': 'be quiet! PURE ROCK 3 Black', 'arctic-liquid-freezer-iii-pro-240': 'ARCTIC Liquid Freezer III Pro 240', 'nzxt-kraken-plus-240': 'NZXT Kraken Plus 240',
+  'nzxt-h5-flow': 'NZXT H5 Flow', 'corsair-4000d-airflow': 'CORSAIR 4000D Airflow', 'asus-prime-ap201': 'ASUS Prime AP201', 'cooler-master-q300l': 'Cooler Master MasterBox Q300L',
+  'corsair-rm650e': 'CORSAIR RM650e', 'seasonic-focus-gx-750': 'Seasonic FOCUS GX-750', 'corsair-rm750e': 'CORSAIR RM750e', 'msi-mag-a850gl': 'MSI MAG A850GL PCIE5', 'corsair-rm850e': 'CORSAIR RM850e', 'corsair-rm1000e': 'CORSAIR RM1000e',
+  'samsung-990-evo-plus-1tb': 'Samsung 990 EVO Plus 1 TB', 'samsung-990-evo-plus-2tb': 'Samsung 990 EVO Plus 2 TB', 'crucial-mx500-1tb': 'Crucial MX500 1 TB', 'samsung-870-evo-1tb': 'Samsung 870 EVO 1 TB', 'wd-blue-1tb': 'WD Blue 1 TB HDD', 'wd-blue-2tb': 'WD Blue 2 TB HDD'
+};
+function displaySystemComponent(id, payload) {
+  if (id === 'cpu') {
+    if (!payload.model) return '';
+    const familyNames = { i3: 'Core i3', i5: 'Core i5', i7: 'Core i7', i9: 'Core i9', ultra5: 'Core Ultra 5', ultra7: 'Core Ultra 7', ultra9: 'Core Ultra 9', ryzen5: 'Ryzen 5', ryzen7: 'Ryzen 7', ryzen9: 'Ryzen 9' };
+    const brand = payload.brand === 'intel' ? 'Intel' : payload.brand === 'amd' ? 'AMD' : '';
+    return `${brand} ${familyNames[payload.family] || payload.family || ''} ${payload.model}`.trim();
+  }
+  const value = payload[id];
+  if (!value) return '';
+  if (id === 'gpu') {
+    if (value.startsWith('geforce-')) return `NVIDIA GeForce ${value.replace('geforce-rtx-', '').replaceAll('-', ' ').toUpperCase()}`;
+    if (value.startsWith('radeon-')) return `AMD Radeon ${value.replace('radeon-rx-', 'RX ').replaceAll('-', ' ').toUpperCase()}`;
+  }
+  if (id === 'motherboard' && savedComponentNames[value]) return savedComponentNames[value];
+  return savedComponentNames[value] || value.replaceAll('-', ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+}
+function renderSavedSystems() {
+  if (!savedSystemList) return;
+  const buildBySlot = new Map(savedSystemBuilds.map(row => [Number(row.slot), row]));
+  savedSystemList.replaceChildren(...[1, 2, 3].map(slot => {
+    const row = buildBySlot.get(slot);
+    const payload = row?.payload || {};
+    const parts = [
+      ['cpu', 'İşlemci'], ['motherboard', 'Anakart'], ['ram', 'RAM'], ['gpu', 'Ekran kartı'],
+      ['storage', 'Depolama'], ['pcCase', 'Kasa'], ['cooler', 'Soğutucu'], ['psu', 'Güç kaynağı']
+    ].map(([key, label]) => [label, displaySystemComponent(key, payload)]).filter(([, value]) => value);
+    const card = document.createElement('article'); card.className = `saved-system-card${row ? '' : ' is-empty'}`;
+    const top = document.createElement('div'); top.className = 'saved-system-card-top';
+    const title = document.createElement('h3'); title.textContent = `${slot}. Sistem`;
+    const badge = document.createElement('span'); badge.className = 'saved-system-status'; badge.textContent = row ? (parts.length >= 8 ? 'Tamamlandı' : 'Taslak') : 'Boş';
+    top.append(title, badge);
+    const summary = document.createElement('p'); summary.className = 'saved-system-summary';
+    summary.textContent = row ? (parts.length ? `${parts.length} parça seçildi · ${parts.slice(0, 2).map(([, value]) => value).join(' · ')}` : 'Taslak henüz parça içermiyor.') : 'Yeni bir sistem toplamaya başla.';
+    card.append(top, summary);
+    if (row && parts.length) {
+      const list = document.createElement('ul'); list.className = 'saved-system-parts';
+      parts.forEach(([label, value]) => { const li = document.createElement('li'); const key = document.createElement('span'); key.textContent = label; const name = document.createElement('strong'); name.textContent = value; li.append(key, name); list.append(li); });
+      card.append(list);
+    }
+    const link = document.createElement('a'); link.className = 'account-submit account-link-button'; link.href = `sistem-topla.html?system=${slot}`; link.textContent = row ? 'Sistemi düzenle' : 'Sistem oluştur'; card.append(link);
+    return card;
+  }));
+}
+async function loadSavedSystems() {
+  if (!savedSystemList || !currentUser) return;
+  const { data, error } = await client.from('customer_system_builds').select('slot,payload,updated_at').eq('user_id', currentUser.id).order('slot');
+  if (error) {
+    systemsLoadNote.hidden = false;
+    systemsLoadNote.textContent = 'Bulut eşitlemesi için veritabanı güncellemesi gerekiyor. Bu cihazda bulunan taslakların yine burada görünebilir.';
+    try {
+      const local = JSON.parse(localStorage.getItem(`tezcan-system-builder-cpu-v1-user-${currentUser.id}`) || '{}');
+      savedSystemBuilds = [1, 2, 3].filter(slot => local.systems?.[`system-${slot}`]).map(slot => ({ slot, payload: local.systems[`system-${slot}`] }));
+    } catch { savedSystemBuilds = []; }
+  } else {
+    systemsLoadNote.hidden = true;
+    savedSystemBuilds = data || [];
+  }
+  renderSavedSystems();
+}
+
 async function loadAccount() {
   if (!client) {
     showSetup();
@@ -151,6 +225,7 @@ async function loadAccount() {
   }
   currentUser = user;
   document.getElementById('profileEmail').textContent = user.email || '';
+  document.dispatchEvent(new CustomEvent('account:ready', { detail: { user, name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Hesabım' } }));
   const { data: profile, error: profileError } = await client
     .from('profiles')
     .select('full_name, phone')
@@ -161,6 +236,7 @@ async function loadAccount() {
     return;
   }
   const { data: addressRows, error: addressError } = await fetchAddresses(user.id);
+  await loadSavedSystems();
   if (addressError) {
     showSetup();
     return;
@@ -195,7 +271,12 @@ profileForm.addEventListener('submit', async event => {
   }).eq('id', currentUser.id);
   setFormButton(profileForm, false);
   if (error) showMessage('Bilgiler kaydedilemedi. Lütfen tekrar dene.', 'error');
-  else showMessage('Kişisel bilgilerin kaydedildi.', 'success');
+  else {
+    await client.auth.updateUser({ data: { full_name: fullName } });
+    document.getElementById('profileGreeting').textContent = fullName.split(' ')[0];
+    document.dispatchEvent(new CustomEvent('account:profile-updated', { detail: { name: fullName } }));
+    showMessage('Kişisel bilgilerin kaydedildi.', 'success');
+  }
 });
 
 addressForm.addEventListener('submit', async event => {

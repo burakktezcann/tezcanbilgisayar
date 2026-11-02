@@ -135,6 +135,7 @@ const caseSearch = document.getElementById('caseSearch');
 const psuSearch = document.getElementById('psuSearch');
 const message = document.getElementById('builderMessage');
 const systemIds = ['system-1', 'system-2', 'system-3'];
+const requestedSystemId = `system-${new URLSearchParams(location.search).get('system')}`;
 const systemTabs = document.getElementById('systemTabs');
 function emptySelection() {
   return { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '', cooler: '', psu: '' };
@@ -173,7 +174,9 @@ function readLocalState(key) {
       return { activeSystemId: systemIds.includes(saved.activeSystemId) ? saved.activeSystemId : 'system-1', systems: Object.fromEntries(systemIds.map(id => [id, saved.systems[id] ? normalizeSelection(saved.systems[id]) : null])), timestamps: saved.timestamps || {} };
     }
   } catch { /* Ignore invalid local data. */ }
-  return { activeSystemId: 'system-1', systems: { ...savedSystems }, timestamps: {} };
+  return key === storageKey
+    ? { activeSystemId, systems: { ...savedSystems }, timestamps: {} }
+    : { activeSystemId: 'system-1', systems: { 'system-1': null, 'system-2': null, 'system-3': null }, timestamps: {} };
 }
 function setCloudStatus(text, kind = '') {
   if (!cloudSyncStatus) return;
@@ -185,7 +188,7 @@ function persistLocal() {
 }
 async function flushCloud() {
   if (!syncReady || !syncClient || !syncUserId) return;
-  setCloudStatus('Hesabına kaydediliyor…');
+  setCloudStatus('Hesabına otomatik kaydediliyor…');
   try {
     for (const id of systemIds) {
       const slot = Number(id.slice(-1));
@@ -198,7 +201,7 @@ async function flushCloud() {
       const { error } = await syncClient.from('customer_system_builds').upsert({ user_id: syncUserId, slot, payload, updated_at: new Date(slotUpdatedAt[id] || Date.now()).toISOString() }, { onConflict: 'user_id,slot' });
       if (error) throw error;
     }
-    setCloudStatus('Taslakların hesabınla eşitlendi.', 'success');
+    setCloudStatus('Taslakların hesabına otomatik kaydedildi.', 'success');
   } catch (error) {
     console.warn('Sistem taslakları buluta eşitlenemedi:', error);
     setCloudStatus('Şimdilik bu tarayıcıya kaydediliyor. Bulut eşitlemesi için veritabanı güncellemesi gerekli.', 'error');
@@ -212,22 +215,25 @@ function queueCloudSave() {
 async function activateAccountSync(session) {
   const userId = session?.user?.id || '';
   if (!userId) {
+    const loginLink = document.getElementById('builderLoginLink'); if (loginLink) loginLink.hidden = false;
     syncReady = false; syncLoading = false; syncUserId = ''; syncClient = null; currentStorageKey = storageKey;
     const guestState = readLocalState(storageKey);
     savedSystems = guestState.systems; slotUpdatedAt = { 'system-1': 0, 'system-2': 0, 'system-3': 0 };
-    activeSystemId = guestState.activeSystemId; selection = normalizeSelection(savedSystems[activeSystemId]);
-    persistLocal(); updateStage(); setCloudStatus('Bu tarayıcıya kaydediliyor. Hesabınla eşitlemek için giriş yap.', 'info');
+    activeSystemId = systemIds.includes(requestedSystemId) ? requestedSystemId : guestState.activeSystemId; selection = normalizeSelection(savedSystems[activeSystemId]);
+    persistLocal(); updateStage(); setCloudStatus('Giriş yaptığında taslakların bu hesaba otomatik kaydedilir.', 'info');
     return;
   }
+  const loginLink = document.getElementById('builderLoginLink'); if (loginLink) loginLink.hidden = true;
   if (syncUserId === userId && (syncReady || syncLoading)) return;
   syncReady = false; syncLoading = true; syncUserId = userId; syncClient = window.supabase.createClient((window.SUPABASE_CONFIG || {}).url, (window.SUPABASE_CONFIG || {}).publishableKey);
   currentStorageKey = `${storageKey}-user-${userId}`;
   const userState = readLocalState(currentStorageKey);
   const guestState = readLocalState(storageKey);
-  activeSystemId = userState.activeSystemId;
+  activeSystemId = systemIds.includes(requestedSystemId) ? requestedSystemId : userState.activeSystemId;
   savedSystems = userState.systems;
   slotUpdatedAt = Object.fromEntries(systemIds.map(id => [id, Number(userState.timestamps[id] || 0)]));
   selection = normalizeSelection(savedSystems[activeSystemId]);
+  persistLocal();
   setCloudStatus('Hesap taslakları yükleniyor…');
   try {
     const { data, error } = await syncClient.from('customer_system_builds').select('slot,payload,updated_at').order('slot');
@@ -242,12 +248,17 @@ async function activateAccountSync(session) {
         slotUpdatedAt[id] = remoteTime;
       }
     }
+    const guestImportOwner = localStorage.getItem('tezcan-system-builder-guest-owner');
+    const canImportGuestDrafts = !guestImportOwner || guestImportOwner === userId;
+    let importedGuestDraft = false;
     for (const id of systemIds) {
-      if (!savedSystems[id] && guestState.systems[id]) {
+      if (canImportGuestDrafts && !savedSystems[id] && guestState.systems[id]) {
         savedSystems[id] = normalizeSelection(guestState.systems[id]);
         slotUpdatedAt[id] = Date.now();
+        importedGuestDraft = true;
       }
     }
+    if (importedGuestDraft) localStorage.setItem('tezcan-system-builder-guest-owner', userId);
     if (!savedSystems[activeSystemId]) activeSystemId = systemIds.find(id => savedSystems[id]) || 'system-1';
     selection = normalizeSelection(savedSystems[activeSystemId]);
     syncReady = true; syncLoading = false; persistLocal(); renderSystemTabs(); updateStage();
@@ -314,7 +325,8 @@ function modelLabel(family, model) {
 }
 function saveSelection() {
   const previous = savedSystems[activeSystemId];
-  const next = { ...selection };
+  const hasAnyPart = ['brand', 'family', 'model', 'motherboard', 'ram', 'gpuBrand', 'gpu', 'storageType', 'storage', 'pcCase', 'cooler', 'psu'].some(key => Boolean(selection[key]));
+  const next = hasAnyPart ? { ...selection } : null;
   const changed = JSON.stringify(previous || null) !== JSON.stringify(next);
   savedSystems[activeSystemId] = next;
   if (changed) slotUpdatedAt[activeSystemId] = Date.now();
@@ -345,6 +357,7 @@ function switchSystem(id) {
   if (!systemIds.includes(id) || id === activeSystemId) return;
   saveSelection();
   activeSystemId = id;
+  const url = new URL(location.href); url.searchParams.set('system', String(systemIds.indexOf(id) + 1)); history.replaceState(null, '', url);
   selection = normalizeSelection(savedSystems[id]);
   message.textContent = '';
   updateStage();

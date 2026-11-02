@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="assets/css/responsive-overrides.css">
 </head>
 <body><main class="notice-shell">
-  <header class="notice-header"><a href="hesap.html">← Hesap sayfasına dön</a><span>Güncelleme: 31 Ekim 2026</span></header>
+  <header class="notice-header"><a href="hesap.html" data-account-indicator><span data-account-label>Hesabım</span></a><span>Güncelleme: 31 Ekim 2026</span></header>
   <article class="notice-card">
     <p class="eyebrow">TEZCAN BİLGİSAYAR · HESAP HİZMETİ</p>
     <h1>Kişisel veriler hakkında bilgilendirme</h1>
@@ -20,6 +20,7 @@
     <ul>
       <li><strong>Kimlik ve hesap bilgileri:</strong> ad soyad ve e-posta; hesabı oluşturmak, kullanıcıyı tanımak, oturum açmak ve hesap güvenliğini sağlamak için.</li>
       <li><strong>Profil bilgileri:</strong> isteğe bağlı telefon numarası; profilini güncel tutabilmen için.</li>
+      <li><strong>Sistem taslakları:</strong> bilgisayar toplama aracında seçtiğin bileşenler; en fazla üç taslağı hesabında saklayıp farklı cihazlarda sürdürebilmen için.</li>
       <li><strong>Adres bilgileri:</strong> senin eklediğin adres adı, alıcı adı, telefon, il, ilçe, açık adres ve isteğe bağlı posta kodu; adreslerini hesabında saklayıp yönetebilmen için.</li>
       <li><strong>Güvenlik kayıtları:</strong> oturum ve kimlik doğrulama işlemlerine ilişkin teknik kayıtlar; yetkisiz erişimi önlemek ve hizmeti güvenli işletmek için.</li>
     </ul>
@@ -29,9 +30,9 @@
     <h2>Alıcılar ve yurt dışı altyapı</h2>
     <p>Hesap, kimlik doğrulama, veritabanı barındırma ve yedekleme hizmetleri için Supabase altyapısı kullanılır. Projenin veritabanı bölgesi Supabase panelinde <strong>eu-central-2</strong> olarak görünür. Veriler, hizmetin sağlanması amacıyla Supabase ve onun altyapı/alt hizmet sağlayıcıları tarafından işlenebilir; teknik destek veya alt hizmetler farklı ülkelerde işlemeye yol açabilir. Yurt dışına aktarım gereken durumlarda veri sorumlusu 6698 sayılı Kanun’un 9’uncu maddesindeki koşul ve güvenceleri gözetir. Supabase’in güncel <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">gizlilik açıklaması</a> ve <a href="https://supabase.com/legal/dpa" target="_blank" rel="noopener noreferrer">veri işleme eki</a> incelenebilir.</p>
     <h2>Saklama süresi</h2>
-    <p>Hesap ve profil bilgileri hesabın etkin olduğu süre boyunca tutulur. Hesabını silme veya verilerinin silinmesini isteme talebinden sonra ilgili veriler silinir ya da kimlik belirleyici unsurlardan arındırılır; kanuni yükümlülük veya güvenlik amacıyla saklanması gereken kayıtlar gerekli süre boyunca ayrıştırılarak tutulabilir.</p>
+    <p>Hesap ve profil bilgileri hesabın etkin olduğu süre boyunca tutulur. Sistem taslakların, sen silene veya hesabın kapatılana kadar hesabında saklanır. Hesabını silme veya verilerinin silinmesini isteme talebinden sonra ilgili veriler silinir ya da kimlik belirleyici unsurlardan arındırılır; kanuni yükümlülük veya güvenlik amacıyla saklanması gereken kayıtlar gerekli süre boyunca ayrıştırılarak tutulabilir.</p>
     <h2>Kanun kapsamındaki hakların</h2>
     <p>6698 sayılı Kanun’un 11’inci maddesi kapsamında kişisel verilerinin işlenip işlenmediğini öğrenme, bilgi talep etme, amacını ve amaca uygun kullanılıp kullanılmadığını öğrenme, aktarıldığı kişileri bilme, eksik veya yanlışsa düzeltilmesini isteme, şartları oluştuğunda silinmesini/yok edilmesini isteme ve kanunda belirtilen diğer haklarını kullanabilirsin. Başvurunu yukarıdaki e-posta adresine iletebilirsin. Başvuruda kimliğini doğrulamaya yetecek bilgileri paylaş; gereğinden fazla hassas bilgi gönderme. Ayrıca <a href="https://www.kvkk.gov.tr/Icerik/2033/Aydinlatma-Yukumlulugu-" target="_blank" rel="noopener noreferrer">Kişisel Verileri Koruma Kurumu’nun aydınlatma yükümlülüğü açıklamasını</a> inceleyebilirsin.</p>
     <p class="notice-footnote">Bu metin mevcut hesap özelliklerini açıklar. Şirket kuruluşu, hizmet kapsamı veya veri altyapısı değiştiğinde metin güncellenecektir.</p>
   </article>
-</main></body></html>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/config/supabase-config.js"></script><script src="assets/js/account-indicator.js"></script></body></html>

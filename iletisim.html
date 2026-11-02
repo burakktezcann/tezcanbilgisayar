@@ -20,7 +20,7 @@
       <a class="brand" href="index.html" aria-label="Tezcan Bilgisayar ana sayfa"><span class="brand-mark" aria-hidden="true"><i class="fa-solid fa-microchip"></i></span><span>TEZCAN<small>BİLGİSAYAR</small></span></a>
       <nav aria-label="Ana gezinme">
         <a class="nav-action" href="index.html"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Ana sayfa</span></a>
-        <a class="nav-action" href="hesap.html"><i class="fa-regular fa-user" aria-hidden="true"></i><span>Hesabım</span></a>
+        <a class="nav-action" href="hesap.html" data-account-indicator><i class="fa-regular fa-user" aria-hidden="true"></i><span data-account-label>Hesabım</span></a>
       </nav>
     </div>
   </header>
@@ -38,6 +38,7 @@
     <section class="container contact-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>Adres ve çalışma saatleri kuruluş tamamlanıp kesinleştiğinde burada yayımlanacaktır.</p></section>
   </main>
   <footer><div class="container"><div class="footer-top"><a class="brand footer-brand" href="index.html"><span class="brand-mark" aria-hidden="true"><i class="fa-solid fa-microchip"></i></span><span>TEZCAN<small>BİLGİSAYAR</small></span></a><div class="footer-links"><a href="index.html">Ana sayfa</a><a href="hesap.html">Hesabım</a><a href="kvkk-aydinlatma.html">Kişisel veriler</a><a href="iletisim.html">İletişim</a></div></div><div class="footer-bottom"><span>&copy; <span class="current-year"></span> Tezcan Bilgisayar</span></div></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/config/supabase-config.js"></script><script src="assets/js/account-indicator.js"></script>
   <script>document.querySelectorAll('.current-year').forEach(el=>el.textContent=new Date().getFullYear());</script>
 </body>
 </html>
