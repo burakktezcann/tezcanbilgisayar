@@ -24,8 +24,8 @@
       <aside class="build-steps-card" aria-label="Sistem parçaları">
         <div class="steps-header"><span>PARÇALAR</span><span id="stepCount">0 / 7</span></div>
         <ol class="build-steps">
-          <li class="build-step is-current" aria-current="step"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">▦</span><span class="step-name"><strong>İşlemci</strong><small id="cpuStepStatus">Seçim bekliyor</small></span><span class="step-state" id="cpuStepCheck">○</span></li>
-          <li class="build-step is-next"><span class="step-number">02</span><span class="step-icon" aria-hidden="true">▤</span><span class="step-name"><strong>Anakart</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li><button class="build-step is-current" id="cpuStepButton" type="button" aria-current="step"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">▦</span><span class="step-name"><strong>İşlemci</strong><small id="cpuStepStatus">Seçim bekliyor</small></span><span class="step-state" id="cpuStepCheck">○</span></button></li>
+          <li><button class="build-step is-next" id="motherboardStepButton" type="button" disabled><span class="step-number">02</span><span class="step-icon" aria-hidden="true">▤</span><span class="step-name"><strong>Anakart</strong><small id="motherboardStepStatus">İşlemciden sonra</small></span><span class="step-state" id="motherboardStepCheck">—</span></button></li>
           <li class="build-step is-next"><span class="step-number">03</span><span class="step-icon" aria-hidden="true">▥</span><span class="step-name"><strong>Bellek (RAM)</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
           <li class="build-step is-next"><span class="step-number">04</span><span class="step-icon" aria-hidden="true">▧</span><span class="step-name"><strong>Ekran kartı</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
           <li class="build-step is-next"><span class="step-number">05</span><span class="step-icon" aria-hidden="true">▰</span><span class="step-name"><strong>Depolama</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
@@ -55,13 +55,20 @@
           <div class="model-grid" id="modelChoices"></div>
           <p class="no-models" id="noModels" hidden>Bu aramayla eşleşen model bulunamadı.</p>
         </div>
+        <div class="choice-area" id="motherboardStep" hidden>
+          <div class="choice-toolbar"><button class="back-choice" id="backToCpuModels" type="button">← İşlemci seçimine dön</button><span class="selected-brand" id="motherboardSocketLabel"></span></div>
+          <div class="model-toolbar"><div><h3 class="step-prompt">İşlemcinle uyumlu anakart seç</h3><p id="motherboardCount">Soket ve bellek türüne göre listelendi</p></div><label class="model-search"><span class="visually-hidden">Anakart ara</span><input id="motherboardSearch" type="search" placeholder="Anakart ara…"><span aria-hidden="true">⌕</span></label></div>
+          <div class="motherboard-grid" id="motherboardChoices"></div>
+          <p class="no-models" id="noMotherboards" hidden>Bu aramayla uyumlu anakart bulunamadı.</p>
+          <p class="compatibility-note"><span aria-hidden="true">ⓘ</span> Soket uyumu işlemci ailesine göre eşleştirildi. BIOS sürümü ve üretici CPU destek listesini satın almadan önce ayrıca kontrol et.</p>
+        </div>
         <div class="selection-footer"><span><i aria-hidden="true">✓</i> Seçimin bu tarayıcıda otomatik saklanır.</span><a href="index.html#urun-kategorileri">Ürün kategorilerine göz at</a></div>
       </section>
 
       <aside class="build-summary-card" aria-label="Sistem özeti">
         <div class="summary-title"><div><span class="section-eyebrow">SİSTEMİN</span><h2>Parça özeti</h2></div><span class="summary-badge" id="summaryProgress">0 / 7</span></div>
         <div class="summary-part is-selected"><span class="summary-part-icon" aria-hidden="true">▦</span><span class="summary-part-copy"><small>İŞLEMCİ</small><strong id="summaryCpu">Henüz seçilmedi</strong><small id="summaryCpuDetail">AMD veya Intel seç</small></span><button class="summary-edit" id="editCpu" type="button" hidden>Düzenle</button></div>
-        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▤</span><span class="summary-part-copy"><small>ANAKART</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▤</span><span class="summary-part-copy"><small>ANAKART</small><strong id="summaryMotherboard">Sonraki adım</strong><small id="summaryMotherboardDetail">İşlemcini seç</small></span><button class="summary-edit" id="editMotherboard" type="button" hidden>Düzenle</button></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▥</span><span class="summary-part-copy"><small>RAM</small><strong>Sonraki adım</strong></span></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▧</span><span class="summary-part-copy"><small>EKRAN KARTI</small><strong>Sonraki adım</strong></span></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▰</span><span class="summary-part-copy"><small>DEPOLAMA</small><strong>Sonraki adım</strong></span></div>
