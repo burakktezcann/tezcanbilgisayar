@@ -73,7 +73,7 @@ strong {
   }
 }
 
-@media (min-width: 992px) and (max-width: 1350px) {
+@media (min-width: 992px) and (max-width: 1399.98px) {
   .main-nav .nav-action span {
     display: none;
   }
@@ -89,6 +89,20 @@ strong {
     flex: 0 0 auto;
     gap: 5px;
     padding-inline: 7px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .main-nav .row > .col-lg-3 {
+    width: 25%;
+  }
+
+  .main-nav .row > .col-lg-2 {
+    width: 25%;
+  }
+
+  .main-nav .row > .col-lg-7 {
+    width: 50%;
   }
 }
 
