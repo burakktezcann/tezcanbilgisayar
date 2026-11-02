@@ -41,13 +41,17 @@ function renderFavoriteItems(){
   if(!favoriteCatalogAvailable){favoritesStatus.textContent='Ürün bilgileri şu an yüklenemedi. Bağlantını kontrol edip sayfayı yenile.';}else favoritesStatus.textContent='';
 }
 function makeProductIcon(){const icon=document.createElement('i');icon.className='fa-solid fa-microchip';icon.setAttribute('aria-hidden','true');return icon;}
-function normalizeProducts(rows){return (rows||[]).map(row=>({id:row.id,categoryId:row.category_id,name:row.name,description:row.description,brand:row.brand,model:row.model,image:row.image_path||row.image,price:row.price===null?null:Number(row.price),currency:row.currency||'TRY',status:row.status})).filter(row=>row.status==='active');}
+function normalizeProducts(rows){return (rows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:row.category_id||row.categoryId,name:row.name,description:row.description,brand:row.brand,model:row.model,image:row.image_path||row.image,price:row.price===null||row.price===undefined?null:Number(row.price),currency:row.currency||'TRY',attributes:row.attributes||{},status:row.status})).filter(row=>row.status==='active');}
 async function loadProducts(){
+  let liveProducts=null;
   if(favoriteClient){
-    try{const {data,error}=await favoriteClient.from('catalog_products').select('id,category_id,name,description,brand,model,image_path,price,currency,status').eq('status','active').order('sort_order');if(!error&&data)return normalizeProducts(data);}catch{}
+    try{const {data,error}=await favoriteClient.from('catalog_products').select('id,slug,category_id,name,description,brand,model,image_path,price,currency,status,attributes').eq('status','active').order('sort_order');if(!error&&data)liveProducts=normalizeProducts(data);}catch{}
   }
-  try{const response=await fetch('assets/data/catalog.json',{cache:'no-store'});if(response.ok){const data=await response.json();return normalizeProducts(data.products||[]);}}catch{}
-  return null;
+  let localProducts=[];
+  try{const response=await fetch('assets/data/builder-products.json',{cache:'no-store'});if(response.ok){const data=await response.json();localProducts=normalizeProducts(data.products||[]);}}catch{}
+  if(!localProducts.length){try{const response=await fetch('assets/data/catalog.json',{cache:'no-store'});if(response.ok){const data=await response.json();localProducts=normalizeProducts(data.products||[]);}}catch{}}
+  if(liveProducts){const liveSlugs=new Set(liveProducts.map(product=>product.slug).filter(Boolean));return [...liveProducts,...localProducts.filter(product=>!product.slug||!liveSlugs.has(product.slug))];}
+  return localProducts.length?localProducts:null;
 }
 async function loadForUser(user){
   signedInUser=user||null;favoriteCloudReady=false;

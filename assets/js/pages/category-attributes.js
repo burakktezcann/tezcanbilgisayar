@@ -48,6 +48,12 @@ window.PRODUCT_ATTRIBUTE_DEFINITIONS = {
     { key: 'modular', label: 'Kablo yapısı', type: 'select', options: ['Modüler', 'Yarı modüler', 'Sabit kablo'] },
     { key: 'form_factor', label: 'Güç kaynağı boyutu', type: 'select', options: ['ATX', 'SFX', 'SFX-L', 'Diğer'] }
   ] },
+  cooling: { title: 'İşlemci soğutucu özellikleri', fields: [
+    { key: 'cooler_type', label: 'Soğutma türü', type: 'select', options: ['Hava soğutma', 'Sıvı soğutma', 'Diğer'] },
+    { key: 'socket_support', label: 'Desteklenen soketler', type: 'text', placeholder: 'Örn. AM5, LGA1700' },
+    { key: 'height_mm', label: 'Soğutucu yüksekliği', type: 'number', unit: 'mm', min: 1, step: 1 },
+    { key: 'radiator_mm', label: 'Radyatör boyu', type: 'number', unit: 'mm', min: 1, step: 1 }
+  ] },
   systems: { title: 'Hazır sistem özellikleri', fields: [
     { key: 'processor', label: 'İşlemci', type: 'text' },
     { key: 'graphics', label: 'Ekran kartı', type: 'text' },
@@ -107,6 +113,7 @@ window.PRODUCT_BRAND_SUGGESTIONS = {
   disk: ['Samsung', 'Kingston', 'WD', 'Western Digital', 'Seagate', 'Crucial', 'Lexar', 'Kioxia'],
   case: ['Corsair', 'NZXT', 'Cooler Master', 'DeepCool', 'Fractal Design', 'Thermaltake'],
   psu: ['Corsair', 'FSP', 'Seasonic', 'Cooler Master', 'DeepCool', 'MSI'],
+  cooling: ['be quiet!', 'ARCTIC', 'NZXT', 'DeepCool', 'Cooler Master'],
   systems: ['Tezcan Bilgisayar', 'ASUS', 'MSI', 'HP', 'Lenovo'],
   computers: ['ASUS', 'Acer', 'HP', 'Lenovo', 'MSI', 'Dell', 'Apple'],
   peripherals: ['Logitech', 'Razer', 'SteelSeries', 'HyperX', 'ASUS', 'MSI', 'Samsung'],

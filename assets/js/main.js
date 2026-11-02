@@ -54,7 +54,7 @@ try {
   const saved=JSON.parse(localStorage.getItem(favoritesKey)||'[]');
   favoriteIds=Array.isArray(saved)?saved.filter(id=>typeof id==='string'):[];
 } catch { favoriteIds=[]; }
-const defaultPreviewCategories=['cpu','motherboard','ram','gpu','disk','case','psu'];
+const defaultPreviewCategories=['cpu','motherboard','ram','gpu','disk','case','psu','cooling'];
 
 try {
   const saved=JSON.parse(localStorage.getItem(cartKey)||'[]');
@@ -78,10 +78,11 @@ function createProductCard(item,{isProduct=false}={}){
   const art=document.createElement('div');
   const tone=allowedTones.has(item.tone)?item.tone:'blue';
   art.className=`product-art product-tone-${tone}`;
-  art.setAttribute('aria-hidden','true');
   const icon=document.createElement('i');
-  const iconName=/^fa-[a-z0-9-]+$/.test(item.icon||'')?item.icon:'fa-box';
+  const categoryIcons={cpu:'fa-microchip',motherboard:'fa-chess-board',ram:'fa-memory',gpu:'fa-display',disk:'fa-hard-drive',case:'fa-server',cooling:'fa-fan',psu:'fa-bolt'};
+  const iconName=/^fa-[a-z0-9-]+$/.test(item.icon||'')?item.icon:(categoryIcons[item.categoryId]||'fa-box');
   icon.className=`fa-solid ${iconName}`;
+  icon.setAttribute('aria-hidden','true');
   const imagePath=typeof item.image==='string'&&(
     (/^assets\/products\/[A-Za-z0-9._/-]+$/.test(item.image)&&!item.image.includes('..'))||
     /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(item.image)
@@ -246,7 +247,17 @@ async function loadCatalog(){
       data=await response.json();
     }
     if(!Array.isArray(data.categories)||!Array.isArray(data.products))throw new Error('Katalog verisi eksik.');
-    catalog={...data,categories:data.categories,products:data.products,currency:data.currency||'TRY'};
+    let builderData=null;
+    try{
+      const response=await fetch('assets/data/builder-products.json',{cache:'no-store'});
+      if(response.ok)builderData=await response.json();
+    }catch{}
+    const products=[...data.products];
+    const knownSlugs=new Set(products.map(product=>product.slug).filter(Boolean));
+    (builderData?.products||[]).forEach(product=>{if(!knownSlugs.has(product.slug)){products.push(product);knownSlugs.add(product.slug);}});
+    const categories=[...data.categories];
+    if(builderData?.category&&!categories.some(category=>category.id===builderData.category.id))categories.push(builderData.category);
+    catalog={...data,categories,products,currency:data.currency||'TRY'};
     renderCatalog();
   }catch{
     const error=document.createElement('p');
