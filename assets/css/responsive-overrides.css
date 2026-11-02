@@ -499,3 +499,31 @@ strong {
     justify-content: space-between;
   }
 }
+
+.default-address-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.default-address-check input { width: 17px; height: 17px; accent-color: var(--blue); }
+.default-address-badge { display: inline-flex; margin-left: 6px; padding: 3px 8px; border-radius: 999px; color: #147753; background: #e5f7ef; font-size: .66rem; font-weight: 800; vertical-align: middle; }
+.security-section .profile-grid { align-items: start; }
+.security-section .field small { color: var(--muted); font-size: .74rem; }
+
+@media (min-width: 701px) {
+  .product-list-tools { grid-template-columns: auto minmax(180px, 1fr) minmax(160px, auto) minmax(140px, auto); }
+}
+
+@media (max-width: 700px) {
+  .product-list-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-list-tools label, .product-list-tools input { grid-column: 1 / -1; }
+}
+
+@media (max-width: 420px) {
+  .product-list-tools { grid-template-columns: minmax(0, 1fr); }
+  .product-list-tools label, .product-list-tools input { grid-column: auto; }
+}
