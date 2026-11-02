@@ -11,9 +11,40 @@ const addressForm = document.getElementById('addressForm');
 const addressList = document.getElementById('addressList');
 const cancelAddressEdit = document.getElementById('cancelAddressEdit');
 const changePasswordForm = document.getElementById('changePasswordForm');
+const addressEditor = document.getElementById('addressEditor');
 let currentUser = null;
 let addresses = [];
 let defaultAddressFeatureReady = true;
+
+function openProfilePanel(name, updateHash = true) {
+  const panelName = ['overview', 'personal', 'addresses', 'security'].includes(name) ? name : 'overview';
+  document.querySelectorAll('[data-profile-panel]').forEach(panel => { panel.hidden = panel.dataset.profilePanel !== panelName; });
+  document.querySelectorAll('.profile-nav [data-profile-tab]').forEach(button => {
+    if (button.dataset.profileTab === panelName) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  });
+  if (updateHash && location.hash !== `#${panelName}`) history.replaceState(null, '', `#${panelName}`);
+}
+
+document.getElementById('profileContent').addEventListener('click', event => {
+  const tab = event.target.closest('[data-profile-tab]');
+  if (!tab) return;
+  openProfilePanel(tab.dataset.profileTab);
+  if (tab.id === 'addAddress') openAddressEditor();
+});
+
+function openAddressEditor() {
+  addressEditor.hidden = false;
+  document.getElementById('addAddress').hidden = true;
+  cancelAddressEdit.hidden = false;
+  addressEditor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('addressLabel').focus({ preventScroll: true });
+}
+
+function closeAddressEditor() {
+  addressEditor.hidden = true;
+  document.getElementById('addAddress').hidden = false;
+}
 
 function isMissingDefaultAddressColumn(error) {
   return error?.code === '42703' || /is_default.*does not exist|column.*is_default/i.test(String(error?.message || ''));
@@ -52,13 +83,14 @@ function clearAddressForm() {
   document.getElementById('saveAddress').textContent = 'Adresi kaydet';
   document.getElementById('addressIsDefault').checked = defaultAddressFeatureReady && !addresses.some(address => address.is_default);
   cancelAddressEdit.hidden = true;
+  closeAddressEditor();
 }
 function renderAddresses() {
   addressList.replaceChildren();
   if (!addresses.length) {
     const empty = document.createElement('div');
     empty.className = 'saved-address-empty';
-    empty.textContent = 'Henüz kayıtlı adresin yok. Aşağıdaki formdan adres ekleyebilirsin.';
+    empty.textContent = 'Henüz kayıtlı adresin yok. Başlamak için “Adres ekle” düğmesine tıkla.';
     addressList.append(empty);
     return;
   }
@@ -135,11 +167,14 @@ async function loadAccount() {
   }
   document.getElementById('profileFullName').value = profile.full_name || '';
   document.getElementById('profilePhone').value = profile.phone || '';
+  document.getElementById('profileGreeting').textContent = (profile.full_name || user.email?.split('@')[0] || 'müşterimiz').split(' ')[0];
   addresses = (addressRows || []).map(address => ({ ...address, is_default: Boolean(address.is_default) }));
+  document.getElementById('addressSummary').textContent = addresses.length ? `${addresses.length} kayıtlı adres` : 'Henüz adres eklemedin';
   document.getElementById('addressIsDefault').checked = defaultAddressFeatureReady && !addresses.some(address => address.is_default);
   renderAddresses();
   loading.hidden = true;
   content.hidden = false;
+  openProfilePanel(location.hash.slice(1) || 'overview', false);
 }
 
 profileForm.addEventListener('submit', async event => {
@@ -203,6 +238,7 @@ addressForm.addEventListener('submit', async event => {
   }
   await loadAddresses();
   clearAddressForm();
+  document.getElementById('addressSummary').textContent = addresses.length ? `${addresses.length} kayıtlı adres` : 'Henüz adres eklemedin';
   showMessage(addressId ? 'Adresin güncellendi.' : 'Adresin eklendi.', 'success');
 });
 
@@ -213,6 +249,7 @@ async function loadAddresses() {
     return;
   }
   addresses = (data || []).map(address => ({ ...address, is_default: Boolean(address.is_default) }));
+  document.getElementById('addressSummary').textContent = addresses.length ? `${addresses.length} kayıtlı adres` : 'Henüz adres eklemedin';
   renderAddresses();
 }
 
@@ -247,6 +284,8 @@ addressList.addEventListener('click', async event => {
     document.getElementById('addressFormTitle').textContent = 'Adresi düzenle';
     document.getElementById('saveAddress').textContent = 'Değişiklikleri kaydet';
     cancelAddressEdit.hidden = false;
+    openProfilePanel('addresses');
+    openAddressEditor();
     addressForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
@@ -268,6 +307,11 @@ addressList.addEventListener('click', async event => {
   }
 });
 
+document.getElementById('addAddress').addEventListener('click', () => {
+  clearAddressForm();
+  openProfilePanel('addresses');
+  openAddressEditor();
+});
 cancelAddressEdit.addEventListener('click', clearAddressForm);
 changePasswordForm.addEventListener('submit', async event => {
   event.preventDefault();

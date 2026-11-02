@@ -7,12 +7,31 @@
     <div id="profileLoading" class="profile-loading" role="status">Hesabın yükleniyor…</div>
     <div class="account-setup" id="profileSetup" hidden>Hesap bilgileri şu an yüklenemedi. Lütfen daha sonra tekrar dene.</div>
     <div id="profileContent" hidden>
-      <section class="profile-section"><div class="profile-section-heading"><div><h2>Kişisel bilgiler</h2><p>Yalnızca hesap için gerekli bilgileri saklıyoruz.</p></div><button class="secondary-button" id="profileSignOut" type="button">Çıkış yap</button></div>
+      <div class="account-center">
+        <nav class="profile-nav" aria-label="Hesap bölümleri">
+          <p class="profile-nav-title">HESABIM</p>
+          <button type="button" class="profile-nav-item" data-profile-tab="overview" aria-current="page"><span class="profile-nav-icon" aria-hidden="true">⌂</span> Genel bakış</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="personal"><span class="profile-nav-icon" aria-hidden="true">♙</span> Kişisel bilgiler</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="addresses"><span class="profile-nav-icon" aria-hidden="true">⌖</span> Adreslerim</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="security"><span class="profile-nav-icon" aria-hidden="true">◇</span> Giriş ve güvenlik</button>
+          <button class="profile-nav-item profile-signout" id="profileSignOut" type="button"><span class="profile-nav-icon" aria-hidden="true">↪</span> Çıkış yap</button>
+        </nav>
+        <div class="profile-workspace">
+          <section class="profile-panel" data-profile-panel="overview">
+            <div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP MERKEZİ</span><h2>Merhaba, <span id="profileGreeting">müşterimiz</span></h2><p>Hesap bilgilerini ve tercihlerini buradan kolayca yönetebilirsin.</p></div></div>
+            <div class="profile-overview-grid">
+              <button class="profile-overview-card" type="button" data-profile-tab="personal"><span class="overview-card-icon">♙</span><span><strong>Kişisel bilgiler</strong><small>Adını ve telefon numaranı güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+              <button class="profile-overview-card" type="button" data-profile-tab="addresses"><span class="overview-card-icon">⌖</span><span><strong>Adreslerim</strong><small id="addressSummary">Kayıtlı adreslerini yönet</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+              <button class="profile-overview-card" type="button" data-profile-tab="security"><span class="overview-card-icon">◇</span><span><strong>Giriş ve güvenlik</strong><small>Hesap şifreni güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+            </div>
+            <p class="profile-notice">Bu hesap altyapısı hazırlık aşamasındadır. Henüz sipariş veya ödeme alınmaz.</p>
+          </section>
+          <section class="profile-panel" data-profile-panel="personal" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP AYARLARI</span><h2>Kişisel bilgiler</h2><p>İletişim bilgilerini güncel tut.</p></div></div>
         <form id="profileForm"><div class="profile-grid"><div class="field field-wide"><label for="profileFullName">Ad soyad</label><input id="profileFullName" name="fullName" autocomplete="name" maxlength="100" required></div><div class="field"><label for="profilePhone">Telefon (isteğe bağlı)</label><input id="profilePhone" name="phone" type="tel" autocomplete="tel" maxlength="32"></div></div><div class="profile-actions"><button class="account-submit" type="submit">Bilgileri kaydet</button></div></form>
-      </section>
-      <section class="profile-section"><div class="profile-section-heading"><div><h2>Kayıtlı adresler</h2><p>Varsayılan adresin ileride teslimat işlemlerinde hazır seçilir.</p></div></div>
+          </section>
+          <section class="profile-panel" data-profile-panel="addresses" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">TESLİMAT BİLGİLERİ</span><h2>Adreslerim</h2><p>Adreslerini kaydet, düzenle veya varsayılan adresini seç.</p></div><button class="account-submit profile-add-address" id="addAddress" type="button">＋ Adres ekle</button></div>
         <div class="saved-address-list" id="addressList"></div>
-        <form id="addressForm"><input type="hidden" id="addressId" name="addressId"><div class="profile-section-heading"><div><h3 id="addressFormTitle">Yeni adres ekle</h3></div></div><div class="profile-grid">
+        <div class="address-editor" id="addressEditor" hidden><form id="addressForm"><input type="hidden" id="addressId" name="addressId"><div class="profile-section-heading"><div><h3 id="addressFormTitle">Yeni adres ekle</h3><p>Adres bilgilerini eksiksiz gir.</p></div></div><div class="profile-grid">
           <div class="field"><label for="addressLabel">Adres adı</label><input id="addressLabel" name="label" placeholder="Ev, İş…" maxlength="60" required></div>
           <div class="field"><label for="recipientName">Teslim alacak kişi</label><input id="recipientName" name="recipientName" autocomplete="name" maxlength="100" required></div>
           <div class="field"><label for="addressPhone">Telefon</label><input id="addressPhone" name="phone" type="tel" autocomplete="tel" maxlength="32" required></div>
@@ -20,12 +39,13 @@
           <div class="field"><label for="addressDistrict">İlçe</label><input id="addressDistrict" name="district" autocomplete="address-level2" maxlength="100" required></div>
           <div class="field"><label for="postalCode">Posta kodu (isteğe bağlı)</label><input id="postalCode" name="postalCode" autocomplete="postal-code" maxlength="20"></div>
           <div class="field field-wide"><label for="addressLine">Açık adres</label><textarea id="addressLine" name="addressLine" autocomplete="street-address" maxlength="1000" required></textarea></div>
-        </div><label class="default-address-check"><input id="addressIsDefault" name="isDefault" type="checkbox"><span>Varsayılan teslimat adresim olsun</span></label><div class="profile-actions"><button class="account-submit" id="saveAddress" type="submit">Adresi kaydet</button><button class="secondary-button" id="cancelAddressEdit" type="button" hidden>Vazgeç</button></div></form>
-      </section>
-      <section class="profile-section security-section"><div class="profile-section-heading"><div><h2>Güvenlik</h2><p>Hesap şifreni istediğin zaman yenileyebilirsin.</p></div></div>
+        </div><label class="default-address-check"><input id="addressIsDefault" name="isDefault" type="checkbox"><span>Varsayılan teslimat adresim olsun</span></label><div class="profile-actions"><button class="account-submit" id="saveAddress" type="submit">Adresi kaydet</button><button class="secondary-button" id="cancelAddressEdit" type="button">Vazgeç</button></div></form></div>
+          </section>
+          <section class="profile-panel security-section" data-profile-panel="security" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP AYARLARI</span><h2>Giriş ve güvenlik</h2><p>Hesabını güvende tutmak için güçlü bir şifre kullan.</p></div></div>
         <form id="changePasswordForm"><div class="profile-grid"><div class="field"><label for="accountNewPassword">Yeni şifre</label><input id="accountNewPassword" name="password" type="password" autocomplete="new-password" minlength="10" required><small>En az 10 karakter.</small></div><div class="field"><label for="accountNewPasswordConfirm">Yeni şifreyi tekrar yaz</label><input id="accountNewPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></div></div><div class="profile-actions"><button class="account-submit" type="submit">Şifreyi güncelle</button></div></form>
-      </section>
-      <p class="profile-notice">Bu hesap altyapısı hazırlık aşamasındadır. Henüz sipariş veya ödeme alınmaz.</p>
+          </section>
+        </div>
+      </div>
     </div>
     <p class="account-message" id="profileMessage" role="status" aria-live="polite"></p>
   </section>
