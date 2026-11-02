@@ -73,6 +73,25 @@ strong {
   }
 }
 
+@media (min-width: 992px) and (max-width: 1350px) {
+  .main-nav .nav-action span {
+    display: none;
+  }
+
+  .main-nav .nav-actions {
+    flex-wrap: nowrap;
+    gap: 3px;
+  }
+
+  .main-nav .nav-action {
+    width: auto;
+    min-width: 40px;
+    flex: 0 0 auto;
+    gap: 5px;
+    padding-inline: 7px;
+  }
+}
+
 @media (max-width: 767.98px) {
   .main-nav .container,
   .main-nav .row,
