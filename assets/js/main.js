@@ -2,6 +2,7 @@ const searchForm=document.getElementById('siteSearch');
 const searchInput=document.getElementById('searchInput');
 const categoryCards=[...document.querySelectorAll('#categoryGrid .category-card')];
 const subcategoryButtons=[...document.querySelectorAll('.subcategory-chip')];
+const quickCategoryButtons=[...document.querySelectorAll('#quickCategoryNav [data-select-category]')];
 const productGrid=document.getElementById('productGrid');
 const emptyState=document.getElementById('emptyState');
 const productFilterStatus=document.getElementById('productFilterStatus');
@@ -246,7 +247,7 @@ function filterCards(){
   const query=normalizeText(searchInput.value.trim());
   productFilterStatus.textContent=(selectedProductLabel?'Seçilen kategori: '+selectedProductLabel:'Tüm alt kategoriler')+(favoritesOnly?' · Favorilerim':'');
   let visible=0;
-  [...categoryCards,...subcategoryButtons,...productCards].forEach(card=>{
+  [...categoryCards,...subcategoryButtons,...quickCategoryButtons,...productCards].forEach(card=>{
     let matches=(!query||normalizeText(card.dataset.search||card.textContent).includes(query))&&(!favoritesOnly||!card.classList.contains('product-card')||favoriteIds.includes(card.dataset.productId));
     card.hidden=!matches;
     if(matches)visible++;
@@ -289,10 +290,24 @@ function toggleFavorite(productId){
 }
 function selectProductCategory(button){
   selectedProductCategories=[button.dataset.selectCategory];
-  selectedProductLabel=button.textContent.trim();
+  selectedProductLabel=button.querySelector('h3')?.textContent.trim()||button.textContent.trim();
   searchInput.value='';
   subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+  quickCategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.selectCategory===button.dataset.selectCategory)));
   categoryCards.forEach(card=>card.classList.toggle('is-selected',card.dataset.selectCategory===button.dataset.selectCategory));
+  computerPartsToggle.classList.remove('is-selected');
+  showAllProducts.hidden=false;
+  renderCatalog();
+  document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
+}
+function selectComputerParts(){
+  selectedProductCategories=['cpu','motherboard','ram','gpu','disk','case','psu'];
+  selectedProductLabel='Bilgisayar Parçaları';
+  searchInput.value='';
+  subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
+  categoryCards.forEach(card=>card.classList.remove('is-selected'));
+  computerPartsToggle.classList.add('is-selected');
+  quickCategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.selectCategory==='components')));
   showAllProducts.hidden=false;
   renderCatalog();
   document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
@@ -302,6 +317,8 @@ function resetProductCategory(){
   selectedProductLabel='';
   subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
   categoryCards.forEach(card=>card.classList.remove('is-selected'));
+  quickCategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
+  computerPartsToggle.classList.remove('is-selected');
   showAllProducts.hidden=true;
   searchInput.value='';
   renderCatalog();
@@ -439,15 +456,14 @@ document.getElementById('categoryGrid').addEventListener('click',event=>{
   const category=event.target.closest('[data-select-category]');
   if(!category||category===computerPartsToggle)return;
   event.preventDefault();
-  const title=category.querySelector('h3')?.textContent.trim()||category.dataset.selectCategory;
-  selectedProductCategories=[category.dataset.selectCategory];
-  selectedProductLabel=title;
-  searchInput.value='';
-  subcategoryButtons.forEach(button=>button.setAttribute('aria-pressed','false'));
-  categoryCards.forEach(card=>card.classList.toggle('is-selected',card===category));
-  showAllProducts.hidden=false;
-  renderCatalog();
-  document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
+  selectProductCategory(category);
+});
+document.getElementById('quickCategoryNav').addEventListener('click',event=>{
+  const quickCategory=event.target.closest('[data-select-category]');
+  if(!quickCategory)return;
+  if(quickCategory.dataset.selectCategory==='components'){selectComputerParts();return;}
+  const matchingCategory=[...categoryCards,...subcategoryButtons].find(category=>category.dataset.selectCategory===quickCategory.dataset.selectCategory);
+  if(matchingCategory)selectProductCategory(matchingCategory);
 });
 showAllProducts.addEventListener('click',resetProductCategory);
 document.getElementById('openCart').addEventListener('click',openCart);

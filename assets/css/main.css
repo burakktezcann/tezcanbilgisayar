@@ -99,6 +99,17 @@ main{overflow:hidden}.hero-wrap{padding:27px 0 18px}.hero{position:relative;disp
 @media(max-width:767.98px){.product-image{height:112px}}
 .category-card.is-selected{border-color:#aab8ff;background:#f7f9ff;box-shadow:0 0 0 3px #4263eb15}
 
+/* Fast category access directly below the search header */
+.quick-category-nav{border-top:1px solid #f0f2f7;background:#fff}
+.quick-category-scroll{display:flex;align-items:center;gap:5px;min-height:48px;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none}
+.quick-category-scroll::-webkit-scrollbar{display:none}
+.quick-category-link,.quick-category-all{display:inline-flex;flex:0 0 auto;min-height:34px;align-items:center;justify-content:center;padding:0 11px;border:0;border-radius:999px;color:#46536b;background:transparent;text-decoration:none;font:inherit;font-size:.76rem;font-weight:700;white-space:nowrap;cursor:pointer;transition:color .15s,background .15s}
+.quick-category-link:hover,.quick-category-link[aria-pressed="true"]{color:#304bd0;background:#edf1ff}
+.quick-category-all{gap:7px;margin-left:auto;color:var(--blue);background:#f5f7ff}
+.quick-category-all:hover{color:#304bd0;background:#edf1ff}
+#urun-kategorileri,#urunler{scroll-margin-top:145px}
+@media(max-width:767.98px){.quick-category-scroll{min-height:44px;gap:3px;margin-inline:-2px}.quick-category-link,.quick-category-all{min-height:32px;padding:0 10px;font-size:.72rem}.quick-category-all{margin-left:3px}}
+
 /* Product comparison */
 .product-card-actions{display:grid;gap:7px}
 .product-card-actions .add-to-cart{min-height:40px}
