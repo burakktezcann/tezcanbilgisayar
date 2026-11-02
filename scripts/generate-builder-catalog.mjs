@@ -20,7 +20,7 @@ function add(categoryId, sourceId, name, brand, model, description, attributes =
   const slug = `build-${categoryId}-${sourceId}`.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
   products.push({
     id: stableId(slug), slug, categoryId, name, description, brand: brand || '', model: model || '', sku,
-    image: '', price: null, currency: 'TRY', stock: null, status: 'active', sortOrder: products.length + 1,
+    image: '', price: null, currency: 'TRY', stock: null, status: 'active', sortOrder: products.length + 1, isBestseller: false, isCampaign: false,
     searchTerms: [...new Set([brand, model, categoryId, 'sistem toplama', 'bileşen'].filter(Boolean))], attributes: Object.fromEntries(Object.entries(attributes).filter(([, value]) => value !== null && value !== undefined))
   });
 }

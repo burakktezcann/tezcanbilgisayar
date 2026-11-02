@@ -30,6 +30,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 1,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i3-14100",
@@ -57,6 +59,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 2,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i3-14100F",
@@ -84,6 +88,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 3,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i3-13100",
@@ -111,6 +117,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 4,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i3-13100F",
@@ -138,6 +146,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 5,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i3-12100",
@@ -165,6 +175,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 6,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i3-12100F",
@@ -192,6 +204,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 7,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-14600K",
@@ -219,6 +233,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 8,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-14600KF",
@@ -246,6 +262,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 9,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-14500",
@@ -273,6 +291,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 10,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-14400",
@@ -300,6 +320,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 11,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-14400F",
@@ -327,6 +349,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 12,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-13600K",
@@ -354,6 +378,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 13,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-13600KF",
@@ -381,6 +407,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 14,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-13400F",
@@ -408,6 +436,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 15,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-12600K",
@@ -435,6 +465,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 16,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i5-12400F",
@@ -462,6 +494,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 17,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-14700K",
@@ -489,6 +523,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 18,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-14700KF",
@@ -516,6 +552,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 19,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-14700F",
@@ -543,6 +581,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 20,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-13700K",
@@ -570,6 +610,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 21,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-13700KF",
@@ -597,6 +639,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 22,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-12700K",
@@ -624,6 +668,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 23,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i7-12700F",
@@ -651,6 +697,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 24,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-14900K",
@@ -678,6 +726,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 25,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-14900KF",
@@ -705,6 +755,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 26,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-14900F",
@@ -732,6 +784,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 27,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-13900K",
@@ -759,6 +813,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 28,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-13900KF",
@@ -786,6 +842,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 29,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-12900K",
@@ -813,6 +871,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 30,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "i9-12900KF",
@@ -840,6 +900,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 31,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "250K Plus",
@@ -867,6 +929,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 32,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "250KF Plus",
@@ -894,6 +958,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 33,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "245K",
@@ -921,6 +987,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 34,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "245KF",
@@ -948,6 +1016,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 35,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "225",
@@ -975,6 +1045,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 36,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "225F",
@@ -1002,6 +1074,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 37,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "270K Plus",
@@ -1029,6 +1103,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 38,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "265K",
@@ -1056,6 +1132,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 39,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "265KF",
@@ -1083,6 +1161,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 40,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "285K",
@@ -1110,6 +1190,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 41,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Intel",
         "285",
@@ -1137,6 +1219,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 42,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9600X",
@@ -1164,6 +1248,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 43,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9600",
@@ -1191,6 +1277,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 44,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9500F",
@@ -1218,6 +1306,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 45,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "8600G",
@@ -1245,6 +1335,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 46,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "8500G",
@@ -1272,6 +1364,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 47,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9850X3D",
@@ -1299,6 +1393,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 48,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9800X3D",
@@ -1326,6 +1422,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 49,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9700X",
@@ -1353,6 +1451,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 50,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9700F",
@@ -1380,6 +1480,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 51,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "8700G",
@@ -1407,6 +1509,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 52,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9950X3D2 Dual Edition",
@@ -1434,6 +1538,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 53,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9950X3D",
@@ -1461,6 +1567,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 54,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9950X",
@@ -1488,6 +1596,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 55,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9900X3D",
@@ -1515,6 +1625,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 56,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "9900X",
@@ -1542,6 +1654,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 57,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS TUF GAMING B760-PLUS WIFI",
@@ -1571,6 +1685,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 58,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS PRIME B760M-A D4",
@@ -1600,6 +1716,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 59,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "MSI",
         "MSI MAG B760 TOMAHAWK WIFI",
@@ -1629,6 +1747,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 60,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS TUF GAMING Z890-PLUS WIFI",
@@ -1658,6 +1778,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 61,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS PRIME B860M-A WIFI",
@@ -1687,6 +1809,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 62,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "MSI",
         "MSI PRO Z890-S WIFI PZ",
@@ -1716,6 +1840,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 63,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS TUF GAMING B650-PLUS WIFI",
@@ -1745,6 +1871,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 64,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS PRIME B650M-A WIFI II",
@@ -1774,6 +1902,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 65,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Kingston",
         "KF432C16BBK2/16",
@@ -1802,6 +1932,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 66,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Kingston",
         "KF432C16BBK2/32",
@@ -1830,6 +1962,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 67,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Kingston",
         "KF432C16BBK2/64",
@@ -1858,6 +1992,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 68,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Kingston",
         "KF560C30BBEK2-32",
@@ -1886,6 +2022,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 69,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "CORSAIR",
         "CMK32GX5M2E6000C36",
@@ -1914,6 +2052,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 70,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Kingston",
         "KF560C30BBEK2-64",
@@ -1942,6 +2082,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 71,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5090",
@@ -1970,6 +2112,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 72,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5080",
@@ -1998,6 +2142,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 73,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5070 Ti",
@@ -2026,6 +2172,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 74,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5070",
@@ -2054,6 +2202,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 75,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5060 Ti",
@@ -2082,6 +2232,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 76,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5060",
@@ -2110,6 +2262,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 77,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NVIDIA",
         "GeForce RTX 5050",
@@ -2138,6 +2292,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 78,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 9070 XT",
@@ -2166,6 +2322,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 79,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 9070",
@@ -2194,6 +2352,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 80,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 9070 GRE",
@@ -2222,6 +2382,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 81,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 9060 XT",
@@ -2250,6 +2412,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 82,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 7900 XTX",
@@ -2278,6 +2442,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 83,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 7900 XT",
@@ -2306,6 +2472,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 84,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 7800 XT",
@@ -2334,6 +2502,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 85,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "AMD",
         "Radeon RX 7700 XT",
@@ -2362,6 +2532,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 86,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Samsung",
         "MZ-V9S1T0BW",
@@ -2391,6 +2563,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 87,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Samsung",
         "MZ-V9S2T0BW",
@@ -2420,6 +2594,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 88,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Crucial",
         "CT1000MX500SSD1",
@@ -2449,6 +2625,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 89,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Samsung",
         "MZ-77E1T0",
@@ -2478,6 +2656,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 90,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "WD",
         "WD10EZEX",
@@ -2507,6 +2687,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 91,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "WD",
         "WD20EZBX",
@@ -2536,6 +2718,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 92,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NZXT",
         "NZXT H5 Flow",
@@ -2566,6 +2750,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 93,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "CORSAIR",
         "CORSAIR 4000D Airflow",
@@ -2596,6 +2782,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 94,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ASUS",
         "ASUS Prime AP201",
@@ -2626,6 +2814,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 95,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Cooler",
         "Cooler Master MasterBox Q300L",
@@ -2656,6 +2846,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 96,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "be",
         "be quiet! PURE ROCK 3 Black",
@@ -2684,6 +2876,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 97,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "ARCTIC",
         "ARCTIC Liquid Freezer III Pro 240",
@@ -2712,6 +2906,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 98,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "NZXT",
         "NZXT Kraken Plus 240",
@@ -2740,6 +2936,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 99,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "CORSAIR",
         "CORSAIR RM650e (2025)",
@@ -2768,6 +2966,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 100,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "Seasonic",
         "Seasonic FOCUS GX-750",
@@ -2796,6 +2996,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 101,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "CORSAIR",
         "CORSAIR RM750e (2025)",
@@ -2824,6 +3026,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 102,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "MSI",
         "MSI MAG A850GL PCIE5",
@@ -2852,6 +3056,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 103,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "CORSAIR",
         "CORSAIR RM850e (2025)",
@@ -2880,6 +3086,8 @@
       "stock": null,
       "status": "active",
       "sortOrder": 104,
+      "isBestseller": false,
+      "isCampaign": false,
       "searchTerms": [
         "CORSAIR",
         "CORSAIR RM1000e (2025)",

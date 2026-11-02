@@ -22,6 +22,8 @@ const compareDialog=document.getElementById('compareDialog');
 const compareTableWrap=document.getElementById('compareTableWrap');
 const favoritesFilter=document.getElementById('favoritesFilter');
 const headerFavoriteCount=document.getElementById('headerFavoriteCount');
+const featureTabs=[...document.querySelectorAll('[data-feature-mode]')];
+let featureMode='bestseller';
 const cartKey='tezcan-offer-list';
 const compareKey='tezcan-product-comparison';
 const favoritesKey='tezcan-product-favorites';
@@ -97,6 +99,10 @@ function createProductCard(item,{isProduct=false}={}){
     art.append(image);
   }else{
     art.append(icon);
+  }
+  if(document.body.dataset.page==='home'){
+    const badge=document.createElement('span');badge.className=`home-feature-badge ${featureMode==='bestseller'?'is-bestseller':''}`;
+    badge.textContent=featureMode==='campaign'?'Kampanya':'Çok satan';art.append(badge);
   }
 
   const info=document.createElement('div');
@@ -186,12 +192,13 @@ function sortCatalogItems(items){
 }
 function renderCatalog(){
   const products=catalog.products.filter(product=>product.status==='active');
+  const homeProducts=document.body.dataset.page==='home'?products.filter(product=>featureMode==='campaign'?product.isCampaign:product.isBestseller):products;
   const visibleProducts=selectedProductCategories.length
-    ?products.filter(product=>selectedProductCategories.includes(product.categoryId))
-    :products;
+    ?homeProducts.filter(product=>selectedProductCategories.includes(product.categoryId))
+    :homeProducts;
   const populatedCategories=new Set(visibleProducts.map(product=>product.categoryId));
   const previewIds=selectedProductCategories.length?selectedProductCategories:defaultPreviewCategories;
-  const categoryPreviews=catalog.categories
+  const categoryPreviews=document.body.dataset.page==='home'?[]:catalog.categories
     .filter(category=>previewIds.includes(category.id))
     .filter(category=>!populatedCategories.has(category.id))
     .map(category=>({...category,categoryId:category.id}));
@@ -214,8 +221,8 @@ function renderCatalog(){
   compareIds=compareIds.filter(id=>catalogProductIds.has(id)).slice(0,4);
   saveCompare();
   saveQuote();
-  document.getElementById('productHeading').textContent=selectedProductLabel||'Bilgisayar Parçaları';
-  productFilterStatus.textContent=selectedProductLabel?'Seçilen kategori: '+selectedProductLabel:'Tüm alt kategoriler';
+  document.getElementById('productHeading').textContent=document.body.dataset.page==='home'?(featureMode==='campaign'?'Kampanyalı ürünler':'Çok satanlar'):(selectedProductLabel||'Bilgisayar Parçaları');
+  productFilterStatus.textContent=selectedProductLabel?'Seçilen kategori: '+selectedProductLabel:(featureMode==='campaign'?'Kampanyalı ürünler':'Çok satanlar');
   renderCart();
   renderCompareBar();
   renderFavorites();
@@ -226,15 +233,14 @@ async function fetchLiveCatalog(){
   const config=window.SUPABASE_CONFIG||{};
   if(!config.url||!config.publishableKey||!window.supabase?.createClient)return null;
   const client=window.supabase.createClient(config.url,config.publishableKey);
-  const [{data:categoryRows,error:categoryError},{data:productRows,error:productError}]=await Promise.all([
-    client.from('catalog_categories').select('id,name,description,icon,tone,sort_order,search_terms').eq('is_active',true).order('sort_order'),
-    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes').eq('status','active').order('sort_order')
-  ]);
+  const {data:categoryRows,error:categoryError}=await client.from('catalog_categories').select('id,name,description,icon,tone,sort_order,search_terms').eq('is_active',true).order('sort_order');
+  let {data:productRows,error:productError}=await client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes,is_bestseller,is_campaign').eq('status','active').order('sort_order');
+  if(productError){const fallback=await client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes').eq('status','active').order('sort_order');productRows=fallback.data;productError=fallback.error;}
   if(categoryError||productError||!categoryRows?.length)return null;
   return {
     currency:'TRY',
     categories:categoryRows.map(row=>({id:row.id,name:row.name,description:row.description,icon:row.icon,tone:row.tone,sortOrder:row.sort_order,searchTerms:row.search_terms||[]})),
-    products:(productRows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:row.category_id,name:row.name,description:row.description,brand:row.brand,model:row.model,sku:row.sku,image:row.image_path,price:row.price===null?null:Number(row.price),currency:row.currency,stock:row.stock,status:row.status,sortOrder:row.sort_order,searchTerms:row.search_terms||[],attributes:row.attributes||{}}))
+    products:(productRows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:row.category_id,name:row.name,description:row.description,brand:row.brand,model:row.model,sku:row.sku,image:row.image_path,price:row.price===null?null:Number(row.price),currency:row.currency,stock:row.stock,status:row.status,sortOrder:row.sort_order,searchTerms:row.search_terms||[],attributes:row.attributes||{},isBestseller:Boolean(row.is_bestseller),isCampaign:Boolean(row.is_campaign)}))
   };
 }
 async function loadCatalog(){
@@ -282,8 +288,11 @@ function filterCards(){
   const emptyCategory=selectedProductCategories.length>0&&productCards.length===0;
   const emptySearch=query.length>0&&visibleProducts===0;
   const emptyFavorites=favoritesOnly&&visibleProducts===0;
-  emptyState.hidden=!emptyCategory&&!emptySearch&&!emptyFavorites;
-  emptyState.textContent=emptyFavorites
+  const emptyShowcase=document.body.dataset.page==='home'&&productCards.length===0;
+  emptyState.hidden=!emptyCategory&&!emptySearch&&!emptyFavorites&&!emptyShowcase;
+  emptyState.textContent=emptyShowcase
+    ?(featureMode==='campaign'?'Henüz kampanyalı ürün seçilmedi. Yönetim panelinden kampanya olarak işaretleyebilirsin.':'Çok satanlar vitrini henüz hazırlanıyor.')
+    :emptyFavorites
     ?'Henüz favori ürünün yok. Beğendiğin ürünlerdeki kalp düğmesine dokunarak buraya ekleyebilirsin.'
     :emptyCategory
     ?'Bu ürün grubuna henüz katalog kaydı eklenmedi.'
@@ -518,12 +527,19 @@ function openComparison(){
 }
 
 searchForm.addEventListener('submit',event=>{
-  event.preventDefault();filterCards();
-  document.getElementById((selectedProductCategories.length||(searchInput.value.trim()&&productCards.some(card=>!card.hidden)))?'urunler':'urun-kategorileri').scrollIntoView({behavior:'smooth'});
+  event.preventDefault();
+  const query=searchInput.value.trim();
+  if(query){location.assign(`bilgisayar-parcalari.html?q=${encodeURIComponent(query)}`);return;}
+  filterCards();document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
 });
 searchInput.addEventListener('input',filterCards);
 productSort.addEventListener('change',renderCatalog);
 favoritesFilter.addEventListener('click',()=>{favoritesOnly=!favoritesOnly;renderFavorites();filterCards();});
+featureTabs.forEach(tab=>tab.addEventListener('click',()=>{
+  featureMode=tab.dataset.featureMode==='campaign'?'campaign':'bestseller';
+  featureTabs.forEach(item=>{const active=item===tab;item.classList.toggle('is-active',active);item.setAttribute('aria-pressed',String(active));});
+  searchInput.value='';renderCatalog();
+}));
 document.getElementById('currentYear').textContent=new Date().getFullYear();
 computerPartsToggle.addEventListener('click',()=>{
   const expanded=computerPartsToggle.getAttribute('aria-expanded')==='true';

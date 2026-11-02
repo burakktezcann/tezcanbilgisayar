@@ -201,7 +201,7 @@ async function loadCatalogData(){
   message(adminMessage,'Katalog yükleniyor…');
   const [{data:categoryRowsData,error:categoryError},{data:productRowsData,error:productError}]=await Promise.all([
     client.from('catalog_categories').select('id,name,description,icon,tone,sort_order,search_terms,is_active').order('sort_order'),
-    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes').order('sort_order')
+    client.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,sort_order,search_terms,attributes,is_bestseller,is_campaign').order('sort_order')
   ]);
   if(categoryError||productError){message(adminMessage,'Katalog tabloları okunamadı. Migration ve yetki rolünü kontrol et.','error');return;}
   categories=categoryRowsData||[];products=productRowsData||[];
@@ -214,6 +214,7 @@ function resetProductForm(){
   document.getElementById('saveProduct').textContent='Ürünü kaydet';
   document.getElementById('productStatus').value='draft';
   document.getElementById('productSortOrder').value='0';
+  document.getElementById('productIsBestseller').checked=false;document.getElementById('productIsCampaign').checked=false;
   document.getElementById('productSlug').dataset.touched='';
   pendingImageFile=null;setImagePreview('');document.getElementById('productImage').value='';document.getElementById('productImageFile').value='';
   renderCategoryOptions('');renderBrandOptions('');renderProductAttributes('');
@@ -259,6 +260,7 @@ function editProduct(id){
   document.getElementById('productImage').value=product.image_path||'';
   pendingImageFile=null;setImagePreview(product.image_path||'');document.getElementById('productImageFile').value='';
   document.getElementById('productSortOrder').value=String(product.sort_order||0);
+  document.getElementById('productIsBestseller').checked=Boolean(product.is_bestseller);document.getElementById('productIsCampaign').checked=Boolean(product.is_campaign);
   document.getElementById('productSearchTerms').value=(product.search_terms||[]).join(', ');
   document.getElementById('productStatus').value=product.status;
   renderCategoryOptions(product.category_id);
@@ -355,6 +357,8 @@ productForm.addEventListener('submit',async event=>{
     stock:stockValue===''?null:Number(stockValue),
     status:document.getElementById('productStatus').value,
     sort_order:Number(document.getElementById('productSortOrder').value||0),
+    is_bestseller:document.getElementById('productIsBestseller').checked,
+    is_campaign:document.getElementById('productIsCampaign').checked,
     search_terms:splitTerms(document.getElementById('productSearchTerms').value),
     attributes:readProductAttributes(),
     updated_at:new Date().toISOString()
@@ -436,7 +440,7 @@ categoryRows.addEventListener('click',async event=>{
   await loadCatalogData();message(adminMessage,'Kategori durumu güncellendi.','success');
 });
 
-const csvColumns=['slug','category_id','name','description','brand','model','sku','image_path','price','currency','stock','status','sort_order','search_terms','attributes'];
+const csvColumns=['slug','category_id','name','description','brand','model','sku','image_path','price','currency','stock','status','sort_order','is_bestseller','is_campaign','search_terms','attributes'];
 function parseCsv(text){
   const rows=[];let row=[],cell='',quoted=false;
   for(let i=0;i<text.length;i++){
@@ -481,7 +485,7 @@ function validateCatalogCsv(text){
     if(price!==null&&(!Number.isFinite(price)||price<0))throw new Error(`${rowNumber}. satır: fiyat sıfır veya daha büyük bir sayı olmalı.`);
     if(stock!==null&&(!Number.isInteger(stock)||stock<0))throw new Error(`${rowNumber}. satır: stok sıfır veya daha büyük tam sayı olmalı.`);
     if(!Number.isInteger(sortOrder)||sortOrder<0)throw new Error(`${rowNumber}. satır: sıralama sıfır veya daha büyük tam sayı olmalı.`);
-    parsed.push({slug,category_id:categoryId,name:record.name,description:record.description||'',brand:record.brand||'',model:record.model||'',sku:record.sku||'',image_path:record.image_path||'',price,currency:(record.currency||'TRY').toUpperCase(),stock,status:record.status||'draft',sort_order:sortOrder,search_terms:(record.search_terms||'').split('|').map(term=>term.trim()).filter(Boolean),attributes,updated_at:new Date().toISOString()});
+    parsed.push({slug,category_id:categoryId,name:record.name,description:record.description||'',brand:record.brand||'',model:record.model||'',sku:record.sku||'',image_path:record.image_path||'',price,currency:(record.currency||'TRY').toUpperCase(),stock,status:record.status||'draft',sort_order:sortOrder,is_bestseller:['true','1','yes','evet'].includes(String(record.is_bestseller||'').toLowerCase()),is_campaign:['true','1','yes','evet'].includes(String(record.is_campaign||'').toLowerCase()),search_terms:(record.search_terms||'').split('|').map(term=>term.trim()).filter(Boolean),attributes,updated_at:new Date().toISOString()});
   });
   return {parsed,updates:parsed.filter(product=>existing.has(product.slug)).length,creates:parsed.filter(product=>!existing.has(product.slug)).length};
 }
