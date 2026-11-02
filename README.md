@@ -81,11 +81,13 @@ Canlı site için yönetilen Supabase kullanılmalı; kişisel bilgisayardaki Do
 
 ### Canlı Supabase ve üyelik
 
-1. Migration'ları canlı projeye uygulamadan önce yedek alıp SQL'leri gözden geçir. `20261031000200_account_hardening.sql` eski `age` sütununu silmez; uygulama artık yaş istemez ve bu sütuna erişim iznini daraltır.
+1. Migration'ları canlı projeye uygulamadan önce yedek alıp SQL'leri gözden geçir. `20261031000200_account_hardening.sql` eski `age` sütununu silmez; uygulama artık yaş istemez ve bu sütuna erişim iznini daraltır. Üyelik tercihlerini hesapta saklamak için `20261102000600_customer_communication_preferences.sql` migration'ını da Supabase SQL Editor'da çalıştır.
 2. Supabase Authentication ayarlarında e-posta kaydını/doğrulamasını aç; gerçek site URL'sini ve hesap sayfasındaki doğrulama/şifre dönüş adreslerini izinli adreslere ekle.
 3. Canlı e-posta için doğrulanmış alan adına ait SMTP sağlayıcısı kur. Varsayılan deneme e-posta kotası gerçek kullanıma uygun değildir.
 4. Supabase panelinde çok faktörlü koruma kullan, erişimi gereken kişilerle sınırla ve düzenli yedekleri etkin tut. Gizli/service role anahtarını site dosyalarına koyma.
 5. Hesap oluşturma ve giriş bu sürümde açıktır. `kvkk-aydinlatma.html` hesap kayıt formunda gösterilir. Şirket kuruluşu ve veri altyapısı netleştiğinde veri sorumlusu, yurt dışı aktarım koşulları ve iletişim bilgilerini gözden geçirip metni güncelle. Supabase Auth yönlendirme listesine `https://tezcanbilgisayar.com/hesap.html` ve `https://www.tezcanbilgisayar.com/hesap.html` adreslerini ekle; site adresini yayındaki alan adına ayarla.
+
+E-posta bilgilendirme seçimi kullanıcı profilinde bir tercih kaydı olarak tutulur; varsayılanı kapalıdır. Bu tercih tek başına e-posta gönderimi başlatmaz. E-posta sağlayıcısı, gönderim amacı ve ilgili yasal metinler hazır olana kadar pazarlama e-postası gönderilmez. Sipariş/ödeme özelliği şirket bilgileri, gerçek katalog/fiyat/stok, teslimat-iade süreçleri, güvenli ödeme sağlayıcısı ve hukuki metinler doğrulanmadan etkinleştirilmemelidir.
 
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 

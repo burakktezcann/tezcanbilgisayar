@@ -12,6 +12,8 @@ const addressList = document.getElementById('addressList');
 const cancelAddressEdit = document.getElementById('cancelAddressEdit');
 const changePasswordForm = document.getElementById('changePasswordForm');
 const communicationPreferencesForm = document.getElementById('communicationPreferencesForm');
+const communicationPreferencesNote = document.getElementById('communicationPreferencesNote');
+const emailUpdatesPreference = document.getElementById('emailUpdatesPreference');
 const addressEditor = document.getElementById('addressEditor');
 const savedSystemList = document.getElementById('savedSystemList');
 const systemsLoadNote = document.getElementById('systemsLoadNote');
@@ -19,6 +21,7 @@ let savedSystemBuilds = [];
 let currentUser = null;
 let addresses = [];
 let defaultAddressFeatureReady = true;
+let communicationPreferencesReady = true;
 
 function openProfilePanel(name, updateHash = true) {
   const panelName = ['overview', 'personal', 'addresses', 'security', 'systems', 'preferences', 'cards', 'iban'].includes(name) ? name : 'overview';
@@ -52,6 +55,9 @@ function closeAddressEditor() {
 
 function isMissingDefaultAddressColumn(error) {
   return error?.code === '42703' || /is_default.*does not exist|column.*is_default/i.test(String(error?.message || ''));
+}
+function isMissingCommunicationPreferenceColumn(error) {
+  return error?.code === '42703' || /email_marketing_opt_in.*does not exist|column.*email_marketing_opt_in/i.test(String(error?.message || ''));
 }
 async function fetchAddresses(userId) {
   let result = await client.from('customer_addresses')
@@ -227,11 +233,18 @@ async function loadAccount() {
   currentUser = user;
   document.getElementById('profileEmail').textContent = user.email || '';
   document.dispatchEvent(new CustomEvent('account:ready', { detail: { user, name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Hesabım' } }));
-  const { data: profile, error: profileError } = await client
-    .from('profiles')
-    .select('full_name, phone')
+  let profileResult = await client.from('profiles')
+    .select('full_name, phone, email_marketing_opt_in')
     .eq('id', user.id)
     .maybeSingle();
+  if (isMissingCommunicationPreferenceColumn(profileResult.error)) {
+    communicationPreferencesReady = false;
+    communicationPreferencesNote.hidden = false;
+    emailUpdatesPreference.disabled = true;
+    communicationPreferencesForm.querySelector('button[type="submit"]').disabled = true;
+    profileResult = await client.from('profiles').select('full_name, phone').eq('id', user.id).maybeSingle();
+  }
+  const { data: profile, error: profileError } = profileResult;
   if (profileError || !profile) {
     showSetup();
     return;
@@ -244,7 +257,7 @@ async function loadAccount() {
   }
   document.getElementById('profileFullName').value = profile.full_name || '';
   document.getElementById('profilePhone').value = profile.phone || '';
-  document.getElementById('emailUpdatesPreference').checked = localStorage.getItem(`tezcan-email-updates-${user.id}`) === 'true';
+  emailUpdatesPreference.checked = communicationPreferencesReady && Boolean(profile.email_marketing_opt_in);
   document.getElementById('profileGreeting').textContent = (profile.full_name || user.email?.split('@')[0] || 'müşterimiz').split(' ')[0];
   addresses = (addressRows || []).map(address => ({ ...address, is_default: Boolean(address.is_default) }));
   document.getElementById('addressSummary').textContent = addresses.length ? `${addresses.length} kayıtlı adres` : 'Henüz adres eklemedin';
@@ -281,11 +294,15 @@ profileForm.addEventListener('submit', async event => {
   }
 });
 
-communicationPreferencesForm.addEventListener('submit', event => {
+communicationPreferencesForm.addEventListener('submit', async event => {
   event.preventDefault();
-  if (!currentUser) return;
-  localStorage.setItem(`tezcan-email-updates-${currentUser.id}`, String(document.getElementById('emailUpdatesPreference').checked));
-  showMessage('Tercihin bu cihazda kaydedildi.', 'success');
+  if (!client || !currentUser || !communicationPreferencesReady) return;
+  setFormButton(communicationPreferencesForm, true);
+  showMessage('Tercihin hesabına kaydediliyor…');
+  const { error } = await client.from('profiles').update({ email_marketing_opt_in: emailUpdatesPreference.checked }).eq('id', currentUser.id);
+  setFormButton(communicationPreferencesForm, false);
+  if (error) showMessage('Tercihin kaydedilemedi. Lütfen tekrar dene.', 'error');
+  else showMessage('İletişim tercihin hesabına kaydedildi.', 'success');
 });
 
 addressForm.addEventListener('submit', async event => {
