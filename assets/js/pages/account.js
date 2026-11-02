@@ -10,6 +10,8 @@ const tabs = [...document.querySelectorAll('[data-account-tab]')];
 const panels = [...document.querySelectorAll('[data-account-panel]')];
 let client = null;
 let recoverySession = new URLSearchParams(location.search).get('mode') === 'update-password';
+const requestedNext = new URLSearchParams(location.search).get('next');
+const postAuthDestination = requestedNext === 'sistem-topla' ? 'sistem-topla.html' : 'hesabim.html';
 
 function showMessage(message, kind = '') {
   status.textContent = message;
@@ -76,12 +78,12 @@ if (!config.url || !config.publishableKey || !window.supabase?.createClient) {
   }
   client.auth.getSession().then(({ data, error }) => {
     if (error) showMessage('Hesap bilgisi alınamadı. Lütfen tekrar deneyin.', 'error');
-    if (data?.session?.user && !recoverySession) { location.replace('hesabim.html'); return; }
+    if (data?.session?.user && !recoverySession) { location.replace(postAuthDestination); return; }
     showSession(data?.session?.user || null);
   }).catch(() => showMessage('Hesap bilgisi alınamadı. Bağlantını kontrol edip sayfayı yenile.', 'error'));
   client.auth.onAuthStateChange((event, session) => {
     if (event === 'PASSWORD_RECOVERY') recoverySession = true;
-    if (session?.user && !recoverySession) { location.replace('hesabim.html'); return; }
+    if (session?.user && !recoverySession) { location.replace(postAuthDestination); return; }
     showSession(session?.user || null);
   });
   if (new URLSearchParams(location.search).get('mode') === 'update-password') {
@@ -102,10 +104,10 @@ signupForm.addEventListener('submit', async event => {
   try {
     const { data, error } = await client.auth.signUp({
       email: value(signupForm, 'email'), password: value(signupForm, 'password'),
-      options: { data: { full_name: value(signupForm, 'fullName') }, emailRedirectTo: new URL('hesap.html', location.href).href }
+      options: { data: { full_name: value(signupForm, 'fullName') }, emailRedirectTo: `${new URL('hesap.html', location.href).href}${requestedNext === 'sistem-topla' ? '?next=sistem-topla' : ''}` }
     });
     if (error) showMessage(authErrorText(error, 'signup'), 'error');
-    else if (data.session) location.assign('hesabim.html');
+    else if (data.session) location.assign(postAuthDestination);
     else showMessage('Kayıt isteği alındı. E-posta kutunu kontrol edip doğrulama bağlantısını aç.', 'success');
   } catch { showMessage('Bağlantı kurulamadı. Biraz sonra tekrar deneyin.', 'error'); }
   finally { setBusy(signupForm, false); }
@@ -119,7 +121,7 @@ signinForm.addEventListener('submit', async event => {
   try {
     const { error } = await client.auth.signInWithPassword({ email: value(signinForm, 'email'), password: value(signinForm, 'password') });
     if (error) showMessage(authErrorText(error, 'signin'), 'error');
-    else location.assign('hesabim.html');
+    else location.assign(postAuthDestination);
   } catch { showMessage('Bağlantı kurulamadı. Biraz sonra tekrar deneyin.', 'error'); }
   finally { setBusy(signinForm, false); }
 });

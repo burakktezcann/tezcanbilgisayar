@@ -83,10 +83,16 @@ const storageProducts = {
 };
 
 const pcCases = [
-  { id: 'nzxt-h5-flow', name: 'NZXT H5 Flow', supports: ['ATX', 'Micro-ATX'], gpu: 410, cooler: 170, psu: 200, note: 'Mid-tower · hava akışlı ön panel', url: 'https://nzxt.com/products/h5-flow' },
-  { id: 'corsair-4000d-airflow', name: 'CORSAIR 4000D Airflow', supports: ['ATX', 'Micro-ATX'], gpu: 360, cooler: 170, psu: 220, note: 'Mid-tower · mesh ön panel', url: 'https://www.corsair.com/us/en/p/pc-cases/cc-9011200-ww/4000d-airflow-tempered-glass-mid-tower-atx-case-black-cc-9011200-ww' },
-  { id: 'asus-prime-ap201', name: 'ASUS Prime AP201', supports: ['Micro-ATX'], gpu: 338, cooler: 170, psu: 180, note: 'Kompakt kasa · Micro-ATX / Mini-ITX', url: 'https://www.asus.com/us/motherboards-components/cases/prime/asus-prime-ap201-microatx-case/techspec/' },
-  { id: 'cooler-master-q300l', name: 'Cooler Master MasterBox Q300L', supports: ['Micro-ATX'], gpu: 360, cooler: 159, psu: 160, note: 'Mini tower · Micro-ATX / Mini-ITX', url: 'https://www.coolermaster.com/en-us/products/masterbox-q300l.html' }
+  { id: 'nzxt-h5-flow', name: 'NZXT H5 Flow', supports: ['ATX', 'Micro-ATX'], gpu: 410, cooler: 170, psu: 200, radiators: [120, 140, 240, 280, 360], note: 'Mid-tower · hava akışlı ön panel', url: 'https://nzxt.com/products/h5-flow' },
+  { id: 'corsair-4000d-airflow', name: 'CORSAIR 4000D Airflow', supports: ['ATX', 'Micro-ATX'], gpu: 360, cooler: 170, psu: 220, radiators: [120, 140, 240, 280, 360], note: 'Mid-tower · mesh ön panel', url: 'https://www.corsair.com/us/en/p/pc-cases/cc-9011200-ww/4000d-airflow-tempered-glass-mid-tower-atx-case-black-cc-9011200-ww' },
+  { id: 'asus-prime-ap201', name: 'ASUS Prime AP201', supports: ['Micro-ATX'], gpu: 338, cooler: 170, psu: 180, radiators: [120, 140, 240, 280], note: 'Kompakt kasa · Micro-ATX / Mini-ITX', url: 'https://www.asus.com/us/motherboards-components/cases/prime/asus-prime-ap201-microatx-case/techspec/' },
+  { id: 'cooler-master-q300l', name: 'Cooler Master MasterBox Q300L', supports: ['Micro-ATX'], gpu: 360, cooler: 159, psu: 160, radiators: [120, 240], note: 'Mini tower · Micro-ATX / Mini-ITX', url: 'https://www.coolermaster.com/en-us/products/masterbox-q300l.html' }
+];
+
+const cpuCoolers = [
+  { id: 'bequiet-pure-rock-3-black', name: 'be quiet! PURE ROCK 3 Black', type: 'Hava soğutma', height: 154, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '154 mm · 190 W TDP · 120 mm fan', url: 'https://www.bequiet.com/en/cpucooler/5591' },
+  { id: 'arctic-liquid-freezer-iii-pro-240', name: 'ARCTIC Liquid Freezer III Pro 240', type: 'Sıvı soğutma', radiator: 240, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '240 mm radyatör · 38 mm radyatör kalınlığı', url: 'https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A' },
+  { id: 'nzxt-kraken-plus-240', name: 'NZXT Kraken Plus 240', type: 'Sıvı soğutma', radiator: 240, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '240 mm radyatör · LCD ekran', url: 'https://nzxt.com/products/kraken-plus-240' }
 ];
 
 const powerSupplies = [
@@ -107,6 +113,7 @@ const ramStep = document.getElementById('ramStep');
 const gpuStep = document.getElementById('gpuStep');
 const storageStep = document.getElementById('storageStep');
 const caseStep = document.getElementById('caseStep');
+const coolerStep = document.getElementById('coolerStep');
 const psuStep = document.getElementById('psuStep');
 const systemSummaryStep = document.getElementById('systemSummaryStep');
 const familyChoices = document.getElementById('familyChoices');
@@ -116,6 +123,8 @@ const ramChoices = document.getElementById('ramChoices');
 const gpuChoices = document.getElementById('gpuChoices');
 const storageChoices = document.getElementById('storageChoices');
 const caseChoices = document.getElementById('caseChoices');
+const coolerChoices = document.getElementById('coolerChoices');
+const coolerSearch = document.getElementById('coolerSearch');
 const psuChoices = document.getElementById('psuChoices');
 const modelSearch = document.getElementById('modelSearch');
 const motherboardSearch = document.getElementById('motherboardSearch');
@@ -128,7 +137,7 @@ const message = document.getElementById('builderMessage');
 const systemIds = ['system-1', 'system-2', 'system-3'];
 const systemTabs = document.getElementById('systemTabs');
 function emptySelection() {
-  return { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '', psu: '' };
+  return { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '', cooler: '', psu: '' };
 }
 function normalizeSelection(value) {
   return value && typeof value === 'object' && !Array.isArray(value) ? { ...emptySelection(), ...value } : emptySelection();
@@ -139,7 +148,7 @@ let selection = emptySelection();
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
-  if (saved?.version === 2 && saved.systems && typeof saved.systems === 'object') {
+  if ((saved?.version === 2 || saved?.version === 3) && saved.systems && typeof saved.systems === 'object') {
     activeSystemId = systemIds.includes(saved.activeSystemId) ? saved.activeSystemId : 'system-1';
     savedSystems = Object.fromEntries(systemIds.map(id => [id, saved.systems[id] ? normalizeSelection(saved.systems[id]) : null]));
     selection = normalizeSelection(savedSystems[activeSystemId]);
@@ -148,6 +157,113 @@ try {
     savedSystems['system-1'] = { ...selection };
   }
 } catch { /* Continue with an empty build if local storage is unavailable. */ }
+
+let currentStorageKey = storageKey;
+let syncUserId = '';
+let syncClient = null;
+let syncReady = false;
+let syncLoading = false;
+let syncTimer = 0;
+let slotUpdatedAt = { 'system-1': 0, 'system-2': 0, 'system-3': 0 };
+let cloudSyncStatus = document.getElementById('cloudSyncStatus');
+function readLocalState(key) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || '{}');
+    if ((saved?.version === 2 || saved?.version === 3) && saved.systems && typeof saved.systems === 'object') {
+      return { activeSystemId: systemIds.includes(saved.activeSystemId) ? saved.activeSystemId : 'system-1', systems: Object.fromEntries(systemIds.map(id => [id, saved.systems[id] ? normalizeSelection(saved.systems[id]) : null])), timestamps: saved.timestamps || {} };
+    }
+  } catch { /* Ignore invalid local data. */ }
+  return { activeSystemId: 'system-1', systems: { ...savedSystems }, timestamps: {} };
+}
+function setCloudStatus(text, kind = '') {
+  if (!cloudSyncStatus) return;
+  cloudSyncStatus.textContent = text;
+  cloudSyncStatus.dataset.kind = kind;
+}
+function persistLocal() {
+  try { localStorage.setItem(currentStorageKey, JSON.stringify({ version: 3, activeSystemId, systems: savedSystems, timestamps: slotUpdatedAt })); } catch { /* Keep current session usable. */ }
+}
+async function flushCloud() {
+  if (!syncReady || !syncClient || !syncUserId) return;
+  setCloudStatus('Hesabına kaydediliyor…');
+  try {
+    for (const id of systemIds) {
+      const slot = Number(id.slice(-1));
+      const payload = savedSystems[id];
+      if (!payload) {
+        const { error } = await syncClient.from('customer_system_builds').delete().eq('slot', slot);
+        if (error) throw error;
+        continue;
+      }
+      const { error } = await syncClient.from('customer_system_builds').upsert({ user_id: syncUserId, slot, payload, updated_at: new Date(slotUpdatedAt[id] || Date.now()).toISOString() }, { onConflict: 'user_id,slot' });
+      if (error) throw error;
+    }
+    setCloudStatus('Taslakların hesabınla eşitlendi.', 'success');
+  } catch (error) {
+    console.warn('Sistem taslakları buluta eşitlenemedi:', error);
+    setCloudStatus('Şimdilik bu tarayıcıya kaydediliyor. Bulut eşitlemesi için veritabanı güncellemesi gerekli.', 'error');
+  }
+}
+function queueCloudSave() {
+  if (!syncReady) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(flushCloud, 700);
+}
+async function activateAccountSync(session) {
+  const userId = session?.user?.id || '';
+  if (!userId) {
+    syncReady = false; syncLoading = false; syncUserId = ''; syncClient = null; currentStorageKey = storageKey;
+    const guestState = readLocalState(storageKey);
+    savedSystems = guestState.systems; slotUpdatedAt = { 'system-1': 0, 'system-2': 0, 'system-3': 0 };
+    activeSystemId = guestState.activeSystemId; selection = normalizeSelection(savedSystems[activeSystemId]);
+    persistLocal(); updateStage(); setCloudStatus('Bu tarayıcıya kaydediliyor. Hesabınla eşitlemek için giriş yap.', 'info');
+    return;
+  }
+  if (syncUserId === userId && (syncReady || syncLoading)) return;
+  syncReady = false; syncLoading = true; syncUserId = userId; syncClient = window.supabase.createClient((window.SUPABASE_CONFIG || {}).url, (window.SUPABASE_CONFIG || {}).publishableKey);
+  currentStorageKey = `${storageKey}-user-${userId}`;
+  const userState = readLocalState(currentStorageKey);
+  const guestState = readLocalState(storageKey);
+  activeSystemId = userState.activeSystemId;
+  savedSystems = userState.systems;
+  slotUpdatedAt = Object.fromEntries(systemIds.map(id => [id, Number(userState.timestamps[id] || 0)]));
+  selection = normalizeSelection(savedSystems[activeSystemId]);
+  setCloudStatus('Hesap taslakları yükleniyor…');
+  try {
+    const { data, error } = await syncClient.from('customer_system_builds').select('slot,payload,updated_at').order('slot');
+    if (error) throw error;
+    for (const row of data || []) {
+      const id = `system-${row.slot}`;
+      if (!systemIds.includes(id)) continue;
+      const remoteTime = Date.parse(row.updated_at) || 0;
+      const localTime = slotUpdatedAt[id] || 0;
+      if (!savedSystems[id] || remoteTime >= localTime) {
+        savedSystems[id] = normalizeSelection(row.payload);
+        slotUpdatedAt[id] = remoteTime;
+      }
+    }
+    for (const id of systemIds) {
+      if (!savedSystems[id] && guestState.systems[id]) {
+        savedSystems[id] = normalizeSelection(guestState.systems[id]);
+        slotUpdatedAt[id] = Date.now();
+      }
+    }
+    if (!savedSystems[activeSystemId]) activeSystemId = systemIds.find(id => savedSystems[id]) || 'system-1';
+    selection = normalizeSelection(savedSystems[activeSystemId]);
+    syncReady = true; syncLoading = false; persistLocal(); renderSystemTabs(); updateStage();
+    queueCloudSave();
+  } catch (error) {
+    console.warn('Sistem taslakları buluttan alınamadı:', error);
+    syncReady = false; syncLoading = false;
+    setCloudStatus('Bulut eşitlemesi henüz hazır değil; taslakların bu tarayıcıda korunuyor.', 'error');
+  }
+}
+const accountConfig = window.SUPABASE_CONFIG || {};
+if (window.supabase?.createClient && accountConfig.url && accountConfig.publishableKey) {
+  syncClient = window.supabase.createClient(accountConfig.url, accountConfig.publishableKey);
+  syncClient.auth.getSession().then(({ data }) => activateAccountSync(data?.session)).catch(() => setCloudStatus('Bu tarayıcıya kaydediliyor. Hesap bağlantısı kurulamadı.', 'info'));
+  syncClient.auth.onAuthStateChange((_event, session) => { setTimeout(() => activateAccountSync(session), 0); });
+} else setCloudStatus('Bu tarayıcıya kaydediliyor.', 'info');
 
 function getFamily() {
   return (processorFamilies[selection.brand] || []).find(family => family.id === selection.family) || null;
@@ -176,6 +292,13 @@ function getCase() {
 function getGraphicsCard() {
   return (graphicsCards[selection.gpuBrand] || []).find(item => item.id === selection.gpu) || null;
 }
+function getCpuCooler() {
+  const family = getFamily();
+  const selectedCase = getCase();
+  const cooler = cpuCoolers.find(item => item.id === selection.cooler && family && item.sockets.includes(family.socket) && selectedCase && (item.radiator ? selectedCase.radiators.includes(item.radiator) : item.height <= selectedCase.cooler)) || null;
+  if (selection.cooler && !cooler) selection.cooler = '';
+  return cooler;
+}
 function getPowerSupply() {
   const selectedCase = getCase();
   const gpu = getGraphicsCard();
@@ -190,15 +313,20 @@ function modelLabel(family, model) {
     : `AMD ${family.name} ${model}`;
 }
 function saveSelection() {
-  savedSystems[activeSystemId] = { ...selection };
-  try { localStorage.setItem(storageKey, JSON.stringify({ version: 2, activeSystemId, systems: savedSystems })); } catch { /* The current selection still works for this visit. */ }
+  const previous = savedSystems[activeSystemId];
+  const next = { ...selection };
+  const changed = JSON.stringify(previous || null) !== JSON.stringify(next);
+  savedSystems[activeSystemId] = next;
+  if (changed) slotUpdatedAt[activeSystemId] = Date.now();
+  persistLocal();
   renderSystemTabs();
+  if (changed) queueCloudSave();
 }
 function renderSystemTabs() {
   if (!systemTabs) return;
   systemTabs.replaceChildren(...systemIds.map((id, index) => {
     const system = id === activeSystemId ? selection : savedSystems[id];
-    const filled = Boolean(system && (system.brand || system.family || system.model || system.motherboard || system.ram || system.gpu || system.storage || system.pcCase || system.psu));
+    const filled = Boolean(system && (system.brand || system.family || system.model || system.motherboard || system.ram || system.gpu || system.storage || system.pcCase || system.cooler || system.psu));
     const complete = Boolean(system?.psu);
     const button = document.createElement('button');
     button.type = 'button';
@@ -232,23 +360,25 @@ function showStage(stage) {
   gpuStep.hidden = stage !== 'gpu';
   storageStep.hidden = stage !== 'storage';
   caseStep.hidden = stage !== 'case';
+  coolerStep.hidden = stage !== 'cooler';
   psuStep.hidden = stage !== 'psu';
   systemSummaryStep.hidden = stage !== 'summary';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : stage === 'case' ? 'Kasana karar ver' : stage === 'psu' ? 'Güç kaynağını seç' : 'Sistem özetin';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : stage === 'case' ? 'Kasana karar ver' : stage === 'cooler' ? 'İşlemci soğutucunu seç' : stage === 'psu' ? 'Güç kaynağını seç' : 'Sistem özetin';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : stage === 'case' ? 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.' : stage === 'psu' ? 'Ekran kartının güç gereksinimini ve kasanın PSU boşluğunu karşılayan ürünleri seç.' : 'Bileşenlerini, ön uyumluluk sonuçlarını ve kontrol edilmesi gereken noktaları incele.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : stage === 'case' ? 'ADIM 6 · KASA' : stage === 'psu' ? 'ADIM 7 · GÜÇ KAYNAĞI' : 'TAMAMLANDI · SİSTEM ÖZETİ';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : stage === 'case' ? 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.' : stage === 'cooler' ? 'İşlemci soketin ve kasanın ölçülerine uyan soğutucuları karşılaştır.' : stage === 'psu' ? 'Ekran kartının güç gereksinimini ve kasanın PSU boşluğunu karşılayan ürünleri seç.' : 'Bileşenlerini, ön uyumluluk sonuçlarını ve kontrol edilmesi gereken noktaları incele.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : stage === 'case' ? 'ADIM 6 · KASA' : stage === 'cooler' ? 'ADIM 7 · İŞLEMCİ SOĞUTUCU' : stage === 'psu' ? 'ADIM 8 · GÜÇ KAYNAĞI' : 'TAMAMLANDI · SİSTEM ÖZETİ';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
   const ramButton = document.getElementById('ramStepButton');
   const gpuButton = document.getElementById('gpuStepButton');
   const storageButton = document.getElementById('storageStepButton');
   const caseButton = document.getElementById('caseStepButton');
+  const coolerButton = document.getElementById('coolerStepButton');
   const psuButton = document.getElementById('psuStepButton');
   const cpuCurrent = ['brand', 'family', 'model'].includes(stage);
   const boardCurrent = stage === 'motherboard';
@@ -256,6 +386,7 @@ function showStage(stage) {
   const gpuCurrent = stage === 'gpu';
   const storageCurrent = stage === 'storage';
   const caseCurrent = stage === 'case';
+  const coolerCurrent = stage === 'cooler';
   const psuCurrent = stage === 'psu';
   cpuButton.classList.toggle('is-current', cpuCurrent);
   boardButton.classList.toggle('is-current', boardCurrent);
@@ -263,6 +394,7 @@ function showStage(stage) {
   gpuButton.classList.toggle('is-current', gpuCurrent);
   storageButton.classList.toggle('is-current', storageCurrent);
   caseButton.classList.toggle('is-current', caseCurrent);
+  coolerButton.classList.toggle('is-current', coolerCurrent);
   psuButton.classList.toggle('is-current', psuCurrent);
   if (cpuCurrent) cpuButton.setAttribute('aria-current', 'step'); else cpuButton.removeAttribute('aria-current');
   if (boardCurrent) boardButton.setAttribute('aria-current', 'step'); else boardButton.removeAttribute('aria-current');
@@ -270,6 +402,7 @@ function showStage(stage) {
   if (gpuCurrent) gpuButton.setAttribute('aria-current', 'step'); else gpuButton.removeAttribute('aria-current');
   if (storageCurrent) storageButton.setAttribute('aria-current', 'step'); else storageButton.removeAttribute('aria-current');
   if (caseCurrent) caseButton.setAttribute('aria-current', 'step'); else caseButton.removeAttribute('aria-current');
+  if (coolerCurrent) coolerButton.setAttribute('aria-current', 'step'); else coolerButton.removeAttribute('aria-current');
   if (psuCurrent) psuButton.setAttribute('aria-current', 'step'); else psuButton.removeAttribute('aria-current');
 }
 function updateSummary() {
@@ -339,23 +472,35 @@ function updateSummary() {
   document.getElementById('summaryCase').textContent = selectedCase ? selectedCase.name : 'Sonraki adım';
   document.getElementById('summaryCaseDetail').textContent = selectedCase ? `${board.form} · ekran kartı boşluğu ${selectedCase.gpu} mm` : 'Depolamayı seç';
   document.getElementById('editCase').hidden = !selectedCase;
+  const cooler = getCpuCooler();
+  const coolerStepButton = document.getElementById('coolerStepButton');
+  coolerStepButton.disabled = !selectedCase || !hasModel;
+  coolerStepButton.classList.toggle('is-complete', Boolean(cooler));
+  coolerStepButton.classList.toggle('is-next', !selectedCase);
+  document.getElementById('coolerStepStatus').textContent = cooler ? cooler.name : selectedCase && family ? `${family.socket} uyumlu soğutucu seç` : 'Kasadan sonra';
+  document.getElementById('coolerStepCheck').textContent = cooler ? '✓' : selectedCase && family ? '○' : '—';
+  document.getElementById('coolerCpuLabel').textContent = family && selectedCase ? `${family.socket} · ${selectedCase.name} · ${selectedCase.cooler} mm / ${selectedCase.radiators.join(', ')} mm radyatör` : 'İşlemci ve kasa seçilmedi';
+  document.getElementById('coolerCount').textContent = family && selectedCase ? `${family.socket} uyumlu · kasanın ölçülerine göre filtreleniyor` : 'İşlemci ve kasa seçilmelidir';
+  document.getElementById('summaryCooler').textContent = cooler ? cooler.name : 'Sonraki adım';
+  document.getElementById('summaryCoolerDetail').textContent = cooler ? `${cooler.type} · ${cooler.spec}` : 'Kasayı seç';
+  document.getElementById('editCooler').hidden = !cooler;
   const psuStepButton = document.getElementById('psuStepButton');
-  psuStepButton.disabled = !selectedCase || !gpu;
+  psuStepButton.disabled = !selectedCase || !gpu || !cooler;
   psuStepButton.classList.toggle('is-complete', Boolean(psu));
-  psuStepButton.classList.toggle('is-next', !selectedCase);
-  document.getElementById('psuStepStatus').textContent = psu ? `${psu.watts} W · ${psu.name.split(' ')[0]}` : gpu && selectedCase ? `${gpu.psuMin} W ve üzeri` : 'Kasadan sonra';
-  document.getElementById('psuStepCheck').textContent = psu ? '✓' : gpu && selectedCase ? '○' : '—';
+  psuStepButton.classList.toggle('is-next', !selectedCase || !cooler);
+  document.getElementById('psuStepStatus').textContent = psu ? `${psu.watts} W · ${psu.name.split(' ')[0]}` : gpu && selectedCase && cooler ? `${gpu.psuMin} W ve üzeri` : 'Soğutucudan sonra';
+  document.getElementById('psuStepCheck').textContent = psu ? '✓' : gpu && selectedCase && cooler ? '○' : '—';
   document.getElementById('psuGpuLabel').textContent = gpu ? `${gpu.name} · min. ${gpu.psuMin} W` : 'Ekran kartı seçilmedi';
-  document.getElementById('psuCount').textContent = gpu && selectedCase ? `${gpu.psuMin} W ve üzeri · kasa sınırı ${selectedCase.psu} mm` : 'Ekran kartı ve kasa seçilmelidir';
+  document.getElementById('psuCount').textContent = gpu && selectedCase && cooler ? `${gpu.psuMin} W ve üzeri · kasa sınırı ${selectedCase.psu} mm` : 'Ekran kartı ve kasa seçilmelidir';
   document.getElementById('summaryPsu').textContent = psu ? `${psu.name} · ${psu.watts} W` : 'Sonraki adım';
   document.getElementById('summaryPsuDetail').textContent = psu ? `${psu.spec} · ${psu.length} mm` : 'Kasayı seç';
   document.getElementById('editPsu').hidden = !psu;
-  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage)) + Number(Boolean(selectedCase)) + Number(Boolean(psu));
-  document.getElementById('progressCount').innerHTML = `${completed} <small>/ 7</small>`;
-  document.getElementById('stepCount').textContent = `${completed} / 7`;
-  document.getElementById('summaryProgress').textContent = `${completed} / 7`;
-  document.getElementById('progressCaption').textContent = psu ? 'Temel sistem parçaları seçildi · sistemin hazır' : selectedCase ? 'Kasa seçildi · güç kaynağı sırada' : storage ? 'Depolama seçildi · anakartına uygun kasa seç' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
-  document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
+  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage)) + Number(Boolean(selectedCase)) + Number(Boolean(cooler)) + Number(Boolean(psu));
+  document.getElementById('progressCount').innerHTML = `${completed} <small>/ 8</small>`;
+  document.getElementById('stepCount').textContent = `${completed} / 8`;
+  document.getElementById('summaryProgress').textContent = `${completed} / 8`;
+  document.getElementById('progressCaption').textContent = psu ? 'Temel sistem parçaları seçildi · sistemin hazır' : cooler ? 'Soğutucu seçildi · güç kaynağı sırada' : selectedCase ? 'Kasa seçildi · işlemci soğutucu sırada' : storage ? 'Depolama seçildi · anakartına uygun kasa seç' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
+  document.getElementById('progressBar').style.width = `${completed / 8 * 100}%`;
   saveSelection();
 }
 function renderSystemSummary() {
@@ -365,6 +510,7 @@ function renderSystemSummary() {
   const gpu = getGraphicsCard();
   const storage = (storageProducts[selection.storageType] || []).find(item => item.id === selection.storage) || null;
   const selectedCase = getCase();
+  const cooler = getCpuCooler();
   const psu = getPowerSupply();
   const rows = [
     ['cpu', 'İşlemci', document.getElementById('summaryCpu').textContent, document.getElementById('summaryCpuDetail').textContent],
@@ -373,6 +519,7 @@ function renderSystemSummary() {
     ['gpu', 'Ekran kartı', gpu?.name || 'Seçim gerekli', gpu ? `${gpu.series} · sistem güç önerisi ${gpu.psuMin} W` : ''],
     ['storage', 'Depolama', storage?.name || 'Seçim gerekli', storage ? `${storage.capacity} · ${storage.spec} · ${storage.code}` : ''],
     ['case', 'Kasa', selectedCase?.name || 'Seçim gerekli', selectedCase ? `${board.form} · GPU ${selectedCase.gpu} mm · CPU soğutucu ${selectedCase.cooler} mm · PSU ${selectedCase.psu} mm` : ''],
+    ['cooler', 'İşlemci soğutucu', cooler?.name || 'Seçim gerekli', cooler ? `${cooler.type} · ${cooler.spec} · ${family.socket}` : ''],
     ['psu', 'Güç kaynağı', psu?.name || 'Seçim gerekli', psu ? `${psu.watts} W · ${psu.spec} · uzunluk ${psu.length} mm` : '']
   ];
   const fullSummary = document.getElementById('fullSystemSummary');
@@ -392,12 +539,16 @@ function renderSystemSummary() {
   const socketOk = Boolean(family && board && family.socket === board.socket);
   const ramOk = Boolean(board && ram && board.memory === (ram.id.includes('ddr4') ? 'DDR4' : 'DDR5'));
   const boardCaseOk = Boolean(board && selectedCase && selectedCase.supports.includes(board.form));
+  const coolerSocketOk = Boolean(family && cooler && cooler.sockets.includes(family.socket));
+  const coolerCaseOk = Boolean(selectedCase && cooler && (cooler.radiator ? selectedCase.radiators.includes(cooler.radiator) : cooler.height <= selectedCase.cooler));
   const gpuPowerOk = Boolean(gpu && psu && psu.watts >= gpu.psuMin);
   const psuSizeOk = Boolean(selectedCase && psu && psu.length <= selectedCase.psu);
   const checks = [
     [socketOk, 'İşlemci ve anakart soketi', socketOk ? `${family.socket} soketi eşleşiyor.` : 'Soket eşleşmesini kontrol et.'],
     [ramOk, 'Anakart ve bellek türü', ramOk ? `${board.memory} bellek anakartla eşleşiyor.` : 'Anakartın desteklediği DDR türünü doğrula.'],
     [boardCaseOk, 'Anakart ve kasa boyutu', boardCaseOk ? `${board.form} anakart seçilen kasada destekleniyor.` : 'Kasa anakart form faktörünü desteklemiyor.'],
+    [coolerSocketOk, 'İşlemci ve soğutucu soketi', coolerSocketOk ? `${family.socket} soketi soğutucuyla eşleşiyor.` : 'İşlemci soketi uyumluluğunu doğrula.'],
+    [coolerCaseOk, 'Soğutucu ve kasa boşluğu', coolerCaseOk ? (cooler.radiator ? `${cooler.radiator} mm radyatör kasa listesinde destekleniyor.` : `${cooler.height} mm soğutucu, ${selectedCase.cooler} mm sınırına uyuyor.`) : 'Kasanın radyatör veya soğutucu sınırını kontrol et.'],
     [gpuPowerOk, 'Ekran kartı ve güç kapasitesi', gpuPowerOk ? `${psu.watts} W güç kaynağı, ${gpu.psuMin} W referans önerisini karşılıyor.` : 'Güç kaynağının watt değerini gözden geçir.'],
     [psuSizeOk, 'Güç kaynağı ve kasa boşluğu', psuSizeOk ? `${psu.length} mm PSU, kasanın ${selectedCase.psu} mm sınırına uyuyor.` : 'PSU uzunluğu seçilen kasaya uygun değil.'],
     [null, 'Ekran kartının fiziksel ölçüsü', 'Marka/model kartına göre uzunluk değişebilir; satın alacağın kartı kasa sınırıyla karşılaştır.'],
@@ -585,6 +736,23 @@ function renderCases() {
   }));
   document.getElementById('noCases').hidden = matches.length > 0;
 }
+function renderCpuCoolers() {
+  const family = getFamily(); const selectedCase = getCase();
+  const compatible = family && selectedCase ? cpuCoolers.filter(item => item.sockets.includes(family.socket) && (item.radiator ? selectedCase.radiators.includes(item.radiator) : item.height <= selectedCase.cooler)) : [];
+  const query = coolerSearch.value.trim().toLocaleLowerCase('tr-TR');
+  const matches = compatible.filter(item => `${item.name} ${item.type} ${item.spec}`.toLocaleLowerCase('tr-TR').includes(query));
+  coolerChoices.replaceChildren(...matches.map(item => {
+    const card = document.createElement('article'); card.className = 'cooler-card';
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'cooler-choice'; button.dataset.cooler = item.id; button.setAttribute('aria-pressed', String(selection.cooler === item.id));
+    const name = document.createElement('strong'); name.textContent = item.name;
+    const type = document.createElement('span'); type.className = 'cooler-type'; type.textContent = item.type;
+    const spec = document.createElement('small'); spec.textContent = `${item.spec} · ${family.socket}`;
+    button.append(name, type, spec);
+    const source = document.createElement('a'); source.className = 'board-source'; source.href = item.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗';
+    card.append(button, source); return card;
+  }));
+  document.getElementById('noCoolers').hidden = matches.length > 0;
+}
 function renderPowerSupplies() {
   const gpu = getGraphicsCard();
   const selectedCase = getCase();
@@ -635,6 +803,9 @@ function updateStage() {
   showStage('case');
   renderCases();
   if (!selection.pcCase) return;
+  showStage('cooler');
+  renderCpuCoolers();
+  if (!selection.cooler) return;
   showStage('psu');
   renderPowerSupplies();
   if (!selection.psu) return;
@@ -806,13 +977,23 @@ caseChoices.addEventListener('click', event => {
 document.getElementById('editCase').addEventListener('click', () => {
   showStage('case'); renderCases();
 });
+document.getElementById('coolerStepButton').addEventListener('click', () => {
+  if (!selection.pcCase || !selection.model) return;
+  showStage('cooler'); renderCpuCoolers();
+});
+document.getElementById('backToCaseFromCooler').addEventListener('click', () => { showStage('case'); renderCases(); });
+coolerSearch.addEventListener('input', renderCpuCoolers);
+coolerChoices.addEventListener('click', event => {
+  const button = event.target.closest('[data-cooler]'); if (!button) return;
+  selection.cooler = button.dataset.cooler; updateStage();
+  message.textContent = 'Soğutucun işlemci soketi ve kasa ölçülerine göre seçildi.';
+});
+document.getElementById('editCooler').addEventListener('click', () => { showStage('cooler'); renderCpuCoolers(); });
 document.getElementById('psuStepButton').addEventListener('click', () => {
-  if (!selection.pcCase || !selection.gpu) return;
+  if (!selection.pcCase || !selection.gpu || !selection.cooler) return;
   showStage('psu'); renderPowerSupplies();
 });
-document.getElementById('backToCase').addEventListener('click', () => {
-  showStage('case'); renderCases();
-});
+document.getElementById('backToCooler').addEventListener('click', () => { showStage('cooler'); renderCpuCoolers(); });
 psuSearch.addEventListener('input', renderPowerSupplies);
 psuChoices.addEventListener('click', event => {
   const button = event.target.closest('[data-psu]');
@@ -833,7 +1014,7 @@ document.getElementById('fullSystemSummary').addEventListener('click', event => 
   if (!button) return;
   const editButtonByPart = {
     cpu: 'editCpu', motherboard: 'editMotherboard', ram: 'editRam', gpu: 'editGpu',
-    storage: 'editStorage', case: 'editCase', psu: 'editPsu'
+    storage: 'editStorage', case: 'editCase', cooler: 'editCooler', psu: 'editPsu'
   };
   document.getElementById(editButtonByPart[button.dataset.editPart])?.click();
 });
