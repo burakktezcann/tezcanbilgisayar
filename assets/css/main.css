@@ -106,6 +106,9 @@ main{overflow:hidden}.hero-wrap{padding:27px 0 18px}.hero{position:relative;disp
 .quick-category-scroll::-webkit-scrollbar{display:none}
 .quick-category-link,.quick-category-all{display:inline-flex;flex:0 0 auto;min-height:34px;align-items:center;justify-content:center;padding:0 11px;border:0;border-radius:999px;color:#46536b;background:transparent;text-decoration:none;font:inherit;font-size:.76rem;font-weight:700;white-space:nowrap;cursor:pointer;transition:color .15s,background .15s}
 .quick-category-link:hover,.quick-category-link[aria-pressed="true"]{color:#304bd0;background:#edf1ff}
+.quick-build-link{gap:8px;color:#8a4a0d;background:#fff0dc}
+.quick-build-link i{color:#e3821c;font-size:.86rem}
+.quick-build-link:hover{color:#713b08;background:#ffe4bf}
 .quick-category-toggle .fa-chevron-down{margin-left:6px;font-size:.62rem;transition:transform .15s}
 .quick-category-toggle[aria-expanded="true"] .fa-chevron-down{transform:rotate(180deg)}
 .component-quick-menu{position:absolute;top:calc(100% - 1px);left:0;z-index:1040;display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:5px;width:min(610px,calc(100vw - 40px));padding:12px;border:1px solid var(--line);border-radius:0 0 15px 15px;background:#fff;box-shadow:0 18px 34px #15213b20}
@@ -113,7 +116,7 @@ main{overflow:hidden}.hero-wrap{padding:27px 0 18px}.hero{position:relative;disp
 .component-quick-menu button:hover,.component-quick-menu button[aria-pressed="true"]{color:#304bd0;background:#edf1ff}
 .quick-category-all{gap:7px;margin-left:auto;color:var(--blue);background:#f5f7ff}
 .quick-category-all:hover{color:#304bd0;background:#edf1ff}
-#urun-kategorileri,#urunler{scroll-margin-top:145px}
+#urun-kategorileri,#urunler,#sistem-topla{scroll-margin-top:145px}
 @media(max-width:767.98px){.quick-category-scroll{min-height:44px;gap:3px;margin-inline:-2px}.quick-category-link,.quick-category-all{min-height:32px;padding:0 10px;font-size:.72rem}.quick-category-all{margin-left:3px}.component-quick-menu{grid-template-columns:repeat(2,minmax(0,1fr));width:calc(100vw - 32px);padding:9px}.component-quick-menu button{min-height:42px;padding:0 10px;font-size:.75rem}}
 
 /* Product comparison */
