@@ -611,3 +611,4 @@ strong {
   .main-nav .brand { gap: 6px; font-size: .82rem; }
   .main-nav .brand-mark { width: 34px; height: 34px; border-radius: 11px; }
 }
+.brand-mark{overflow:hidden;border:1px solid #1d4a76;background:#030a18;box-shadow:0 7px 18px #0b72c638}.brand-mark img,.build-mark img,.admin-mark img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}.build-mark,.admin-mark{overflow:hidden;border:1px solid #1d4a76;background:#030a18}.hero-brand-logo{display:block;width:min(78%,420px);max-height:94%;margin-inline:auto;object-fit:contain;border-radius:50%;filter:drop-shadow(0 18px 30px #02071070)}@media(max-width:991.98px){.hero-brand-logo{width:min(74%,380px)}}@media(max-width:767.98px){.hero-brand-logo{width:min(68vw,280px);max-height:250px}}
