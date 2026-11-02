@@ -47,23 +47,23 @@ const ramKitsByType = {
 
 const graphicsCards = {
   NVIDIA: [
-    { id: 'geforce-rtx-5090', name: 'NVIDIA GeForce RTX 5090', series: 'GeForce RTX 50 · Blackwell' },
-    { id: 'geforce-rtx-5080', name: 'NVIDIA GeForce RTX 5080', series: 'GeForce RTX 50 · Blackwell' },
-    { id: 'geforce-rtx-5070-ti', name: 'NVIDIA GeForce RTX 5070 Ti', series: 'GeForce RTX 50 · Blackwell' },
-    { id: 'geforce-rtx-5070', name: 'NVIDIA GeForce RTX 5070', series: 'GeForce RTX 50 · Blackwell' },
-    { id: 'geforce-rtx-5060-ti', name: 'NVIDIA GeForce RTX 5060 Ti', series: 'GeForce RTX 50 · Blackwell' },
-    { id: 'geforce-rtx-5060', name: 'NVIDIA GeForce RTX 5060', series: 'GeForce RTX 50 · Blackwell' },
-    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'GeForce RTX 50 · Blackwell' }
+    { id: 'geforce-rtx-5090', name: 'NVIDIA GeForce RTX 5090', series: 'GeForce RTX 50 · Blackwell', psuMin: 1000 },
+    { id: 'geforce-rtx-5080', name: 'NVIDIA GeForce RTX 5080', series: 'GeForce RTX 50 · Blackwell', psuMin: 850 },
+    { id: 'geforce-rtx-5070-ti', name: 'NVIDIA GeForce RTX 5070 Ti', series: 'GeForce RTX 50 · Blackwell', psuMin: 750 },
+    { id: 'geforce-rtx-5070', name: 'NVIDIA GeForce RTX 5070', series: 'GeForce RTX 50 · Blackwell', psuMin: 650 },
+    { id: 'geforce-rtx-5060-ti', name: 'NVIDIA GeForce RTX 5060 Ti', series: 'GeForce RTX 50 · Blackwell', psuMin: 600 },
+    { id: 'geforce-rtx-5060', name: 'NVIDIA GeForce RTX 5060', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 },
+    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 }
   ],
   AMD: [
-    { id: 'radeon-rx-9070-xt', name: 'AMD Radeon RX 9070 XT', series: 'Radeon RX 9000 · RDNA 4' },
-    { id: 'radeon-rx-9070', name: 'AMD Radeon RX 9070', series: 'Radeon RX 9000 · RDNA 4' },
-    { id: 'radeon-rx-9070-gre', name: 'AMD Radeon RX 9070 GRE', series: 'Radeon RX 9000 · RDNA 4' },
-    { id: 'radeon-rx-9060-xt', name: 'AMD Radeon RX 9060 XT', series: 'Radeon RX 9000 · RDNA 4' },
-    { id: 'radeon-rx-7900-xtx', name: 'AMD Radeon RX 7900 XTX', series: 'Radeon RX 7000 · RDNA 3' },
-    { id: 'radeon-rx-7900-xt', name: 'AMD Radeon RX 7900 XT', series: 'Radeon RX 7000 · RDNA 3' },
-    { id: 'radeon-rx-7800-xt', name: 'AMD Radeon RX 7800 XT', series: 'Radeon RX 7000 · RDNA 3' },
-    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'Radeon RX 7000 · RDNA 3' }
+    { id: 'radeon-rx-9070-xt', name: 'AMD Radeon RX 9070 XT', series: 'Radeon RX 9000 · RDNA 4', psuMin: 750 },
+    { id: 'radeon-rx-9070', name: 'AMD Radeon RX 9070', series: 'Radeon RX 9000 · RDNA 4', psuMin: 650 },
+    { id: 'radeon-rx-9070-gre', name: 'AMD Radeon RX 9070 GRE', series: 'Radeon RX 9000 · RDNA 4', psuMin: 750 },
+    { id: 'radeon-rx-9060-xt', name: 'AMD Radeon RX 9060 XT', series: 'Radeon RX 9000 · RDNA 4', psuMin: 650 },
+    { id: 'radeon-rx-7900-xtx', name: 'AMD Radeon RX 7900 XTX', series: 'Radeon RX 7000 · RDNA 3', psuMin: 800 },
+    { id: 'radeon-rx-7900-xt', name: 'AMD Radeon RX 7900 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 750 },
+    { id: 'radeon-rx-7800-xt', name: 'AMD Radeon RX 7800 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 },
+    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 }
   ]
 };
 
@@ -89,6 +89,15 @@ const pcCases = [
   { id: 'cooler-master-q300l', name: 'Cooler Master MasterBox Q300L', supports: ['Micro-ATX'], gpu: 360, cooler: 159, psu: 160, note: 'Mini tower · Micro-ATX / Mini-ITX', url: 'https://www.coolermaster.com/en-us/products/masterbox-q300l.html' }
 ];
 
+const powerSupplies = [
+  { id: 'corsair-rm650e', name: 'CORSAIR RM650e (2025)', watts: 650, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/p/psu/cp-9020302-na/rme-series-rm650e-fully-modular-low-noise-atx-power-supply-cp-9020302-na' },
+  { id: 'seasonic-focus-gx-750', name: 'Seasonic FOCUS GX-750', watts: 750, length: 140, spec: '80 PLUS Gold · tam modüler', url: 'https://seasonic.com/focus-gx/' },
+  { id: 'corsair-rm750e', name: 'CORSAIR RM750e (2025)', watts: 750, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/explorer/diy-builder/power-supply-units/corsair-rme-series-2025/' },
+  { id: 'msi-mag-a850gl', name: 'MSI MAG A850GL PCIE5', watts: 850, length: 140, spec: '80 PLUS Gold · PCIe 5.0 · tam modüler', url: 'https://www.msi.com/Power-Supply/MAG-A850GL-PCIE5/Specification' },
+  { id: 'corsair-rm850e', name: 'CORSAIR RM850e (2025)', watts: 850, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/p/psu/cp-9020336-na/rm850e-atx-3-1-low-noise-atx-power-supply-with-thermalprotect-12v-2x6-cable-cp-9020336-na' },
+  { id: 'corsair-rm1000e', name: 'CORSAIR RM1000e (2025)', watts: 1000, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/p/psu/cp-9020337-na/rm1000e-atx-3-1-low-noise-atx-power-supply-with-thermalprotect-12v-2x6-cable-cp-9020337-na' }
+];
+
 const storageKey = 'tezcan-system-builder-cpu-v1';
 const brandStep = document.getElementById('brandStep');
 const familyStep = document.getElementById('familyStep');
@@ -98,6 +107,7 @@ const ramStep = document.getElementById('ramStep');
 const gpuStep = document.getElementById('gpuStep');
 const storageStep = document.getElementById('storageStep');
 const caseStep = document.getElementById('caseStep');
+const psuStep = document.getElementById('psuStep');
 const familyChoices = document.getElementById('familyChoices');
 const modelChoices = document.getElementById('modelChoices');
 const motherboardChoices = document.getElementById('motherboardChoices');
@@ -105,14 +115,16 @@ const ramChoices = document.getElementById('ramChoices');
 const gpuChoices = document.getElementById('gpuChoices');
 const storageChoices = document.getElementById('storageChoices');
 const caseChoices = document.getElementById('caseChoices');
+const psuChoices = document.getElementById('psuChoices');
 const modelSearch = document.getElementById('modelSearch');
 const motherboardSearch = document.getElementById('motherboardSearch');
 const ramSearch = document.getElementById('ramSearch');
 const gpuSearch = document.getElementById('gpuSearch');
 const storageSearch = document.getElementById('storageSearch');
 const caseSearch = document.getElementById('caseSearch');
+const psuSearch = document.getElementById('psuSearch');
 const message = document.getElementById('builderMessage');
-let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '' };
+let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '', psu: '' };
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -143,6 +155,17 @@ function getCase() {
   if (selection.pcCase && !selectedCase) selection.pcCase = '';
   return selectedCase;
 }
+function getGraphicsCard() {
+  return (graphicsCards[selection.gpuBrand] || []).find(item => item.id === selection.gpu) || null;
+}
+function getPowerSupply() {
+  const selectedCase = getCase();
+  const gpu = getGraphicsCard();
+  const validChoices = selectedCase && gpu ? powerSupplies.filter(item => item.watts >= gpu.psuMin && item.length <= selectedCase.psu) : [];
+  const psu = validChoices.find(item => item.id === selection.psu) || null;
+  if (selection.psu && !psu) selection.psu = '';
+  return psu;
+}
 function modelLabel(family, model) {
   return selection.brand === 'intel'
     ? family.id.startsWith('ultra') ? `Intel ${family.name} ${model}` : `Intel Core ${model}`
@@ -160,39 +183,44 @@ function showStage(stage) {
   gpuStep.hidden = stage !== 'gpu';
   storageStep.hidden = stage !== 'storage';
   caseStep.hidden = stage !== 'case';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : 'Kasana karar ver';
+  psuStep.hidden = stage !== 'psu';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : stage === 'case' ? 'Kasana karar ver' : 'Güç kaynağını seç';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : 'ADIM 6 · KASA';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : stage === 'case' ? 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.' : 'Ekran kartının güç gereksinimini ve kasanın PSU boşluğunu karşılayan ürünleri seç.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : stage === 'case' ? 'ADIM 6 · KASA' : 'ADIM 7 · GÜÇ KAYNAĞI';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
   const ramButton = document.getElementById('ramStepButton');
   const gpuButton = document.getElementById('gpuStepButton');
   const storageButton = document.getElementById('storageStepButton');
   const caseButton = document.getElementById('caseStepButton');
+  const psuButton = document.getElementById('psuStepButton');
   const cpuCurrent = ['brand', 'family', 'model'].includes(stage);
   const boardCurrent = stage === 'motherboard';
   const ramCurrent = stage === 'ram';
   const gpuCurrent = stage === 'gpu';
   const storageCurrent = stage === 'storage';
   const caseCurrent = stage === 'case';
+  const psuCurrent = stage === 'psu';
   cpuButton.classList.toggle('is-current', cpuCurrent);
   boardButton.classList.toggle('is-current', boardCurrent);
   ramButton.classList.toggle('is-current', ramCurrent);
   gpuButton.classList.toggle('is-current', gpuCurrent);
   storageButton.classList.toggle('is-current', storageCurrent);
   caseButton.classList.toggle('is-current', caseCurrent);
+  psuButton.classList.toggle('is-current', psuCurrent);
   if (cpuCurrent) cpuButton.setAttribute('aria-current', 'step'); else cpuButton.removeAttribute('aria-current');
   if (boardCurrent) boardButton.setAttribute('aria-current', 'step'); else boardButton.removeAttribute('aria-current');
   if (ramCurrent) ramButton.setAttribute('aria-current', 'step'); else ramButton.removeAttribute('aria-current');
   if (gpuCurrent) gpuButton.setAttribute('aria-current', 'step'); else gpuButton.removeAttribute('aria-current');
   if (storageCurrent) storageButton.setAttribute('aria-current', 'step'); else storageButton.removeAttribute('aria-current');
   if (caseCurrent) caseButton.setAttribute('aria-current', 'step'); else caseButton.removeAttribute('aria-current');
+  if (psuCurrent) psuButton.setAttribute('aria-current', 'step'); else psuButton.removeAttribute('aria-current');
 }
 function updateSummary() {
   const family = getFamily();
@@ -201,11 +229,12 @@ function updateSummary() {
   let board = getMotherboard();
   if (board && (!hasModel || board.socket && board.socket !== family.socket)) { selection.motherboard = ''; board = null; }
   const ram = getRamKit();
-  const gpu = (graphicsCards[selection.gpuBrand] || []).find(card => card.id === selection.gpu) || null;
+  const gpu = getGraphicsCard();
   if (selection.gpu && !gpu) selection.gpu = '';
   const storage = (storageProducts[selection.storageType] || []).find(item => item.id === selection.storage) || null;
   if (selection.storage && !storage) selection.storage = '';
   const selectedCase = getCase();
+  const psu = getPowerSupply();
   document.getElementById('summaryCpu').textContent = hasModel ? modelLabel(family, selection.model) : 'Henüz seçilmedi';
   document.getElementById('summaryCpuDetail').textContent = hasModel ? family.generation : selection.brand ? `${selection.brand === 'intel' ? 'Intel' : 'AMD'} · model bekleniyor` : 'AMD veya Intel seç';
   document.getElementById('cpuStepStatus').textContent = hasModel ? modelLabel(family, selection.model) : 'Seçim bekliyor';
@@ -260,11 +289,22 @@ function updateSummary() {
   document.getElementById('summaryCase').textContent = selectedCase ? selectedCase.name : 'Sonraki adım';
   document.getElementById('summaryCaseDetail').textContent = selectedCase ? `${board.form} · ekran kartı boşluğu ${selectedCase.gpu} mm` : 'Depolamayı seç';
   document.getElementById('editCase').hidden = !selectedCase;
-  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage)) + Number(Boolean(selectedCase));
+  const psuStepButton = document.getElementById('psuStepButton');
+  psuStepButton.disabled = !selectedCase || !gpu;
+  psuStepButton.classList.toggle('is-complete', Boolean(psu));
+  psuStepButton.classList.toggle('is-next', !selectedCase);
+  document.getElementById('psuStepStatus').textContent = psu ? `${psu.watts} W · ${psu.name.split(' ')[0]}` : gpu && selectedCase ? `${gpu.psuMin} W ve üzeri` : 'Kasadan sonra';
+  document.getElementById('psuStepCheck').textContent = psu ? '✓' : gpu && selectedCase ? '○' : '—';
+  document.getElementById('psuGpuLabel').textContent = gpu ? `${gpu.name} · min. ${gpu.psuMin} W` : 'Ekran kartı seçilmedi';
+  document.getElementById('psuCount').textContent = gpu && selectedCase ? `${gpu.psuMin} W ve üzeri · kasa sınırı ${selectedCase.psu} mm` : 'Ekran kartı ve kasa seçilmelidir';
+  document.getElementById('summaryPsu').textContent = psu ? `${psu.name} · ${psu.watts} W` : 'Sonraki adım';
+  document.getElementById('summaryPsuDetail').textContent = psu ? `${psu.spec} · ${psu.length} mm` : 'Kasayı seç';
+  document.getElementById('editPsu').hidden = !psu;
+  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage)) + Number(Boolean(selectedCase)) + Number(Boolean(psu));
   document.getElementById('progressCount').innerHTML = `${completed} <small>/ 7</small>`;
   document.getElementById('stepCount').textContent = `${completed} / 7`;
   document.getElementById('summaryProgress').textContent = `${completed} / 7`;
-  document.getElementById('progressCaption').textContent = selectedCase ? 'Kasa seçildi · güç kaynağı sırada' : storage ? 'Depolama seçildi · anakartına uygun kasa seç' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
+  document.getElementById('progressCaption').textContent = psu ? 'Temel sistem parçaları seçildi · sistemin hazır' : selectedCase ? 'Kasa seçildi · güç kaynağı sırada' : storage ? 'Depolama seçildi · anakartına uygun kasa seç' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
   document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
   saveSelection();
 }
@@ -443,6 +483,33 @@ function renderCases() {
   }));
   document.getElementById('noCases').hidden = matches.length > 0;
 }
+function renderPowerSupplies() {
+  const gpu = getGraphicsCard();
+  const selectedCase = getCase();
+  if (!gpu || !selectedCase) return;
+  const compatible = powerSupplies.filter(item => item.watts >= gpu.psuMin && item.length <= selectedCase.psu);
+  document.getElementById('psuGpuLabel').textContent = `${gpu.name} · üretici önerisi en az ${gpu.psuMin} W`;
+  document.getElementById('psuCount').textContent = `${compatible.length} uygun örnek · ${gpu.psuMin} W ve üzeri · kasa PSU sınırı ${selectedCase.psu} mm`;
+  const query = psuSearch.value.trim().toLocaleLowerCase('tr-TR');
+  const matches = compatible.filter(item => `${item.name} ${item.spec} ${item.watts} W`.toLocaleLowerCase('tr-TR').includes(query));
+  psuChoices.replaceChildren(...matches.map(item => {
+    const article = document.createElement('article');
+    article.className = 'psu-card';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'psu-choice';
+    button.dataset.psu = item.id;
+    button.setAttribute('aria-pressed', String(selection.psu === item.id));
+    const name = document.createElement('strong'); name.className = 'psu-name'; name.textContent = item.name;
+    const watts = document.createElement('span'); watts.className = 'psu-watts'; watts.textContent = `${item.watts} W · ${item.length} mm uzunluk`;
+    const spec = document.createElement('span'); spec.className = 'psu-spec'; spec.textContent = item.spec;
+    button.append(name, watts, spec);
+    const source = document.createElement('a'); source.className = 'board-source'; source.href = item.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗';
+    article.append(button, source);
+    return article;
+  }));
+  document.getElementById('noPsu').hidden = matches.length > 0;
+}
 function updateStage() {
   updateSummary();
   if (!selection.brand) { showStage('brand'); return; }
@@ -465,6 +532,9 @@ function updateStage() {
   if (!selection.storage) return;
   showStage('case');
   renderCases();
+  if (!selection.pcCase) return;
+  showStage('psu');
+  renderPowerSupplies();
 }
 
 document.querySelectorAll('[data-brand]').forEach(button => button.addEventListener('click', () => {
@@ -630,5 +700,23 @@ caseChoices.addEventListener('click', event => {
 });
 document.getElementById('editCase').addEventListener('click', () => {
   showStage('case'); renderCases();
+});
+document.getElementById('psuStepButton').addEventListener('click', () => {
+  if (!selection.pcCase || !selection.gpu) return;
+  showStage('psu'); renderPowerSupplies();
+});
+document.getElementById('backToCase').addEventListener('click', () => {
+  showStage('case'); renderCases();
+});
+psuSearch.addEventListener('input', renderPowerSupplies);
+psuChoices.addEventListener('click', event => {
+  const button = event.target.closest('[data-psu]');
+  if (!button) return;
+  selection.psu = button.dataset.psu;
+  updateStage();
+  message.textContent = 'Güç kaynağı seçimin ekran kartı gereksinimine ve kasa uzunluk sınırına uyuyor.';
+});
+document.getElementById('editPsu').addEventListener('click', () => {
+  showStage('psu'); renderPowerSupplies();
 });
 updateStage();
