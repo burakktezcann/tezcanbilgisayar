@@ -20,6 +20,16 @@ let products=[];
 let pendingImageFile=null;
 let previewObjectUrl='';
 
+function showAdminPanel(name,updateHash=true){
+  const panelName=['overview','products','product-form','categories'].includes(name)?name:'overview';
+  document.querySelectorAll('[data-admin-panel]').forEach(panel=>{panel.hidden=panel.dataset.adminPanel!==panelName;});
+  document.querySelectorAll('.admin-nav [data-admin-tab]').forEach(button=>{
+    if(button.dataset.adminTab===panelName)button.setAttribute('aria-current','page');
+    else button.removeAttribute('aria-current');
+  });
+  if(updateHash&&location.hash!==`#${panelName}`)history.replaceState(null,'',`#${panelName}`);
+}
+
 function message(target,text,kind=''){
   target.textContent=text;
   target.dataset.kind=kind;
@@ -43,6 +53,7 @@ function showAdmin(user){
   loginPanel.hidden=true;
   accessDenied.hidden=true;
   adminApp.hidden=false;
+  showAdminPanel(location.hash.slice(1)||'overview',false);
   document.getElementById('adminIdentity').textContent=user.email||'Yönetici';
   loadCatalogData();
 }
@@ -254,6 +265,7 @@ function editProduct(id){
   renderBrandOptions(product.category_id);renderProductAttributes(product.category_id,product.attributes||{});
   document.getElementById('productFormTitle').textContent='Ürünü düzenle';
   document.getElementById('saveProduct').textContent='Değişiklikleri kaydet';
+  showAdminPanel('product-form');
   productForm.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function editCategory(id){
@@ -270,8 +282,16 @@ function editCategory(id){
   document.getElementById('categoryActive').checked=category.is_active;
   document.getElementById('categoryFormTitle').textContent='Kategoriyi düzenle';
   document.getElementById('saveCategory').textContent='Değişiklikleri kaydet';
+  showAdminPanel('categories');
   categoryForm.scrollIntoView({behavior:'smooth',block:'start'});
 }
+adminApp.addEventListener('click',event=>{
+  const tab=event.target.closest('[data-admin-tab]');
+  if(tab){
+    if(tab.dataset.adminTab==='product-form')resetProductForm();
+    showAdminPanel(tab.dataset.adminTab);
+  }
+});
 loginForm.addEventListener('submit',async event=>{
   event.preventDefault();
   if(!client){message(loginMessage,'Bağlantı kurulamadı. Sayfayı yenileyip tekrar dene.','error');return;}
@@ -309,8 +329,8 @@ document.getElementById('productListCategory').addEventListener('change',renderP
 document.querySelectorAll('[data-overview-filter]').forEach(card=>card.addEventListener('click',()=>{
   document.getElementById('productListStatus').value=card.dataset.overviewFilter;
   document.getElementById('productListSearch').value='';
+  showAdminPanel('products');
   renderProducts();
-  document.querySelector('.list-card').scrollIntoView({behavior:'smooth',block:'start'});
 }));
 document.getElementById('categoryName').addEventListener('input',()=>{
   if(!document.getElementById('categoryOriginalId').value)document.getElementById('categoryId').value=slugify(document.getElementById('categoryName').value);
@@ -356,7 +376,7 @@ productForm.addEventListener('submit',async event=>{
   if(result.error){if(uploadedPath)await client.storage.from('product-images').remove([uploadedPath]);message(adminMessage,'Ürün kaydedilemedi. Yetkiyi, adres kısa adını ve alanları kontrol et.','error');return;}
   const oldPath=storageObjectPath(previousImage),newPath=storageObjectPath(values.image_path);
   if(oldPath&&oldPath!==newPath)await client.storage.from('product-images').remove([oldPath]);
-  resetProductForm();await loadCatalogData();message(adminMessage,'Ürün kaydedildi.','success');
+  resetProductForm();await loadCatalogData();showAdminPanel('products');message(adminMessage,'Ürün kaydedildi.','success');
 });
 categoryForm.addEventListener('submit',async event=>{
   event.preventDefault();setBusy(categoryForm,true);message(adminMessage,'Kategori kaydediliyor…');

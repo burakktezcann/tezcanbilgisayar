@@ -31,6 +31,15 @@
     <section id="adminApp" hidden>
       <div class="session-bar"><span id="adminIdentity"></span><button class="secondary-button" id="signOut" type="button">Çıkış yap</button></div>
       <p class="form-message" id="adminMessage" role="status" aria-live="polite"></p>
+      <nav class="admin-nav" aria-label="Yönetim bölümleri">
+        <button type="button" class="admin-nav-item" data-admin-tab="overview" aria-current="page">Genel bakış</button>
+        <button type="button" class="admin-nav-item" data-admin-tab="products">Ürünler</button>
+        <button type="button" class="admin-nav-item" data-admin-tab="product-form">Ürün ekle</button>
+        <button type="button" class="admin-nav-item" data-admin-tab="categories">Kategoriler</button>
+      </nav>
+      <div class="admin-workspace">
+      <section class="admin-panel" data-admin-panel="overview">
+      <div class="panel-heading"><div><span class="eyebrow">KATALOG ÖZETİ</span><h2>Genel bakış</h2><p>Ürün durumunu görüntüle ve sık kullandığın işlemlere geç.</p></div><button class="primary-button" type="button" data-admin-tab="product-form">＋ Ürün ekle</button></div>
       <section class="inventory-overview" aria-label="Katalog özeti">
         <button class="overview-card" type="button" data-overview-filter="all"><span>Toplam ürün</span><strong id="overviewTotal">0</strong><small>Katalogdaki tüm ürünler</small></button>
         <button class="overview-card is-live" type="button" data-overview-filter="active"><span>Yayında</span><strong id="overviewActive">0</strong><small>Sitede görünen ürünler</small></button>
@@ -38,7 +47,12 @@
         <button class="overview-card is-low" type="button" data-overview-filter="low"><span>Az stok</span><strong id="overviewLow">0</strong><small>1–5 adet kalan</small></button>
         <button class="overview-card is-out" type="button" data-overview-filter="out"><span>Stokta yok</span><strong id="overviewOut">0</strong><small>Stok adedi sıfır</small></button>
       </section>
-      <div class="admin-columns">
+      <div class="admin-quick-links">
+        <button type="button" data-admin-tab="products"><strong>Ürün kataloğunu yönet</strong><span>Ürün ara, stok güncelle veya yayına al <b aria-hidden="true">→</b></span></button>
+        <button type="button" data-admin-tab="categories"><strong>Kategorileri düzenle</strong><span>Kategori bilgilerini ve görünürlüğünü ayarla <b aria-hidden="true">→</b></span></button>
+      </div>
+      </section>
+      <section class="admin-panel" data-admin-panel="product-form" hidden>
         <section class="admin-card">
           <div class="card-heading"><div><span class="eyebrow">ÜRÜN</span><h2 id="productFormTitle">Ürün ekle</h2></div><button class="text-button" id="resetProductForm" type="button">Yeni ürün</button></div>
           <form id="productForm" class="form-grid">
@@ -60,6 +74,9 @@
             <div class="field field-wide"><button class="primary-button" type="submit" id="saveProduct">Ürünü kaydet</button></div>
           </form>
         </section>
+      </section>
+      <section class="admin-panel" data-admin-panel="categories" hidden>
+        <div class="admin-columns">
         <section class="admin-card">
           <div class="card-heading"><div><span class="eyebrow">KATEGORİ</span><h2 id="categoryFormTitle">Kategori ekle</h2></div><button class="text-button" id="resetCategoryForm" type="button">Yeni kategori</button></div>
           <form id="categoryForm" class="form-grid">
@@ -75,7 +92,10 @@
             <div class="field field-wide"><button class="primary-button" type="submit" id="saveCategory">Kategoriyi kaydet</button></div>
           </form>
         </section>
+        <section class="admin-card list-card"><div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Kategoriler</h2></div><span class="list-count" id="categoryCount">0 kategori</span></div><div class="category-list" id="categoryRows"></div></section>
       </div>
+      </section>
+      <section class="admin-panel" data-admin-panel="products" hidden>
       <section class="admin-card list-card">
         <div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Ürünler</h2></div><span class="list-count" id="productCount">0 ürün</span></div>
         <div class="product-list-tools"><label for="productListSearch">Ürün ara</label><input id="productListSearch" type="search" placeholder="Ürün adı, marka veya stok kodu"><select id="productListCategory" aria-label="Kategoriye göre filtrele"><option value="all">Tüm kategoriler</option></select><select id="productListStatus" aria-label="Ürün veya stok durumuna göre filtrele"><option value="all">Tüm durumlar</option><option value="active">Yayında</option><option value="draft">Taslak</option><option value="low">Az stok (1–5)</option><option value="out">Stokta yok</option></select></div>
@@ -83,7 +103,8 @@
         <p class="form-message" id="importMessage" role="status" aria-live="polite"></p>
         <div class="table-wrap"><table><thead><tr><th>Ürün</th><th>Kategori</th><th>Fiyat</th><th>Stok · hızlı düzenle</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="productRows"></tbody></table></div><p class="empty-list" id="emptyProducts" hidden>Henüz ürün eklenmemiş.</p>
       </section>
-      <section class="admin-card list-card"><div class="card-heading"><div><span class="eyebrow">KATALOG</span><h2>Kategoriler</h2></div><span class="list-count" id="categoryCount">0 kategori</span></div><div class="category-list" id="categoryRows"></div></section>
+      </section>
+      </div>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

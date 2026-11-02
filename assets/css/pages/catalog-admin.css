@@ -19,3 +19,13 @@
 .stock-save:disabled{cursor:wait;opacity:.6}
 @media(max-width:1050px){.inventory-overview{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.inventory-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.overview-card{padding:12px}.overview-card:last-child{grid-column:1/-1}.overview-card strong{font-size:1.35rem}.stock-editor{width:100%;flex-wrap:wrap}.stock-editor input{flex:1;width:64px}.stock-save{min-height:36px}}
+.admin-nav{position:sticky;top:0;z-index:5;display:flex;gap:6px;margin:0 0 18px;padding:8px;border:1px solid var(--line);border-radius:14px;background:#ffffffed;box-shadow:0 8px 24px #1d315008;backdrop-filter:blur(12px);overflow-x:auto;scrollbar-width:thin}
+.admin-nav-item{flex:0 0 auto;min-height:40px;padding:0 15px;border:0;border-radius:9px;color:#59677f;background:transparent;font:inherit;font-size:.82rem;font-weight:750;white-space:nowrap;cursor:pointer}
+.admin-nav-item:hover{color:var(--blue);background:#f2f4ff}.admin-nav-item[aria-current="page"]{color:#304bd0;background:#edf1ff}
+.admin-workspace{min-width:0}.admin-panel[hidden]{display:none!important}.admin-panel>.admin-card{margin-bottom:0}
+.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:2px 0 16px}.panel-heading h2{margin:5px 0;font-size:1.45rem;letter-spacing:-.035em}.panel-heading p{margin:5px 0 0;color:var(--muted);font-size:.82rem;line-height:1.5}.panel-heading>.primary-button{flex:0 0 auto}
+.admin-quick-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.admin-quick-links button{display:grid;gap:7px;padding:17px;border:1px solid var(--line);border-radius:14px;color:var(--ink);background:#fff;text-align:left;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.admin-quick-links button:hover{border-color:#bcc8ff;box-shadow:0 8px 22px #1d31500d}.admin-quick-links strong{font-size:.87rem}.admin-quick-links span{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.75rem;line-height:1.5}.admin-quick-links b{color:var(--blue);font-size:1rem}
+.admin-panel>.admin-columns{align-items:start}.admin-panel[data-admin-panel="categories"]>.admin-columns>.admin-card{margin:0}
+@media(max-width:600px){.admin-nav{margin:0 -2px 14px;padding:6px}.admin-nav-item{min-height:38px;padding:0 12px;font-size:.76rem}.panel-heading{align-items:flex-start;flex-direction:column}.panel-heading>.primary-button{width:100%}.admin-quick-links{grid-template-columns:1fr}.admin-quick-links button{padding:14px}}
