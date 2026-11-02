@@ -26,7 +26,7 @@
         <ol class="build-steps">
           <li><button class="build-step is-current" id="cpuStepButton" type="button" aria-current="step"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">▦</span><span class="step-name"><strong>İşlemci</strong><small id="cpuStepStatus">Seçim bekliyor</small></span><span class="step-state" id="cpuStepCheck">○</span></button></li>
           <li><button class="build-step is-next" id="motherboardStepButton" type="button" disabled><span class="step-number">02</span><span class="step-icon" aria-hidden="true">▤</span><span class="step-name"><strong>Anakart</strong><small id="motherboardStepStatus">İşlemciden sonra</small></span><span class="step-state" id="motherboardStepCheck">—</span></button></li>
-          <li class="build-step is-next"><span class="step-number">03</span><span class="step-icon" aria-hidden="true">▥</span><span class="step-name"><strong>Bellek (RAM)</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li><button class="build-step is-next" id="ramStepButton" type="button" disabled><span class="step-number">03</span><span class="step-icon" aria-hidden="true">▥</span><span class="step-name"><strong>Bellek (RAM)</strong><small id="ramStepStatus">Anakarttan sonra</small></span><span class="step-state" id="ramStepCheck">—</span></button></li>
           <li class="build-step is-next"><span class="step-number">04</span><span class="step-icon" aria-hidden="true">▧</span><span class="step-name"><strong>Ekran kartı</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
           <li class="build-step is-next"><span class="step-number">05</span><span class="step-icon" aria-hidden="true">▰</span><span class="step-name"><strong>Depolama</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
           <li class="build-step is-next"><span class="step-number">06</span><span class="step-icon" aria-hidden="true">▣</span><span class="step-name"><strong>Kasa</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
@@ -62,6 +62,14 @@
           <p class="no-models" id="noMotherboards" hidden>Bu aramayla uyumlu anakart bulunamadı.</p>
           <p class="compatibility-note"><span aria-hidden="true">ⓘ</span> Soket uyumu işlemci ailesine göre eşleştirildi. BIOS sürümü ve üretici CPU destek listesini satın almadan önce ayrıca kontrol et.</p>
         </div>
+        <div class="choice-area" id="ramStep" hidden>
+          <div class="choice-toolbar"><button class="back-choice" id="backToMotherboard" type="button">← Anakart seçimine dön</button><span class="selected-brand" id="ramTypeLabel"></span></div>
+          <div class="model-toolbar"><div><h3 class="step-prompt">Bellek kapasiteni seç</h3><p id="ramCount">Seçtiğin anakartın desteklediği bellek türü listeleniyor</p></div><label class="model-search"><span class="visually-hidden">RAM ara</span><input id="ramSearch" type="search" placeholder="Marka veya model ara…"><span aria-hidden="true">⌕</span></label></div>
+          <div class="ram-capacity-picker" role="group" aria-label="RAM kapasitesi"><button type="button" data-ram-capacity="16">16 GB</button><button type="button" data-ram-capacity="32">32 GB</button><button type="button" data-ram-capacity="64">64 GB</button><button type="button" data-ram-capacity="96">96 GB</button></div>
+          <div class="ram-grid" id="ramChoices"></div>
+          <p class="no-models" id="noRam" hidden>Bu kapasite ve aramayla eşleşen bellek bulunamadı.</p>
+          <p class="compatibility-note"><span aria-hidden="true">ⓘ</span> Frekans desteği işlemciye, anakarta ve BIOS ayarlarına göre değişebilir. Seçim öncesi anakartın bellek destek listesi kontrol edilmelidir.</p>
+        </div>
         <div class="selection-footer"><span><i aria-hidden="true">✓</i> Seçimin bu tarayıcıda otomatik saklanır.</span><a href="index.html#urun-kategorileri">Ürün kategorilerine göz at</a></div>
       </section>
 
@@ -69,7 +77,7 @@
         <div class="summary-title"><div><span class="section-eyebrow">SİSTEMİN</span><h2>Parça özeti</h2></div><span class="summary-badge" id="summaryProgress">0 / 7</span></div>
         <div class="summary-part is-selected"><span class="summary-part-icon" aria-hidden="true">▦</span><span class="summary-part-copy"><small>İŞLEMCİ</small><strong id="summaryCpu">Henüz seçilmedi</strong><small id="summaryCpuDetail">AMD veya Intel seç</small></span><button class="summary-edit" id="editCpu" type="button" hidden>Düzenle</button></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▤</span><span class="summary-part-copy"><small>ANAKART</small><strong id="summaryMotherboard">Sonraki adım</strong><small id="summaryMotherboardDetail">İşlemcini seç</small></span><button class="summary-edit" id="editMotherboard" type="button" hidden>Düzenle</button></div>
-        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▥</span><span class="summary-part-copy"><small>RAM</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▥</span><span class="summary-part-copy"><small>RAM</small><strong id="summaryRam">Sonraki adım</strong><small id="summaryRamDetail">Anakartını seç</small></span><button class="summary-edit" id="editRam" type="button" hidden>Düzenle</button></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▧</span><span class="summary-part-copy"><small>EKRAN KARTI</small><strong>Sonraki adım</strong></span></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▰</span><span class="summary-part-copy"><small>DEPOLAMA</small><strong>Sonraki adım</strong></span></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▣</span><span class="summary-part-copy"><small>KASA VE GÜÇ</small><strong>Sonraki adım</strong></span></div>
@@ -77,7 +85,7 @@
         <p class="summary-note">Bu hazırlık sürümünde ürün seçimi ve ödeme yapılmaz. Fiyat ve stok bilgileri ürün kataloğu tamamlandığında bağlanacak.</p>
       </aside>
     </div>
-    <footer class="builder-sources">İşlemci modelleri üreticilerin resmi ürün listelerinden derlenmiştir: <a href="https://www.intel.com/content/www/us/en/support/articles/000099655/processors.html" target="_blank" rel="noopener noreferrer">Intel</a> · <a href="https://www.amd.com/en/products/processors/desktops/ryzen.html" target="_blank" rel="noopener noreferrer">AMD</a>. Modelin Türkiye'deki stok durumu ayrıca doğrulanmalıdır.</footer>
+    <footer class="builder-sources">Parça model ve teknik bilgileri üretici kaynaklarından derlenmiştir: <a href="https://www.intel.com/content/www/us/en/support/articles/000099655/processors.html" target="_blank" rel="noopener noreferrer">Intel</a> · <a href="https://www.amd.com/en/products/processors/desktops/ryzen.html" target="_blank" rel="noopener noreferrer">AMD</a> · <a href="https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-32" target="_blank" rel="noopener noreferrer">Kingston</a> · <a href="https://www.corsair.com/us/en/p/memory/cmk32gx5m2e6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mt-s-c36-memory-kit-black-cmk32gx5m2e6000c36" target="_blank" rel="noopener noreferrer">CORSAIR</a>. Türkiye'deki stok ve anakart uyumluluğu ayrıca doğrulanmalıdır.</footer>
   </main>
   <script src="assets/js/pages/system-builder-page.js"></script>
 </body>

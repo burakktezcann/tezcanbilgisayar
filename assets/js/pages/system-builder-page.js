@@ -32,18 +32,34 @@ const motherboardsBySocket = {
   ]
 };
 
+const ramKitsByType = {
+  DDR4: [
+    { id: 'kingston-fury-beast-ddr4-16', name: 'Kingston FURY Beast 16GB (2×8GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 16, code: 'KF432C16BBK2/16', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F16' },
+    { id: 'kingston-fury-beast-ddr4-32', name: 'Kingston FURY Beast 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'KF432C16BBK2/32', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F32' },
+    { id: 'kingston-fury-beast-ddr4-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 64, code: 'KF432C16BBK2/64', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F64' }
+  ],
+  DDR5: [
+    { id: 'kingston-fury-beast-ddr5-32', name: 'Kingston FURY Beast 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 32, code: 'KF560C30BBEK2-32', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-32' },
+    { id: 'corsair-vengeance-ddr5-32', name: 'CORSAIR VENGEANCE 32GB (2×16GB)', spec: 'DDR5-6000 · CL36', capacity: 32, code: 'CMK32GX5M2E6000C36', url: 'https://www.corsair.com/us/en/p/memory/cmk32gx5m2e6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mt-s-c36-memory-kit-black-cmk32gx5m2e6000c36' },
+    { id: 'kingston-fury-beast-ddr5-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 64, code: 'KF560C30BBEK2-64', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-64' }
+  ]
+};
+
 const storageKey = 'tezcan-system-builder-cpu-v1';
 const brandStep = document.getElementById('brandStep');
 const familyStep = document.getElementById('familyStep');
 const modelStep = document.getElementById('modelStep');
 const motherboardStep = document.getElementById('motherboardStep');
+const ramStep = document.getElementById('ramStep');
 const familyChoices = document.getElementById('familyChoices');
 const modelChoices = document.getElementById('modelChoices');
 const motherboardChoices = document.getElementById('motherboardChoices');
+const ramChoices = document.getElementById('ramChoices');
 const modelSearch = document.getElementById('modelSearch');
 const motherboardSearch = document.getElementById('motherboardSearch');
+const ramSearch = document.getElementById('ramSearch');
 const message = document.getElementById('builderMessage');
-let selection = { brand: '', family: '', model: '', motherboard: '' };
+let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32 };
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -60,6 +76,13 @@ function getMotherboard() {
   if (selection.motherboard && !board) selection.motherboard = '';
   return board ? { ...board, socket: family.socket } : null;
 }
+function getRamKit() {
+  const board = getMotherboard();
+  const kits = board ? ramKitsByType[board.memory] || [] : [];
+  const kit = kits.find(item => item.id === selection.ram) || null;
+  if (selection.ram && !kit) selection.ram = '';
+  return kit;
+}
 function modelLabel(family, model) {
   return selection.brand === 'intel'
     ? family.id.startsWith('ultra') ? `Intel ${family.name} ${model}` : `Intel Core ${model}`
@@ -73,23 +96,28 @@ function showStage(stage) {
   familyStep.hidden = stage !== 'family';
   modelStep.hidden = stage !== 'model';
   motherboardStep.hidden = stage !== 'motherboard';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : 'Anakartını seç';
+  ramStep.hidden = stage !== 'ram';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : 'Belleğini seç';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : 'ADIM 2 · ANAKART';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : 'ADIM 3 · BELLEK (RAM)';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
+  const ramButton = document.getElementById('ramStepButton');
   const cpuCurrent = stage !== 'motherboard';
   const boardCurrent = stage === 'motherboard';
+  const ramCurrent = stage === 'ram';
   cpuButton.classList.toggle('is-current', cpuCurrent);
   boardButton.classList.toggle('is-current', boardCurrent);
+  ramButton.classList.toggle('is-current', ramCurrent);
   if (cpuCurrent) cpuButton.setAttribute('aria-current', 'step'); else cpuButton.removeAttribute('aria-current');
   if (boardCurrent) boardButton.setAttribute('aria-current', 'step'); else boardButton.removeAttribute('aria-current');
+  if (ramCurrent) ramButton.setAttribute('aria-current', 'step'); else ramButton.removeAttribute('aria-current');
 }
 function updateSummary() {
   const family = getFamily();
@@ -97,6 +125,7 @@ function updateSummary() {
   if (!hasModel) selection.model = '';
   let board = getMotherboard();
   if (board && (!hasModel || board.socket && board.socket !== family.socket)) { selection.motherboard = ''; board = null; }
+  const ram = getRamKit();
   document.getElementById('summaryCpu').textContent = hasModel ? modelLabel(family, selection.model) : 'Henüz seçilmedi';
   document.getElementById('summaryCpuDetail').textContent = hasModel ? family.generation : selection.brand ? `${selection.brand === 'intel' ? 'Intel' : 'AMD'} · model bekleniyor` : 'AMD veya Intel seç';
   document.getElementById('cpuStepStatus').textContent = hasModel ? modelLabel(family, selection.model) : 'Seçim bekliyor';
@@ -114,11 +143,20 @@ function updateSummary() {
   boardStepButton.classList.toggle('is-next', !hasModel);
   document.getElementById('motherboardStepStatus').textContent = board ? board.name : hasModel ? 'Uyumlu kart seç' : 'İşlemciden sonra';
   document.getElementById('motherboardStepCheck').textContent = board ? '✓' : hasModel ? '○' : '—';
-  const completed = Number(hasModel) + Number(Boolean(board));
+  const ramStepButton = document.getElementById('ramStepButton');
+  ramStepButton.disabled = !board;
+  ramStepButton.classList.toggle('is-complete', Boolean(ram));
+  ramStepButton.classList.toggle('is-next', !board);
+  document.getElementById('ramStepStatus').textContent = ram ? `${ram.capacity} GB · ${board.memory}` : board ? `${board.memory} seç` : 'Anakarttan sonra';
+  document.getElementById('ramStepCheck').textContent = ram ? '✓' : board ? '○' : '—';
+  document.getElementById('summaryRam').textContent = ram ? `${ram.capacity} GB · ${ram.name.split(' ').slice(0, 3).join(' ')}` : 'Sonraki adım';
+  document.getElementById('summaryRamDetail').textContent = ram ? `${board.memory} · ${ram.spec}` : board ? `${board.memory} bellek seç` : 'Anakartını seç';
+  document.getElementById('editRam').hidden = !ram;
+  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram));
   document.getElementById('progressCount').innerHTML = `${completed} <small>/ 7</small>`;
   document.getElementById('stepCount').textContent = `${completed} / 7`;
   document.getElementById('summaryProgress').textContent = `${completed} / 7`;
-  document.getElementById('progressCaption').textContent = board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
+  document.getElementById('progressCaption').textContent = ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
   document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
   saveSelection();
 }
@@ -187,6 +225,39 @@ function renderMotherboards() {
   }));
   document.getElementById('noMotherboards').hidden = boards.length > 0;
 }
+function renderRamKits() {
+  const board = getMotherboard();
+  if (!board) return;
+  const allKits = ramKitsByType[board.memory] || [];
+  const capacities = [...new Set(allKits.map(kit => kit.capacity))].sort((a, b) => a - b);
+  if (!capacities.includes(Number(selection.ramCapacity))) selection.ramCapacity = capacities.includes(32) ? 32 : capacities[0];
+  document.getElementById('ramTypeLabel').textContent = `${board.name} · ${board.memory}`;
+  document.getElementById('ramCount').textContent = `${allKits.length} örnek kit · anakart bellek türü: ${board.memory}`;
+  document.querySelectorAll('[data-ram-capacity]').forEach(button => {
+    const capacity = Number(button.dataset.ramCapacity);
+    button.hidden = !capacities.includes(capacity);
+    button.setAttribute('aria-pressed', String(capacity === Number(selection.ramCapacity)));
+  });
+  const query = ramSearch.value.trim().toLocaleLowerCase('tr-TR');
+  const kits = allKits.filter(kit => kit.capacity === Number(selection.ramCapacity) && `${kit.name} ${kit.spec} ${kit.code}`.toLocaleLowerCase('tr-TR').includes(query));
+  ramChoices.replaceChildren(...kits.map(kit => {
+    const article = document.createElement('article');
+    article.className = 'ram-card';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'ram-choice';
+    button.dataset.ram = kit.id;
+    button.setAttribute('aria-pressed', String(selection.ram === kit.id));
+    const name = document.createElement('strong'); name.textContent = kit.name;
+    const spec = document.createElement('span'); spec.className = 'ram-spec'; spec.textContent = kit.spec;
+    const code = document.createElement('small'); code.textContent = `Ürün kodu: ${kit.code}`;
+    button.append(name, spec, code);
+    const source = document.createElement('a'); source.className = 'board-source'; source.href = kit.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün sayfası ↗';
+    article.append(button, source);
+    return article;
+  }));
+  document.getElementById('noRam').hidden = kits.length > 0;
+}
 function updateStage() {
   updateSummary();
   if (!selection.brand) { showStage('brand'); return; }
@@ -197,10 +268,13 @@ function updateStage() {
   if (!selection.model) return;
   showStage('motherboard');
   renderMotherboards();
+  if (!selection.motherboard) return;
+  showStage('ram');
+  renderRamKits();
 }
 
 document.querySelectorAll('[data-brand]').forEach(button => button.addEventListener('click', () => {
-  selection = { brand: button.dataset.brand, family: '', model: '', motherboard: '' };
+  selection = { brand: button.dataset.brand, family: '', model: '', motherboard: '', ram: '', ramCapacity: 32 };
   message.textContent = '';
   updateStage();
 }));
@@ -209,7 +283,7 @@ familyChoices.addEventListener('click', event => {
   if (!button) return;
   const oldSocket = getFamily()?.socket;
   const newSocket = (processorFamilies[selection.brand] || []).find(family => family.id === button.dataset.family)?.socket;
-  if (oldSocket && newSocket !== oldSocket) selection.motherboard = '';
+  if (oldSocket && newSocket !== oldSocket) { selection.motherboard = ''; selection.ram = ''; }
   selection.family = button.dataset.family;
   selection.model = '';
   modelSearch.value = '';
@@ -225,7 +299,7 @@ modelChoices.addEventListener('click', event => {
 });
 modelSearch.addEventListener('input', renderModels);
 document.getElementById('backToBrand').addEventListener('click', () => {
-  selection = { brand: '', family: '', model: '', motherboard: '' };
+  selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32 };
   updateStage();
 });
 document.getElementById('backToFamily').addEventListener('click', () => {
@@ -239,7 +313,7 @@ document.getElementById('editCpu').addEventListener('click', () => {
   if (selection.family) renderModels();
 });
 document.getElementById('resetBuilder').addEventListener('click', () => {
-  selection = { brand: '', family: '', model: '', motherboard: '' };
+  selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32 };
   modelSearch.value = '';
   message.textContent = '';
   updateStage();
@@ -249,6 +323,10 @@ document.getElementById('motherboardStepButton').addEventListener('click', () =>
   showStage('motherboard');
   updateSummary();
   renderMotherboards();
+});
+document.getElementById('ramStepButton').addEventListener('click', () => {
+  if (!selection.motherboard) return;
+  showStage('ram'); updateSummary(); renderRamKits();
 });
 document.getElementById('cpuStepButton').addEventListener('click', () => {
   if (!selection.brand) { showStage('brand'); return; }
@@ -262,11 +340,33 @@ motherboardSearch.addEventListener('input', renderMotherboards);
 motherboardChoices.addEventListener('click', event => {
   const button = event.target.closest('[data-motherboard]');
   if (!button) return;
+  const previousBoard = getMotherboard();
+  const selectedBoard = (motherboardsBySocket[getFamily()?.socket] || []).find(board => board.id === button.dataset.motherboard);
+  if (previousBoard?.memory !== selectedBoard?.memory) selection.ram = '';
   selection.motherboard = button.dataset.motherboard;
   updateStage();
-  message.textContent = 'Anakart seçildi. Seçilen işlemci soketiyle uyumlu; bellek türünü sonraki adımda belirleyeceğiz.';
+  message.textContent = 'Anakart seçildi. Şimdi uygun bellek türü ve kit kapasitesini seçebilirsin.';
 });
 document.getElementById('editMotherboard').addEventListener('click', () => {
   showStage('motherboard'); updateSummary(); renderMotherboards();
+});
+document.getElementById('backToMotherboard').addEventListener('click', () => {
+  showStage('motherboard'); renderMotherboards();
+});
+document.querySelectorAll('[data-ram-capacity]').forEach(button => button.addEventListener('click', () => {
+  selection.ramCapacity = Number(button.dataset.ramCapacity);
+  message.textContent = '';
+  renderRamKits();
+}));
+ramSearch.addEventListener('input', renderRamKits);
+ramChoices.addEventListener('click', event => {
+  const button = event.target.closest('[data-ram]');
+  if (!button) return;
+  selection.ram = button.dataset.ram;
+  updateStage();
+  message.textContent = 'RAM seçimin kaydedildi ve sistem özetine eklendi.';
+});
+document.getElementById('editRam').addEventListener('click', () => {
+  showStage('ram'); updateSummary(); renderRamKits();
 });
 updateStage();
