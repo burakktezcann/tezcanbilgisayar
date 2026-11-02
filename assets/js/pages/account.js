@@ -9,7 +9,7 @@ const passwordUpdateForm = document.getElementById('passwordUpdateForm');
 const tabs = [...document.querySelectorAll('[data-account-tab]')];
 const panels = [...document.querySelectorAll('[data-account-panel]')];
 let client = null;
-let recoverySession = false;
+let recoverySession = new URLSearchParams(location.search).get('mode') === 'update-password';
 
 function showMessage(message, kind = '') {
   status.textContent = message;
@@ -76,10 +76,12 @@ if (!config.url || !config.publishableKey || !window.supabase?.createClient) {
   }
   client.auth.getSession().then(({ data, error }) => {
     if (error) showMessage('Hesap bilgisi alınamadı. Lütfen tekrar deneyin.', 'error');
+    if (data?.session?.user && !recoverySession) { location.replace('hesabim.html'); return; }
     showSession(data?.session?.user || null);
   }).catch(() => showMessage('Hesap bilgisi alınamadı. Bağlantını kontrol edip sayfayı yenile.', 'error'));
   client.auth.onAuthStateChange((event, session) => {
     if (event === 'PASSWORD_RECOVERY') recoverySession = true;
+    if (session?.user && !recoverySession) { location.replace('hesabim.html'); return; }
     showSession(session?.user || null);
   });
   if (new URLSearchParams(location.search).get('mode') === 'update-password') {
