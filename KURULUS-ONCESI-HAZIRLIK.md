@@ -23,7 +23,10 @@ Bu site şu anda kuruluş öncesi hazırlık aşamasındadır. Ürün satışı,
 
 - [ ] Alan adı, HTTPS, DNS ve GitHub Pages yapılandırması doğrulansın.
 - [ ] Gerçek ürün verisi gelince ürün arama, teklif listesi, mobil görünüm ve erişilebilirlik elle gözden geçirilsin.
-- [ ] Kuruluş ve içerik tamamlanınca `noindex` ayarları kaldırılıp sitemap ve arama motoru kayıtları eklensin.
+- [x] Kamuya açık sayfalarda SEO başlıkları, açıklamalar, canonical adresler, sosyal paylaşım metaverileri ve `sitemap.xml` hazırlandı.
+- [ ] Yayın sonrası Google Search Console’da alan adı doğrulanmalı, sitemap gönderilmeli ve URL Denetleme ile indeks durumu izlenmelidir. Bu adım Google hesabı ve DNS sağlayıcısında doğrulama kaydı gerektirir.
+- [ ] İşletme fiilen müşterilerle yüz yüze hizmet vermeye başladığında Google İşletme Profili uygunluğu ve gerçek işletme bilgileriyle kurulumu değerlendirilsin.
+- [x] Hesap, profil, favoriler, yönetim ve 404 sayfaları `noindex` tutuldu; ürün teklifi işaretlemesi gerçek fiyat/stok sayfaları gelene kadar eklenmedi.
 - [ ] Kullanılan telefon, e-posta, Instagram ve Supabase proje bilgilerinin işletme sahibine ait ve güncel olduğu teyit edilsin.
 - [ ] Yayın öncesi satın alma ve müşteri verisi akışları gerçek ortamda gözden geçirilsin.
 

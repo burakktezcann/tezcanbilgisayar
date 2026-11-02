@@ -1,6 +1,6 @@
 # Tezcan Bilgisayar — Site Hazırlığı
 
-Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik web sitesidir. Şu anki sürüm kuruluş öncesi tanıtım ve teknik hazırlık içindir; siteden sipariş veya ödeme alınmaz. Müşteri hesabı açma ve giriş özellikleri kullanılabilir; şirket kuruluşu tamamlandığında veri sorumlusu ve altyapı bilgileri yeniden gözden geçirilmelidir. Sayfalarda `noindex` kullanılır; kuruluş ve içerik hazırlığı bitmeden arama motorlarına açılmamalıdır.
+Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik web sitesidir. Şu anki sürüm kuruluş öncesi tanıtım ve teknik hazırlık içindir; siteden sipariş veya ödeme alınmaz. Müşteri hesabı açma ve giriş özellikleri kullanılabilir; şirket kuruluşu tamamlandığında veri sorumlusu ve altyapı bilgileri yeniden gözden geçirilmelidir. Ana sayfa, katalog, sistem toplama, teknik destek, iletişim ve gizlilik gibi kamuya açık sayfalar arama motorlarına açıktır. Hesap, favoriler, yönetim ve 404 sayfaları `noindex` kalır. Bu sayfa içerikleri kuruluş öncesi durumu açıkça belirtir; şirket bilgileri ve satış verileri kesinleşmeden adres, çalışma saati, stok veya fiyat eklenmez.
 
 ## Sade site düzeni
 
@@ -11,8 +11,17 @@ Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik
 - `kvkk-aydinlatma.html`: Hesap verilerinin işlenmesi hakkında bilgilendirme.
 - `yonetim.html`: Menüde gösterilmeyen, yetkili ürün yönetim ekranı.
 - `404.html`: Bulunmayan sayfalar.
+- `bilgisayar-rehberleri.html` ve `rehberler/`: Bilgisayar parçası seçimi ve güvenli sorun giderme içerikleri.
 
 Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlığı bilgisi ana sayfada, iletişim bilgileri tek iletişim sayfasında tutulur. Ana sayfa da tekrarlayan hizmet tanıtım kartlarından arındırıldı.
+
+## Google görünürlüğü
+
+- Kamuya açık sayfalarda özgün SEO başlıkları, açıklamalar, canonical ve sosyal paylaşım metaverileri bulunur.
+- `robots.txt` site haritasını bildirir; `sitemap.xml` yalnızca kamuya açık sayfaları listeler.
+- Hesap, profil, favoriler, yönetim ve 404 sayfaları arama sonuçlarına kapalıdır.
+- Google Search Console alan adı doğrulaması ve site haritası gönderimi yayın sonrası yapılmalıdır; Search Console hesabı ve alan adı DNS erişimi gerektirir.
+- Şirket faaliyete başlamadan adres, çalışma saati, stok/fiyat teklifi veya faal işletme profili oluşturulmaz.
 
 ## Katalog yapısı
 
