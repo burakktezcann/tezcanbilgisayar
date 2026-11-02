@@ -6,6 +6,7 @@ Bu proje, Tezcan Bilgisayar şirketi kurulmadan önce hazırlanmakta olan statik
 
 - `index.html`: Ana sayfa, ürün grupları ve arama.
 - `iletisim.html`: Telefon, e-posta ve WhatsApp iletişimi.
+- `teknikdestek.html`: Sorun türü seçimi, hazır WhatsApp mesajı ve telefonla destek bağlantısı.
 - `hesap.html` ve `hesabim.html`: Üyelik/giriş ve oturum açıldıktan sonra profil/adres yönetimi.
 - `kvkk-aydinlatma.html`: Hesap verilerinin işlenmesi hakkında bilgilendirme.
 - `yonetim.html`: Menüde gösterilmeyen, yetkili ürün yönetim ekranı.
