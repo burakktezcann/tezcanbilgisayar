@@ -2,8 +2,8 @@
 .contact-nav nav{display:flex;gap:8px}
 .contact-main{min-height:calc(100vh - 210px)}
 .contact-hero-wrap{padding:50px 0 24px}
-.contact-hero{padding:clamp(28px,5vw,55px);border-radius:24px;color:#fff;background:linear-gradient(115deg,#101b35,#1b3470)}
-.contact-hero .section-kicker{color:#9be8cf}
+.contact-hero{padding:clamp(28px,5vw,55px);border-radius:24px;color:#fff;background:linear-gradient(115deg,#071629,#1b3470)}
+.contact-hero .section-kicker{color:#73E5FF}
 .contact-hero h1{margin:0;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.05em}
 .contact-hero p{max-width:720px;margin:14px 0 0;color:#d1daeb;line-height:1.7}
 .contact-methods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-top:18px;padding-bottom:20px}
