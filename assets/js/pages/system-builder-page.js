@@ -67,6 +67,21 @@ const graphicsCards = {
   ]
 };
 
+const storageProducts = {
+  nvme: [
+    { id: 'samsung-990-evo-plus-1tb', name: 'Samsung 990 EVO Plus 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 / 5.0 x2', capacity: '1 TB', code: 'MZ-V9S1T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-evo-plus/' },
+    { id: 'samsung-990-evo-plus-2tb', name: 'Samsung 990 EVO Plus 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 / 5.0 x2', capacity: '2 TB', code: 'MZ-V9S2T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-evo-plus/' }
+  ],
+  sata: [
+    { id: 'crucial-mx500-1tb', name: 'Crucial MX500 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'CT1000MX500SSD1', url: 'https://www.crucial.com/ssd/mx500/ct1000mx500ssd1' },
+    { id: 'samsung-870-evo-1tb', name: 'Samsung 870 EVO 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'MZ-77E1T0', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/870-evo/' }
+  ],
+  hdd: [
+    { id: 'wd-blue-1tb', name: 'WD Blue 1TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 64 MB önbellek', capacity: '1 TB', code: 'WD10EZEX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' },
+    { id: 'wd-blue-2tb', name: 'WD Blue 2TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 256 MB önbellek', capacity: '2 TB', code: 'WD20EZBX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' }
+  ]
+};
+
 const storageKey = 'tezcan-system-builder-cpu-v1';
 const brandStep = document.getElementById('brandStep');
 const familyStep = document.getElementById('familyStep');
@@ -74,17 +89,20 @@ const modelStep = document.getElementById('modelStep');
 const motherboardStep = document.getElementById('motherboardStep');
 const ramStep = document.getElementById('ramStep');
 const gpuStep = document.getElementById('gpuStep');
+const storageStep = document.getElementById('storageStep');
 const familyChoices = document.getElementById('familyChoices');
 const modelChoices = document.getElementById('modelChoices');
 const motherboardChoices = document.getElementById('motherboardChoices');
 const ramChoices = document.getElementById('ramChoices');
 const gpuChoices = document.getElementById('gpuChoices');
+const storageChoices = document.getElementById('storageChoices');
 const modelSearch = document.getElementById('modelSearch');
 const motherboardSearch = document.getElementById('motherboardSearch');
 const ramSearch = document.getElementById('ramSearch');
 const gpuSearch = document.getElementById('gpuSearch');
+const storageSearch = document.getElementById('storageSearch');
 const message = document.getElementById('builderMessage');
-let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '' };
+let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '' };
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -123,31 +141,36 @@ function showStage(stage) {
   motherboardStep.hidden = stage !== 'motherboard';
   ramStep.hidden = stage !== 'ram';
   gpuStep.hidden = stage !== 'gpu';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : 'Ekran kartını seç';
+  storageStep.hidden = stage !== 'storage';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : 'Depolama seç';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : 'ADIM 4 · EKRAN KARTI';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : 'ADIM 5 · DEPOLAMA';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
   const ramButton = document.getElementById('ramStepButton');
   const gpuButton = document.getElementById('gpuStepButton');
-  const cpuCurrent = stage !== 'motherboard';
+  const storageButton = document.getElementById('storageStepButton');
+  const cpuCurrent = ['brand', 'family', 'model'].includes(stage);
   const boardCurrent = stage === 'motherboard';
   const ramCurrent = stage === 'ram';
   const gpuCurrent = stage === 'gpu';
+  const storageCurrent = stage === 'storage';
   cpuButton.classList.toggle('is-current', cpuCurrent);
   boardButton.classList.toggle('is-current', boardCurrent);
   ramButton.classList.toggle('is-current', ramCurrent);
   gpuButton.classList.toggle('is-current', gpuCurrent);
+  storageButton.classList.toggle('is-current', storageCurrent);
   if (cpuCurrent) cpuButton.setAttribute('aria-current', 'step'); else cpuButton.removeAttribute('aria-current');
   if (boardCurrent) boardButton.setAttribute('aria-current', 'step'); else boardButton.removeAttribute('aria-current');
   if (ramCurrent) ramButton.setAttribute('aria-current', 'step'); else ramButton.removeAttribute('aria-current');
   if (gpuCurrent) gpuButton.setAttribute('aria-current', 'step'); else gpuButton.removeAttribute('aria-current');
+  if (storageCurrent) storageButton.setAttribute('aria-current', 'step'); else storageButton.removeAttribute('aria-current');
 }
 function updateSummary() {
   const family = getFamily();
@@ -158,6 +181,8 @@ function updateSummary() {
   const ram = getRamKit();
   const gpu = (graphicsCards[selection.gpuBrand] || []).find(card => card.id === selection.gpu) || null;
   if (selection.gpu && !gpu) selection.gpu = '';
+  const storage = (storageProducts[selection.storageType] || []).find(item => item.id === selection.storage) || null;
+  if (selection.storage && !storage) selection.storage = '';
   document.getElementById('summaryCpu').textContent = hasModel ? modelLabel(family, selection.model) : 'Henüz seçilmedi';
   document.getElementById('summaryCpuDetail').textContent = hasModel ? family.generation : selection.brand ? `${selection.brand === 'intel' ? 'Intel' : 'AMD'} · model bekleniyor` : 'AMD veya Intel seç';
   document.getElementById('cpuStepStatus').textContent = hasModel ? modelLabel(family, selection.model) : 'Seçim bekliyor';
@@ -193,11 +218,20 @@ function updateSummary() {
   document.getElementById('summaryGpu').textContent = gpu ? gpu.name : 'Sonraki adım';
   document.getElementById('summaryGpuDetail').textContent = gpu ? gpu.series : 'RAM’ini seç';
   document.getElementById('editGpu').hidden = !gpu;
-  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu));
+  const storageStepButton = document.getElementById('storageStepButton');
+  storageStepButton.disabled = !gpu;
+  storageStepButton.classList.toggle('is-complete', Boolean(storage));
+  storageStepButton.classList.toggle('is-next', !gpu);
+  document.getElementById('storageStepStatus').textContent = storage ? `${storage.capacity} · ${storage.name.split(' ')[0]}` : gpu ? 'Tür ve model seç' : 'Ekran kartından sonra';
+  document.getElementById('storageStepCheck').textContent = storage ? '✓' : gpu ? '○' : '—';
+  document.getElementById('summaryStorage').textContent = storage ? storage.name : 'Sonraki adım';
+  document.getElementById('summaryStorageDetail').textContent = storage ? `${storage.capacity} · ${storage.spec}` : 'Ekran kartını seç';
+  document.getElementById('editStorage').hidden = !storage;
+  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage));
   document.getElementById('progressCount').innerHTML = `${completed} <small>/ 7</small>`;
   document.getElementById('stepCount').textContent = `${completed} / 7`;
   document.getElementById('summaryProgress').textContent = `${completed} / 7`;
-  document.getElementById('progressCaption').textContent = gpu ? 'İşlemci, anakart, RAM ve ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
+  document.getElementById('progressCaption').textContent = storage ? 'Depolama seçildi · kasa ve güç kaynağı sırada' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
   document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
   saveSelection();
 }
@@ -321,6 +355,33 @@ function renderGraphicsCards() {
   }));
   document.getElementById('noGpu').hidden = matches.length > 0 || !selection.gpuBrand;
 }
+function renderStorageProducts() {
+  const products = storageProducts[selection.storageType] || [];
+  document.getElementById('storageModelArea').hidden = !selection.storageType;
+  document.querySelectorAll('[data-storage-type]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.storageType === selection.storageType)));
+  const typeNames = { nvme: 'NVMe M.2 SSD', sata: 'SATA SSD', hdd: 'HDD' };
+  document.getElementById('storageTypeLabel').textContent = typeNames[selection.storageType] || 'Depolama';
+  document.getElementById('storageCount').textContent = `${products.length} örnek model · ${typeNames[selection.storageType] || 'Önce depolama türü seç'}`;
+  const query = storageSearch.value.trim().toLocaleLowerCase('tr-TR');
+  const matches = products.filter(product => `${product.name} ${product.spec} ${product.code}`.toLocaleLowerCase('tr-TR').includes(query));
+  storageChoices.replaceChildren(...matches.map(product => {
+    const article = document.createElement('article');
+    article.className = 'storage-product-entry';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'model-card';
+    button.dataset.storage = product.id;
+    button.setAttribute('aria-pressed', String(selection.storage === product.id));
+    const name = document.createElement('strong'); name.textContent = product.name;
+    const spec = document.createElement('span'); spec.textContent = product.spec;
+    const chip = document.createElement('span'); chip.className = 'model-chip'; chip.textContent = `${product.capacity} · ${product.code}`;
+    button.append(name, spec, chip);
+    const source = document.createElement('a'); source.className = 'board-source'; source.href = product.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün bilgisi ↗';
+    article.append(button, source);
+    return article;
+  }));
+  document.getElementById('noStorage').hidden = matches.length > 0 || !selection.storageType;
+}
 function updateStage() {
   updateSummary();
   if (!selection.brand) { showStage('brand'); return; }
@@ -337,6 +398,9 @@ function updateStage() {
   if (!selection.ram) return;
   showStage('gpu');
   renderGraphicsCards();
+  if (!selection.gpu) return;
+  showStage('storage');
+  renderStorageProducts();
 }
 
 document.querySelectorAll('[data-brand]').forEach(button => button.addEventListener('click', () => {
@@ -459,5 +523,30 @@ gpuChoices.addEventListener('click', event => {
 });
 document.getElementById('editGpu').addEventListener('click', () => {
   showStage('gpu'); renderGraphicsCards();
+});
+document.getElementById('storageStepButton').addEventListener('click', () => {
+  if (!selection.gpu) return;
+  showStage('storage'); renderStorageProducts();
+});
+document.getElementById('backToGpu').addEventListener('click', () => {
+  showStage('gpu'); renderGraphicsCards();
+});
+document.querySelectorAll('[data-storage-type]').forEach(button => button.addEventListener('click', () => {
+  if (selection.storageType !== button.dataset.storageType) selection.storage = '';
+  selection.storageType = button.dataset.storageType;
+  storageSearch.value = '';
+  updateSummary(); renderStorageProducts();
+  message.textContent = '';
+}));
+storageSearch.addEventListener('input', renderStorageProducts);
+storageChoices.addEventListener('click', event => {
+  const button = event.target.closest('[data-storage]');
+  if (!button) return;
+  selection.storage = button.dataset.storage;
+  updateStage();
+  message.textContent = 'Depolama seçimin kaydedildi ve sistem özetine eklendi.';
+});
+document.getElementById('editStorage').addEventListener('click', () => {
+  showStage('storage'); renderStorageProducts();
 });
 updateStage();
