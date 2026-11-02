@@ -1,0 +1,433 @@
+/* Shared layout safeguards for narrow windows and mobile screens. */
+html,
+body {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: clip;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+a,
+button,
+label,
+small,
+strong {
+  overflow-wrap: anywhere;
+}
+
+.account-shell,
+.account-intro,
+.account-card,
+.admin-shell,
+.admin-card,
+.product-info,
+.product-card,
+.category-card,
+.builder-shell,
+.builder-slot,
+.contact-card,
+.notice-card {
+  min-width: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .hero {
+    min-height: 430px;
+    padding-inline: clamp(24px, 4vw, 48px);
+  }
+
+  .hero-copy {
+    width: 58%;
+  }
+
+  .hero-art {
+    width: 42%;
+  }
+
+  .monitor {
+    right: 3%;
+    width: 76%;
+  }
+
+  .laptop {
+    right: 0;
+    width: 50%;
+  }
+
+  .floating-tag {
+    right: 0;
+    gap: 7px;
+    padding: 9px 10px;
+    font-size: .66rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .main-nav .container,
+  .main-nav .row,
+  .main-nav .row > * {
+    min-width: 0;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .section-heading > div {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .hero {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    padding: 30px 22px 18px;
+  }
+
+  .hero-copy {
+    width: 100%;
+  }
+
+  .hero-art {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: 235px;
+    margin-top: 14px;
+  }
+
+  .monitor {
+    top: 8px;
+    right: 17%;
+    width: min(66%, 300px);
+    height: 160px;
+  }
+
+  .laptop {
+    right: 5%;
+    bottom: 24px;
+    width: min(48%, 235px);
+  }
+
+  .floating-tag {
+    right: auto;
+    bottom: 14px;
+    left: 2%;
+    max-width: 52%;
+  }
+
+  .product-filter-row,
+  .contact-note {
+    min-width: 0;
+  }
+
+  .catalog-controls {
+    min-width: 0;
+  }
+
+  .catalog-controls select {
+    max-width: 100%;
+  }
+
+  .builder-intro {
+    flex-wrap: wrap;
+  }
+
+  .builder-intro > div:first-child {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .builder-progress {
+    margin-left: auto;
+  }
+
+  .compare-bar {
+    flex-wrap: wrap;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .compare-bar > span {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .container {
+    --bs-gutter-x: 1.25rem;
+  }
+
+  .announcement {
+    padding-inline: 12px;
+    line-height: 1.45;
+  }
+
+  .hero {
+    padding-inline: 18px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .hero-actions {
+    align-items: stretch;
+  }
+
+  .hero-actions a {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .hero-note {
+    line-height: 1.55;
+  }
+
+  .category-grid,
+  .product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .category-card {
+    min-height: 0;
+    padding: 16px 42px 17px 16px;
+  }
+
+  .category-card h3 {
+    margin-top: 12px;
+  }
+
+  .category-card p {
+    max-width: none;
+  }
+
+  .product-info h3,
+  .product-info p {
+    min-height: 0;
+  }
+
+  .product-card-actions button {
+    min-width: 0;
+    min-height: 42px;
+    padding: 8px 10px;
+    line-height: 1.35;
+    white-space: normal;
+  }
+
+  .catalog-controls {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .favorites-filter {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .catalog-controls select {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .compare-bar {
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 8px;
+    gap: 8px;
+    font-size: .72rem;
+  }
+
+  .compare-bar > div {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .compare-bar button {
+    min-width: 0;
+    padding-inline: 8px;
+    white-space: normal;
+  }
+
+  .contact-nav {
+    min-height: 0;
+    flex-wrap: wrap;
+    padding-block: 10px;
+  }
+
+  .contact-nav nav {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .contact-nav .nav-action {
+    min-height: 38px;
+    padding-inline: 8px;
+    font-size: .75rem;
+  }
+
+  .contact-hero {
+    padding: 24px 20px;
+  }
+
+  .contact-hero h1 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .contact-card .btn-store {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .account-shell {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .account-intro h1 {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .account-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+
+  .account-tab {
+    min-width: 0;
+    padding-inline: 5px;
+    font-size: .82rem;
+  }
+
+  .profile-section-heading,
+  .saved-address-top {
+    flex-wrap: wrap;
+  }
+
+  .profile-section-heading > div {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .profile-top-actions {
+    align-items: flex-start;
+  }
+
+  .profile-top-actions a {
+    white-space: normal;
+  }
+
+  .notice-shell {
+    width: calc(100% - 20px);
+  }
+
+  .notice-card {
+    padding: 20px 16px;
+  }
+
+  .notice-card ul {
+    padding-left: 19px;
+  }
+
+  .admin-shell {
+    width: calc(100% - 20px);
+  }
+
+  .admin-header,
+  .session-bar,
+  .card-heading {
+    flex-wrap: wrap;
+  }
+
+  .admin-brand {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .back-link {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .session-bar > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .table-wrap tbody tr {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .table-wrap tbody td,
+  .table-wrap tbody td:first-child,
+  .table-wrap tbody td:last-child {
+    grid-column: 1;
+  }
+
+  .table-wrap tbody td::before {
+    max-width: 42%;
+    white-space: normal;
+  }
+
+  .row-actions {
+    flex-wrap: wrap;
+  }
+
+  .row-actions button,
+  .category-row button {
+    min-height: 38px;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 360px) {
+  .main-nav .brand {
+    gap: 6px;
+    font-size: .82rem;
+  }
+
+  .main-nav .brand-mark {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nav-actions {
+    gap: 3px;
+  }
+
+  .main-nav .nav-action {
+    width: 34px;
+    min-height: 36px;
+    padding: 0;
+  }
+
+  .builder-shell {
+    padding-inline: 12px;
+  }
+
+  .compare-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .compare-bar > div {
+    justify-content: space-between;
+  }
+}

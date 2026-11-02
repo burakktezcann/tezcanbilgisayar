@@ -30,15 +30,17 @@ Hizmetler ve hakkımızda için ayrı sayfalar kaldırıldı; kuruluş hazırlı
 - `hesap.html` / `assets/js/pages/account.js`: Kayıt, giriş, e-posta doğrulama ve parola yenileme arayüzü.
 - `hesabim.html` / `assets/js/pages/profile.js`: Profil ve kullanıcının kendi adreslerini yönetme.
 - `yonetim.html`: Yetkili yönetici için ürün ve kategori ekranı. Yeni kullanıcı kaydı sunmaz.
-- `assets/js/pages/catalog-admin.js`: Yönetim ekranı işlemleri.
+- `assets/js/pages/catalog-admin.js`: Yönetim ekranı işlemleri, katalog/stok özeti ve listeden stok adedini hızlı güncelleme.
 - `assets/js/pages/category-attributes.js`: Kategoriye göre açılan teknik özellik alanları ve marka önerileri.
 - `KURULUS-ONCESI-HAZIRLIK.md`: İşletme, satış, kişisel veri ve teknik yayın kontrol listesi.
 
 Katalog ürününde temel alanlara ek olarak `attributes` nesnesi kategoriye özgü teknik özellikleri saklar. Bu nesnenin alanları `assets/js/pages/category-attributes.js` içinde kategoriye göre tanımlanır; örneğin RAM seçildiğinde kapasite, DDR türü, hız ve modül sayısı alanları açılır. Ürün kartında girilmiş teknik özellikler gösterilir. Marka alanı kategoriye göre bilinen markaları önerir, yeni marka yazılmasına da izin verir. Yalnızca `status: "active"` ürünler sitede görünür. Fotoğrafı yönetim panelindeki ürün formundan seçip önizleyebilir veya sürükleyip bırakabilirsin. Görseller Supabase Storage'daki `product-images` alanında saklanır; CSV ile eski `assets/products/` dosya yolları da kullanılabilir. Fiyat sıralaması katalogda gerçek fiyat bulunana kadar kapalıdır.
 
-Aktif ürünler aynı kategoride en fazla dört ürün olarak karşılaştırılabilir. Karşılaştırma, yönetimde girilen teknik özellikleri ve fiyatı yan yana gösterir; eksik özellikleri `—` ile belirtir. Seçimler tarayıcıda saklanır, katalogda artık bulunmayan ürünler sonraki yüklemede listeden çıkarılır. Bu özellik sipariş veya uyumluluk garantisi oluşturmaz.
+Aktif ürünler aynı kategoride en fazla dört ürün olarak karşılaştırılabilir. Karşılaştırma, yönetimde girilen teknik özellikleri ve fiyatı yan yana gösterir; eksik özellikleri `—` ile belirtir. Favori ürünler de kalp düğmesiyle kaydedilip `Favorilerim` filtresinde görüntülenebilir; bu seçimler tarayıcıda saklanır. Karşılaştırma ve favori seçimleri katalogda artık bulunmayan ürünleri sonraki yüklemede listeden çıkarır. Bu özellik sipariş veya uyumluluk garantisi oluşturmaz.
 
 Ana sayfadaki sistem toplama yardımcısı aktif katalog ürünlerinden parça seçtirir, işlemci/anakart soketini, anakart/RAM neslini, kasa/anakart boyutunu ve ekran kartı uzunluğunu kontrol eder. CPU ve GPU TDP değerlerinden ihtiyat paylı yaklaşık bir güç hedefi gösterir. Bu hesap üretici tavsiyesinin veya uyumluluk listesinin yerine geçmez. Sistem listesi WhatsApp üzerinden yalnızca kullanıcı düğmeye bastığında paylaşılır; sipariş oluşturmaz.
+
+Yönetim panelinde ürün, yayındaki ürün, taslak, az stok (1–5 adet) ve stokta olmayan ürün sayıları özetlenir. Özet kartlarına basarak ilgili ürün listesine geçilir. Stok adedi liste içindeki alandan değiştirilebilir; sıfır adedi geçerli, boş değer ise reddedilir.
 
 ## Katalog yönetimini kurma
 

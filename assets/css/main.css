@@ -124,6 +124,14 @@ main{overflow:hidden}.hero-wrap{padding:27px 0 18px}.hero{position:relative;disp
 .compare-table th:first-child{min-width:155px;color:#596780;font-size:.76rem}
 .compare-table tbody th{font-weight:700}
 .compare-table td{color:#172342;font-weight:650}
+.favorites-filter{display:inline-flex;min-height:38px;align-items:center;gap:7px;padding:0 11px;border:1px solid var(--line);border-radius:10px;color:#536078;background:#fff;font:inherit;font-size:.76rem;font-weight:700}
+.favorites-filter>i{color:#d94d67}.favorites-filter>span{display:grid;min-width:20px;height:20px;place-items:center;padding:0 5px;border-radius:99px;color:#536078;background:#f1f3f8;font-size:.67rem}
+.favorites-filter:hover,.favorites-filter.is-active{border-color:#f1bfd0;color:#a72e4a;background:#fff5f7}.favorites-filter.is-active>span{color:#fff;background:#d94d67}
+.favorite-product{min-height:38px;border:1px solid #f0d9df;border-radius:10px;color:#9c465b;background:#fff;font-size:.76rem;font-weight:750}
+.favorite-product:hover,.favorite-product[aria-pressed="true"]{border-color:#f1bfd0;color:#ad2949;background:#fff5f7}
+.add-to-builder{min-height:38px;border:1px solid #cbd5ff;border-radius:10px;color:#304bd0;background:#f5f7ff;font-size:.76rem;font-weight:750}
+.add-to-builder:hover{border-color:#aab8ff;background:#edf1ff}.add-to-builder:disabled{cursor:not-allowed;color:#8b96a8;border-color:#e5e8ee;background:#f5f6f8}
+@media(max-width:767.98px){.catalog-controls{gap:7px}.favorites-filter{order:0}.catalog-controls label{margin-left:auto}.catalog-controls select{margin-left:0}}
 @media(max-width:767.98px){.compare-bar{right:10px;bottom:10px;left:10px;min-height:60px;padding:9px 10px 9px 13px;font-size:.76rem}.compare-bar button{min-height:38px;padding:0 10px;font-size:.72rem}.compare-dialog{padding:18px 14px;border-radius:16px}.compare-table th,.compare-table td{padding:11px 10px}}
 
 /* Interactive PC builder */

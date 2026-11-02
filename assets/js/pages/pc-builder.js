@@ -145,6 +145,19 @@
     selection[select.dataset.builderSlot] = select.value;
     render();
   });
+  window.TezcanSystemBuilder = {
+    selectProduct(productId) {
+      const product = catalog.products.find(item => item.id === productId && item.status === 'active');
+      if (!product || !slots.some(slot => slot.category === product.categoryId)) return false;
+      if (product.stock === 0) return false;
+      const slot = slots.find(item => item.category === product.categoryId);
+      selection[slot.id] = product.id;
+      render();
+      document.getElementById(`build-${slot.id}`)?.focus({ preventScroll: true });
+      document.getElementById('sistem-topla')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return true;
+    }
+  };
   document.getElementById('clearBuild').addEventListener('click', () => { selection = {}; render(); });
   document.getElementById('shareBuild').addEventListener('click', () => {
     const build = getSelection();

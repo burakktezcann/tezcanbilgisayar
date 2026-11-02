@@ -125,12 +125,26 @@ function renderCategories(){
     actions.append(edit,toggle);row.append(details,actions);categoryRows.append(row);
   });
 }
+function renderInventoryOverview(){
+  const counts={
+    total:products.length,
+    active:products.filter(product=>product.status==='active').length,
+    draft:products.filter(product=>product.status==='draft').length,
+    low:products.filter(product=>Number.isInteger(product.stock)&&product.stock>0&&product.stock<=5).length,
+    out:products.filter(product=>product.stock===0).length
+  };
+  document.getElementById('overviewTotal').textContent=String(counts.total);
+  document.getElementById('overviewActive').textContent=String(counts.active);
+  document.getElementById('overviewDraft').textContent=String(counts.draft);
+  document.getElementById('overviewLow').textContent=String(counts.low);
+  document.getElementById('overviewOut').textContent=String(counts.out);
+}
 function renderProducts(){
   productRows.replaceChildren();
   const query=(document.getElementById('productListSearch')?.value||'').trim().toLocaleLowerCase('tr-TR');
   const status=document.getElementById('productListStatus')?.value||'all';
   const visible=products.filter(product=>{
-    const matchesStatus=status==='all'||product.status===status;
+    const matchesStatus=status==='all'||(status==='low'?(Number.isInteger(product.stock)&&product.stock>0&&product.stock<=5):status==='out'?product.stock===0:product.status===status);
     const matchesQuery=!query||[product.name,product.brand,product.model,product.sku,product.slug].some(value=>String(value||'').toLocaleLowerCase('tr-TR').includes(query));
     return matchesStatus&&matchesQuery;
   });
@@ -147,7 +161,11 @@ function renderProducts(){
     productCell.append(title,detail);
     const categoryCell=document.createElement('td');categoryCell.dataset.label='Kategori';categoryCell.textContent=categories.find(category=>category.id===product.category_id)?.name||product.category_id;
     const priceCell=document.createElement('td');priceCell.dataset.label='Fiyat';priceCell.textContent=formatPrice(product.price,product.currency);
-    const stockCell=document.createElement('td');stockCell.dataset.label='Stok';stockCell.textContent=product.stock===null?'—':String(product.stock);
+    const stockCell=document.createElement('td');stockCell.dataset.label='Stok';
+    const stockEditor=document.createElement('div');stockEditor.className='stock-editor';
+    const stockInput=document.createElement('input');stockInput.type='number';stockInput.min='0';stockInput.step='1';stockInput.inputMode='numeric';stockInput.value=product.stock===null?'':String(product.stock);stockInput.placeholder='Adet';stockInput.setAttribute('aria-label',`${product.name} stok adedi`);
+    const saveStock=document.createElement('button');saveStock.type='button';saveStock.className='stock-save';saveStock.textContent='Kaydet';saveStock.dataset.saveStock=product.id;
+    stockEditor.append(stockInput,saveStock);stockCell.append(stockEditor);
     const statusCell=document.createElement('td');
     statusCell.dataset.label='Durum';const pill=document.createElement('span');pill.className='status-pill'+(product.status==='active'?' active':'');pill.textContent=product.status==='active'?'Yayında':'Taslak';statusCell.append(pill);
     const actionCell=document.createElement('td');actionCell.dataset.label='İşlem';
@@ -157,6 +175,7 @@ function renderProducts(){
     actions.append(edit,remove);actionCell.append(actions);
     row.append(productCell,categoryCell,priceCell,stockCell,statusCell,actionCell);productRows.append(row);
   });
+  renderInventoryOverview();
 }
 async function loadCatalogData(){
   message(adminMessage,'Katalog yükleniyor…');
@@ -277,6 +296,12 @@ document.getElementById('productImageDropzone').addEventListener('drop',event=>{
 document.getElementById('removeProductImage').addEventListener('click',()=>{pendingImageFile=null;document.getElementById('productImageFile').value='';document.getElementById('productImage').value='';setImagePreview('');});
 document.getElementById('productListSearch').addEventListener('input',renderProducts);
 document.getElementById('productListStatus').addEventListener('change',renderProducts);
+document.querySelectorAll('[data-overview-filter]').forEach(card=>card.addEventListener('click',()=>{
+  document.getElementById('productListStatus').value=card.dataset.overviewFilter;
+  document.getElementById('productListSearch').value='';
+  renderProducts();
+  document.querySelector('.list-card').scrollIntoView({behavior:'smooth',block:'start'});
+}));
 document.getElementById('categoryName').addEventListener('input',()=>{
   if(!document.getElementById('categoryOriginalId').value)document.getElementById('categoryId').value=slugify(document.getElementById('categoryName').value);
 });
@@ -344,6 +369,17 @@ categoryForm.addEventListener('submit',async event=>{
   resetCategoryForm();await loadCatalogData();message(adminMessage,'Kategori kaydedildi.','success');
 });
 productRows.addEventListener('click',async event=>{
+  const saveStock=event.target.closest('[data-save-stock]');
+  if(saveStock){
+    const input=saveStock.parentElement.querySelector('input');
+    const value=Number(input.value);
+    if(input.value===''||!Number.isInteger(value)||value<0){message(adminMessage,'Stok adedi sıfır veya daha büyük tam sayı olmalı.','error');input.focus();return;}
+    const product=products.find(item=>item.id===saveStock.dataset.saveStock);if(!product)return;
+    saveStock.disabled=true;saveStock.textContent='…';
+    const {error}=await client.from('catalog_products').update({stock:value,updated_at:new Date().toISOString()}).eq('id',product.id);
+    if(error){saveStock.disabled=false;saveStock.textContent='Kaydet';message(adminMessage,'Stok güncellenemedi. Tekrar dene.','error');return;}
+    product.stock=value;renderProducts();message(adminMessage,`${product.name} stok adedi ${value} olarak güncellendi.`,'success');return;
+  }
   const edit=event.target.closest('[data-edit-product]');if(edit){editProduct(edit.dataset.editProduct);return;}
   const remove=event.target.closest('[data-delete-product]');if(!remove||!window.confirm('Bu ürünü katalogdan silmek istiyor musun?'))return;
   const product=products.find(item=>item.id===remove.dataset.deleteProduct);
