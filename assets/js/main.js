@@ -21,6 +21,7 @@ const compareBar=document.getElementById('compareBar');
 const compareDialog=document.getElementById('compareDialog');
 const compareTableWrap=document.getElementById('compareTableWrap');
 const favoritesFilter=document.getElementById('favoritesFilter');
+const headerFavoriteCount=document.getElementById('headerFavoriteCount');
 const cartKey='tezcan-offer-list';
 const compareKey='tezcan-product-comparison';
 const favoritesKey='tezcan-product-favorites';
@@ -38,6 +39,13 @@ let previousBodyOverflow='';
 let compareIds=[];
 let favoriteIds=[];
 let favoritesOnly=false;
+let currentFavoritesKey=favoritesKey;
+let favoriteUserId='';
+let favoriteSyncClient=null;
+let favoriteSyncReady=false;
+let favoriteSyncLoading=false;
+let favoriteSyncTimer=0;
+let remoteFavoriteIds=new Set();
 try {
   const saved=JSON.parse(localStorage.getItem(compareKey)||'[]');
   compareIds=Array.isArray(saved)?saved.filter(id=>typeof id==='string').slice(0,4):[];
@@ -142,12 +150,13 @@ function createProductCard(item,{isProduct=false}={}){
     }
     const favoriteButton=document.createElement('button');
     favoriteButton.type='button';
-    favoriteButton.className='favorite-product';
+    favoriteButton.className='favorite-product favorite-heart-button';
     favoriteButton.dataset.favoriteProduct=item.id;
     favoriteButton.setAttribute('aria-pressed',String(favoriteIds.includes(item.id)));
     favoriteButton.setAttribute('aria-label',favoriteIds.includes(item.id)?`${item.name} favorilerden çıkar`:`${item.name} favorilere ekle`);
-    favoriteButton.innerHTML=`<i class="fa-${favoriteIds.includes(item.id)?'solid':'regular'} fa-heart" aria-hidden="true"></i> ${favoriteIds.includes(item.id)?'Favorilerimde':'Favorilere ekle'}`;
-    actions.append(favoriteButton);
+    favoriteButton.title=favoriteIds.includes(item.id)?'Favorilerden çıkar':'Favorilere ekle';
+    favoriteButton.innerHTML=`<i class="fa-${favoriteIds.includes(item.id)?'solid':'regular'} fa-heart" aria-hidden="true"></i>`;
+    art.append(favoriteButton);
     const compareButton=document.createElement('button');
     compareButton.type='button';
     compareButton.className='compare-product';
@@ -193,8 +202,10 @@ function renderCatalog(){
     ...catalog.categories.map(category=>[category.id,{...category,categoryId:category.id}])
   ]);
   catalogProductIds=new Set(products.map(product=>product.id));
-  favoriteIds=favoriteIds.filter(id=>catalogProductIds.has(id));
-  saveFavorites();
+  if(catalogProductIds.size){
+    const validFavorites=favoriteIds.filter(id=>catalogProductIds.has(id));
+    if(validFavorites.length!==favoriteIds.length){favoriteIds=validFavorites;saveFavorites();}
+  }
   const hasPrices=products.some(product=>Number.isFinite(product.price));
   productSort.querySelectorAll('[data-price-sort]').forEach(option=>option.disabled=!hasPrices);
   if(productSort.selectedOptions[0]?.disabled)productSort.value='featured';
@@ -271,19 +282,70 @@ function filterCards(){
     computerPartsToggle.setAttribute('aria-expanded','true');
   }
 }
-function saveFavorites(){
-  try { localStorage.setItem(favoritesKey,JSON.stringify(favoriteIds)); } catch {}
+function readFavoriteList(key){
+  try{const saved=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(saved)?saved.filter(id=>typeof id==='string'):[];}catch{return [];}
 }
+function saveFavorites(){
+  try { localStorage.setItem(currentFavoritesKey,JSON.stringify(favoriteIds)); } catch {}
+  renderFavoriteCount();
+  if(favoriteSyncReady){clearTimeout(favoriteSyncTimer);favoriteSyncTimer=setTimeout(syncFavoriteCloud,500);}
+}
+function renderFavoriteCount(){
+  if(headerFavoriteCount)headerFavoriteCount.textContent=String(favoriteIds.length);
+  document.dispatchEvent(new CustomEvent('favorites:updated',{detail:{ids:[...favoriteIds]}}));
+}
+async function syncFavoriteCloud(){
+  if(!favoriteSyncReady||!favoriteSyncClient||!favoriteUserId)return;
+  const desired=new Set(favoriteIds);
+  const removed=[...remoteFavoriteIds].filter(id=>!desired.has(id));
+  const added=[...desired].filter(id=>!remoteFavoriteIds.has(id));
+  try{
+    if(removed.length){const {error}=await favoriteSyncClient.from('customer_favorites').delete().eq('user_id',favoriteUserId).in('product_id',removed);if(error)throw error;}
+    if(added.length){const rows=added.map(product_id=>({user_id:favoriteUserId,product_id}));const {error}=await favoriteSyncClient.from('customer_favorites').upsert(rows,{onConflict:'user_id,product_id',ignoreDuplicates:true});if(error)throw error;}
+    remoteFavoriteIds=desired;
+  }catch(error){console.warn('Favoriler hesaba eşitlenemedi:',error);favoriteSyncReady=false;}
+}
+async function activateFavoriteAccount(session){
+  const userId=session?.user?.id||'';
+  if(!userId){favoriteSyncReady=false;favoriteSyncLoading=false;favoriteUserId='';favoriteSyncClient=null;remoteFavoriteIds=new Set();currentFavoritesKey=favoritesKey;favoriteIds=readFavoriteList(favoritesKey);renderFavorites();renderFavoriteCount();return;}
+  if(favoriteUserId===userId&&(favoriteSyncReady||favoriteSyncLoading))return;
+  favoriteSyncLoading=true;favoriteSyncReady=false;favoriteUserId=userId;
+  favoriteSyncClient=window.supabase.createClient((window.SUPABASE_CONFIG||{}).url,(window.SUPABASE_CONFIG||{}).publishableKey);
+  currentFavoritesKey=`${favoritesKey}-user-${userId}`;
+  const hasAccountList=localStorage.getItem(currentFavoritesKey)!==null;
+  const accountList=readFavoriteList(currentFavoritesKey);
+  const guestList=readFavoriteList(favoritesKey);
+  try{
+    const {data,error}=await favoriteSyncClient.from('customer_favorites').select('product_id').order('created_at');
+    if(error)throw error;
+    remoteFavoriteIds=new Set((data||[]).map(row=>row.product_id));
+    favoriteIds=[...new Set([...remoteFavoriteIds,...accountList])];
+    if(catalogProductIds.size)favoriteIds=favoriteIds.filter(id=>catalogProductIds.has(id));
+    const importOwner=localStorage.getItem('tezcan-product-favorites-guest-owner');
+    if((!importOwner||importOwner===userId)&&!hasAccountList){favoriteIds=[...new Set([...favoriteIds,...guestList])];if(guestList.length)localStorage.setItem('tezcan-product-favorites-guest-owner',userId);}
+    favoriteSyncReady=true;favoriteSyncLoading=false;
+    saveFavorites();renderFavorites();renderFavoriteCount();
+  }catch(error){
+    console.warn('Favoriler hesaptan alınamadı:',error);
+    const guestOwner=localStorage.getItem('tezcan-product-favorites-guest-owner');
+    favoriteIds=hasAccountList?accountList:(!guestOwner||guestOwner===userId?guestList:[]);
+    favoriteSyncLoading=false;currentFavoritesKey=`${favoritesKey}-user-${userId}`;
+    saveFavorites();renderFavorites();renderFavoriteCount();
+  }
+}
+
 function renderFavorites(){
   favoritesFilter.setAttribute('aria-pressed',String(favoritesOnly));
   favoritesFilter.classList.toggle('is-active',favoritesOnly);
   favoritesFilter.innerHTML=`<i class="fa-${favoritesOnly?'solid':'regular'} fa-heart" aria-hidden="true"></i> Favorilerim <span id="favoriteCount">${favoriteIds.length}</span>`;
+  renderFavoriteCount();
   productGrid.querySelectorAll('[data-favorite-product]').forEach(button=>{
     const selected=favoriteIds.includes(button.dataset.favoriteProduct);
     const product=catalog.products.find(item=>item.id===button.dataset.favoriteProduct);
     button.setAttribute('aria-pressed',String(selected));
     button.setAttribute('aria-label',`${product?.name||'Ürün'} ${selected?'favorilerden çıkar':'favorilere ekle'}`);
-    button.innerHTML=`<i class="fa-${selected?'solid':'regular'} fa-heart" aria-hidden="true"></i> ${selected?'Favorilerimde':'Favorilere ekle'}`;
+    button.title=selected?'Favorilerden çıkar':'Favorilere ekle';
+    button.innerHTML=`<i class="fa-${selected?'solid':'regular'} fa-heart" aria-hidden="true"></i>`;
   });
 }
 function toggleFavorite(productId){
@@ -552,6 +614,16 @@ document.getElementById('openCompare').addEventListener('click',openComparison);
 document.getElementById('closeCompare').addEventListener('click',()=>compareDialog.close());
 compareDialog.addEventListener('click',event=>{if(event.target===compareDialog)compareDialog.close();});
 document.getElementById('clearCompare').addEventListener('click',()=>{compareIds=[];saveCompare();renderCompareBar();});
+renderFavoriteCount();
+const mainConfig=window.SUPABASE_CONFIG||{};
+if(mainConfig.url&&mainConfig.publishableKey&&window.supabase?.createClient){
+  const favoriteAuthClient=window.supabase.createClient(mainConfig.url,mainConfig.publishableKey);
+  favoriteAuthClient.auth.getSession().then(({data})=>activateFavoriteAccount(data?.session)).catch(()=>{});
+  favoriteAuthClient.auth.onAuthStateChange((_event,session)=>setTimeout(()=>activateFavoriteAccount(session),0));
+}else activateFavoriteAccount(null);
+window.addEventListener('storage',event=>{
+  if(event.key===currentFavoritesKey){favoriteIds=readFavoriteList(currentFavoritesKey);renderFavorites();filterCards();}
+});
 loadCatalog();
 
 

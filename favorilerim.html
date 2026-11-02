@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b35">
+  <meta name="description" content="Tezcan Bilgisayar'da favorilerine eklediğin ürünler.">
+  <title>Favorilerim | Tezcan Bilgisayar</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="32x32_favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/responsive-overrides.css">
+  <link rel="stylesheet" href="assets/css/pages/favorites.css">
+</head>
+<body class="favorites-page">
+  <div class="announcement"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Tezcan Bilgisayar kuruluş öncesi hazırlık aşamasındadır</div>
+  <header class="site-header favorites-header"><div class="container favorites-header-inner">
+    <a class="brand" href="index.html" aria-label="Tezcan Bilgisayar ana sayfa"><span class="brand-mark" aria-hidden="true"><i class="fa-solid fa-microchip"></i></span><span>TEZCAN<small>BİLGİSAYAR</small></span></a>
+    <nav class="favorites-header-actions" aria-label="Hesap ve favoriler"><a class="favorites-current-link is-active" href="favorilerim.html" aria-current="page"><i class="fa-solid fa-heart" aria-hidden="true"></i><span>Favorilerim</span><b id="favoritePageCount">0</b></a><a class="favorites-account-link" data-account-indicator href="hesap.html"><i class="fa-regular fa-user" aria-hidden="true"></i><span data-account-label>Hesabım</span></a></nav>
+  </div></header>
+  <main class="favorites-main container">
+    <nav class="breadcrumbs" aria-label="Sayfa konumu"><a href="index.html">Ana sayfa</a><span aria-hidden="true">/</span><span>Favorilerim</span></nav>
+    <section class="favorites-heading"><div><span class="section-kicker">SENİN İÇİN AYRILDI</span><h1>Favori <span>ürünlerin</span></h1><p>Beğendiğin ürünleri burada sakla, dilediğinde yeniden gözden geçir.</p></div><a class="favorites-back-link" href="index.html#urunler"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Ürünlere dön</a></section>
+    <p class="favorites-sync-note" id="favoriteSyncNote" role="status" hidden></p>
+    <section class="favorites-results" aria-label="Favori ürünler"><div class="favorite-items-grid" id="favoriteItems" aria-live="polite"><p class="catalog-loading">Favorilerin yükleniyor…</p></div><div class="favorite-empty" id="favoriteEmpty" hidden><span class="favorite-empty-icon"><i class="fa-regular fa-heart" aria-hidden="true"></i></span><h2>Henüz favori ürünün yok</h2><p>Ürün kartlarındaki kalbe dokunarak ilgini çekenleri burada toplayabilirsin.</p><a class="btn-store primary" href="index.html#urunler">Ürünleri keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div></section>
+    <p class="favorites-status" id="favoritesStatus" role="status" aria-live="polite"></p>
+  </main>
+  <footer><div class="container"><div class="footer-top"><a class="brand footer-brand" href="index.html"><span class="brand-mark"><i class="fa-solid fa-microchip"></i></span><span>TEZCAN<small>BİLGİSAYAR</small></span></a><div class="footer-links"><a href="index.html#urun-kategorileri">Ürün grupları</a><a href="hesap.html">Hesabım</a><a href="iletisim.html">İletişim</a></div></div><div class="footer-bottom"><span>&copy; <span id="currentYear"></span> Tezcan Bilgisayar</span></div></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config/supabase-config.js"></script>
+  <script src="assets/js/account-indicator.js"></script>
+  <script src="assets/js/pages/favorites-page.js"></script>
+</body>
+</html>
