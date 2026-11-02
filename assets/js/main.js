@@ -3,6 +3,10 @@ const searchInput=document.getElementById('searchInput');
 const categoryCards=[...document.querySelectorAll('#categoryGrid .category-card')];
 const subcategoryButtons=[...document.querySelectorAll('.subcategory-chip')];
 const quickCategoryButtons=[...document.querySelectorAll('#quickCategoryNav [data-select-category]')];
+const componentQuickButtons=[...document.querySelectorAll('#quickComponentMenu [data-select-category]')];
+const quickComponentToggle=document.getElementById('quickComponentToggle');
+const quickComponentMenu=document.getElementById('quickComponentMenu');
+const quickCategoryContainer=document.querySelector('.quick-category-container');
 const productGrid=document.getElementById('productGrid');
 const emptyState=document.getElementById('emptyState');
 const productFilterStatus=document.getElementById('productFilterStatus');
@@ -247,7 +251,7 @@ function filterCards(){
   const query=normalizeText(searchInput.value.trim());
   productFilterStatus.textContent=(selectedProductLabel?'Seçilen kategori: '+selectedProductLabel:'Tüm alt kategoriler')+(favoritesOnly?' · Favorilerim':'');
   let visible=0;
-  [...categoryCards,...subcategoryButtons,...quickCategoryButtons,...productCards].forEach(card=>{
+  [...categoryCards,...subcategoryButtons,...quickCategoryButtons,...componentQuickButtons,...productCards].forEach(card=>{
     let matches=(!query||normalizeText(card.dataset.search||card.textContent).includes(query))&&(!favoritesOnly||!card.classList.contains('product-card')||favoriteIds.includes(card.dataset.productId));
     card.hidden=!matches;
     if(matches)visible++;
@@ -294,20 +298,12 @@ function selectProductCategory(button){
   searchInput.value='';
   subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
   quickCategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.selectCategory===button.dataset.selectCategory)));
+  componentQuickButtons.forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.selectCategory===button.dataset.selectCategory)));
   categoryCards.forEach(card=>card.classList.toggle('is-selected',card.dataset.selectCategory===button.dataset.selectCategory));
   computerPartsToggle.classList.remove('is-selected');
-  showAllProducts.hidden=false;
-  renderCatalog();
-  document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
-}
-function selectComputerParts(){
-  selectedProductCategories=['cpu','motherboard','ram','gpu','disk','case','psu'];
-  selectedProductLabel='Bilgisayar Parçaları';
-  searchInput.value='';
-  subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
-  categoryCards.forEach(card=>card.classList.remove('is-selected'));
-  computerPartsToggle.classList.add('is-selected');
-  quickCategoryButtons.forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.selectCategory==='components')));
+  quickComponentToggle.classList.toggle('is-selected',componentQuickButtons.some(item=>item.dataset.selectCategory===button.dataset.selectCategory));
+  quickComponentMenu.hidden=true;
+  quickComponentToggle.setAttribute('aria-expanded','false');
   showAllProducts.hidden=false;
   renderCatalog();
   document.getElementById('urunler').scrollIntoView({behavior:'smooth'});
@@ -318,10 +314,20 @@ function resetProductCategory(){
   subcategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
   categoryCards.forEach(card=>card.classList.remove('is-selected'));
   quickCategoryButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
+  componentQuickButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
   computerPartsToggle.classList.remove('is-selected');
+  quickComponentToggle.classList.remove('is-selected');
   showAllProducts.hidden=true;
   searchInput.value='';
   renderCatalog();
+}
+function quickCategoryMenuOpen(){
+  quickComponentMenu.hidden=false;
+  quickComponentToggle.setAttribute('aria-expanded','true');
+}
+function quickCategoryMenuClose(){
+  quickComponentMenu.hidden=true;
+  quickComponentToggle.setAttribute('aria-expanded','false');
 }
 function saveQuote(){
   try { localStorage.setItem(cartKey,JSON.stringify(quoteIds)); } catch {}
@@ -461,9 +467,39 @@ document.getElementById('categoryGrid').addEventListener('click',event=>{
 document.getElementById('quickCategoryNav').addEventListener('click',event=>{
   const quickCategory=event.target.closest('[data-select-category]');
   if(!quickCategory)return;
-  if(quickCategory.dataset.selectCategory==='components'){selectComputerParts();return;}
   const matchingCategory=[...categoryCards,...subcategoryButtons].find(category=>category.dataset.selectCategory===quickCategory.dataset.selectCategory);
   if(matchingCategory)selectProductCategory(matchingCategory);
+});
+quickComponentToggle.addEventListener('click',()=>{
+  quickCategoryMenuOpen();
+});
+quickCategoryContainer.addEventListener('mouseenter',event=>{
+  if(event.target===quickCategoryContainer)quickCategoryMenuOpen();
+});
+quickComponentToggle.addEventListener('mouseenter',quickCategoryMenuOpen);
+quickComponentToggle.addEventListener('mouseleave',event=>{
+  if(!quickComponentMenu.contains(event.relatedTarget)&&!quickComponentToggle.contains(document.activeElement))quickCategoryMenuClose();
+});
+quickComponentMenu.addEventListener('mouseleave',event=>{
+  if(!quickComponentToggle.contains(event.relatedTarget)&&!quickComponentMenu.contains(document.activeElement))quickCategoryMenuClose();
+});
+quickCategoryContainer.addEventListener('focusin',event=>{
+  if(event.target===quickComponentToggle||quickComponentMenu.contains(event.target))quickCategoryMenuOpen();
+});
+quickCategoryContainer.addEventListener('focusout',event=>{
+  if(!quickCategoryContainer.contains(event.relatedTarget))quickCategoryMenuClose();
+});
+quickCategoryContainer.addEventListener('click',event=>{
+  const quickCategory=event.target.closest('#quickComponentMenu [data-select-category]');
+  if(!quickCategory)return;
+  const matchingCategory=subcategoryButtons.find(category=>category.dataset.selectCategory===quickCategory.dataset.selectCategory);
+  if(matchingCategory)selectProductCategory(matchingCategory);
+});
+document.addEventListener('pointerdown',event=>{
+  if(!quickCategoryContainer.contains(event.target))quickCategoryMenuClose();
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&!quickComponentMenu.hidden){quickCategoryMenuClose();quickComponentToggle.focus();}
 });
 showAllProducts.addEventListener('click',resetProductCategory);
 document.getElementById('openCart').addEventListener('click',openCart);
