@@ -26,6 +26,41 @@ strong {
   overflow-wrap: anywhere;
 }
 
+/* Keep the desktop header actions readable even when Bootstrap columns shrink. */
+@media (min-width: 992px) {
+  .main-nav .row > .col-lg-2.order-lg-3 {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: max-content;
+    margin-left: auto;
+  }
+
+  .main-nav .row > .col-lg-7.order-lg-2 {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
+
+  .main-nav .nav-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .main-nav .nav-action,
+  .main-nav .nav-action span {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
+  .main-nav .nav-action {
+    gap: 7px;
+    padding-inline: 9px;
+  }
+}
+
 .account-shell,
 .account-intro,
 .account-card,
