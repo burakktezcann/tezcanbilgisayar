@@ -125,11 +125,28 @@ const storageSearch = document.getElementById('storageSearch');
 const caseSearch = document.getElementById('caseSearch');
 const psuSearch = document.getElementById('psuSearch');
 const message = document.getElementById('builderMessage');
-let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '', psu: '' };
+const systemIds = ['system-1', 'system-2', 'system-3'];
+const systemTabs = document.getElementById('systemTabs');
+function emptySelection() {
+  return { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '', psu: '' };
+}
+function normalizeSelection(value) {
+  return value && typeof value === 'object' && !Array.isArray(value) ? { ...emptySelection(), ...value } : emptySelection();
+}
+let activeSystemId = 'system-1';
+let savedSystems = { 'system-1': null, 'system-2': null, 'system-3': null };
+let selection = emptySelection();
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
-  if (saved && typeof saved === 'object') selection = { ...selection, ...saved };
+  if (saved?.version === 2 && saved.systems && typeof saved.systems === 'object') {
+    activeSystemId = systemIds.includes(saved.activeSystemId) ? saved.activeSystemId : 'system-1';
+    savedSystems = Object.fromEntries(systemIds.map(id => [id, saved.systems[id] ? normalizeSelection(saved.systems[id]) : null]));
+    selection = normalizeSelection(savedSystems[activeSystemId]);
+  } else if (saved && typeof saved === 'object' && Object.keys(saved).length) {
+    selection = normalizeSelection(saved);
+    savedSystems['system-1'] = { ...selection };
+  }
 } catch { /* Continue with an empty build if local storage is unavailable. */ }
 
 function getFamily() {
@@ -173,7 +190,36 @@ function modelLabel(family, model) {
     : `AMD ${family.name} ${model}`;
 }
 function saveSelection() {
-  try { localStorage.setItem(storageKey, JSON.stringify(selection)); } catch { /* The current selection still works for this visit. */ }
+  savedSystems[activeSystemId] = { ...selection };
+  try { localStorage.setItem(storageKey, JSON.stringify({ version: 2, activeSystemId, systems: savedSystems })); } catch { /* The current selection still works for this visit. */ }
+  renderSystemTabs();
+}
+function renderSystemTabs() {
+  if (!systemTabs) return;
+  systemTabs.replaceChildren(...systemIds.map((id, index) => {
+    const system = id === activeSystemId ? selection : savedSystems[id];
+    const filled = Boolean(system && (system.brand || system.family || system.model || system.motherboard || system.ram || system.gpu || system.storage || system.pcCase || system.psu));
+    const complete = Boolean(system?.psu);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'system-tab';
+    button.dataset.systemId = id;
+    button.setAttribute('aria-pressed', String(id === activeSystemId));
+    const number = document.createElement('span'); number.className = 'system-tab-number'; number.textContent = String(index + 1);
+    const copy = document.createElement('span'); copy.className = 'system-tab-copy';
+    const name = document.createElement('strong'); name.textContent = `${index + 1}. Sistem`;
+    const status = document.createElement('small'); status.textContent = complete ? 'Tamamlandı' : filled ? 'Taslak kaydedildi' : 'Boş · yeni taslak';
+    copy.append(name, status); button.append(number, copy);
+    return button;
+  }));
+}
+function switchSystem(id) {
+  if (!systemIds.includes(id) || id === activeSystemId) return;
+  saveSelection();
+  activeSystemId = id;
+  selection = normalizeSelection(savedSystems[id]);
+  message.textContent = '';
+  updateStage();
 }
 function showStage(stage) {
   document.getElementById('selectionCard').classList.toggle('is-summary', stage === 'summary');
@@ -790,5 +836,9 @@ document.getElementById('fullSystemSummary').addEventListener('click', event => 
     storage: 'editStorage', case: 'editCase', psu: 'editPsu'
   };
   document.getElementById(editButtonByPart[button.dataset.editPart])?.click();
+});
+systemTabs.addEventListener('click', event => {
+  const button = event.target.closest('[data-system-id]');
+  if (button) switchSystem(button.dataset.systemId);
 });
 updateStage();
