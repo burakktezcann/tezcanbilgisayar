@@ -45,21 +45,46 @@ const ramKitsByType = {
   ]
 };
 
+const graphicsCards = {
+  NVIDIA: [
+    { id: 'geforce-rtx-5090', name: 'NVIDIA GeForce RTX 5090', series: 'GeForce RTX 50 · Blackwell' },
+    { id: 'geforce-rtx-5080', name: 'NVIDIA GeForce RTX 5080', series: 'GeForce RTX 50 · Blackwell' },
+    { id: 'geforce-rtx-5070-ti', name: 'NVIDIA GeForce RTX 5070 Ti', series: 'GeForce RTX 50 · Blackwell' },
+    { id: 'geforce-rtx-5070', name: 'NVIDIA GeForce RTX 5070', series: 'GeForce RTX 50 · Blackwell' },
+    { id: 'geforce-rtx-5060-ti', name: 'NVIDIA GeForce RTX 5060 Ti', series: 'GeForce RTX 50 · Blackwell' },
+    { id: 'geforce-rtx-5060', name: 'NVIDIA GeForce RTX 5060', series: 'GeForce RTX 50 · Blackwell' },
+    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'GeForce RTX 50 · Blackwell' }
+  ],
+  AMD: [
+    { id: 'radeon-rx-9070-xt', name: 'AMD Radeon RX 9070 XT', series: 'Radeon RX 9000 · RDNA 4' },
+    { id: 'radeon-rx-9070', name: 'AMD Radeon RX 9070', series: 'Radeon RX 9000 · RDNA 4' },
+    { id: 'radeon-rx-9070-gre', name: 'AMD Radeon RX 9070 GRE', series: 'Radeon RX 9000 · RDNA 4' },
+    { id: 'radeon-rx-9060-xt', name: 'AMD Radeon RX 9060 XT', series: 'Radeon RX 9000 · RDNA 4' },
+    { id: 'radeon-rx-7900-xtx', name: 'AMD Radeon RX 7900 XTX', series: 'Radeon RX 7000 · RDNA 3' },
+    { id: 'radeon-rx-7900-xt', name: 'AMD Radeon RX 7900 XT', series: 'Radeon RX 7000 · RDNA 3' },
+    { id: 'radeon-rx-7800-xt', name: 'AMD Radeon RX 7800 XT', series: 'Radeon RX 7000 · RDNA 3' },
+    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'Radeon RX 7000 · RDNA 3' }
+  ]
+};
+
 const storageKey = 'tezcan-system-builder-cpu-v1';
 const brandStep = document.getElementById('brandStep');
 const familyStep = document.getElementById('familyStep');
 const modelStep = document.getElementById('modelStep');
 const motherboardStep = document.getElementById('motherboardStep');
 const ramStep = document.getElementById('ramStep');
+const gpuStep = document.getElementById('gpuStep');
 const familyChoices = document.getElementById('familyChoices');
 const modelChoices = document.getElementById('modelChoices');
 const motherboardChoices = document.getElementById('motherboardChoices');
 const ramChoices = document.getElementById('ramChoices');
+const gpuChoices = document.getElementById('gpuChoices');
 const modelSearch = document.getElementById('modelSearch');
 const motherboardSearch = document.getElementById('motherboardSearch');
 const ramSearch = document.getElementById('ramSearch');
+const gpuSearch = document.getElementById('gpuSearch');
 const message = document.getElementById('builderMessage');
-let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32 };
+let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '' };
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -97,27 +122,32 @@ function showStage(stage) {
   modelStep.hidden = stage !== 'model';
   motherboardStep.hidden = stage !== 'motherboard';
   ramStep.hidden = stage !== 'ram';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : 'Belleğini seç';
+  gpuStep.hidden = stage !== 'gpu';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : 'Ekran kartını seç';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : 'ADIM 3 · BELLEK (RAM)';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : 'ADIM 4 · EKRAN KARTI';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
   const ramButton = document.getElementById('ramStepButton');
+  const gpuButton = document.getElementById('gpuStepButton');
   const cpuCurrent = stage !== 'motherboard';
   const boardCurrent = stage === 'motherboard';
   const ramCurrent = stage === 'ram';
+  const gpuCurrent = stage === 'gpu';
   cpuButton.classList.toggle('is-current', cpuCurrent);
   boardButton.classList.toggle('is-current', boardCurrent);
   ramButton.classList.toggle('is-current', ramCurrent);
+  gpuButton.classList.toggle('is-current', gpuCurrent);
   if (cpuCurrent) cpuButton.setAttribute('aria-current', 'step'); else cpuButton.removeAttribute('aria-current');
   if (boardCurrent) boardButton.setAttribute('aria-current', 'step'); else boardButton.removeAttribute('aria-current');
   if (ramCurrent) ramButton.setAttribute('aria-current', 'step'); else ramButton.removeAttribute('aria-current');
+  if (gpuCurrent) gpuButton.setAttribute('aria-current', 'step'); else gpuButton.removeAttribute('aria-current');
 }
 function updateSummary() {
   const family = getFamily();
@@ -126,6 +156,8 @@ function updateSummary() {
   let board = getMotherboard();
   if (board && (!hasModel || board.socket && board.socket !== family.socket)) { selection.motherboard = ''; board = null; }
   const ram = getRamKit();
+  const gpu = (graphicsCards[selection.gpuBrand] || []).find(card => card.id === selection.gpu) || null;
+  if (selection.gpu && !gpu) selection.gpu = '';
   document.getElementById('summaryCpu').textContent = hasModel ? modelLabel(family, selection.model) : 'Henüz seçilmedi';
   document.getElementById('summaryCpuDetail').textContent = hasModel ? family.generation : selection.brand ? `${selection.brand === 'intel' ? 'Intel' : 'AMD'} · model bekleniyor` : 'AMD veya Intel seç';
   document.getElementById('cpuStepStatus').textContent = hasModel ? modelLabel(family, selection.model) : 'Seçim bekliyor';
@@ -152,11 +184,20 @@ function updateSummary() {
   document.getElementById('summaryRam').textContent = ram ? `${ram.capacity} GB · ${ram.name.split(' ').slice(0, 3).join(' ')}` : 'Sonraki adım';
   document.getElementById('summaryRamDetail').textContent = ram ? `${board.memory} · ${ram.spec}` : board ? `${board.memory} bellek seç` : 'Anakartını seç';
   document.getElementById('editRam').hidden = !ram;
-  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram));
+  const gpuStepButton = document.getElementById('gpuStepButton');
+  gpuStepButton.disabled = !ram;
+  gpuStepButton.classList.toggle('is-complete', Boolean(gpu));
+  gpuStepButton.classList.toggle('is-next', !ram);
+  document.getElementById('gpuStepStatus').textContent = gpu ? gpu.name.replace(/^NVIDIA GeForce |^AMD Radeon /, '') : ram ? 'Marka ve model seç' : "RAM'den sonra";
+  document.getElementById('gpuStepCheck').textContent = gpu ? '✓' : ram ? '○' : '—';
+  document.getElementById('summaryGpu').textContent = gpu ? gpu.name : 'Sonraki adım';
+  document.getElementById('summaryGpuDetail').textContent = gpu ? gpu.series : 'RAM’ini seç';
+  document.getElementById('editGpu').hidden = !gpu;
+  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu));
   document.getElementById('progressCount').innerHTML = `${completed} <small>/ 7</small>`;
   document.getElementById('stepCount').textContent = `${completed} / 7`;
   document.getElementById('summaryProgress').textContent = `${completed} / 7`;
-  document.getElementById('progressCaption').textContent = ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
+  document.getElementById('progressCaption').textContent = gpu ? 'İşlemci, anakart, RAM ve ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
   document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
   saveSelection();
 }
@@ -258,6 +299,28 @@ function renderRamKits() {
   }));
   document.getElementById('noRam').hidden = kits.length > 0;
 }
+function renderGraphicsCards() {
+  const cards = graphicsCards[selection.gpuBrand] || [];
+  document.getElementById('gpuModelArea').hidden = !selection.gpuBrand;
+  document.getElementById('gpuBrandLabel').textContent = selection.gpuBrand || 'Marka seçilmedi';
+  document.querySelectorAll('[data-gpu-brand]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.gpuBrand === selection.gpuBrand)));
+  document.getElementById('gpuCount').textContent = `${cards.length} örnek model · ${selection.gpuBrand === 'NVIDIA' ? 'GeForce RTX' : 'Radeon RX'} ürün ailesi`;
+  const query = gpuSearch.value.trim().toLocaleLowerCase('tr-TR');
+  const matches = cards.filter(card => `${card.name} ${card.series}`.toLocaleLowerCase('tr-TR').includes(query));
+  gpuChoices.replaceChildren(...matches.map(card => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'model-card';
+    button.dataset.gpu = card.id;
+    button.setAttribute('aria-pressed', String(selection.gpu === card.id));
+    const name = document.createElement('strong'); name.textContent = card.name;
+    const series = document.createElement('span'); series.textContent = `${card.series} · üretici model ailesi`;
+    const chip = document.createElement('span'); chip.className = 'model-chip'; chip.textContent = selection.gpuBrand;
+    button.append(name, series, chip);
+    return button;
+  }));
+  document.getElementById('noGpu').hidden = matches.length > 0 || !selection.gpuBrand;
+}
 function updateStage() {
   updateSummary();
   if (!selection.brand) { showStage('brand'); return; }
@@ -271,6 +334,9 @@ function updateStage() {
   if (!selection.motherboard) return;
   showStage('ram');
   renderRamKits();
+  if (!selection.ram) return;
+  showStage('gpu');
+  renderGraphicsCards();
 }
 
 document.querySelectorAll('[data-brand]').forEach(button => button.addEventListener('click', () => {
@@ -368,5 +434,30 @@ ramChoices.addEventListener('click', event => {
 });
 document.getElementById('editRam').addEventListener('click', () => {
   showStage('ram'); updateSummary(); renderRamKits();
+});
+document.getElementById('gpuStepButton').addEventListener('click', () => {
+  if (!selection.ram) return;
+  showStage('gpu'); renderGraphicsCards();
+});
+document.getElementById('backToRam').addEventListener('click', () => {
+  showStage('ram'); renderRamKits();
+});
+document.querySelectorAll('[data-gpu-brand]').forEach(button => button.addEventListener('click', () => {
+  if (selection.gpuBrand !== button.dataset.gpuBrand) selection.gpu = '';
+  selection.gpuBrand = button.dataset.gpuBrand;
+  gpuSearch.value = '';
+  updateSummary(); renderGraphicsCards();
+  message.textContent = '';
+}));
+gpuSearch.addEventListener('input', renderGraphicsCards);
+gpuChoices.addEventListener('click', event => {
+  const button = event.target.closest('[data-gpu]');
+  if (!button) return;
+  selection.gpu = button.dataset.gpu;
+  updateStage();
+  message.textContent = 'Ekran kartı seçimin kaydedildi ve sistem özetine eklendi.';
+});
+document.getElementById('editGpu').addEventListener('click', () => {
+  showStage('gpu'); renderGraphicsCards();
 });
 updateStage();

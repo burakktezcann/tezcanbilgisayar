@@ -27,7 +27,7 @@
           <li><button class="build-step is-current" id="cpuStepButton" type="button" aria-current="step"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">▦</span><span class="step-name"><strong>İşlemci</strong><small id="cpuStepStatus">Seçim bekliyor</small></span><span class="step-state" id="cpuStepCheck">○</span></button></li>
           <li><button class="build-step is-next" id="motherboardStepButton" type="button" disabled><span class="step-number">02</span><span class="step-icon" aria-hidden="true">▤</span><span class="step-name"><strong>Anakart</strong><small id="motherboardStepStatus">İşlemciden sonra</small></span><span class="step-state" id="motherboardStepCheck">—</span></button></li>
           <li><button class="build-step is-next" id="ramStepButton" type="button" disabled><span class="step-number">03</span><span class="step-icon" aria-hidden="true">▥</span><span class="step-name"><strong>Bellek (RAM)</strong><small id="ramStepStatus">Anakarttan sonra</small></span><span class="step-state" id="ramStepCheck">—</span></button></li>
-          <li class="build-step is-next"><span class="step-number">04</span><span class="step-icon" aria-hidden="true">▧</span><span class="step-name"><strong>Ekran kartı</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li><button class="build-step is-next" id="gpuStepButton" type="button" disabled><span class="step-number">04</span><span class="step-icon" aria-hidden="true">▧</span><span class="step-name"><strong>Ekran kartı</strong><small id="gpuStepStatus">RAM'den sonra</small></span><span class="step-state" id="gpuStepCheck">—</span></button></li>
           <li class="build-step is-next"><span class="step-number">05</span><span class="step-icon" aria-hidden="true">▰</span><span class="step-name"><strong>Depolama</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
           <li class="build-step is-next"><span class="step-number">06</span><span class="step-icon" aria-hidden="true">▣</span><span class="step-name"><strong>Kasa</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
           <li class="build-step is-next"><span class="step-number">07</span><span class="step-icon" aria-hidden="true">ϟ</span><span class="step-name"><strong>Güç kaynağı</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
@@ -70,6 +70,19 @@
           <p class="no-models" id="noRam" hidden>Bu kapasite ve aramayla eşleşen bellek bulunamadı.</p>
           <p class="compatibility-note"><span aria-hidden="true">ⓘ</span> Frekans desteği işlemciye, anakarta ve BIOS ayarlarına göre değişebilir. Seçim öncesi anakartın bellek destek listesi kontrol edilmelidir.</p>
         </div>
+        <div class="choice-area" id="gpuStep" hidden>
+          <div class="choice-toolbar"><button class="back-choice" id="backToRam" type="button">← RAM seçimine dön</button><span class="selected-brand" id="gpuBrandLabel"></span></div>
+          <h3 class="step-prompt">Ekran kartı markasını seç</h3>
+          <div class="choice-grid brand-grid gpu-brand-grid">
+            <button class="brand-choice gpu-brand-choice" type="button" data-gpu-brand="NVIDIA"><span class="brand-symbol gpu-symbol nvidia-symbol" aria-hidden="true">N</span><span class="choice-copy"><strong>NVIDIA GeForce</strong><small>GeForce RTX 50 serisi</small></span><span class="choice-arrow" aria-hidden="true">→</span></button>
+            <button class="brand-choice gpu-brand-choice" type="button" data-gpu-brand="AMD"><span class="brand-symbol gpu-symbol amd-symbol" aria-hidden="true">AMD</span><span class="choice-copy"><strong>AMD Radeon</strong><small>Radeon RX 9000 ve RX 7000 serisi</small></span><span class="choice-arrow" aria-hidden="true">→</span></button>
+          </div>
+          <div class="gpu-model-area" id="gpuModelArea" hidden>
+            <div class="model-toolbar"><div><h3 class="step-prompt">Ekran kartı modelini seç</h3><p id="gpuCount">Üretici ürün ailesinden örnek modeller</p></div><label class="model-search"><span class="visually-hidden">Ekran kartı ara</span><input id="gpuSearch" type="search" placeholder="Model ara…"><span aria-hidden="true">⌕</span></label></div>
+            <div class="model-grid" id="gpuChoices"></div>
+            <p class="no-models" id="noGpu" hidden>Bu aramayla eşleşen ekran kartı bulunamadı.</p>
+          </div>
+        </div>
         <div class="selection-footer"><span><i aria-hidden="true">✓</i> Seçimin bu tarayıcıda otomatik saklanır.</span><a href="index.html#urun-kategorileri">Ürün kategorilerine göz at</a></div>
       </section>
 
@@ -78,14 +91,14 @@
         <div class="summary-part is-selected"><span class="summary-part-icon" aria-hidden="true">▦</span><span class="summary-part-copy"><small>İŞLEMCİ</small><strong id="summaryCpu">Henüz seçilmedi</strong><small id="summaryCpuDetail">AMD veya Intel seç</small></span><button class="summary-edit" id="editCpu" type="button" hidden>Düzenle</button></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▤</span><span class="summary-part-copy"><small>ANAKART</small><strong id="summaryMotherboard">Sonraki adım</strong><small id="summaryMotherboardDetail">İşlemcini seç</small></span><button class="summary-edit" id="editMotherboard" type="button" hidden>Düzenle</button></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▥</span><span class="summary-part-copy"><small>RAM</small><strong id="summaryRam">Sonraki adım</strong><small id="summaryRamDetail">Anakartını seç</small></span><button class="summary-edit" id="editRam" type="button" hidden>Düzenle</button></div>
-        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▧</span><span class="summary-part-copy"><small>EKRAN KARTI</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▧</span><span class="summary-part-copy"><small>EKRAN KARTI</small><strong id="summaryGpu">Sonraki adım</strong><small id="summaryGpuDetail">RAM'ini seç</small></span><button class="summary-edit" id="editGpu" type="button" hidden>Düzenle</button></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▰</span><span class="summary-part-copy"><small>DEPOLAMA</small><strong>Sonraki adım</strong></span></div>
         <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▣</span><span class="summary-part-copy"><small>KASA VE GÜÇ</small><strong>Sonraki adım</strong></span></div>
         <div class="summary-price"><span>Toplam sistem fiyatı</span><strong>Ürünler eklendikçe hesaplanacak</strong></div>
         <p class="summary-note">Bu hazırlık sürümünde ürün seçimi ve ödeme yapılmaz. Fiyat ve stok bilgileri ürün kataloğu tamamlandığında bağlanacak.</p>
       </aside>
     </div>
-    <footer class="builder-sources">Parça model ve teknik bilgileri üretici kaynaklarından derlenmiştir: <a href="https://www.intel.com/content/www/us/en/support/articles/000099655/processors.html" target="_blank" rel="noopener noreferrer">Intel</a> · <a href="https://www.amd.com/en/products/processors/desktops/ryzen.html" target="_blank" rel="noopener noreferrer">AMD</a> · <a href="https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-32" target="_blank" rel="noopener noreferrer">Kingston</a> · <a href="https://www.corsair.com/us/en/p/memory/cmk32gx5m2e6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mt-s-c36-memory-kit-black-cmk32gx5m2e6000c36" target="_blank" rel="noopener noreferrer">CORSAIR</a>. Türkiye'deki stok ve anakart uyumluluğu ayrıca doğrulanmalıdır.</footer>
+    <footer class="builder-sources">Parça model ve teknik bilgileri üretici kaynaklarından derlenmiştir: <a href="https://www.intel.com/content/www/us/en/support/articles/000099655/processors.html" target="_blank" rel="noopener noreferrer">Intel</a> · <a href="https://www.amd.com/en/products/processors/desktops/ryzen.html" target="_blank" rel="noopener noreferrer">AMD</a> · <a href="https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-32" target="_blank" rel="noopener noreferrer">Kingston</a> · <a href="https://www.corsair.com/us/en/p/memory/cmk32gx5m2e6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mt-s-c36-memory-kit-black-cmk32gx5m2e6000c36" target="_blank" rel="noopener noreferrer">CORSAIR</a> · <a href="https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/" target="_blank" rel="noopener noreferrer">NVIDIA GeForce</a> · <a href="https://www.amd.com/en/products/graphics/desktops/radeon.html" target="_blank" rel="noopener noreferrer">AMD Radeon</a>. Türkiye'deki stok ve uyumluluk ayrıca doğrulanmalıdır.</footer>
   </main>
   <script src="assets/js/pages/system-builder-page.js"></script>
 </body>
