@@ -108,6 +108,7 @@ const gpuStep = document.getElementById('gpuStep');
 const storageStep = document.getElementById('storageStep');
 const caseStep = document.getElementById('caseStep');
 const psuStep = document.getElementById('psuStep');
+const systemSummaryStep = document.getElementById('systemSummaryStep');
 const familyChoices = document.getElementById('familyChoices');
 const modelChoices = document.getElementById('modelChoices');
 const motherboardChoices = document.getElementById('motherboardChoices');
@@ -175,6 +176,8 @@ function saveSelection() {
   try { localStorage.setItem(storageKey, JSON.stringify(selection)); } catch { /* The current selection still works for this visit. */ }
 }
 function showStage(stage) {
+  document.getElementById('selectionCard').classList.toggle('is-summary', stage === 'summary');
+  document.getElementById('buildLayout').classList.toggle('is-summary', stage === 'summary');
   brandStep.hidden = stage !== 'brand';
   familyStep.hidden = stage !== 'family';
   modelStep.hidden = stage !== 'model';
@@ -184,15 +187,16 @@ function showStage(stage) {
   storageStep.hidden = stage !== 'storage';
   caseStep.hidden = stage !== 'case';
   psuStep.hidden = stage !== 'psu';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : stage === 'case' ? 'Kasana karar ver' : 'Güç kaynağını seç';
+  systemSummaryStep.hidden = stage !== 'summary';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : stage === 'case' ? 'Kasana karar ver' : stage === 'psu' ? 'Güç kaynağını seç' : 'Sistem özetin';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : stage === 'case' ? 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.' : 'Ekran kartının güç gereksinimini ve kasanın PSU boşluğunu karşılayan ürünleri seç.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : stage === 'case' ? 'ADIM 6 · KASA' : 'ADIM 7 · GÜÇ KAYNAĞI';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : stage === 'case' ? 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.' : stage === 'psu' ? 'Ekran kartının güç gereksinimini ve kasanın PSU boşluğunu karşılayan ürünleri seç.' : 'Bileşenlerini, ön uyumluluk sonuçlarını ve kontrol edilmesi gereken noktaları incele.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : stage === 'case' ? 'ADIM 6 · KASA' : stage === 'psu' ? 'ADIM 7 · GÜÇ KAYNAĞI' : 'TAMAMLANDI · SİSTEM ÖZETİ';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
   const ramButton = document.getElementById('ramStepButton');
@@ -307,6 +311,58 @@ function updateSummary() {
   document.getElementById('progressCaption').textContent = psu ? 'Temel sistem parçaları seçildi · sistemin hazır' : selectedCase ? 'Kasa seçildi · güç kaynağı sırada' : storage ? 'Depolama seçildi · anakartına uygun kasa seç' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
   document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
   saveSelection();
+}
+function renderSystemSummary() {
+  const family = getFamily();
+  const board = getMotherboard();
+  const ram = getRamKit();
+  const gpu = getGraphicsCard();
+  const storage = (storageProducts[selection.storageType] || []).find(item => item.id === selection.storage) || null;
+  const selectedCase = getCase();
+  const psu = getPowerSupply();
+  const rows = [
+    ['cpu', 'İşlemci', document.getElementById('summaryCpu').textContent, document.getElementById('summaryCpuDetail').textContent],
+    ['motherboard', 'Anakart', board?.name || 'Seçim gerekli', board ? `${board.chipset} · ${board.socket} · ${board.memory} · ${board.form}` : ''],
+    ['ram', 'Bellek (RAM)', ram?.name || 'Seçim gerekli', ram ? `${ram.capacity} GB · ${ram.spec} · ${ram.code}` : ''],
+    ['gpu', 'Ekran kartı', gpu?.name || 'Seçim gerekli', gpu ? `${gpu.series} · sistem güç önerisi ${gpu.psuMin} W` : ''],
+    ['storage', 'Depolama', storage?.name || 'Seçim gerekli', storage ? `${storage.capacity} · ${storage.spec} · ${storage.code}` : ''],
+    ['case', 'Kasa', selectedCase?.name || 'Seçim gerekli', selectedCase ? `${board.form} · GPU ${selectedCase.gpu} mm · CPU soğutucu ${selectedCase.cooler} mm · PSU ${selectedCase.psu} mm` : ''],
+    ['psu', 'Güç kaynağı', psu?.name || 'Seçim gerekli', psu ? `${psu.watts} W · ${psu.spec} · uzunluk ${psu.length} mm` : '']
+  ];
+  const fullSummary = document.getElementById('fullSystemSummary');
+  fullSummary.replaceChildren(...rows.map(([id, label, name, detail]) => {
+    const row = document.createElement('article');
+    row.className = 'full-summary-row';
+    const copy = document.createElement('div'); copy.className = 'full-summary-copy';
+    const eyebrow = document.createElement('span'); eyebrow.textContent = label;
+    const value = document.createElement('strong'); value.textContent = name;
+    const specs = document.createElement('small'); specs.textContent = detail;
+    copy.append(eyebrow, value, specs);
+    const edit = document.createElement('button'); edit.type = 'button'; edit.className = 'summary-edit'; edit.dataset.editPart = id; edit.textContent = 'Değiştir';
+    row.append(copy, edit);
+    return row;
+  }));
+
+  const socketOk = Boolean(family && board && family.socket === board.socket);
+  const ramOk = Boolean(board && ram && board.memory === (ram.id.includes('ddr4') ? 'DDR4' : 'DDR5'));
+  const boardCaseOk = Boolean(board && selectedCase && selectedCase.supports.includes(board.form));
+  const gpuPowerOk = Boolean(gpu && psu && psu.watts >= gpu.psuMin);
+  const psuSizeOk = Boolean(selectedCase && psu && psu.length <= selectedCase.psu);
+  const checks = [
+    [socketOk, 'İşlemci ve anakart soketi', socketOk ? `${family.socket} soketi eşleşiyor.` : 'Soket eşleşmesini kontrol et.'],
+    [ramOk, 'Anakart ve bellek türü', ramOk ? `${board.memory} bellek anakartla eşleşiyor.` : 'Anakartın desteklediği DDR türünü doğrula.'],
+    [boardCaseOk, 'Anakart ve kasa boyutu', boardCaseOk ? `${board.form} anakart seçilen kasada destekleniyor.` : 'Kasa anakart form faktörünü desteklemiyor.'],
+    [gpuPowerOk, 'Ekran kartı ve güç kapasitesi', gpuPowerOk ? `${psu.watts} W güç kaynağı, ${gpu.psuMin} W referans önerisini karşılıyor.` : 'Güç kaynağının watt değerini gözden geçir.'],
+    [psuSizeOk, 'Güç kaynağı ve kasa boşluğu', psuSizeOk ? `${psu.length} mm PSU, kasanın ${selectedCase.psu} mm sınırına uyuyor.` : 'PSU uzunluğu seçilen kasaya uygun değil.'],
+    [null, 'Ekran kartının fiziksel ölçüsü', 'Marka/model kartına göre uzunluk değişebilir; satın alacağın kartı kasa sınırıyla karşılaştır.'],
+    [null, 'Depolama yuvası ve bağlantı', 'Seçilen anakartın M.2 yuva sayısını veya SATA bağlantılarını ürün özelliklerinden doğrula.']
+  ];
+  const compatibilityList = document.getElementById('fullCompatibilityList');
+  compatibilityList.replaceChildren(...checks.map(([ok, title, detail]) => {
+    const item = document.createElement('article'); item.className = `compatibility-result ${ok ? 'is-ok' : 'is-warning'}`;
+    const icon = document.createElement('span'); icon.className = 'compatibility-result-icon'; icon.textContent = ok ? '✓' : '!'; icon.setAttribute('aria-hidden', 'true');
+    const copy = document.createElement('div'); const heading = document.createElement('strong'); heading.textContent = title; const note = document.createElement('small'); note.textContent = detail; copy.append(heading, note); item.append(icon, copy); return item;
+  }));
 }
 function showFamilies() {
   const list = processorFamilies[selection.brand] || [];
@@ -535,6 +591,9 @@ function updateStage() {
   if (!selection.pcCase) return;
   showStage('psu');
   renderPowerSupplies();
+  if (!selection.psu) return;
+  showStage('summary');
+  renderSystemSummary();
 }
 
 document.querySelectorAll('[data-brand]').forEach(button => button.addEventListener('click', () => {
@@ -718,5 +777,18 @@ psuChoices.addEventListener('click', event => {
 });
 document.getElementById('editPsu').addEventListener('click', () => {
   showStage('psu'); renderPowerSupplies();
+});
+document.getElementById('printSystemSummary').addEventListener('click', () => window.print());
+document.getElementById('editBuildFromSummary').addEventListener('click', () => {
+  showStage('model'); renderModels();
+});
+document.getElementById('fullSystemSummary').addEventListener('click', event => {
+  const button = event.target.closest('[data-edit-part]');
+  if (!button) return;
+  const editButtonByPart = {
+    cpu: 'editCpu', motherboard: 'editMotherboard', ram: 'editRam', gpu: 'editGpu',
+    storage: 'editStorage', case: 'editCase', psu: 'editPsu'
+  };
+  document.getElementById(editButtonByPart[button.dataset.editPart])?.click();
 });
 updateStage();

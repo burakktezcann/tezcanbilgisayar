@@ -20,7 +20,7 @@
       <div><span class="build-eyebrow"><i aria-hidden="true">✦</i> KENDİ BİLGİSAYARINI OLUŞTUR</span><h1>Sistemini <span>Topla</span></h1><p>Parçalarını sırayla seç. İlk adımda işlemci markanı ve modelini belirleyelim.</p></div>
       <div class="build-progress-card"><span>İLERLEME</span><strong id="progressCount">0 <small>/ 7</small></strong><div class="progress-track"><span id="progressBar"></span></div><small id="progressCaption">İşlemci seçimi bekleniyor</small></div>
     </section>
-    <div class="build-layout">
+    <div class="build-layout" id="buildLayout">
       <aside class="build-steps-card" aria-label="Sistem parçaları">
         <div class="steps-header"><span>PARÇALAR</span><span id="stepCount">0 / 7</span></div>
         <ol class="build-steps">
@@ -35,7 +35,7 @@
         <p class="steps-note"><span aria-hidden="true">ⓘ</span> Parça uyumluluğu adım adım kontrol edilecek.</p>
       </aside>
 
-      <section class="selection-card" aria-labelledby="selectionTitle">
+      <section class="selection-card" id="selectionCard" aria-labelledby="selectionTitle">
         <div class="selection-header"><div><span class="section-eyebrow" id="selectionEyebrow">ADIM 1 · İŞLEMCİ</span><h2 id="selectionTitle">İşlemci markanı seç</h2><p id="selectionDescription">AMD ve Intel işlemcileri arasından tercih yap.</p></div><button class="reset-button" id="resetBuilder" type="button">Temizle</button></div>
         <div id="builderMessage" class="builder-message" role="status" aria-live="polite"></div>
         <div class="choice-area" id="brandStep">
@@ -110,6 +110,15 @@
           <div class="psu-grid" id="psuChoices"></div>
           <p class="no-models" id="noPsu" hidden>Bu gereksinimlere uygun güç kaynağı bulunamadı.</p>
           <p class="compatibility-note"><span aria-hidden="true">ⓘ</span> Watt önerisi ekran kartı üreticisinin referans sistem gereksinimine göre hesaplanır. İşlemci hız aşırtması ve ekran kartı üretici modeli gereksinimi değiştirebilir; konektörleri de kontrol et.</p>
+        </div>
+        <div class="choice-area system-summary-screen" id="systemSummaryStep" hidden>
+          <div class="summary-complete-banner"><span class="summary-complete-icon" aria-hidden="true">✓</span><div><strong>Sistem taslağın hazır</strong><p>Seçimlerini ve uyumluluk notlarını burada inceleyebilirsin.</p></div></div>
+          <div class="full-summary-heading"><div><span class="section-eyebrow">SİSTEM ÖZETİ</span><h3>Seçtiğin parçalar</h3></div><button class="print-summary-button" id="printSystemSummary" type="button"><span aria-hidden="true">▤</span> Yazdır / PDF kaydet</button></div>
+          <div class="full-summary-list" id="fullSystemSummary"></div>
+          <section class="compatibility-panel" aria-labelledby="compatibilityTitle"><div class="compatibility-heading"><span class="section-eyebrow">ÖN KONTROL</span><h3 id="compatibilityTitle">Uyumluluk durumu</h3></div><div class="compatibility-list" id="fullCompatibilityList"></div></section>
+          <div class="summary-total-card"><div><span>Toplam sistem fiyatı</span><strong>Fiyat bilgisi henüz bağlı değil</strong></div><small>Ürün fiyatları ve stoklar kataloğa bağlandığında toplam burada hesaplanacak.</small></div>
+          <div class="summary-actions"><button class="back-choice" id="editBuildFromSummary" type="button">← Parçaları düzenle</button><a href="index.html">Mağazaya dön</a></div>
+          <p class="summary-disclaimer">Bu özet ön uyumluluk kontrolüdür. Ekran kartı üretici modelinin ölçüleri, bağlantıları ve anakartın güncel CPU/RAM destek listesi satın almadan önce ayrıca doğrulanmalıdır.</p>
         </div>
         <div class="selection-footer"><span><i aria-hidden="true">✓</i> Seçimin bu tarayıcıda otomatik saklanır.</span><a href="index.html#urun-kategorileri">Ürün kategorilerine göz at</a></div>
       </section>
