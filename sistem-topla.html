@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b35">
+  <meta name="description" content="İşlemcini seçerek bilgisayar sistemini adım adım oluştur.">
+  <title>Sistemini Topla | Tezcan Bilgisayar</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="32x32_favicon.png">
+  <link rel="stylesheet" href="assets/css/pages/system-builder.css">
+</head>
+<body>
+  <header class="build-header">
+    <a class="build-brand" href="index.html"><span class="build-mark">TB</span><span><strong>TEZCAN</strong><small>BİLGİSAYAR</small></span></a>
+    <a class="back-to-store" href="index.html"><span aria-hidden="true">←</span> Mağazaya dön</a>
+  </header>
+  <main class="build-main">
+    <nav class="breadcrumbs" aria-label="Sayfa konumu"><a href="index.html">Ana sayfa</a><span aria-hidden="true">/</span><span>Sistemini Topla</span></nav>
+    <section class="build-heading">
+      <div><span class="build-eyebrow"><i aria-hidden="true">✦</i> KENDİ BİLGİSAYARINI OLUŞTUR</span><h1>Sistemini <span>Topla</span></h1><p>Parçalarını sırayla seç. İlk adımda işlemci markanı ve modelini belirleyelim.</p></div>
+      <div class="build-progress-card"><span>İLERLEME</span><strong id="progressCount">0 <small>/ 7</small></strong><div class="progress-track"><span id="progressBar"></span></div><small id="progressCaption">İşlemci seçimi bekleniyor</small></div>
+    </section>
+    <div class="build-layout">
+      <aside class="build-steps-card" aria-label="Sistem parçaları">
+        <div class="steps-header"><span>PARÇALAR</span><span id="stepCount">0 / 7</span></div>
+        <ol class="build-steps">
+          <li class="build-step is-current" aria-current="step"><span class="step-number">01</span><span class="step-icon" aria-hidden="true">▦</span><span class="step-name"><strong>İşlemci</strong><small id="cpuStepStatus">Seçim bekliyor</small></span><span class="step-state" id="cpuStepCheck">○</span></li>
+          <li class="build-step is-next"><span class="step-number">02</span><span class="step-icon" aria-hidden="true">▤</span><span class="step-name"><strong>Anakart</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li class="build-step is-next"><span class="step-number">03</span><span class="step-icon" aria-hidden="true">▥</span><span class="step-name"><strong>Bellek (RAM)</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li class="build-step is-next"><span class="step-number">04</span><span class="step-icon" aria-hidden="true">▧</span><span class="step-name"><strong>Ekran kartı</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li class="build-step is-next"><span class="step-number">05</span><span class="step-icon" aria-hidden="true">▰</span><span class="step-name"><strong>Depolama</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li class="build-step is-next"><span class="step-number">06</span><span class="step-icon" aria-hidden="true">▣</span><span class="step-name"><strong>Kasa</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+          <li class="build-step is-next"><span class="step-number">07</span><span class="step-icon" aria-hidden="true">ϟ</span><span class="step-name"><strong>Güç kaynağı</strong><small>Sıradaki adım</small></span><span class="step-state">—</span></li>
+        </ol>
+        <p class="steps-note"><span aria-hidden="true">ⓘ</span> Parça uyumluluğu adım adım kontrol edilecek.</p>
+      </aside>
+
+      <section class="selection-card" aria-labelledby="selectionTitle">
+        <div class="selection-header"><div><span class="section-eyebrow" id="selectionEyebrow">ADIM 1 · İŞLEMCİ</span><h2 id="selectionTitle">İşlemci markanı seç</h2><p id="selectionDescription">AMD ve Intel işlemcileri arasından tercih yap.</p></div><button class="reset-button" id="resetBuilder" type="button">Temizle</button></div>
+        <div id="builderMessage" class="builder-message" role="status" aria-live="polite"></div>
+        <div class="choice-area" id="brandStep">
+          <div class="choice-grid brand-grid">
+            <button class="brand-choice" type="button" data-brand="intel"><span class="brand-symbol intel-symbol" aria-hidden="true">intel</span><span class="choice-copy"><strong>Intel</strong><small>Core i3, i5, i7, i9 ve Core Ultra</small></span><span class="choice-arrow" aria-hidden="true">→</span></button>
+            <button class="brand-choice" type="button" data-brand="amd"><span class="brand-symbol amd-symbol" aria-hidden="true">AMD</span><span class="choice-copy"><strong>AMD</strong><small>Ryzen 5, Ryzen 7 ve Ryzen 9</small></span><span class="choice-arrow" aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div class="choice-area" id="familyStep" hidden>
+          <div class="choice-toolbar"><button class="back-choice" id="backToBrand" type="button">← Marka değiştir</button><span class="selected-brand" id="selectedBrandLabel"></span></div>
+          <h3 class="step-prompt">İşlemci ailesini seç</h3>
+          <div class="choice-grid family-grid" id="familyChoices"></div>
+        </div>
+        <div class="choice-area" id="modelStep" hidden>
+          <div class="choice-toolbar"><button class="back-choice" id="backToFamily" type="button">← Aile seçimine dön</button><span class="selected-brand" id="selectedFamilyLabel"></span></div>
+          <div class="model-toolbar"><div><h3 class="step-prompt">İşlemci modelini seç</h3><p id="modelCount">Resmi üretici listelerindeki modeller</p></div><label class="model-search"><span class="visually-hidden">Model ara</span><input id="modelSearch" type="search" placeholder="Model ara…"><span aria-hidden="true">⌕</span></label></div>
+          <div class="model-grid" id="modelChoices"></div>
+          <p class="no-models" id="noModels" hidden>Bu aramayla eşleşen model bulunamadı.</p>
+        </div>
+        <div class="selection-footer"><span><i aria-hidden="true">✓</i> Seçimin bu tarayıcıda otomatik saklanır.</span><a href="index.html#urun-kategorileri">Ürün kategorilerine göz at</a></div>
+      </section>
+
+      <aside class="build-summary-card" aria-label="Sistem özeti">
+        <div class="summary-title"><div><span class="section-eyebrow">SİSTEMİN</span><h2>Parça özeti</h2></div><span class="summary-badge" id="summaryProgress">0 / 7</span></div>
+        <div class="summary-part is-selected"><span class="summary-part-icon" aria-hidden="true">▦</span><span class="summary-part-copy"><small>İŞLEMCİ</small><strong id="summaryCpu">Henüz seçilmedi</strong><small id="summaryCpuDetail">AMD veya Intel seç</small></span><button class="summary-edit" id="editCpu" type="button" hidden>Düzenle</button></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▤</span><span class="summary-part-copy"><small>ANAKART</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▥</span><span class="summary-part-copy"><small>RAM</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▧</span><span class="summary-part-copy"><small>EKRAN KARTI</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▰</span><span class="summary-part-copy"><small>DEPOLAMA</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-part"><span class="summary-part-icon" aria-hidden="true">▣</span><span class="summary-part-copy"><small>KASA VE GÜÇ</small><strong>Sonraki adım</strong></span></div>
+        <div class="summary-price"><span>Toplam sistem fiyatı</span><strong>Ürünler eklendikçe hesaplanacak</strong></div>
+        <p class="summary-note">Bu hazırlık sürümünde ürün seçimi ve ödeme yapılmaz. Fiyat ve stok bilgileri ürün kataloğu tamamlandığında bağlanacak.</p>
+      </aside>
+    </div>
+    <footer class="builder-sources">İşlemci modelleri üreticilerin resmi ürün listelerinden derlenmiştir: <a href="https://www.intel.com/content/www/us/en/support/articles/000099655/processors.html" target="_blank" rel="noopener noreferrer">Intel</a> · <a href="https://www.amd.com/en/products/processors/desktops/ryzen.html" target="_blank" rel="noopener noreferrer">AMD</a>. Modelin Türkiye'deki stok durumu ayrıca doğrulanmalıdır.</footer>
+  </main>
+  <script src="assets/js/pages/system-builder-page.js"></script>
+</body>
+</html>

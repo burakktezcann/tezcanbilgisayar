@@ -136,7 +136,7 @@ function createProductCard(item,{isProduct=false}={}){
       builderButton.type='button';
       builderButton.className='add-to-builder';
       builderButton.dataset.addToBuilder=item.id;
-      builderButton.textContent='Sistem listesine ekle';
+      builderButton.textContent='Sistem oluşturucuyu aç';
       if(item.stock===0){builderButton.disabled=true;builderButton.textContent='Stokta yok';}
       actions.append(builderButton);
     }
@@ -520,10 +520,7 @@ document.addEventListener('keydown',event=>{
 document.addEventListener('click',event=>{
   const builderButton=event.target.closest('[data-add-to-builder]');
   if(builderButton){
-    if(window.TezcanSystemBuilder?.selectProduct(builderButton.dataset.addToBuilder)){
-      builderButton.textContent='Sistem listesine eklendi';
-      window.setTimeout(()=>{if(builderButton.isConnected)builderButton.textContent='Sistem listesine ekle';},1800);
-    }
+    location.assign('sistem-topla.html');
     return;
   }
   const favoriteButton=event.target.closest('[data-favorite-product]');
