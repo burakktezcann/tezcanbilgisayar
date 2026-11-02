@@ -82,6 +82,13 @@ const storageProducts = {
   ]
 };
 
+const pcCases = [
+  { id: 'nzxt-h5-flow', name: 'NZXT H5 Flow', supports: ['ATX', 'Micro-ATX'], gpu: 410, cooler: 170, psu: 200, note: 'Mid-tower · hava akışlı ön panel', url: 'https://nzxt.com/products/h5-flow' },
+  { id: 'corsair-4000d-airflow', name: 'CORSAIR 4000D Airflow', supports: ['ATX', 'Micro-ATX'], gpu: 360, cooler: 170, psu: 220, note: 'Mid-tower · mesh ön panel', url: 'https://www.corsair.com/us/en/p/pc-cases/cc-9011200-ww/4000d-airflow-tempered-glass-mid-tower-atx-case-black-cc-9011200-ww' },
+  { id: 'asus-prime-ap201', name: 'ASUS Prime AP201', supports: ['Micro-ATX'], gpu: 338, cooler: 170, psu: 180, note: 'Kompakt kasa · Micro-ATX / Mini-ITX', url: 'https://www.asus.com/us/motherboards-components/cases/prime/asus-prime-ap201-microatx-case/techspec/' },
+  { id: 'cooler-master-q300l', name: 'Cooler Master MasterBox Q300L', supports: ['Micro-ATX'], gpu: 360, cooler: 159, psu: 160, note: 'Mini tower · Micro-ATX / Mini-ITX', url: 'https://www.coolermaster.com/en-us/products/masterbox-q300l.html' }
+];
+
 const storageKey = 'tezcan-system-builder-cpu-v1';
 const brandStep = document.getElementById('brandStep');
 const familyStep = document.getElementById('familyStep');
@@ -90,19 +97,22 @@ const motherboardStep = document.getElementById('motherboardStep');
 const ramStep = document.getElementById('ramStep');
 const gpuStep = document.getElementById('gpuStep');
 const storageStep = document.getElementById('storageStep');
+const caseStep = document.getElementById('caseStep');
 const familyChoices = document.getElementById('familyChoices');
 const modelChoices = document.getElementById('modelChoices');
 const motherboardChoices = document.getElementById('motherboardChoices');
 const ramChoices = document.getElementById('ramChoices');
 const gpuChoices = document.getElementById('gpuChoices');
 const storageChoices = document.getElementById('storageChoices');
+const caseChoices = document.getElementById('caseChoices');
 const modelSearch = document.getElementById('modelSearch');
 const motherboardSearch = document.getElementById('motherboardSearch');
 const ramSearch = document.getElementById('ramSearch');
 const gpuSearch = document.getElementById('gpuSearch');
 const storageSearch = document.getElementById('storageSearch');
+const caseSearch = document.getElementById('caseSearch');
 const message = document.getElementById('builderMessage');
-let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '' };
+let selection = { brand: '', family: '', model: '', motherboard: '', ram: '', ramCapacity: 32, gpuBrand: '', gpu: '', storageType: '', storage: '', pcCase: '' };
 
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
@@ -126,6 +136,13 @@ function getRamKit() {
   if (selection.ram && !kit) selection.ram = '';
   return kit;
 }
+function getCase() {
+  const board = getMotherboard();
+  const compatibleCases = board ? pcCases.filter(item => item.supports.includes(board.form)) : [];
+  const selectedCase = compatibleCases.find(item => item.id === selection.pcCase) || null;
+  if (selection.pcCase && !selectedCase) selection.pcCase = '';
+  return selectedCase;
+}
 function modelLabel(family, model) {
   return selection.brand === 'intel'
     ? family.id.startsWith('ultra') ? `Intel ${family.name} ${model}` : `Intel Core ${model}`
@@ -142,35 +159,40 @@ function showStage(stage) {
   ramStep.hidden = stage !== 'ram';
   gpuStep.hidden = stage !== 'gpu';
   storageStep.hidden = stage !== 'storage';
-  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : 'Depolama seç';
+  caseStep.hidden = stage !== 'case';
+  document.getElementById('selectionTitle').textContent = stage === 'brand' ? 'İşlemci markanı seç' : stage === 'family' ? 'İşlemci ailesini seç' : stage === 'model' ? 'İşlemci modelini seç' : stage === 'motherboard' ? 'Anakartını seç' : stage === 'ram' ? 'Belleğini seç' : stage === 'gpu' ? 'Ekran kartını seç' : stage === 'storage' ? 'Depolama seç' : 'Kasana karar ver';
   document.getElementById('selectionDescription').textContent = stage === 'brand'
     ? 'AMD ve Intel işlemcileri arasından tercih yap.'
     : stage === 'family'
       ? 'Seçtiğin markanın işlemci ailesini belirle.'
       : stage === 'model'
         ? 'Resmi model adını seç; fiyat ve stok bilgisi kataloğa eklendiğinde bağlanacak.'
-        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.';
-  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : 'ADIM 5 · DEPOLAMA';
+        : stage === 'motherboard' ? 'Seçtiğin işlemcinin soketine uyan anakart modelleri gösteriliyor.' : stage === 'ram' ? 'Seçtiğin anakartın desteklediği bellek türü ve gerçek kit modelleri listeleniyor.' : stage === 'gpu' ? 'NVIDIA GeForce ve AMD Radeon modelleri arasından seç.' : stage === 'storage' ? 'NVMe SSD, SATA SSD veya HDD türünü ve modelini seç.' : 'Anakart boyutuna uyan kasa seçeneklerini karşılaştır.';
+  document.getElementById('selectionEyebrow').textContent = stage === 'brand' ? 'ADIM 1 · İŞLEMCİ MARKASI' : stage === 'family' ? 'ADIM 1 · İŞLEMCİ AİLESİ' : stage === 'model' ? 'ADIM 1 · İŞLEMCİ MODELİ' : stage === 'motherboard' ? 'ADIM 2 · ANAKART' : stage === 'ram' ? 'ADIM 3 · BELLEK (RAM)' : stage === 'gpu' ? 'ADIM 4 · EKRAN KARTI' : stage === 'storage' ? 'ADIM 5 · DEPOLAMA' : 'ADIM 6 · KASA';
   const cpuButton = document.getElementById('cpuStepButton');
   const boardButton = document.getElementById('motherboardStepButton');
   const ramButton = document.getElementById('ramStepButton');
   const gpuButton = document.getElementById('gpuStepButton');
   const storageButton = document.getElementById('storageStepButton');
+  const caseButton = document.getElementById('caseStepButton');
   const cpuCurrent = ['brand', 'family', 'model'].includes(stage);
   const boardCurrent = stage === 'motherboard';
   const ramCurrent = stage === 'ram';
   const gpuCurrent = stage === 'gpu';
   const storageCurrent = stage === 'storage';
+  const caseCurrent = stage === 'case';
   cpuButton.classList.toggle('is-current', cpuCurrent);
   boardButton.classList.toggle('is-current', boardCurrent);
   ramButton.classList.toggle('is-current', ramCurrent);
   gpuButton.classList.toggle('is-current', gpuCurrent);
   storageButton.classList.toggle('is-current', storageCurrent);
+  caseButton.classList.toggle('is-current', caseCurrent);
   if (cpuCurrent) cpuButton.setAttribute('aria-current', 'step'); else cpuButton.removeAttribute('aria-current');
   if (boardCurrent) boardButton.setAttribute('aria-current', 'step'); else boardButton.removeAttribute('aria-current');
   if (ramCurrent) ramButton.setAttribute('aria-current', 'step'); else ramButton.removeAttribute('aria-current');
   if (gpuCurrent) gpuButton.setAttribute('aria-current', 'step'); else gpuButton.removeAttribute('aria-current');
   if (storageCurrent) storageButton.setAttribute('aria-current', 'step'); else storageButton.removeAttribute('aria-current');
+  if (caseCurrent) caseButton.setAttribute('aria-current', 'step'); else caseButton.removeAttribute('aria-current');
 }
 function updateSummary() {
   const family = getFamily();
@@ -183,6 +205,7 @@ function updateSummary() {
   if (selection.gpu && !gpu) selection.gpu = '';
   const storage = (storageProducts[selection.storageType] || []).find(item => item.id === selection.storage) || null;
   if (selection.storage && !storage) selection.storage = '';
+  const selectedCase = getCase();
   document.getElementById('summaryCpu').textContent = hasModel ? modelLabel(family, selection.model) : 'Henüz seçilmedi';
   document.getElementById('summaryCpuDetail').textContent = hasModel ? family.generation : selection.brand ? `${selection.brand === 'intel' ? 'Intel' : 'AMD'} · model bekleniyor` : 'AMD veya Intel seç';
   document.getElementById('cpuStepStatus').textContent = hasModel ? modelLabel(family, selection.model) : 'Seçim bekliyor';
@@ -227,11 +250,21 @@ function updateSummary() {
   document.getElementById('summaryStorage').textContent = storage ? storage.name : 'Sonraki adım';
   document.getElementById('summaryStorageDetail').textContent = storage ? `${storage.capacity} · ${storage.spec}` : 'Ekran kartını seç';
   document.getElementById('editStorage').hidden = !storage;
-  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage));
+  const caseStepButton = document.getElementById('caseStepButton');
+  caseStepButton.disabled = !storage;
+  caseStepButton.classList.toggle('is-complete', Boolean(selectedCase));
+  caseStepButton.classList.toggle('is-next', !storage);
+  document.getElementById('caseStepStatus').textContent = selectedCase ? selectedCase.name : storage && board ? `${board.form} uyumlu kasa seç` : 'Depolamadan sonra';
+  document.getElementById('caseStepCheck').textContent = selectedCase ? '✓' : storage && board ? '○' : '—';
+  document.getElementById('caseBoardLabel').textContent = board ? `${board.name} · ${board.form}` : 'Anakart seçilmedi';
+  document.getElementById('summaryCase').textContent = selectedCase ? selectedCase.name : 'Sonraki adım';
+  document.getElementById('summaryCaseDetail').textContent = selectedCase ? `${board.form} · ekran kartı boşluğu ${selectedCase.gpu} mm` : 'Depolamayı seç';
+  document.getElementById('editCase').hidden = !selectedCase;
+  const completed = Number(hasModel) + Number(Boolean(board)) + Number(Boolean(ram)) + Number(Boolean(gpu)) + Number(Boolean(storage)) + Number(Boolean(selectedCase));
   document.getElementById('progressCount').innerHTML = `${completed} <small>/ 7</small>`;
   document.getElementById('stepCount').textContent = `${completed} / 7`;
   document.getElementById('summaryProgress').textContent = `${completed} / 7`;
-  document.getElementById('progressCaption').textContent = storage ? 'Depolama seçildi · kasa ve güç kaynağı sırada' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
+  document.getElementById('progressCaption').textContent = selectedCase ? 'Kasa seçildi · güç kaynağı sırada' : storage ? 'Depolama seçildi · anakartına uygun kasa seç' : gpu ? 'Ekran kartı seçildi · depolama sırada' : ram ? 'İşlemci, anakart ve RAM seçildi · ekran kartı sırada' : board ? 'İşlemci ve anakart seçildi · RAM sırada' : hasModel ? 'İşlemcin seçildi · uyumlu anakart seç' : 'İşlemci seçimi bekleniyor';
   document.getElementById('progressBar').style.width = `${completed / 7 * 100}%`;
   saveSelection();
 }
@@ -382,6 +415,34 @@ function renderStorageProducts() {
   }));
   document.getElementById('noStorage').hidden = matches.length > 0 || !selection.storageType;
 }
+function renderCases() {
+  const board = getMotherboard();
+  if (!board) return;
+  const compatible = pcCases.filter(item => item.supports.includes(board.form));
+  document.getElementById('caseBoardLabel').textContent = `${board.name} · ${board.form}`;
+  document.getElementById('caseCount').textContent = `${compatible.length} uyumlu örnek kasa · ${board.form} anakart desteği`;
+  const query = caseSearch.value.trim().toLocaleLowerCase('tr-TR');
+  const matches = compatible.filter(item => `${item.name} ${item.note} ${item.supports.join(' ')}`.toLocaleLowerCase('tr-TR').includes(query));
+  caseChoices.replaceChildren(...matches.map(item => {
+    const article = document.createElement('article');
+    article.className = 'case-card';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'case-choice';
+    button.dataset.case = item.id;
+    button.setAttribute('aria-pressed', String(selection.pcCase === item.id));
+    const name = document.createElement('strong'); name.className = 'case-name'; name.textContent = item.name;
+    const note = document.createElement('span'); note.className = 'case-note'; note.textContent = item.note;
+    const tags = document.createElement('span'); tags.className = 'motherboard-badges';
+    [`GPU ${item.gpu} mm`, `Soğutucu ${item.cooler} mm`, `PSU ${item.psu} mm`].forEach(label => { const tag = document.createElement('span'); tag.textContent = label; tags.append(tag); });
+    const support = document.createElement('span'); support.className = 'case-note'; support.textContent = `Anakart desteği: ${item.supports.join(' · ')}`;
+    button.append(name, note, tags, support);
+    const source = document.createElement('a'); source.className = 'board-source'; source.href = item.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗';
+    article.append(button, source);
+    return article;
+  }));
+  document.getElementById('noCases').hidden = matches.length > 0;
+}
 function updateStage() {
   updateSummary();
   if (!selection.brand) { showStage('brand'); return; }
@@ -401,6 +462,9 @@ function updateStage() {
   if (!selection.gpu) return;
   showStage('storage');
   renderStorageProducts();
+  if (!selection.storage) return;
+  showStage('case');
+  renderCases();
 }
 
 document.querySelectorAll('[data-brand]').forEach(button => button.addEventListener('click', () => {
@@ -548,5 +612,23 @@ storageChoices.addEventListener('click', event => {
 });
 document.getElementById('editStorage').addEventListener('click', () => {
   showStage('storage'); renderStorageProducts();
+});
+document.getElementById('caseStepButton').addEventListener('click', () => {
+  if (!selection.storage) return;
+  showStage('case'); renderCases();
+});
+document.getElementById('backToStorage').addEventListener('click', () => {
+  showStage('storage'); renderStorageProducts();
+});
+caseSearch.addEventListener('input', renderCases);
+caseChoices.addEventListener('click', event => {
+  const button = event.target.closest('[data-case]');
+  if (!button) return;
+  selection.pcCase = button.dataset.case;
+  updateStage();
+  message.textContent = 'Kasan anakart boyutunla uyumlu ve sistem özetine eklendi.';
+});
+document.getElementById('editCase').addEventListener('click', () => {
+  showStage('case'); renderCases();
 });
 updateStage();
