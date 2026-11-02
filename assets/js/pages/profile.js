@@ -11,6 +11,7 @@ const addressForm = document.getElementById('addressForm');
 const addressList = document.getElementById('addressList');
 const cancelAddressEdit = document.getElementById('cancelAddressEdit');
 const changePasswordForm = document.getElementById('changePasswordForm');
+const communicationPreferencesForm = document.getElementById('communicationPreferencesForm');
 const addressEditor = document.getElementById('addressEditor');
 const savedSystemList = document.getElementById('savedSystemList');
 const systemsLoadNote = document.getElementById('systemsLoadNote');
@@ -20,7 +21,7 @@ let addresses = [];
 let defaultAddressFeatureReady = true;
 
 function openProfilePanel(name, updateHash = true) {
-  const panelName = ['overview', 'personal', 'addresses', 'security', 'systems'].includes(name) ? name : 'overview';
+  const panelName = ['overview', 'personal', 'addresses', 'security', 'systems', 'preferences', 'cards', 'iban'].includes(name) ? name : 'overview';
   document.querySelectorAll('[data-profile-panel]').forEach(panel => { panel.hidden = panel.dataset.profilePanel !== panelName; });
   document.querySelectorAll('.profile-nav [data-profile-tab]').forEach(button => {
     if (button.dataset.profileTab === panelName) button.setAttribute('aria-current', 'page');
@@ -243,6 +244,7 @@ async function loadAccount() {
   }
   document.getElementById('profileFullName').value = profile.full_name || '';
   document.getElementById('profilePhone').value = profile.phone || '';
+  document.getElementById('emailUpdatesPreference').checked = localStorage.getItem(`tezcan-email-updates-${user.id}`) === 'true';
   document.getElementById('profileGreeting').textContent = (profile.full_name || user.email?.split('@')[0] || 'müşterimiz').split(' ')[0];
   addresses = (addressRows || []).map(address => ({ ...address, is_default: Boolean(address.is_default) }));
   document.getElementById('addressSummary').textContent = addresses.length ? `${addresses.length} kayıtlı adres` : 'Henüz adres eklemedin';
@@ -277,6 +279,13 @@ profileForm.addEventListener('submit', async event => {
     document.dispatchEvent(new CustomEvent('account:profile-updated', { detail: { name: fullName } }));
     showMessage('Kişisel bilgilerin kaydedildi.', 'success');
   }
+});
+
+communicationPreferencesForm.addEventListener('submit', event => {
+  event.preventDefault();
+  if (!currentUser) return;
+  localStorage.setItem(`tezcan-email-updates-${currentUser.id}`, String(document.getElementById('emailUpdatesPreference').checked));
+  showMessage('Tercihin bu cihazda kaydedildi.', 'success');
 });
 
 addressForm.addEventListener('submit', async event => {

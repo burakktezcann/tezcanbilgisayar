@@ -11,20 +11,28 @@
         <nav class="profile-nav" aria-label="Hesap bölümleri">
           <p class="profile-nav-title">HESABIM</p>
           <button type="button" class="profile-nav-item" data-profile-tab="overview" aria-current="page"><span class="profile-nav-icon" aria-hidden="true">⌂</span> Genel bakış</button>
-          <button type="button" class="profile-nav-item" data-profile-tab="personal"><span class="profile-nav-icon" aria-hidden="true">♙</span> Kişisel bilgiler</button>
-          <button type="button" class="profile-nav-item" data-profile-tab="systems"><span class="profile-nav-icon" aria-hidden="true">▦</span> Kayıtlı sistemlerim</button>
+          <p class="profile-nav-group-title">KULLANICI BİLGİLERİM</p>
+          <button type="button" class="profile-nav-item" data-profile-tab="personal"><span class="profile-nav-icon" aria-hidden="true">♙</span> Üyelik bilgilerim</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="security"><span class="profile-nav-icon" aria-hidden="true">◇</span> Şifre değişikliği</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="preferences"><span class="profile-nav-icon" aria-hidden="true">✉</span> İletişim tercihleri</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="cards"><span class="profile-nav-icon" aria-hidden="true">▤</span> Kayıtlı kartlarım</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="iban"><span class="profile-nav-icon" aria-hidden="true">₺</span> IBAN bilgilerim</button>
           <button type="button" class="profile-nav-item" data-profile-tab="addresses"><span class="profile-nav-icon" aria-hidden="true">⌖</span> Adreslerim</button>
-          <button type="button" class="profile-nav-item" data-profile-tab="security"><span class="profile-nav-icon" aria-hidden="true">◇</span> Giriş ve güvenlik</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="systems"><span class="profile-nav-icon" aria-hidden="true">▦</span> Kayıtlı sistemlerim</button>
+          <p class="profile-nav-group-title">LİSTELERİM</p>
+          <a class="profile-nav-item" href="favorilerim.html"><span class="profile-nav-icon" aria-hidden="true">♡</span> Favorilerim</a>
+          <a class="profile-nav-item" href="favorilerim.html"><span class="profile-nav-icon" aria-hidden="true">☷</span> Tüm listelerim</a>
           <button class="profile-nav-item profile-signout" id="profileSignOut" type="button"><span class="profile-nav-icon" aria-hidden="true">↪</span> Çıkış yap</button>
         </nav>
         <div class="profile-workspace">
           <section class="profile-panel" data-profile-panel="overview">
             <div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP MERKEZİ</span><h2>Merhaba, <span id="profileGreeting">müşterimiz</span></h2><p>Hesap bilgilerini ve tercihlerini buradan kolayca yönetebilirsin.</p></div></div>
             <div class="profile-overview-grid">
-              <button class="profile-overview-card" type="button" data-profile-tab="personal"><span class="overview-card-icon">♙</span><span><strong>Kişisel bilgiler</strong><small>Adını ve telefon numaranı güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+              <button class="profile-overview-card" type="button" data-profile-tab="personal"><span class="overview-card-icon">♙</span><span><strong>Üyelik bilgilerim</strong><small>Adını, e-posta adresini ve telefonunu yönet</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
               <button class="profile-overview-card" type="button" data-profile-tab="systems"><span class="overview-card-icon">▦</span><span><strong>Kayıtlı sistemlerim</strong><small>Oluşturduğun sistem taslaklarına devam et</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
               <button class="profile-overview-card" type="button" data-profile-tab="addresses"><span class="overview-card-icon">⌖</span><span><strong>Adreslerim</strong><small id="addressSummary">Kayıtlı adreslerini yönet</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
-              <button class="profile-overview-card" type="button" data-profile-tab="security"><span class="overview-card-icon">◇</span><span><strong>Giriş ve güvenlik</strong><small>Hesap şifreni güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+              <button class="profile-overview-card" type="button" data-profile-tab="security"><span class="overview-card-icon">◇</span><span><strong>Şifre değişikliği</strong><small>Hesap şifreni güvenle güncelle</small></span><span class="overview-arrow" aria-hidden="true">→</span></button>
+              <a class="profile-overview-card" href="favorilerim.html"><span class="overview-card-icon">♡</span><span><strong>Favorilerim</strong><small>Beğendiğin ürünleri görüntüle</small></span><span class="overview-arrow" aria-hidden="true">→</span></a>
             </div>
             <p class="profile-notice">Bu hesap altyapısı hazırlık aşamasındadır. Henüz sipariş veya ödeme alınmaz.</p>
           </section>
@@ -48,9 +56,12 @@
           <div class="field field-wide"><label for="addressLine">Açık adres</label><textarea id="addressLine" name="addressLine" autocomplete="street-address" maxlength="1000" required></textarea></div>
         </div><label class="default-address-check"><input id="addressIsDefault" name="isDefault" type="checkbox"><span>Varsayılan teslimat adresim olsun</span></label><div class="profile-actions"><button class="account-submit" id="saveAddress" type="submit">Adresi kaydet</button><button class="secondary-button" id="cancelAddressEdit" type="button">Vazgeç</button></div></form></div>
           </section>
-          <section class="profile-panel security-section" data-profile-panel="security" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP AYARLARI</span><h2>Giriş ve güvenlik</h2><p>Hesabını güvende tutmak için güçlü bir şifre kullan.</p></div></div>
+          <section class="profile-panel security-section" data-profile-panel="security" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP AYARLARI</span><h2>Şifre değişikliği</h2><p>Hesabını güvende tutmak için güçlü bir şifre kullan.</p></div></div>
         <form id="changePasswordForm"><div class="profile-grid"><div class="field"><label for="accountNewPassword">Yeni şifre</label><input id="accountNewPassword" name="password" type="password" autocomplete="new-password" minlength="10" required><small>En az 10 karakter.</small></div><div class="field"><label for="accountNewPasswordConfirm">Yeni şifreyi tekrar yaz</label><input id="accountNewPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" minlength="10" required></div></div><div class="profile-actions"><button class="account-submit" type="submit">Şifreyi güncelle</button></div></form>
           </section>
+          <section class="profile-panel" data-profile-panel="preferences" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">HESAP AYARLARI</span><h2>İletişim tercihleri</h2><p>Tezcan Bilgisayar'dan almak istediğin bilgilendirmeleri seç.</p></div></div><form id="communicationPreferencesForm"><label class="preference-option"><input id="emailUpdatesPreference" type="checkbox"><span><strong>E-posta bilgilendirmeleri</strong><small>Ürün, kampanya ve mağaza duyurularını e-posta ile al.</small></span></label><div class="profile-actions"><button class="account-submit" type="submit">Tercihlerimi kaydet</button></div></form></section>
+          <section class="profile-panel" data-profile-panel="cards" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">ÖDEME YÖNTEMLERİ</span><h2>Kayıtlı kartlarım</h2><p>Kart bilgilerini güvenli ödeme altyapısı kullanıma açıldığında ekleyebilirsin.</p></div></div><div class="profile-placeholder"><span aria-hidden="true">▤</span><strong>Kart kaydetme henüz kullanıma açık değil</strong><p>Şu anda sitede ödeme alınmıyor. Kart bilgilerini güvenli ödeme sistemi kurulmadan saklamıyoruz.</p></div></section>
+          <section class="profile-panel" data-profile-panel="iban" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">ÖDEME BİLGİLERİ</span><h2>IBAN bilgilerim</h2><p>İade ve ödeme işlemleri başladığında bu alanı güvenli şekilde kullanıma açacağız.</p></div></div><div class="profile-placeholder"><span aria-hidden="true">₺</span><strong>IBAN kaydı henüz kullanıma açık değil</strong><p>Ödeme altyapısı hazır olana kadar banka hesap bilgisi toplamıyoruz veya saklamıyoruz.</p></div></section>
         </div>
       </div>
     </div>
