@@ -37,7 +37,10 @@ for (const boards of Object.values(data.motherboardsBySocket)) for (const board 
   add('motherboard', board.id, board.name, board.name.split(' ')[0], board.name, `${board.chipset} · ${socket} · ${board.memory} · ${board.form}`, { socket, chipset: board.chipset, memory_type: board.memory, form_factor: board.form });
 }
 for (const [memoryType, kits] of Object.entries(data.ramKitsByType)) for (const kit of kits) {
-  add('ram', kit.id, kit.name, kit.name.startsWith('CORSAIR') ? 'CORSAIR' : 'Kingston', kit.code, kit.spec, { capacity_gb: kit.capacity, memory_type: memoryType, model_code: kit.code }, kit.code);
+  const speed = kit.spec.match(new RegExp(`${memoryType}-(\\d+)`, 'i'))?.[1];
+  const latency = kit.spec.match(/CL\d+/i)?.[0];
+  const modules = kit.name.match(/\((\d+)×/)?.[1];
+  add('ram', kit.id, kit.name, kit.name.startsWith('CORSAIR') ? 'CORSAIR' : 'Kingston', kit.code, kit.spec, { capacity_gb: kit.capacity, memory_type: memoryType, ...(speed ? { speed_mts: Number(speed) } : {}), ...(latency ? { cas_latency: latency } : {}), ...(modules ? { module_count: Number(modules) } : {}), model_code: kit.code }, kit.code);
 }
 for (const [brand, cards] of Object.entries(data.graphicsCards)) for (const card of cards) {
   add('gpu', card.id, card.name, brand, card.name.replace(`${brand} `, ''), `${card.series} · referans güç önerisi ${card.psuMin} W. Kart üreticisine göre soğutucu ve boyut değişebilir.`, { gpu_chip: card.name, series: card.series, recommended_psu_w: card.psuMin });

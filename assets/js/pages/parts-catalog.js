@@ -1,36 +1,346 @@
-const partsGrid=document.getElementById('partsProductGrid');
-const partsEmpty=document.getElementById('partsEmpty');
-const partsQuery=document.getElementById('partsQuery');
-const partsSort=document.getElementById('partsSort');
-const partsCount=document.getElementById('partsResultCount');
-const partsCategoryNav=document.getElementById('partsCategories');
-const partsFavoriteCount=document.getElementById('partsFavoriteCount');
-const componentPartIds=['cpu','motherboard','ram','gpu','disk','case','cooling','psu'];
-const partsCategoryIds=[...componentPartIds,'systems','computers','peripherals','gaming','networking','office','accessories','software'];
-const guestFavoriteKey='tezcan-product-favorites';
-const partsConfig=window.SUPABASE_CONFIG||{};
-const partsClient=partsConfig.url&&partsConfig.publishableKey&&window.supabase?.createClient?window.supabase.createClient(partsConfig.url,partsConfig.publishableKey):null;
-const partsCategoryNames={cpu:'İşlemciler',motherboard:'Anakartlar',ram:'RAM',gpu:'Ekran Kartları',disk:'Depolama',case:'Kasalar',cooling:'Soğutucular',psu:'Güç Kaynakları',systems:'OEM Paketler',computers:'Bilgisayar',peripherals:'Çevre Birimleri',gaming:'Oyun ve Hobi',networking:'Network',office:'Ofis Ürünleri',accessories:'Aksesuar',software:'Yazılım'};
-const partsIcons={cpu:'fa-microchip',motherboard:'fa-chess-board',ram:'fa-memory',gpu:'fa-display',disk:'fa-hard-drive',case:'fa-server',cooling:'fa-fan',psu:'fa-bolt',systems:'fa-boxes-stacked',computers:'fa-laptop',peripherals:'fa-display',gaming:'fa-gamepad',networking:'fa-wifi',office:'fa-print',accessories:'fa-plug',software:'fa-gear'};
-const requestedPartCategory=new URLSearchParams(location.search).get('category')||'components';
-let allParts=[];let selectedPartCategory=['components','all',...partsCategoryIds].includes(requestedPartCategory)?requestedPartCategory:'components';let favorites=[];let favoriteKey=guestFavoriteKey;let currentUser=null;let remoteFavorites=new Set();let favoriteCloudReady=false;let favoriteSyncTimer=0;
-function readIds(key){try{const value=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(value)?value.filter(id=>typeof id==='string'):[];}catch{return [];}}
-function saveFavorites(){try{localStorage.setItem(favoriteKey,JSON.stringify(favorites));}catch{}partsFavoriteCount.textContent=String(favorites.length);if(favoriteCloudReady){clearTimeout(favoriteSyncTimer);favoriteSyncTimer=setTimeout(syncFavoriteRows,350);}}
-async function syncFavoriteRows(){if(!favoriteCloudReady||!currentUser||!partsClient)return;const desired=new Set(favorites);const remove=[...remoteFavorites].filter(id=>!desired.has(id));const add=[...desired].filter(id=>!remoteFavorites.has(id));try{if(remove.length){const {error}=await partsClient.from('customer_favorites').delete().eq('user_id',currentUser.id).in('product_id',remove);if(error)throw error;}if(add.length){const {error}=await partsClient.from('customer_favorites').upsert(add.map(product_id=>({user_id:currentUser.id,product_id})),{onConflict:'user_id,product_id',ignoreDuplicates:true});if(error)throw error;}remoteFavorites=desired;}catch(error){console.warn('Favoriler hesaba eşitlenemedi:',error);favoriteCloudReady=false;}}
-async function activateFavoriteUser(user){currentUser=user||null;favoriteCloudReady=false;remoteFavorites=new Set();if(!user){favoriteKey=guestFavoriteKey;favorites=readIds(favoriteKey);saveFavorites();return;}favoriteKey=`${guestFavoriteKey}-user-${user.id}`;const hasAccountFavorites=localStorage.getItem(favoriteKey)!==null;const accountFavorites=readIds(favoriteKey);const guestFavorites=readIds(guestFavoriteKey);try{const {data,error}=await partsClient.from('customer_favorites').select('product_id').order('created_at');if(error)throw error;remoteFavorites=new Set((data||[]).map(row=>row.product_id));favorites=[...new Set([...remoteFavorites,...accountFavorites])];const owner=localStorage.getItem(`${guestFavoriteKey}-guest-owner`);if((!owner||owner===user.id)&&!hasAccountFavorites){favorites=[...new Set([...favorites,...guestFavorites])];if(guestFavorites.length)localStorage.setItem(`${guestFavoriteKey}-guest-owner`,user.id);}favoriteCloudReady=true;saveFavorites();}catch(error){console.warn('Favoriler hesaptan alınamadı:',error);const guestOwner=localStorage.getItem('tezcan-product-favorites-guest-owner');favorites=hasAccountFavorites?accountFavorites:(!guestOwner||guestOwner===user.id?guestFavorites:[]);saveFavorites();}}
-function normalizeProducts(rows,source='db'){return(rows||[]).map(row=>({id:row.id,slug:row.slug,categoryId:source==='db'?row.category_id:row.categoryId,name:row.name,description:row.description||'',brand:row.brand||'',model:row.model||'',sku:row.sku||'',image:source==='db'?row.image_path:row.image,price:row.price===null||row.price===undefined?null:Number(row.price),currency:row.currency||'TRY',stock:row.stock,status:row.status,attributes:row.attributes||{},searchTerms:row.search_terms||row.searchTerms||[]})).filter(row=>row.status==='active'&&partsCategoryIds.includes(row.categoryId));}
-async function loadParts(){let live=[];if(partsClient){try{const {data,error}=await partsClient.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,attributes,search_terms').eq('status','active').in('category_id',partsCategoryIds).order('sort_order');if(!error&&data)live=normalizeProducts(data);}catch{}}
-  let bundled=[];try{const response=await fetch('assets/data/builder-products.json',{cache:'no-store'});if(response.ok)bundled=normalizeProducts((await response.json()).products,'bundle');}catch{}
-  const slugs=new Set(live.map(item=>item.slug).filter(Boolean));allParts=[...live,...bundled.filter(item=>!item.slug||!slugs.has(item.slug))];renderCategoryButtons();renderParts();}
-function renderCategoryButtons(){const categories=[{id:'components',label:'Bilgisayar Parçaları'},...partsCategoryIds.filter(id=>id!=='disk').map(id=>({id,label:partsCategoryNames[id]})),{id:'disk',label:'Depolama'}];partsCategoryNav.replaceChildren(...categories.map(category=>{const button=document.createElement('button');button.type='button';button.textContent=category.label;button.dataset.partCategory=category.id;button.setAttribute('aria-pressed',String(selectedPartCategory===category.id));return button;}));}
-function displayPrice(product){return Number.isFinite(product.price)?new Intl.NumberFormat('tr-TR',{style:'currency',currency:/^[A-Z]{3}$/.test(product.currency||'')?product.currency:'TRY'}).format(product.price):'Fiyat bilgisi hazırlanıyor';}
-function imageAllowed(path){return typeof path==='string'&&((/^assets\/products\/[A-Za-z0-9._/-]+$/.test(path)&&!path.includes('..'))||/^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(path));}
-function renderParts(){const query=partsQuery.value.trim().toLocaleLowerCase('tr-TR');let rows=allParts.filter(item=>(selectedPartCategory==='components'?componentPartIds.includes(item.categoryId):selectedPartCategory==='all'||item.categoryId===selectedPartCategory)&&`${item.name} ${item.brand} ${item.model} ${item.sku} ${item.description} ${item.searchTerms.join(' ')}`.toLocaleLowerCase('tr-TR').includes(query));if(partsSort.value==='name')rows.sort((a,b)=>a.name.localeCompare(b.name,'tr'));if(partsSort.value==='price')rows.sort((a,b)=>(Number.isFinite(b.price)?1:0)-(Number.isFinite(a.price)?1:0)||(a.price??Infinity)-(b.price??Infinity));partsCount.textContent=`${rows.length} ürün gösteriliyor`;
-  partsGrid.replaceChildren(...rows.map(item=>{const card=document.createElement('article');card.className='parts-product-card';const art=document.createElement('div');art.className='parts-product-art';const imagePath=imageAllowed(item.image)?item.image:'';if(imagePath){const image=document.createElement('img');image.src=imagePath;image.alt='';image.loading='lazy';image.addEventListener('error',()=>art.replaceChildren(iconFor(item)),{once:true});art.append(image);}else art.append(iconFor(item));const heart=document.createElement('button');heart.type='button';heart.className='parts-product-heart';heart.dataset.favoriteId=item.id;heart.setAttribute('aria-pressed',String(favorites.includes(item.id)));heart.setAttribute('aria-label',favorites.includes(item.id)?`${item.name} favorilerden çıkar`:`${item.name} favorilere ekle`);heart.innerHTML=`<i class="fa-${favorites.includes(item.id)?'solid':'regular'} fa-heart" aria-hidden="true"></i>`;art.append(heart);const body=document.createElement('div');body.className='parts-product-copy';const brand=document.createElement('span');brand.className='parts-product-brand';brand.textContent=item.brand||'Bilgisayar parçası';const title=document.createElement('h2');title.textContent=item.name;const detail=document.createElement('p');detail.textContent=item.description||item.model||'';const category=document.createElement('span');category.className='parts-product-category';category.textContent=partsCategoryNames[item.categoryId]||'Parça';const price=document.createElement('strong');price.className='parts-product-price';price.textContent=displayPrice(item);body.append(brand,title,detail,category,price);card.append(art,body);return card;}));partsEmpty.hidden=rows.length>0;partsGrid.hidden=rows.length===0;}
-function iconFor(item){const icon=document.createElement('i');icon.className=`fa-solid ${partsIcons[item.categoryId]||'fa-box'}`;icon.setAttribute('aria-hidden','true');return icon;}
-partsCategoryNav.addEventListener('click',event=>{const button=event.target.closest('[data-part-category]');if(!button)return;selectedPartCategory=button.dataset.partCategory;partsCategoryNav.querySelectorAll('[data-part-category]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));renderParts();});
-partsGrid.addEventListener('click',event=>{const button=event.target.closest('[data-favorite-id]');if(!button)return;const id=button.dataset.favoriteId;favorites=favorites.includes(id)?favorites.filter(value=>value!==id):[...favorites,id];saveFavorites();renderParts();});
-partsQuery.value=new URLSearchParams(location.search).get('q')||'';partsQuery.addEventListener('input',renderParts);partsSort.addEventListener('change',renderParts);document.getElementById('partsSearch').addEventListener('submit',event=>{event.preventDefault();renderParts();});document.getElementById('currentYear').textContent=String(new Date().getFullYear());
-if(partsClient){partsClient.auth.getSession().then(({data})=>activateFavoriteUser(data?.session?.user||null)).catch(()=>activateFavoriteUser(null));partsClient.auth.onAuthStateChange((_event,session)=>setTimeout(()=>activateFavoriteUser(session?.user||null),0));}else{favorites=readIds(guestFavoriteKey);saveFavorites();}
-window.addEventListener('storage',event=>{if(event.key===favoriteKey){favorites=readIds(favoriteKey);partsFavoriteCount.textContent=String(favorites.length);renderParts();}});
+const partsGrid = document.getElementById('partsProductGrid');
+const partsEmpty = document.getElementById('partsEmpty');
+const partsQuery = document.getElementById('partsQuery');
+const partsSort = document.getElementById('partsSort');
+const partsCount = document.getElementById('partsResultCount');
+const partsCategoryNav = document.getElementById('partsCategories');
+const partsFilterFields = document.getElementById('partsFilterFields');
+const partsFavoriteCount = document.getElementById('partsFavoriteCount');
+const partsTitle = document.getElementById('partsPageTitle');
+const partsBreadcrumb = document.getElementById('partsBreadcrumb');
+const componentPartIds = ['cpu', 'motherboard', 'ram', 'gpu', 'disk', 'case', 'cooling', 'psu'];
+const otherProductCategories = ['computers', 'peripherals', 'gaming', 'networking', 'office', 'accessories', 'software'];
+const partsCategoryIds = [...componentPartIds, ...otherProductCategories];
+const guestFavoriteKey = 'tezcan-product-favorites';
+const partsConfig = window.SUPABASE_CONFIG || {};
+const partsClient = partsConfig.url && partsConfig.publishableKey && window.supabase?.createClient
+  ? window.supabase.createClient(partsConfig.url, partsConfig.publishableKey) : null;
+const partsCategoryNames = {
+  cpu: 'İşlemci', motherboard: 'Anakart', ram: 'RAM', gpu: 'Ekran Kartı', disk: 'Depolama',
+  case: 'Kasa', cooling: 'Soğutucu', psu: 'Güç Kaynağı', computers: 'Bilgisayar',
+  peripherals: 'Çevre Birimi', gaming: 'Oyun ve Hobi', networking: 'Network', office: 'Ofis Ürünü',
+  accessories: 'Aksesuar', software: 'Yazılım'
+};
+const partsCategoryPluralNames = {
+  cpu: 'İşlemciler', motherboard: 'Anakartlar', ram: 'RAM', gpu: 'Ekran Kartları', disk: 'Depolama',
+  case: 'Kasalar', cooling: 'Soğutucular', psu: 'Güç Kaynakları', computers: 'Bilgisayar',
+  peripherals: 'Çevre Birimleri', gaming: 'Oyun ve Hobi', networking: 'Network', office: 'Ofis Ürünleri',
+  accessories: 'Aksesuarlar', software: 'Yazılım'
+};
+const partsIcons = {
+  cpu: 'fa-microchip', motherboard: 'fa-chess-board', ram: 'fa-memory', gpu: 'fa-display',
+  disk: 'fa-hard-drive', case: 'fa-server', cooling: 'fa-fan', psu: 'fa-bolt',
+  computers: 'fa-laptop', peripherals: 'fa-keyboard', gaming: 'fa-gamepad', networking: 'fa-wifi',
+  office: 'fa-print', accessories: 'fa-plug', software: 'fa-gear'
+};
+const facetsByCategory = {
+  cpu: [['brand', 'Marka'], ['attributes.family', 'İşlemci serisi'], ['attributes.socket', 'Soket tipi']],
+  motherboard: [['brand', 'Marka'], ['attributes.socket', 'İşlemci soketi'], ['attributes.chipset', 'Yonga seti'], ['attributes.memory_type', 'Bellek türü'], ['attributes.form_factor', 'Anakart boyutu']],
+  ram: [['brand', 'Marka'], ['attributes.capacity_gb', 'Kapasite'], ['attributes.memory_type', 'Bellek türü'], ['attributes.speed_mts', 'Bellek hızı'], ['attributes.cas_latency', 'Gecikme değeri']],
+  gpu: [['brand', 'Marka'], ['attributes.gpu_chip', 'Grafik işlemci'], ['attributes.memory_type', 'Bellek türü'], ['attributes.memory_gb', 'Ekran kartı belleği'], ['attributes.series', 'Seri']],
+  disk: [['brand', 'Marka'], ['attributes.drive_type', 'Depolama türü'], ['attributes.capacity_gb', 'Kapasite'], ['attributes.interface', 'Bağlantı']],
+  case: [['brand', 'Marka'], ['attributes.form_factor', 'Kasa boyutu'], ['attributes.board_support', 'Anakart desteği']],
+  cooling: [['brand', 'Marka'], ['attributes.cooler_type', 'Soğutma türü'], ['attributes.socket_support', 'Soket desteği']],
+  psu: [['brand', 'Marka'], ['attributes.power_w', 'Güç kapasitesi'], ['attributes.efficiency', 'Verimlilik'], ['attributes.modular', 'Kablo yapısı'], ['attributes.form_factor', 'Güç kaynağı boyutu']],
+  computers: [['brand', 'Marka'], ['attributes.device_type', 'Bilgisayar türü'], ['attributes.processor', 'İşlemci'], ['attributes.memory_gb', 'Bellek'], ['attributes.storage_gb', 'Depolama']],
+  peripherals: [['brand', 'Marka'], ['attributes.device_type', 'Ürün türü'], ['attributes.connection', 'Bağlantı'], ['attributes.screen_size_in', 'Ekran boyutu'], ['attributes.refresh_rate_hz', 'Yenileme hızı']],
+  gaming: [['brand', 'Marka'], ['attributes.device_type', 'Ürün türü'], ['attributes.platform', 'Platform'], ['attributes.connection', 'Bağlantı']],
+  networking: [['brand', 'Marka'], ['attributes.device_type', 'Ürün türü'], ['attributes.wifi_standard', 'Wi-Fi standardı'], ['attributes.speed_mbps', 'Ağ hızı']],
+  office: [['brand', 'Marka'], ['attributes.device_type', 'Ürün türü'], ['attributes.print_type', 'Baskı teknolojisi'], ['attributes.connectivity', 'Bağlantı']],
+  accessories: [['brand', 'Marka'], ['attributes.device_type', 'Ürün türü'], ['attributes.interface', 'Bağlantı']],
+  software: [['brand', 'Marka'], ['attributes.software_type', 'Yazılım türü'], ['attributes.license_type', 'Lisans türü']]
+};
+const requestedCategory = new URLSearchParams(location.search).get('category') || 'components';
+let selectedPartCategory = ['components', ...partsCategoryIds].includes(requestedCategory) ? requestedCategory : 'components';
+let allParts = [];
+let favorites = [];
+let favoriteKey = guestFavoriteKey;
+let currentUser = null;
+let remoteFavorites = new Set();
+let favoriteCloudReady = false;
+let favoriteSyncTimer = 0;
+let selectedFacets = new Map();
+
+function readIds(key) {
+  try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value.filter(id => typeof id === 'string') : []; }
+  catch { return []; }
+}
+function saveFavorites() {
+  try { localStorage.setItem(favoriteKey, JSON.stringify(favorites)); } catch {}
+  partsFavoriteCount.textContent = String(favorites.length);
+  if (favoriteCloudReady) { clearTimeout(favoriteSyncTimer); favoriteSyncTimer = setTimeout(syncFavoriteRows, 350); }
+}
+async function syncFavoriteRows() {
+  if (!favoriteCloudReady || !currentUser || !partsClient) return;
+  const desired = new Set(favorites);
+  const remove = [...remoteFavorites].filter(id => !desired.has(id));
+  const add = [...desired].filter(id => !remoteFavorites.has(id));
+  try {
+    if (remove.length) {
+      const { error } = await partsClient.from('customer_favorites').delete().eq('user_id', currentUser.id).in('product_id', remove);
+      if (error) throw error;
+    }
+    if (add.length) {
+      const { error } = await partsClient.from('customer_favorites').upsert(add.map(product_id => ({ user_id: currentUser.id, product_id })), { onConflict: 'user_id,product_id', ignoreDuplicates: true });
+      if (error) throw error;
+    }
+    remoteFavorites = desired;
+  } catch (error) { console.warn('Favoriler hesaba eşitlenemedi:', error); favoriteCloudReady = false; }
+}
+async function activateFavoriteUser(user) {
+  currentUser = user || null; favoriteCloudReady = false; remoteFavorites = new Set();
+  if (!user) { favoriteKey = guestFavoriteKey; favorites = readIds(favoriteKey); saveFavorites(); return; }
+  favoriteKey = `${guestFavoriteKey}-user-${user.id}`;
+  const hasAccountFavorites = localStorage.getItem(favoriteKey) !== null;
+  const accountFavorites = readIds(favoriteKey);
+  const guestFavorites = readIds(guestFavoriteKey);
+  try {
+    const { data, error } = await partsClient.from('customer_favorites').select('product_id').order('created_at');
+    if (error) throw error;
+    remoteFavorites = new Set((data || []).map(row => row.product_id));
+    favorites = [...new Set([...remoteFavorites, ...accountFavorites])];
+    const owner = localStorage.getItem(`${guestFavoriteKey}-guest-owner`);
+    if ((!owner || owner === user.id) && !hasAccountFavorites) {
+      favorites = [...new Set([...favorites, ...guestFavorites])];
+      if (guestFavorites.length) localStorage.setItem(`${guestFavoriteKey}-guest-owner`, user.id);
+    }
+    favoriteCloudReady = true; saveFavorites();
+  } catch (error) {
+    console.warn('Favoriler hesaba alınamadı:', error);
+    const owner = localStorage.getItem(`${guestFavoriteKey}-guest-owner`);
+    favorites = hasAccountFavorites ? accountFavorites : (!owner || owner === user.id ? guestFavorites : []);
+    saveFavorites();
+  }
+}
+function normalizeProducts(rows, source = 'db') {
+  return (rows || []).map(row => ({
+    id: row.id, slug: row.slug, categoryId: source === 'db' ? row.category_id : row.categoryId,
+    name: row.name, description: row.description || '', brand: row.brand || '', model: row.model || '', sku: row.sku || '',
+    image: source === 'db' ? row.image_path : row.image,
+    price: row.price === null || row.price === undefined ? null : Number(row.price), currency: row.currency || 'TRY',
+    stock: row.stock, status: row.status, attributes: row.attributes || {}, searchTerms: row.search_terms || row.searchTerms || []
+  })).filter(row => row.status === 'active' && partsCategoryIds.includes(row.categoryId));
+}
+async function loadParts() {
+  let live = [];
+  if (partsClient) {
+    try {
+      const { data, error } = await partsClient.from('catalog_products').select('id,slug,category_id,name,description,brand,model,sku,image_path,price,currency,stock,status,attributes,search_terms').eq('status', 'active').in('category_id', partsCategoryIds).order('sort_order');
+      if (!error && data) live = normalizeProducts(data);
+    } catch {}
+  }
+  let bundled = [];
+  try {
+    const response = await fetch('assets/data/builder-products.json', { cache: 'no-store' });
+    if (response.ok) bundled = normalizeProducts((await response.json()).products, 'bundle');
+  } catch {}
+  const bundledBySlug = new Map(bundled.map(item => [item.slug, item]));
+  const slugs = new Set(live.map(item => item.slug).filter(Boolean));
+  const enrichedLive = live.map(item => {
+    const bundledItem = bundledBySlug.get(item.slug);
+    return bundledItem ? { ...bundledItem, ...item, attributes: { ...bundledItem.attributes, ...item.attributes } } : item;
+  });
+  allParts = [...enrichedLive, ...bundled.filter(item => !item.slug || !slugs.has(item.slug))];
+  renderCategoryButtons(); renderPageHeading(); renderFilters(); renderParts();
+}
+function renderCategoryButtons() {
+  const categories = [{ id: 'components', label: 'Tüm Parçalar', icon: 'fa-layer-group' }, ...componentPartIds.map(id => ({ id, label: partsCategoryPluralNames[id], icon: partsIcons[id] }))];
+  partsCategoryNav.replaceChildren(...categories.map(category => {
+    const button = document.createElement('button'); button.type = 'button'; button.dataset.partCategory = category.id;
+    button.setAttribute('aria-pressed', String(selectedPartCategory === category.id));
+    const icon = document.createElement('i'); icon.className = `fa-solid ${category.icon}`; icon.setAttribute('aria-hidden', 'true');
+    const label = document.createElement('span'); label.textContent = category.label;
+    button.append(icon, label); return button;
+  }));
+}
+function renderPageHeading() {
+  const isComponents = selectedPartCategory === 'components';
+  const title = isComponents ? 'Bilgisayar Parçaları' : (partsCategoryPluralNames[selectedPartCategory] || 'Bilgisayar Parçaları');
+  partsTitle.replaceChildren(document.createTextNode(isComponents ? 'Bilgisayar ' : ''), (() => { const span = document.createElement('span'); span.textContent = isComponents ? 'Parçaları' : title; return span; })());
+  partsBreadcrumb.textContent = isComponents ? 'Bilgisayar Parçaları' : title;
+  document.getElementById('partsPageDescription').textContent = isComponents
+    ? 'İşlemci, anakart, bellek, ekran kartı ve diğer bileşenleri özelliklerine göre filtrele.'
+    : `${title} modellerini teknik özelliklerine göre filtrele ve karşılaştır.`;
+}
+function categoryProducts() {
+  return allParts.filter(item => selectedPartCategory === 'components'
+    ? componentPartIds.includes(item.categoryId)
+    : item.categoryId === selectedPartCategory);
+}
+function valueAt(product, path) {
+  return path.split('.').reduce((value, key) => value?.[key], product);
+}
+function facetLabel(value, key) {
+  if (key.endsWith('capacity_gb') || key.endsWith('memory_gb')) return `${Number(value) >= 1000 ? `${Number(value) / 1000} TB` : `${value} GB`}`;
+  if (key.endsWith('speed_mts')) return `${value} MT/s`;
+  if (key.endsWith('_w')) return `${value} W`;
+  if (key.endsWith('_hz')) return `${value} Hz`;
+  if (key.endsWith('_in')) return `${value} inç`;
+  return String(value);
+}
+function facetToken(value) { return String(value).trim(); }
+function addFacetGroup(container, key, label, options) {
+  if (!options.length) return;
+  const fieldset = document.createElement('fieldset'); fieldset.className = 'parts-filter-group';
+  const legend = document.createElement('legend'); legend.textContent = label; fieldset.append(legend);
+  const list = document.createElement('div'); list.className = 'parts-filter-options';
+  options.forEach(option => {
+    const row = document.createElement('label'); row.className = 'parts-filter-option';
+    const input = document.createElement('input'); input.type = 'checkbox'; input.dataset.facet = key; input.value = facetToken(option.value);
+    input.checked = selectedFacets.get(key)?.has(input.value) || false;
+    const text = document.createElement('span'); text.textContent = facetLabel(option.value, key);
+    const count = document.createElement('small'); count.textContent = String(option.count);
+    row.append(input, text, count); list.append(row);
+  });
+  fieldset.append(list); container.append(fieldset);
+}
+function renderFilters() {
+  const category = categoryProducts();
+  partsFilterFields.replaceChildren();
+  if (selectedPartCategory === 'components') {
+    const note = document.createElement('p'); note.className = 'parts-filter-hint'; note.textContent = 'Özellik filtrelerini görmek için yukarıdan bir parça türü seç.'; partsFilterFields.append(note);
+  } else {
+    const definitions = facetsByCategory[selectedPartCategory] || [];
+    definitions.forEach(([key, label]) => {
+      const counts = new Map();
+      category.forEach(product => {
+        const value = valueAt(product, key);
+        if (value === null || value === undefined || value === '') return;
+        const values = Array.isArray(value) ? value : String(value).split(/[,;|]+/).map(part => part.trim()).filter(Boolean);
+        values.forEach(item => { const token = facetToken(item); counts.set(token, (counts.get(token) || 0) + 1); });
+      });
+      const options = [...counts].map(([value, count]) => ({ value, count })).sort((a, b) => {
+        const aNum = Number(a.value), bNum = Number(b.value);
+        return Number.isFinite(aNum) && Number.isFinite(bNum) ? aNum - bNum : a.value.localeCompare(b.value, 'tr');
+      });
+      addFacetGroup(partsFilterFields, key, label, options);
+    });
+  }
+  const priced = category.filter(product => Number.isFinite(product.price));
+  if (priced.length) {
+    const min = Math.min(...priced.map(product => product.price)); const max = Math.max(...priced.map(product => product.price));
+    const group = document.createElement('fieldset'); group.className = 'parts-filter-group';
+    const legend = document.createElement('legend'); legend.textContent = 'Fiyat aralığı'; group.append(legend);
+    const range = document.createElement('div'); range.className = 'parts-price-range';
+    [['partsMinPrice', 'En az', min], ['partsMaxPrice', 'En fazla', max]].forEach(([id, label, value]) => {
+      const wrapper = document.createElement('label'); wrapper.textContent = label;
+      const input = document.createElement('input'); input.type = 'number'; input.id = id; input.min = '0'; input.placeholder = String(Math.round(value)); input.value = selectedFacets.get(id)?.[0] || ''; wrapper.append(input); range.append(wrapper);
+    });
+    group.append(range); partsFilterFields.append(group);
+  }
+  if (category.some(product => Number.isFinite(product.stock))) {
+    const group = document.createElement('label'); group.className = 'parts-filter-option parts-stock-filter';
+    const input = document.createElement('input'); input.type = 'checkbox'; input.id = 'partsInStock'; input.checked = selectedFacets.has('inStock');
+    const text = document.createElement('span'); text.textContent = 'Stokta olanlar'; group.append(input, text); partsFilterFields.prepend(group);
+  }
+  if (!partsFilterFields.children.length) {
+    const note = document.createElement('p'); note.className = 'parts-filter-hint'; note.textContent = 'Bu kategoride henüz filtrelenebilir teknik özellik girilmemiş.'; partsFilterFields.append(note);
+  }
+}
+function displayPrice(product) {
+  return Number.isFinite(product.price)
+    ? new Intl.NumberFormat('tr-TR', { style: 'currency', currency: /^[A-Z]{3}$/.test(product.currency || '') ? product.currency : 'TRY' }).format(product.price)
+    : 'Fiyat bilgisi hazırlanıyor';
+}
+function productSpecifications(product) {
+  const specs = product.attributes || {};
+  const keys = {
+    cpu: [['family', 'Seri'], ['socket', 'Soket']],
+    motherboard: [['socket', 'Soket'], ['chipset', 'Yonga seti'], ['memory_type', 'Bellek']],
+    ram: [['capacity_gb', 'Kapasite', 'GB'], ['memory_type', 'Tür'], ['speed_mts', 'Hız', 'MT/s'], ['cas_latency', 'CL']],
+    gpu: [['gpu_chip', 'Grafik işlemci'], ['memory_gb', 'Bellek', 'GB'], ['memory_type', 'Bellek türü']],
+    disk: [['drive_type', 'Tür'], ['capacity_gb', 'Kapasite', 'GB'], ['interface', 'Bağlantı']],
+    case: [['form_factor', 'Boyut'], ['board_support', 'Anakart']],
+    cooling: [['cooler_type', 'Soğutma'], ['socket_support', 'Soket']],
+    psu: [['power_w', 'Güç', 'W'], ['efficiency', 'Verimlilik']]
+  }[product.categoryId] || [];
+  return keys.map(([key, label, unit]) => {
+    const value = specs[key];
+    return value === undefined || value === null || value === '' ? null : `${label}: ${value}${unit ? ` ${unit}` : ''}`;
+  }).filter(Boolean).slice(0, 3);
+}
+function imageAllowed(path) {
+  return typeof path === 'string' && ((/^assets\/products\/[A-Za-z0-9._/-]+$/.test(path) && !path.includes('..'))
+    || /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(path));
+}
+function iconFor(item) {
+  const icon = document.createElement('i'); icon.className = `fa-solid ${partsIcons[item.categoryId] || 'fa-box'}`; icon.setAttribute('aria-hidden', 'true'); return icon;
+}
+function matchesFacets(product) {
+  for (const [key, selected] of selectedFacets) {
+    if (key === 'inStock') { if (!(Number(product.stock) > 0)) return false; continue; }
+    if (key === 'partsMinPrice') { if (!Number.isFinite(product.price) || product.price < Number(selected[0])) return false; continue; }
+    if (key === 'partsMaxPrice') { if (!Number.isFinite(product.price) || product.price > Number(selected[0])) return false; continue; }
+    const value = valueAt(product, key);
+    const productValues = Array.isArray(value) ? value.map(facetToken) : String(value ?? '').split(/[,;|]+/).map(facetToken);
+    if (![...selected].some(item => productValues.includes(item))) return false;
+  }
+  return true;
+}
+function renderParts() {
+  const query = partsQuery.value.trim().toLocaleLowerCase('tr-TR');
+  let rows = categoryProducts().filter(item => `${item.name} ${item.brand} ${item.model} ${item.sku} ${item.description} ${item.searchTerms.join(' ')} ${JSON.stringify(item.attributes)}`.toLocaleLowerCase('tr-TR').includes(query) && matchesFacets(item));
+  if (partsSort.value === 'name') rows.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+  if (partsSort.value === 'price') rows.sort((a, b) => (Number.isFinite(b.price) ? 1 : 0) - (Number.isFinite(a.price) ? 1 : 0) || (a.price ?? Infinity) - (b.price ?? Infinity));
+  partsCount.textContent = `${rows.length} ürün gösteriliyor`;
+  partsGrid.replaceChildren(...rows.map(item => {
+    const card = document.createElement('article'); card.className = 'parts-product-card';
+    const art = document.createElement('div'); art.className = 'parts-product-art';
+    const imagePath = imageAllowed(item.image) ? item.image : '';
+    if (imagePath) {
+      const image = document.createElement('img'); image.src = imagePath; image.alt = ''; image.loading = 'lazy';
+      image.addEventListener('error', () => image.replaceWith(iconFor(item)), { once: true }); art.append(image);
+    } else art.append(iconFor(item));
+    const heart = document.createElement('button'); heart.type = 'button'; heart.className = 'parts-product-heart'; heart.dataset.favoriteId = item.id;
+    heart.setAttribute('aria-pressed', String(favorites.includes(item.id)));
+    heart.setAttribute('aria-label', favorites.includes(item.id) ? `${item.name} favorilerden çıkar` : `${item.name} favorilere ekle`);
+    heart.innerHTML = `<i class="fa-${favorites.includes(item.id) ? 'solid' : 'regular'} fa-heart" aria-hidden="true"></i>`; art.append(heart);
+    const body = document.createElement('div'); body.className = 'parts-product-copy';
+    const brand = document.createElement('span'); brand.className = 'parts-product-brand'; brand.textContent = item.brand || 'Bilgisayar parçası';
+    const title = document.createElement('h2'); title.textContent = item.name;
+    const detail = document.createElement('p'); detail.textContent = item.description || item.model || '';
+    const specs = document.createElement('ul'); specs.className = 'parts-product-specs';
+    productSpecifications(item).forEach(value => { const line = document.createElement('li'); line.textContent = value; specs.append(line); });
+    specs.hidden = !specs.children.length;
+    const category = document.createElement('span'); category.className = 'parts-product-category'; category.textContent = partsCategoryNames[item.categoryId] || 'Parça';
+    const price = document.createElement('strong'); price.className = 'parts-product-price'; price.textContent = displayPrice(item);
+    body.append(brand, title, detail, specs, category, price); card.append(art, body); return card;
+  }));
+  partsEmpty.hidden = rows.length > 0;
+  partsGrid.hidden = rows.length === 0;
+}
+partsCategoryNav.addEventListener('click', event => {
+  const button = event.target.closest('[data-part-category]'); if (!button) return;
+  selectedPartCategory = button.dataset.partCategory; selectedFacets.clear();
+  partsCategoryNav.querySelectorAll('[data-part-category]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  renderPageHeading(); renderFilters(); renderParts();
+});
+partsFilterFields.addEventListener('change', event => {
+  const input = event.target;
+  if (input.matches('[data-facet]')) {
+    const key = input.dataset.facet; const selected = selectedFacets.get(key) || new Set();
+    if (input.checked) selected.add(input.value); else selected.delete(input.value);
+    if (selected.size) selectedFacets.set(key, selected); else selectedFacets.delete(key);
+  } else if (input.id === 'partsInStock') {
+    if (input.checked) selectedFacets.set('inStock', new Set(['true'])); else selectedFacets.delete('inStock');
+  } else if (input.id === 'partsMinPrice' || input.id === 'partsMaxPrice') {
+    if (input.value && Number(input.value) >= 0) selectedFacets.set(input.id, [Number(input.value)]); else selectedFacets.delete(input.id);
+  }
+  renderParts();
+});
+document.getElementById('clearPartsFilters').addEventListener('click', () => { selectedFacets.clear(); renderFilters(); renderParts(); });
+partsGrid.addEventListener('click', event => {
+  const button = event.target.closest('[data-favorite-id]'); if (!button) return;
+  const id = button.dataset.favoriteId; favorites = favorites.includes(id) ? favorites.filter(value => value !== id) : [...favorites, id]; saveFavorites(); renderParts();
+});
+partsQuery.value = new URLSearchParams(location.search).get('q') || '';
+partsQuery.addEventListener('input', renderParts);
+partsSort.addEventListener('change', renderParts);
+document.getElementById('partsSearch').addEventListener('submit', event => { event.preventDefault(); renderParts(); });
+document.getElementById('currentYear').textContent = String(new Date().getFullYear());
+if (partsClient) {
+  partsClient.auth.getSession().then(({ data }) => activateFavoriteUser(data?.session?.user || null)).catch(() => activateFavoriteUser(null));
+  partsClient.auth.onAuthStateChange((_event, session) => setTimeout(() => activateFavoriteUser(session?.user || null), 0));
+} else { favorites = readIds(guestFavoriteKey); saveFavorites(); }
+window.addEventListener('storage', event => { if (event.key === favoriteKey) { favorites = readIds(favoriteKey); partsFavoriteCount.textContent = String(favorites.length); renderParts(); } });
 loadParts();

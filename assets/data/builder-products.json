@@ -1914,6 +1914,9 @@
       "attributes": {
         "capacity_gb": 16,
         "memory_type": "DDR4",
+        "speed_mts": 3200,
+        "cas_latency": "CL16",
+        "module_count": 2,
         "model_code": "KF432C16BBK2/16"
       }
     },
@@ -1944,6 +1947,9 @@
       "attributes": {
         "capacity_gb": 32,
         "memory_type": "DDR4",
+        "speed_mts": 3200,
+        "cas_latency": "CL16",
+        "module_count": 2,
         "model_code": "KF432C16BBK2/32"
       }
     },
@@ -1974,6 +1980,9 @@
       "attributes": {
         "capacity_gb": 64,
         "memory_type": "DDR4",
+        "speed_mts": 3200,
+        "cas_latency": "CL16",
+        "module_count": 2,
         "model_code": "KF432C16BBK2/64"
       }
     },
@@ -2004,6 +2013,9 @@
       "attributes": {
         "capacity_gb": 32,
         "memory_type": "DDR5",
+        "speed_mts": 6000,
+        "cas_latency": "CL30",
+        "module_count": 2,
         "model_code": "KF560C30BBEK2-32"
       }
     },
@@ -2034,6 +2046,9 @@
       "attributes": {
         "capacity_gb": 32,
         "memory_type": "DDR5",
+        "speed_mts": 6000,
+        "cas_latency": "CL36",
+        "module_count": 2,
         "model_code": "CMK32GX5M2E6000C36"
       }
     },
@@ -2064,6 +2079,9 @@
       "attributes": {
         "capacity_gb": 64,
         "memory_type": "DDR5",
+        "speed_mts": 6000,
+        "cas_latency": "CL30",
+        "module_count": 2,
         "model_code": "KF560C30BBEK2-64"
       }
     },
