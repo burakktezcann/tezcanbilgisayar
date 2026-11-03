@@ -1,0 +1,16 @@
+:root {
+  color-scheme: light;
+  --ink: #15213b;
+  --muted: #68758c;
+  --navy: #071629;
+  --blue: #0875e1;
+  --line: #e8edf4;
+  --page: #f5f7fb;
+  --green: #15966d;
+  --orange: #f28a22;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-card: 0 16px 42px #1a2a5310;
+  --content-width: 1240px;
+}

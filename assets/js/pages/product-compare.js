@@ -32,10 +32,7 @@ let selectedCompareIds = readCompareIds();
 let availableCompareProducts = [];
 let compareProducts = [];
 
-function readCompareIds() {
-  try { const ids = JSON.parse(localStorage.getItem(compareKey) || '[]'); return Array.isArray(ids) ? ids.filter(id => typeof id === 'string').slice(0, 3) : []; }
-  catch { return []; }
-}
+function readCompareIds() { return window.TezcanCatalogUtils.readStringIds(compareKey, 3); }
 function persistCompareIds() {
   try { localStorage.setItem(compareKey, JSON.stringify(selectedCompareIds)); } catch {}
 }
@@ -48,11 +45,7 @@ function normalizedProduct(row, source = 'db') {
     currency: row.currency || 'TRY', stock: row.stock, status: row.status, attributes: row.attributes || {}
   };
 }
-function priceLabel(product) {
-  return Number.isFinite(product.price)
-    ? new Intl.NumberFormat('tr-TR', { style: 'currency', currency: /^[A-Z]{3}$/.test(product.currency || '') ? product.currency : 'TRY' }).format(product.price)
-    : 'Fiyat bilgisi hazırlanıyor';
-}
+function priceLabel(product) { return window.TezcanCatalogUtils.formatCurrency(product.price, product.currency); }
 function formatAttribute(key, value) {
   if (value === null || value === undefined || value === '') return 'Belirtilmemiş';
   if (Array.isArray(value)) return value.join(', ');
@@ -79,10 +72,7 @@ function valueFor(product, key) {
   }
   return formatAttribute(key, product.attributes?.[key]);
 }
-function imageIsSafe(path) {
-  return typeof path === 'string' && ((/^assets\/products\/[A-Za-z0-9._/-]+$/.test(path) && !path.includes('..'))
-    || /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(path));
-}
+function imageIsSafe(path) { return window.TezcanCatalogUtils.validImagePath(path); }
 function removeComparedProduct(id) {
   selectedCompareIds = selectedCompareIds.filter(value => value !== id);
   persistCompareIds();
@@ -94,7 +84,7 @@ function renderProductCards() {
     const card = document.createElement('article'); card.className = 'compare-product-card';
     const picture = document.createElement('span'); picture.className = 'compare-product-picture';
     if (imageIsSafe(product.image)) {
-      const image = document.createElement('img'); image.src = product.image; image.alt = ''; image.loading = 'lazy';
+      const image = document.createElement('img'); image.src = product.image; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
       const icon = document.createElement('i'); icon.className = `fa-solid ${compareIcons[product.categoryId] || 'fa-box'}`; icon.setAttribute('aria-hidden', 'true');
       image.addEventListener('error', () => image.replaceWith(icon), { once: true }); picture.append(image);
     } else {

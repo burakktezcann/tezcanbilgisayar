@@ -67,8 +67,7 @@ function normalizeText(value){
   return String(value||'').toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
 }
 function formatPrice(price,currency){
-  const safeCurrency=/^[A-Z]{3}$/.test(currency||'')?currency:(catalog.currency||'TRY');
-  return new Intl.NumberFormat('tr-TR',{style:'currency',currency:safeCurrency}).format(price);
+  return window.TezcanCatalogUtils.formatCurrency(price,currency||catalog.currency||'TRY');
 }
 function createProductCard(item,{isProduct=false}={}){
   const card=document.createElement('article');
@@ -85,16 +84,14 @@ function createProductCard(item,{isProduct=false}={}){
   const iconName=/^fa-[a-z0-9-]+$/.test(item.icon||'')?item.icon:(categoryIcons[item.categoryId]||'fa-box');
   icon.className=`fa-solid ${iconName}`;
   icon.setAttribute('aria-hidden','true');
-  const imagePath=typeof item.image==='string'&&(
-    (/^assets\/products\/[A-Za-z0-9._/-]+$/.test(item.image)&&!item.image.includes('..'))||
-    /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(item.image)
-  )?item.image:'';
+  const imagePath=window.TezcanCatalogUtils.validImagePath(item.image)?item.image:'';
   if(imagePath){
     const image=document.createElement('img');
     image.className='product-image';
     image.src=imagePath;
     image.alt="";
     image.loading='lazy';
+    image.decoding='async';
     image.addEventListener('error',()=>{image.replaceWith(icon);},{once:true});
     art.append(image);
   }else{
@@ -302,9 +299,7 @@ function filterCards(){
     computerPartsToggle.setAttribute('aria-expanded','true');
   }
 }
-function readFavoriteList(key){
-  try{const saved=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(saved)?saved.filter(id=>typeof id==='string'):[];}catch{return [];}
-}
+function readFavoriteList(key){ return window.TezcanCatalogUtils.readStringIds(key); }
 function saveFavorites(){
   try { localStorage.setItem(currentFavoritesKey,JSON.stringify(favoriteIds)); } catch {}
   renderFavoriteCount();

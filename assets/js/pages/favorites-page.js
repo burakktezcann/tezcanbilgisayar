@@ -12,18 +12,18 @@ let favoriteProducts=[];
 let activeFavoriteStorageKey=favoriteStorageKey;
 let favoriteCloudReady=false;
 let favoriteCatalogAvailable=false;
-function readFavoriteIds(key){try{const value=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(value)?value.filter(id=>typeof id==='string'):[];}catch{return [];}}
+function readFavoriteIds(key){return window.TezcanCatalogUtils.readStringIds(key);}
 function persistFavoriteIds(){try{localStorage.setItem(activeFavoriteStorageKey,JSON.stringify(favoritePageIds));}catch{} updateCount();}
 function updateCount(){favoritePageCount.textContent=String(favoritePageIds.length);}
-function displayPrice(product){return Number.isFinite(product.price)?new Intl.NumberFormat('tr-TR',{style:'currency',currency:/^[A-Z]{3}$/.test(product.currency||'')?product.currency:'TRY'}).format(product.price):'Fiyat bilgisi hazırlanıyor';}
-function safeImagePath(image){return typeof image==='string'&&((/^assets\/products\/[A-Za-z0-9._/-]+$/.test(image)&&!image.includes('..'))||/^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(image))?image:'';}
+function displayPrice(product){return window.TezcanCatalogUtils.formatCurrency(product.price,product.currency);}
+function safeImagePath(image){return window.TezcanCatalogUtils.validImagePath(image)?image:'';}
 function renderFavoriteItems(){
   const products=favoritePageIds.map(id=>favoriteProducts.find(item=>item.id===id)).filter(Boolean);
   favoriteItems.replaceChildren(...products.map(product=>{
     const card=document.createElement('article');card.className='favorite-item-card';
     const art=document.createElement('div');art.className='favorite-item-art';
     const imagePath=safeImagePath(product.image);
-    if(imagePath){const image=document.createElement('img');image.src=imagePath;image.alt='';image.loading='lazy';image.addEventListener('error',()=>art.replaceChildren(makeProductIcon()),{once:true});art.append(image);}else art.append(makeProductIcon());
+    if(imagePath){const image=document.createElement('img');image.src=imagePath;image.alt='';image.loading='lazy';image.decoding='async';image.addEventListener('error',()=>art.replaceChildren(makeProductIcon()),{once:true});art.append(image);}else art.append(makeProductIcon());
     const remove=document.createElement('button');remove.type='button';remove.className='favorite-remove';remove.dataset.removeFavorite=product.id;remove.setAttribute('aria-label',`${product.name} favorilerden çıkar`);remove.title='Favorilerden çıkar';remove.innerHTML='<i class="fa-solid fa-heart" aria-hidden="true"></i>';art.append(remove);
     const body=document.createElement('div');body.className='favorite-item-info';
     const category=document.createElement('span');category.className='favorite-item-category';category.textContent=product.brand||'Ürün';

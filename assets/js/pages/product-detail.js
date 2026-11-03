@@ -46,12 +46,7 @@ let detailFavoriteUser = null;
 let remoteFavoriteIds = new Set();
 let detailFavoriteSyncReady = false;
 
-function readFavoriteIds(key) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key) || '[]');
-    return Array.isArray(value) ? value.filter(id => typeof id === 'string') : [];
-  } catch { return []; }
-}
+function readFavoriteIds(key) { return window.TezcanCatalogUtils.readStringIds(key); }
 function writeFavoriteIds() {
   try { localStorage.setItem(detailFavoriteKey, JSON.stringify(detailFavorites)); } catch {}
   renderFavoriteButton();
@@ -63,10 +58,7 @@ function renderFavoriteButton() {
   productFavoriteButton.setAttribute('aria-pressed', String(active));
   productFavoriteButton.innerHTML = `<i class="fa-${active ? 'solid' : 'regular'} fa-heart" aria-hidden="true"></i><span>${active ? 'Favorilerimden çıkar' : 'Favorilerime ekle'}</span>`;
 }
-function readComparedIds() {
-  try { const ids = JSON.parse(localStorage.getItem(compareStorageKey) || '[]'); return Array.isArray(ids) ? ids.filter(id => typeof id === 'string') : []; }
-  catch { return []; }
-}
+function readComparedIds() { return window.TezcanCatalogUtils.readStringIds(compareStorageKey); }
 function renderProductCompareButton() {
   if (!currentProduct) return;
   const ids = readComparedIds();
@@ -149,15 +141,8 @@ function normalizeDetailProduct(row, source = 'db') {
     currency: row.currency || 'TRY', stock: row.stock, status: row.status, attributes: row.attributes || {}, searchTerms: row.search_terms || row.searchTerms || []
   };
 }
-function safeProductImage(path) {
-  return typeof path === 'string' && ((/^assets\/products\/[A-Za-z0-9._/-]+$/.test(path) && !path.includes('..'))
-    || /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(path));
-}
-function formatPrice(product) {
-  return Number.isFinite(product.price)
-    ? new Intl.NumberFormat('tr-TR', { style: 'currency', currency: /^[A-Z]{3}$/.test(product.currency || '') ? product.currency : 'TRY' }).format(product.price)
-    : 'Fiyat bilgisi hazırlanıyor';
-}
+function safeProductImage(path) { return window.TezcanCatalogUtils.validImagePath(path); }
+function formatPrice(product) { return window.TezcanCatalogUtils.formatCurrency(product.price, product.currency); }
 function displaySpecValue(key, value) {
   if (value === null || value === undefined || value === '') return '';
   if (key.endsWith('_gb') || key === 'capacity_gb' || key === 'memory_gb' || key === 'storage_gb') {
@@ -247,7 +232,7 @@ function renderProduct(product, products) {
   const fallbackIcon = document.getElementById('productFallbackIcon');
   fallbackIcon.className = `fa-solid ${detailCategoryIcons[product.categoryId] || 'fa-box'}`;
   if (safeProductImage(product.image)) {
-    const image = document.createElement('img'); image.src = product.image; image.alt = product.name; image.loading = 'eager';
+    const image = document.createElement('img'); image.src = product.image; image.alt = product.name; image.loading = 'eager'; image.fetchPriority = 'high'; image.decoding = 'async';
     image.addEventListener('error', () => image.replaceWith(fallbackIcon), { once: true });
     document.getElementById('productImageFrame').replaceChildren(image);
   }

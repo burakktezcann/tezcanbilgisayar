@@ -68,10 +68,7 @@ let partsCurrentPage = 1;
 let partsResultSignature = '';
 let comparedProductIds = readIds(compareStorageKey);
 
-function readIds(key) {
-  try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value.filter(id => typeof id === 'string') : []; }
-  catch { return []; }
-}
+function readIds(key) { return window.TezcanCatalogUtils.readStringIds(key); }
 function saveFavorites() {
   try { localStorage.setItem(favoriteKey, JSON.stringify(favorites)); } catch {}
   partsFavoriteCount.textContent = String(favorites.length);
@@ -244,11 +241,7 @@ function renderFilters() {
     const note = document.createElement('p'); note.className = 'parts-filter-hint'; note.textContent = 'Bu kategoride henüz filtrelenebilir teknik özellik girilmemiş.'; partsFilterFields.append(note);
   }
 }
-function displayPrice(product) {
-  return Number.isFinite(product.price)
-    ? new Intl.NumberFormat('tr-TR', { style: 'currency', currency: /^[A-Z]{3}$/.test(product.currency || '') ? product.currency : 'TRY' }).format(product.price)
-    : 'Fiyat bilgisi hazırlanıyor';
-}
+function displayPrice(product) { return window.TezcanCatalogUtils.formatCurrency(product.price, product.currency); }
 function comparedProducts() { return comparedProductIds.map(id => allParts.find(item => item.id === id)).filter(Boolean); }
 function saveComparedProducts() {
   try { localStorage.setItem(compareStorageKey, JSON.stringify(comparedProductIds)); } catch {}
@@ -306,10 +299,7 @@ function productSpecifications(product) {
     return value === undefined || value === null || value === '' ? null : `${label}: ${value}${unit ? ` ${unit}` : ''}`;
   }).filter(Boolean).slice(0, 3);
 }
-function imageAllowed(path) {
-  return typeof path === 'string' && ((/^assets\/products\/[A-Za-z0-9._/-]+$/.test(path) && !path.includes('..'))
-    || /^https:\/\/[A-Za-z0-9.-]+\/storage\/v1\/object\/public\/product-images\/[A-Za-z0-9._/-]+$/.test(path));
-}
+function imageAllowed(path) { return window.TezcanCatalogUtils.validImagePath(path); }
 function iconFor(item) {
   const icon = document.createElement('i'); icon.className = `fa-solid ${partsIcons[item.categoryId] || 'fa-box'}`; icon.setAttribute('aria-hidden', 'true'); return icon;
 }
@@ -372,7 +362,7 @@ function renderParts() {
     const imageLink = document.createElement('a'); imageLink.className = 'parts-product-image-link'; imageLink.href = detailUrl; imageLink.setAttribute('aria-label', `${item.name} ürün ayrıntıları`);
     const imagePath = imageAllowed(item.image) ? item.image : '';
     if (imagePath) {
-      const image = document.createElement('img'); image.src = imagePath; image.alt = ''; image.loading = 'lazy';
+      const image = document.createElement('img'); image.src = imagePath; image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
       image.addEventListener('error', () => image.replaceWith(iconFor(item)), { once: true }); imageLink.append(image);
     } else imageLink.append(iconFor(item));
     art.append(imageLink);
