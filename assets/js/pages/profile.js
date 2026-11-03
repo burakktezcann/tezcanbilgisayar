@@ -244,11 +244,13 @@ async function loadSavedSystems() {
 
 const ownedDesktopFieldsMap = [
   ['cpu', 'İşlemci', 'ownedDesktopCpu', 'ownedDesktopCpuDetail', 'ownedDesktopCpuModel', 'cpuModel'],
-  ['motherboard', 'Anakart', 'ownedDesktopMotherboard', 'ownedDesktopMotherboardDetail'],
+  ['motherboard', 'Anakart', 'ownedDesktopMotherboard', 'ownedDesktopMotherboardDetail', 'ownedDesktopMotherboardModel', 'motherboardModel'],
   ['ram', 'RAM', 'ownedDesktopRam', 'ownedDesktopRamDetail', 'ownedDesktopRamCapacity', 'ramCapacity'],
-  ['gpu', 'Ekran kartı', 'ownedDesktopGpu', 'ownedDesktopGpuDetail', 'ownedDesktopGpuModel', 'gpuModel'],
-  ['storage', 'SSD / Depolama', 'ownedDesktopStorage', 'ownedDesktopStorageDetail'], ['case', 'Kasa', 'ownedDesktopCase', 'ownedDesktopCaseDetail'],
-  ['cooling', 'Soğutucu', 'ownedDesktopCooling', 'ownedDesktopCoolingDetail'], ['psu', 'Güç kaynağı', 'ownedDesktopPsu', 'ownedDesktopPsuDetail']
+  ['gpu', 'Ekran kartı', 'ownedDesktopGpu', 'ownedDesktopGpuDetail', 'ownedDesktopGpuModel', 'gpuModel', 'ownedDesktopGpuMemory', 'gpuMemory'],
+  ['storage', 'SSD / Depolama', 'ownedDesktopStorage', 'ownedDesktopStorageDetail', 'ownedDesktopStorageModel', 'storageModel', 'ownedDesktopStorageCapacity', 'storageCapacity'],
+  ['case', 'Kasa', 'ownedDesktopCase', 'ownedDesktopCaseDetail', 'ownedDesktopCaseSize', 'caseSize'],
+  ['cooling', 'Soğutucu', 'ownedDesktopCooling', 'ownedDesktopCoolingDetail', 'ownedDesktopCoolingType', 'coolingType'],
+  ['psu', 'Güç kaynağı', 'ownedDesktopPsu', 'ownedDesktopPsuDetail', 'ownedDesktopPsuWattage', 'psuWattage']
 ];
 const ownedLaptopFieldsMap = [
   ['brand', 'Marka', 'ownedLaptopBrand'], ['model', 'Model', 'ownedLaptopModel'], ['processor', 'İşlemci', 'ownedLaptopCpu'],
@@ -266,24 +268,44 @@ const ownedDeviceSeries = {
   },
   ram: {
     Kingston: ['FURY Beast', 'FURY Renegade', 'ValueRAM'], CORSAIR: ['VENGEANCE', 'Dominator'],
-    Samsung: ['DDR4', 'DDR5'], 'G.SKILL': ['Ripjaws', 'Trident Z'], Crucial: ['Pro', 'Pro Overclocking']
+    Samsung: ['DDR4', 'DDR5'], 'G.SKILL': ['Ripjaws', 'Trident Z'], Crucial: ['Pro', 'Pro Overclocking'],
+    ADATA: ['XPG LANCER', 'XPG SPECTRIX'], 'TeamGroup': ['T-FORCE VULCAN', 'T-FORCE DELTA RGB']
   },
   storage: {
-    Samsung: ['990 PRO', '990 EVO', '870 EVO'], Kingston: ['NV3', 'KC3000', 'FURY Renegade'],
+    Samsung: ['990 PRO', '990 EVO Plus', '870 EVO'], Kingston: ['NV3', 'KC3000', 'FURY Renegade'],
     'Western Digital': ['WD_BLACK SN850X', 'WD Blue'], Crucial: ['P3 Plus', 'MX500'],
-    Seagate: ['BarraCuda HDD', 'FireCuda SSD'], ADATA: ['LEGEND', 'XPG GAMMIX'], CORSAIR: ['MP600', 'MP700']
+    Seagate: ['BarraCuda HDD', 'FireCuda SSD'], ADATA: ['LEGEND', 'XPG GAMMIX'], CORSAIR: ['MP600', 'MP700'],
+    Lexar: ['NM790', 'NM710'], Sabrent: ['Rocket 4 Plus', 'Rocket Q'], KIOXIA: ['Exceria Plus G3', 'Exceria G2']
   },
   gpu: {
-    NVIDIA: ['GeForce RTX 50 Serisi', 'GeForce RTX 40 Serisi', 'GeForce GTX'],
-    AMD: ['Radeon RX 9000 Serisi', 'Radeon RX 7000 Serisi', 'Radeon RX 6000 Serisi'],
-    ASUS: ['ROG', 'TUF Gaming', 'PRIME', 'Dual'], MSI: ['SUPRIM', 'GAMING', 'VENTUS'],
-    GIGABYTE: ['AORUS', 'GAMING OC', 'EAGLE'], Sapphire: ['NITRO+', 'PULSE', 'PURE']
+    ASUS: ['ROG', 'TUF Gaming', 'PRIME', 'Dual'], MSI: ['SUPRIM', 'GAMING', 'VENTUS'], ASRock: ['Steel Legend', 'Phantom Gaming', 'Challenger'],
+    GIGABYTE: ['AORUS', 'GAMING OC', 'EAGLE', 'WINDFORCE'], Sapphire: ['NITRO+', 'PULSE', 'PURE'],
+    XFX: ['MERC', 'QICK', 'SWFT'], PowerColor: ['Red Devil', 'Hellhound', 'Fighter'],
+    ZOTAC: ['AMP', 'Trinity', 'Twin Edge'], PNY: ['VERTO', 'XLR8'], NVIDIA: ['Founders Edition'], AMD: ['Referans']
   },
   case: { CORSAIR: ['4000D', '3000D', '5000D'], NZXT: ['H5', 'H6', 'H7'], ASUS: ['Prime', 'TUF Gaming', 'ROG'], 'Cooler Master': ['MasterBox', 'MasterFrame'], 'Lian Li': ['LANCOOL', 'O11'], 'Fractal Design': ['Pop', 'North', 'Meshify'] },
-  cooling: { ARCTIC: ['Freezer 36', 'Liquid Freezer'], NZXT: ['Kraken'], CORSAIR: ['iCUE H Series'], DeepCool: ['AK Series', 'LS Series'], 'Cooler Master': ['Hyper', 'MasterLiquid'], Noctua: ['NH Series'] },
-  psu: { CORSAIR: ['RM Series', 'RMx Series'], MSI: ['MAG GL', 'MPG A Series'], Seasonic: ['FOCUS GX', 'VERTEX GX'], 'be quiet!': ['Pure Power', 'Straight Power'], FSP: ['Hydro G', 'Vita'], 'Cooler Master': ['MWE Gold', 'V Gold'] }
+  cooling: { ARCTIC: ['Freezer 36', 'Liquid Freezer'], NZXT: ['Kraken'], CORSAIR: ['iCUE H Series'], DeepCool: ['AK Series', 'LS Series'], 'Cooler Master': ['Hyper', 'MasterLiquid'], Noctua: ['NH Series'], Thermalright: ['Peerless Assassin', 'Phantom Spirit'], 'be quiet!': ['Dark Rock', 'Pure Loop'] },
+  psu: { CORSAIR: ['RM Series', 'RMx Series'], MSI: ['MAG GL', 'MPG A Series'], Seasonic: ['FOCUS GX', 'VERTEX GX'], 'be quiet!': ['Pure Power', 'Straight Power'], FSP: ['Hydro G', 'Vita'], 'Cooler Master': ['MWE Gold', 'V Gold'], Thermaltake: ['Toughpower GF', 'Smart'] }
 };
 const ownedDeviceModels = {
+  motherboard: {
+    ASUS: { 'TUF Gaming': ['TUF GAMING B760-PLUS WIFI', 'TUF GAMING Z890-PLUS WIFI', 'TUF GAMING B650-PLUS WIFI', 'TUF GAMING B850-PLUS WIFI'], PRIME: ['PRIME B760M-A D4', 'PRIME Z790-P WIFI', 'PRIME B860M-A WIFI', 'PRIME B650M-A WIFI II'], ROG: ['ROG STRIX Z790-A GAMING WIFI', 'ROG STRIX X870E-E GAMING WIFI'], ProArt: ['ProArt X870E-CREATOR WIFI'] },
+    MSI: { MAG: ['MAG B760 TOMAHAWK WIFI', 'MAG Z890 TOMAHAWK WIFI', 'MAG X870 TOMAHAWK WIFI'], PRO: ['PRO B760M-A WIFI DDR4', 'PRO Z790-A MAX WIFI', 'PRO Z890-S WIFI PZ'], MPG: ['MPG Z790 EDGE WIFI', 'MPG X870E CARBON WIFI'], MEG: ['MEG Z890 ACE'] },
+    GIGABYTE: { AORUS: ['Z790 AORUS ELITE AX', 'Z890 AORUS ELITE WIFI7', 'B650 AORUS ELITE AX', 'X870 AORUS ELITE WIFI7'], GAMING: ['B760 GAMING X AX'], UD: ['B760M DS3H DDR4'], DS3H: ['B760M DS3H DDR4'] },
+    ASRock: { Taichi: ['X870E Taichi'], 'Steel Legend': ['B650E Steel Legend WiFi'], 'Pro RS': ['B650M Pro RS'], Pro: ['B760M Pro RS'] }
+  },
+  storage: {
+    Samsung: { '990 PRO': ['990 PRO NVMe M.2'], '990 EVO Plus': ['990 EVO Plus NVMe M.2'], '870 EVO': ['870 EVO SATA'] },
+    Kingston: { NV3: ['NV3 NVMe M.2'], KC3000: ['KC3000 NVMe M.2'], 'FURY Renegade': ['FURY Renegade NVMe M.2'] },
+    'Western Digital': { 'WD_BLACK SN850X': ['WD_BLACK SN850X NVMe M.2'], 'WD Blue': ['WD Blue SATA SSD', 'WD Blue Desktop HDD'] },
+    Crucial: { 'P3 Plus': ['P3 Plus NVMe M.2'], MX500: ['MX500 SATA SSD'] },
+    Seagate: { 'BarraCuda HDD': ['BarraCuda 3.5-inch HDD'], 'FireCuda SSD': ['FireCuda NVMe SSD'] },
+    ADATA: { LEGEND: ['LEGEND NVMe M.2'], 'XPG GAMMIX': ['XPG GAMMIX NVMe M.2'] },
+    CORSAIR: { MP600: ['MP600 NVMe M.2'], MP700: ['MP700 PCIe 5.0 NVMe M.2'] },
+    Lexar: { NM790: ['NM790 NVMe M.2'], NM710: ['NM710 NVMe M.2'] },
+    Sabrent: { 'Rocket 4 Plus': ['Rocket 4 Plus NVMe M.2'], 'Rocket Q': ['Rocket Q NVMe M.2'] },
+    KIOXIA: { 'Exceria Plus G3': ['Exceria Plus G3 NVMe M.2'], 'Exceria G2': ['Exceria G2 NVMe M.2'] }
+  },
   cpu: {
     Intel: {
       'Core i3': ['Core i3-14100', 'Core i3-14100F', 'Core i3-13100', 'Core i3-13100F', 'Core i3-12100', 'Core i3-12100F'],
@@ -318,7 +340,59 @@ const ownedDeviceModels = {
     Sapphire: { 'NITRO+': ['NITRO+ Radeon RX 9070 XT'], PULSE: ['PULSE Radeon RX 9070'], PURE: ['PURE Radeon RX 9070 XT'] }
   }
 };
-const ownedRamCapacities = ['8 GB', '16 GB', '24 GB', '32 GB', '48 GB', '64 GB', '96 GB', '128 GB'];
+const ownedGpuModelOptions = {
+  ASUS: {
+    ROG: { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti', 'GeForce RTX 4090', 'GeForce RTX 4080 SUPER'], AMD: ['Radeon RX 9070 XT'] },
+    'TUF Gaming': { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti', 'GeForce RTX 5070', 'GeForce RTX 4090', 'GeForce RTX 4080 SUPER', 'GeForce RTX 4070 Ti SUPER', 'GeForce RTX 4070 SUPER', 'GeForce RTX 4070', 'GeForce RTX 4060 Ti', 'GeForce RTX 4060', 'GeForce RTX 3090', 'GeForce RTX 3080 Ti', 'GeForce RTX 3080', 'GeForce RTX 3070 Ti', 'GeForce RTX 3070', 'GeForce RTX 3060 Ti', 'GeForce RTX 3060'], AMD: ['Radeon RX 9070 XT', 'Radeon RX 9070', 'Radeon RX 7900 XTX', 'Radeon RX 7900 XT', 'Radeon RX 7800 XT', 'Radeon RX 7700 XT', 'Radeon RX 7600'] },
+    PRIME: { NVIDIA: ['GeForce RTX 5070 Ti', 'GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 5060'], AMD: ['Radeon RX 9070 XT'] },
+    Dual: { NVIDIA: ['GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 5060', 'GeForce RTX 4060 Ti', 'GeForce RTX 4060'], AMD: ['Radeon RX 7600'] }
+  },
+  MSI: {
+    SUPRIM: { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti'] },
+    GAMING: { NVIDIA: ['GeForce RTX 5070 Ti', 'GeForce RTX 5070', 'GeForce RTX 4060 Ti'], AMD: ['Radeon RX 9070 XT', 'Radeon RX 9070'] },
+    VENTUS: { NVIDIA: ['GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 5060', 'GeForce RTX 4060 Ti', 'GeForce RTX 4060'] }
+  },
+  GIGABYTE: {
+    AORUS: { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti'], AMD: ['Radeon RX 9070 XT'] },
+    'GAMING OC': { NVIDIA: ['GeForce RTX 5070 Ti', 'GeForce RTX 5070', 'GeForce RTX 4060 Ti'], AMD: ['Radeon RX 9070 XT', 'Radeon RX 9070'] },
+    EAGLE: { NVIDIA: ['GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 4060 Ti'] },
+    WINDFORCE: { NVIDIA: ['GeForce RTX 5070', 'GeForce RTX 5060'] }
+  },
+  Sapphire: { 'NITRO+': { AMD: ['Radeon RX 9070 XT', 'Radeon RX 7900 XTX'] }, PULSE: { AMD: ['Radeon RX 9070', 'Radeon RX 7800 XT'] }, PURE: { AMD: ['Radeon RX 9070 XT'] } },
+  XFX: { MERC: { AMD: ['Radeon RX 9070 XT', 'Radeon RX 7900 XTX'] }, QICK: { AMD: ['Radeon RX 9070', 'Radeon RX 7800 XT'] }, SWFT: { AMD: ['Radeon RX 9060 XT', 'Radeon RX 7700 XT'] } },
+  PowerColor: { 'Red Devil': { AMD: ['Radeon RX 9070 XT', 'Radeon RX 7900 XTX'] }, Hellhound: { AMD: ['Radeon RX 9070 XT', 'Radeon RX 7800 XT'] }, Fighter: { AMD: ['Radeon RX 9060 XT', 'Radeon RX 7700 XT'] } },
+  ZOTAC: { AMP: { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti'] }, Trinity: { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070'] }, 'Twin Edge': { NVIDIA: ['GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 4060 Ti', 'GeForce RTX 4060'] } },
+  PNY: { VERTO: { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti', 'GeForce RTX 4060 Ti'] }, XLR8: { NVIDIA: ['GeForce RTX 5080', 'GeForce RTX 5070 Ti', 'GeForce RTX 4060 Ti'] } },
+  ASRock: { 'Steel Legend': { AMD: ['Radeon RX 9070 XT', 'Radeon RX 9070', 'Radeon RX 7800 XT'] }, 'Phantom Gaming': { AMD: ['Radeon RX 9070 XT', 'Radeon RX 7900 XTX', 'Radeon RX 7800 XT'] }, Challenger: { AMD: ['Radeon RX 9060 XT', 'Radeon RX 7700 XT', 'Radeon RX 7600'] } },
+  NVIDIA: { 'Founders Edition': { NVIDIA: ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti', 'GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 5060'] } },
+  AMD: { Referans: { AMD: ['Radeon RX 9070 XT', 'Radeon RX 9070', 'Radeon RX 9070 GRE', 'Radeon RX 9060 XT', 'Radeon RX 7900 XTX', 'Radeon RX 7900 XT', 'Radeon RX 7800 XT'] } }
+};
+const ownedRamCapacities = ['4 GB', '8 GB', '16 GB', '24 GB', '32 GB', '48 GB', '64 GB', '96 GB', '128 GB', '192 GB', '256 GB'];
+const ownedStorageCapacities = {
+  Samsung: { '990 PRO NVMe M.2': ['1 TB', '2 TB', '4 TB'], '990 EVO Plus NVMe M.2': ['1 TB', '2 TB'], '870 EVO SATA': ['250 GB', '500 GB', '1 TB', '2 TB', '4 TB'] },
+  Kingston: { 'NV3 NVMe M.2': ['500 GB', '1 TB', '2 TB', '4 TB'], 'KC3000 NVMe M.2': ['512 GB', '1 TB', '2 TB', '4 TB'], 'FURY Renegade NVMe M.2': ['1 TB', '2 TB', '4 TB'] },
+  'Western Digital': { 'WD_BLACK SN850X NVMe M.2': ['1 TB', '2 TB', '4 TB'], 'WD Blue SATA SSD': ['500 GB', '1 TB', '2 TB', '4 TB'], 'WD Blue Desktop HDD': ['1 TB', '2 TB', '4 TB', '6 TB'] },
+  Crucial: { 'P3 Plus NVMe M.2': ['500 GB', '1 TB', '2 TB', '4 TB'], 'MX500 SATA SSD': ['500 GB', '1 TB', '2 TB', '4 TB'] },
+  Seagate: { 'BarraCuda 3.5-inch HDD': ['1 TB', '2 TB', '4 TB', '8 TB'], 'FireCuda NVMe SSD': ['1 TB', '2 TB', '4 TB'] },
+  ADATA: { 'LEGEND NVMe M.2': ['512 GB', '1 TB', '2 TB'], 'XPG GAMMIX NVMe M.2': ['1 TB', '2 TB', '4 TB'] },
+  CORSAIR: { 'MP600 NVMe M.2': ['1 TB', '2 TB', '4 TB'], 'MP700 PCIe 5.0 NVMe M.2': ['1 TB', '2 TB', '4 TB'] },
+  Lexar: { 'NM790 NVMe M.2': ['1 TB', '2 TB', '4 TB'], 'NM710 NVMe M.2': ['500 GB', '1 TB', '2 TB'] },
+  Sabrent: { 'Rocket 4 Plus NVMe M.2': ['1 TB', '2 TB', '4 TB'], 'Rocket Q NVMe M.2': ['1 TB', '2 TB', '4 TB'] },
+  KIOXIA: { 'Exceria Plus G3 NVMe M.2': ['1 TB', '2 TB'], 'Exceria G2 NVMe M.2': ['500 GB', '1 TB', '2 TB'] }
+};
+const ownedGpuMemoryOptions = {
+  'GeForce RTX 5090': ['32 GB'], 'GeForce RTX 5080': ['16 GB'], 'GeForce RTX 5070 Ti': ['16 GB'], 'GeForce RTX 5070': ['12 GB'],
+  'GeForce RTX 5060 Ti': ['8 GB', '16 GB'], 'GeForce RTX 5060': ['8 GB'], 'GeForce RTX 5050': ['8 GB'],
+  'GeForce RTX 4090': ['24 GB'], 'GeForce RTX 4080 SUPER': ['16 GB'], 'GeForce RTX 4070 Ti SUPER': ['16 GB'],
+  'GeForce RTX 4070 SUPER': ['12 GB'], 'GeForce RTX 4070 Ti': ['12 GB'], 'GeForce RTX 4070': ['12 GB'],
+  'GeForce RTX 4060 Ti': ['8 GB', '16 GB'], 'GeForce RTX 4060': ['8 GB'],
+  'GeForce RTX 3090': ['24 GB'], 'GeForce RTX 3080 Ti': ['12 GB'], 'GeForce RTX 3080': ['10 GB', '12 GB'],
+  'GeForce RTX 3070 Ti': ['8 GB'], 'GeForce RTX 3070': ['8 GB'], 'GeForce RTX 3060 Ti': ['8 GB'], 'GeForce RTX 3060': ['8 GB', '12 GB'],
+  'GeForce GTX 1660 SUPER': ['6 GB'], 'GeForce GTX 1650': ['4 GB'],
+  'Radeon RX 9070 XT': ['16 GB'], 'Radeon RX 9070': ['16 GB'], 'Radeon RX 9070 GRE': ['12 GB'], 'Radeon RX 9060 XT': ['8 GB', '16 GB'],
+  'Radeon RX 7900 XTX': ['24 GB'], 'Radeon RX 7900 XT': ['20 GB'], 'Radeon RX 7800 XT': ['16 GB'], 'Radeon RX 7700 XT': ['12 GB'], 'Radeon RX 7600': ['8 GB'],
+  'Radeon RX 6950 XT': ['16 GB'], 'Radeon RX 6800 XT': ['16 GB'], 'Radeon RX 6700 XT': ['12 GB']
+};
 function updateOwnedDeviceVariant(category, selectedValue = '') {
   const row = ownedDesktopFieldsMap.find(([key]) => key === category);
   if (!row?.[4]) return;
@@ -326,14 +400,58 @@ function updateOwnedDeviceVariant(category, selectedValue = '') {
   const brand = document.getElementById(brandId).value;
   const series = document.getElementById(detailId).value;
   const variant = document.getElementById(variantId);
-  const exactOptions = variantKey === 'ramCapacity' ? ownedRamCapacities : (ownedDeviceModels[category]?.[brand]?.[series] || []);
-  const options = variantKey === 'ramCapacity' || !brand || !series ? exactOptions : [...exactOptions, 'Listede yok / bilmiyorum'];
-  const canChoose = Boolean(brand && series);
-  const prompt = variantKey === 'ramCapacity' ? 'Kapasite seç' : !brand ? 'Önce marka seç' : !series ? 'Önce seri seç' : exactOptions.length ? 'Tam modeli seç' : 'Model listede yok';
+  const chip = category === 'gpu' ? document.getElementById('ownedDesktopGpuChip').value : '';
+  const exactOptions = variantKey === 'ramCapacity'
+    ? ownedRamCapacities
+    : category === 'gpu'
+      ? (ownedGpuModelOptions[brand]?.[series]?.[chip] || [])
+      : variantKey === 'caseSize' ? ['Mini-ITX', 'Micro-ATX', 'ATX', 'E-ATX']
+        : variantKey === 'coolingType' ? ['Hava soğutma', '120 mm sıvı soğutma', '240 mm sıvı soğutma', '280 mm sıvı soğutma', '360 mm sıvı soğutma']
+          : variantKey === 'psuWattage' ? ['450 W', '550 W', '650 W', '750 W', '850 W', '1000 W', '1200 W', '1300 W', '1600 W']
+            : (ownedDeviceModels[category]?.[brand]?.[series] || []);
+  const isFinalSpec = ['ramCapacity', 'caseSize', 'coolingType', 'psuWattage'].includes(variantKey);
+  const options = isFinalSpec || !brand || !series ? exactOptions : [...exactOptions, 'Listede yok / bilmiyorum'];
+  const canChoose = Boolean(brand && series && (category !== 'gpu' || chip));
+  const prompt = variantKey === 'ramCapacity' ? (!brand ? 'Önce marka seç' : !series ? 'Önce seri seç' : 'RAM kapasitesi seç')
+    : variantKey === 'storageModel' ? (!brand ? 'Önce marka seç' : !series ? 'Önce seri seç' : 'Tam modeli seç')
+    : variantKey === 'caseSize' ? 'Kasa boyutu seç'
+      : variantKey === 'coolingType' ? 'Soğutma tipi seç'
+        : variantKey === 'psuWattage' ? 'Güç seç'
+          : !brand ? 'Önce marka seç' : !series ? 'Önce seri seç' : exactOptions.length ? 'Tam modeli seç' : 'Model listede yok';
   variant.replaceChildren(new Option(prompt, ''));
   options.forEach(value => variant.add(new Option(value, value)));
   variant.disabled = !canChoose;
   variant.value = options.includes(selectedValue) ? selectedValue : '';
+  updateOwnedDeviceAttribute(category);
+}
+function updateOwnedGpuChip(selectedValue = '') {
+  const brand = document.getElementById('ownedDesktopGpu').value;
+  const chip = document.getElementById('ownedDesktopGpuChip');
+  const nvidiaOnly = ['ZOTAC', 'PNY', 'NVIDIA'];
+  const amdOnly = ['Sapphire', 'XFX', 'PowerColor', 'AMD'];
+  const options = nvidiaOnly.includes(brand) ? ['NVIDIA'] : amdOnly.includes(brand) ? ['AMD'] : brand ? ['NVIDIA', 'AMD'] : [];
+  chip.replaceChildren(new Option(brand ? 'Yonga üreticisi' : 'Önce kart üreticisi seç', ''));
+  options.forEach(value => chip.add(new Option(value, value)));
+  chip.disabled = !brand;
+  chip.value = options.includes(selectedValue) ? selectedValue : '';
+  updateOwnedDeviceVariant('gpu');
+}
+function updateOwnedDeviceAttribute(category, selectedValue = '') {
+  const row = ownedDesktopFieldsMap.find(([key]) => key === category);
+  if (!row?.[6]) return;
+  const [, , , , variantId, variantKey, attributeId, attributeKey] = row;
+  const attribute = document.getElementById(attributeId);
+  const variant = document.getElementById(variantId);
+  const selectedVariant = variant.value;
+  let options = [];
+  if (attributeKey === 'gpuMemory') options = ownedGpuMemoryOptions[selectedVariant] || ['4 GB', '6 GB', '8 GB', '10 GB', '12 GB', '16 GB', '20 GB', '24 GB', '32 GB'];
+  if (attributeKey === 'storageCapacity') options = ownedStorageCapacities[document.getElementById('ownedDesktopStorage').value]?.[selectedVariant] || ['250 GB', '500 GB', '1 TB', '2 TB', '4 TB', '8 TB'];
+  const canChoose = Boolean(selectedVariant && options.length);
+  const prompt = !selectedVariant ? 'Önce model seç' : options.length ? 'Kapasite seç' : 'Özellik seç';
+  attribute.replaceChildren(new Option(prompt, ''));
+  options.forEach(value => attribute.add(new Option(value, value)));
+  attribute.disabled = !canChoose;
+  attribute.value = options.includes(selectedValue) ? selectedValue : '';
 }
 function updateOwnedDeviceDetail(category, selectedValue = '') {
   const row = ownedDesktopFieldsMap.find(([key]) => key === category);
@@ -346,10 +464,11 @@ function updateOwnedDeviceDetail(category, selectedValue = '') {
   options.forEach(value => detail.add(new Option(value, value)));
   detail.disabled = !brand;
   detail.value = options.includes(selectedValue) ? selectedValue : '';
-  updateOwnedDeviceVariant(category);
+  if (category === 'gpu') updateOwnedGpuChip();
+  else updateOwnedDeviceVariant(category);
 }
 function resetOwnedDeviceDetails() {
-  ownedDesktopFieldsMap.forEach(([key, , , detailId, variantId]) => {
+  ownedDesktopFieldsMap.forEach(([key, , , detailId, variantId, , attributeId]) => {
     const detail = document.getElementById(detailId);
     detail.replaceChildren(new Option('Önce marka seç', ''));
     detail.disabled = true;
@@ -358,7 +477,15 @@ function resetOwnedDeviceDetails() {
       variant.replaceChildren(new Option('Önce seri seç', ''));
       variant.disabled = true;
     }
+    if (attributeId) {
+      const attribute = document.getElementById(attributeId);
+      attribute.replaceChildren(new Option('Önce model seç', ''));
+      attribute.disabled = true;
+    }
   });
+  const gpuChip = document.getElementById('ownedDesktopGpuChip');
+  gpuChip.replaceChildren(new Option('NVIDIA / AMD', ''));
+  gpuChip.disabled = true;
 }
 ownedDesktopFieldsMap.forEach(([key, , brandId]) => {
   document.getElementById(brandId).addEventListener('change', () => updateOwnedDeviceDetail(key));
@@ -366,6 +493,10 @@ ownedDesktopFieldsMap.forEach(([key, , brandId]) => {
 ownedDesktopFieldsMap.forEach(([key, , , detailId, variantId]) => {
   if (variantId) document.getElementById(detailId).addEventListener('change', () => updateOwnedDeviceVariant(key));
 });
+ownedDesktopFieldsMap.forEach(([key, , , , variantId]) => {
+  if (variantId) document.getElementById(variantId).addEventListener('change', () => updateOwnedDeviceAttribute(key));
+});
+document.getElementById('ownedDesktopGpuChip').addEventListener('change', () => updateOwnedDeviceVariant('gpu'));
 function updateOwnedDeviceTypeFields() {
   const isLaptop = ownedDeviceType.value === 'laptop';
   ownedLaptopFields.hidden = !isLaptop;
@@ -396,8 +527,12 @@ function startOwnedDeviceEdit(device = null) {
       document.getElementById(brandId).value = details[key] || '';
       updateOwnedDeviceDetail(key, details[`${key}Detail`] || '');
     });
+    updateOwnedGpuChip(details.gpuChip || '');
     ownedDesktopFieldsMap.forEach(([key, , , , variantId, variantKey]) => {
       if (variantId) updateOwnedDeviceVariant(key, details[variantKey] || '');
+    });
+    ownedDesktopFieldsMap.forEach(([key, , , , , , attributeId, attributeKey]) => {
+      if (attributeId) updateOwnedDeviceAttribute(key, details[attributeKey] || '');
     });
   }
   updateOwnedDeviceTypeFields();
@@ -433,7 +568,7 @@ function renderOwnedDevices() {
     actions.append(edit, remove); top.append(titleWrap, actions); card.append(top);
     const rows = device.device_type === 'laptop'
       ? [['Marka', details.brand], ['Model', details.model], ['İşlemci', details.processor], ['RAM', details.ram], ['Depolama', details.storage], ['Ekran kartı', details.graphics], ['Ekran', details.screen], ['İşletim sistemi', details.os]]
-      : ownedDesktopFieldsMap.map(([key, label, , , , variantKey]) => [label, [details[key], details[`${key}Detail`], variantKey ? details[variantKey] : ''].filter(Boolean).join(' · ')]);
+      : ownedDesktopFieldsMap.map(([key, label, , , , variantKey, , attributeKey]) => [label, [details[key], details[`${key}Detail`], key === 'gpu' ? details.gpuChip : '', variantKey ? details[variantKey] : '', attributeKey ? details[attributeKey] : ''].filter(Boolean).join(' · ')]);
     const list = document.createElement('dl'); list.className = 'saved-device-details';
     rows.filter(([, value]) => value).forEach(([label, value]) => { const item = document.createElement('div'); const key = document.createElement('dt'); key.textContent = label; const val = document.createElement('dd'); val.textContent = value; item.append(key, val); list.append(item); });
     if (!list.children.length) { const empty = document.createElement('p'); empty.className = 'saved-device-no-details'; empty.textContent = 'Henüz özellik eklenmemiş.'; card.append(empty); }
@@ -690,14 +825,22 @@ ownedDeviceForm.addEventListener('submit', async event => {
   if (type === 'laptop') {
     details = Object.fromEntries(ownedLaptopFieldsMap.map(([key, , id]) => [key, String(document.getElementById(id).value || '').trim()]).filter(([, value]) => value));
   } else {
-    ownedDesktopFieldsMap.forEach(([key, , brandId, detailId, variantId, variantKey]) => {
+    ownedDesktopFieldsMap.forEach(([key, , brandId, detailId, variantId, variantKey, attributeId, attributeKey]) => {
       const brand = String(document.getElementById(brandId).value || '').trim();
       const series = String(document.getElementById(detailId).value || '').trim();
       if (brand) details[key] = brand;
       if (series) details[`${key}Detail`] = series;
+      if (key === 'gpu') {
+        const chip = String(document.getElementById('ownedDesktopGpuChip').value || '').trim();
+        if (chip) details.gpuChip = chip;
+      }
       if (variantId) {
         const variant = String(document.getElementById(variantId).value || '').trim();
         if (variant) details[variantKey] = variant;
+      }
+      if (attributeId) {
+        const attribute = String(document.getElementById(attributeId).value || '').trim();
+        if (attribute) details[attributeKey] = attribute;
       }
     });
   }

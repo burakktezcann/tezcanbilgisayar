@@ -105,7 +105,7 @@
 .saved-device-empty strong{color:var(--ink);font-size:.9rem}
 .saved-device-empty p{max-width:360px;margin:0;font-size:.78rem;line-height:1.5}
 @media(max-width:680px){.saved-device-grid{grid-template-columns:1fr}}
-@media(max-width:680px){.owned-component-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.owned-component-row>span{grid-column:1/-1}.owned-component-row select{min-height:44px}.owned-component-row select[data-owned-device-variant]{grid-column:1/-1}}
+@media(max-width:680px){.owned-component-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.owned-component-row>span{grid-column:1/-1}.owned-component-row select{min-height:44px}.owned-component-row select[data-owned-device-variant],.owned-component-row select[data-owned-device-attribute],.owned-gpu-row select{grid-column:1/-1}}
 @media(max-width:520px){.owned-device-editor{padding:14px}.saved-device-card{padding:14px}.saved-device-card-top{flex-direction:column}.saved-device-actions{width:100%}.saved-device-actions button{flex:1}.saved-device-details{gap:6px}.saved-device-details>div{padding:8px}.owned-component-row{padding:9px}.owned-component-row>span{font-size:.77rem}.owned-component-row select{padding-inline:8px;font-size:.74rem}}
 
 /* Account overview focuses on saved data instead of repeating the side navigation. */
