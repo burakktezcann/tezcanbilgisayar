@@ -243,8 +243,10 @@ async function loadSavedSystems() {
 }
 
 const ownedDesktopFieldsMap = [
-  ['cpu', 'İşlemci', 'ownedDesktopCpu', 'ownedDesktopCpuDetail'], ['motherboard', 'Anakart', 'ownedDesktopMotherboard', 'ownedDesktopMotherboardDetail'],
-  ['ram', 'RAM', 'ownedDesktopRam', 'ownedDesktopRamDetail'], ['gpu', 'Ekran kartı', 'ownedDesktopGpu', 'ownedDesktopGpuDetail'],
+  ['cpu', 'İşlemci', 'ownedDesktopCpu', 'ownedDesktopCpuDetail', 'ownedDesktopCpuModel', 'cpuModel'],
+  ['motherboard', 'Anakart', 'ownedDesktopMotherboard', 'ownedDesktopMotherboardDetail'],
+  ['ram', 'RAM', 'ownedDesktopRam', 'ownedDesktopRamDetail', 'ownedDesktopRamCapacity', 'ramCapacity'],
+  ['gpu', 'Ekran kartı', 'ownedDesktopGpu', 'ownedDesktopGpuDetail', 'ownedDesktopGpuModel', 'gpuModel'],
   ['storage', 'SSD / Depolama', 'ownedDesktopStorage', 'ownedDesktopStorageDetail'], ['case', 'Kasa', 'ownedDesktopCase', 'ownedDesktopCaseDetail'],
   ['cooling', 'Soğutucu', 'ownedDesktopCooling', 'ownedDesktopCoolingDetail'], ['psu', 'Güç kaynağı', 'ownedDesktopPsu', 'ownedDesktopPsuDetail']
 ];
@@ -255,7 +257,7 @@ const ownedLaptopFieldsMap = [
 ];
 const ownedDeviceSeries = {
   cpu: {
-    Intel: ['Core i3', 'Core i5', 'Core i7', 'Core i9', 'Core 3', 'Core 5', 'Core 7', 'Core Ultra 5', 'Core Ultra 7', 'Core Ultra 9'],
+    Intel: ['Core i3', 'Core i5', 'Core i7', 'Core i9', 'Core Ultra 5', 'Core Ultra 7', 'Core Ultra 9'],
     AMD: ['Ryzen 3', 'Ryzen 5', 'Ryzen 7', 'Ryzen 9', 'Ryzen Threadripper']
   },
   motherboard: {
@@ -281,6 +283,58 @@ const ownedDeviceSeries = {
   cooling: { ARCTIC: ['Freezer 36', 'Liquid Freezer'], NZXT: ['Kraken'], CORSAIR: ['iCUE H Series'], DeepCool: ['AK Series', 'LS Series'], 'Cooler Master': ['Hyper', 'MasterLiquid'], Noctua: ['NH Series'] },
   psu: { CORSAIR: ['RM Series', 'RMx Series'], MSI: ['MAG GL', 'MPG A Series'], Seasonic: ['FOCUS GX', 'VERTEX GX'], 'be quiet!': ['Pure Power', 'Straight Power'], FSP: ['Hydro G', 'Vita'], 'Cooler Master': ['MWE Gold', 'V Gold'] }
 };
+const ownedDeviceModels = {
+  cpu: {
+    Intel: {
+      'Core i3': ['Core i3-14100', 'Core i3-14100F', 'Core i3-13100', 'Core i3-13100F', 'Core i3-12100', 'Core i3-12100F'],
+      'Core i5': ['Core i5-14600K', 'Core i5-14600KF', 'Core i5-14500', 'Core i5-14400', 'Core i5-14400F', 'Core i5-13600K', 'Core i5-13600KF', 'Core i5-13400F', 'Core i5-12600K', 'Core i5-12400F'],
+      'Core i7': ['Core i7-14700K', 'Core i7-14700KF', 'Core i7-14700F', 'Core i7-13700K', 'Core i7-13700KF', 'Core i7-12700K', 'Core i7-12700F'],
+      'Core i9': ['Core i9-14900K', 'Core i9-14900KF', 'Core i9-14900F', 'Core i9-13900K', 'Core i9-13900KF', 'Core i9-12900K', 'Core i9-12900KF'],
+      'Core Ultra 5': ['Core Ultra 5 250K Plus', 'Core Ultra 5 250KF Plus', 'Core Ultra 5 245K', 'Core Ultra 5 245KF', 'Core Ultra 5 225', 'Core Ultra 5 225F'],
+      'Core Ultra 7': ['Core Ultra 7 270K Plus', 'Core Ultra 7 265K', 'Core Ultra 7 265KF'],
+      'Core Ultra 9': ['Core Ultra 9 285K', 'Core Ultra 9 285']
+    },
+    AMD: {
+      'Ryzen 3': ['Ryzen 3 8300G'],
+      'Ryzen 5': ['Ryzen 5 9600X', 'Ryzen 5 9600', 'Ryzen 5 9500F', 'Ryzen 5 8600G', 'Ryzen 5 8500G', 'Ryzen 5 7600X', 'Ryzen 5 7600'],
+      'Ryzen 7': ['Ryzen 7 9850X3D', 'Ryzen 7 9800X3D', 'Ryzen 7 9700X', 'Ryzen 7 9700F', 'Ryzen 7 8700G', 'Ryzen 7 7800X3D', 'Ryzen 7 7700X', 'Ryzen 7 7700'],
+      'Ryzen 9': ['Ryzen 9 9950X3D2 Dual Edition', 'Ryzen 9 9950X3D', 'Ryzen 9 9950X', 'Ryzen 9 9900X3D', 'Ryzen 9 9900X', 'Ryzen 9 7950X3D', 'Ryzen 9 7950X', 'Ryzen 9 7900X', 'Ryzen 9 7900']
+    }
+  },
+  gpu: {
+    NVIDIA: {
+      'GeForce RTX 50 Serisi': ['GeForce RTX 5090', 'GeForce RTX 5080', 'GeForce RTX 5070 Ti', 'GeForce RTX 5070', 'GeForce RTX 5060 Ti', 'GeForce RTX 5060', 'GeForce RTX 5050'],
+      'GeForce RTX 40 Serisi': ['GeForce RTX 4090', 'GeForce RTX 4080 SUPER', 'GeForce RTX 4070 Ti SUPER', 'GeForce RTX 4070 SUPER', 'GeForce RTX 4060 Ti', 'GeForce RTX 4060'],
+      'GeForce GTX': ['GeForce GTX 1660 SUPER', 'GeForce GTX 1650']
+    },
+    AMD: {
+      'Radeon RX 9000 Serisi': ['Radeon RX 9070 XT', 'Radeon RX 9070', 'Radeon RX 9070 GRE', 'Radeon RX 9060 XT'],
+      'Radeon RX 7000 Serisi': ['Radeon RX 7900 XTX', 'Radeon RX 7900 XT', 'Radeon RX 7800 XT', 'Radeon RX 7700 XT'],
+      'Radeon RX 6000 Serisi': ['Radeon RX 6950 XT', 'Radeon RX 6800 XT', 'Radeon RX 6700 XT']
+    },
+    ASUS: { ROG: ['ROG Astral GeForce RTX 5090', 'ROG Astral GeForce RTX 5080'], 'TUF Gaming': ['TUF Gaming GeForce RTX 5070 OC 12GB', 'TUF Gaming Radeon RX 9070 XT OC 16GB'], PRIME: ['Prime GeForce RTX 5070 Ti OC 16GB', 'Prime Radeon RX 9070 XT OC 16GB'], Dual: ['Dual GeForce RTX 5060'] },
+    MSI: { SUPRIM: ['SUPRIM GeForce RTX 5080'], GAMING: ['GAMING GeForce RTX 5070'], VENTUS: ['GeForce RTX 5070 12G VENTUS 3X OC', 'GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS'] },
+    GIGABYTE: { AORUS: ['AORUS GeForce RTX 5070 Ti', 'AORUS Radeon RX 9070 XT'], 'GAMING OC': ['GeForce RTX 5070 GAMING OC 12G', 'Radeon RX 9070 XT GAMING OC 16G'], EAGLE: ['GeForce RTX 5070 EAGLE'] },
+    Sapphire: { 'NITRO+': ['NITRO+ Radeon RX 9070 XT'], PULSE: ['PULSE Radeon RX 9070'], PURE: ['PURE Radeon RX 9070 XT'] }
+  }
+};
+const ownedRamCapacities = ['8 GB', '16 GB', '24 GB', '32 GB', '48 GB', '64 GB', '96 GB', '128 GB'];
+function updateOwnedDeviceVariant(category, selectedValue = '') {
+  const row = ownedDesktopFieldsMap.find(([key]) => key === category);
+  if (!row?.[4]) return;
+  const [, , brandId, detailId, variantId, variantKey] = row;
+  const brand = document.getElementById(brandId).value;
+  const series = document.getElementById(detailId).value;
+  const variant = document.getElementById(variantId);
+  const exactOptions = variantKey === 'ramCapacity' ? ownedRamCapacities : (ownedDeviceModels[category]?.[brand]?.[series] || []);
+  const options = variantKey === 'ramCapacity' || !brand || !series ? exactOptions : [...exactOptions, 'Listede yok / bilmiyorum'];
+  const canChoose = Boolean(brand && series);
+  const prompt = variantKey === 'ramCapacity' ? 'Kapasite seç' : !brand ? 'Önce marka seç' : !series ? 'Önce seri seç' : exactOptions.length ? 'Tam modeli seç' : 'Model listede yok';
+  variant.replaceChildren(new Option(prompt, ''));
+  options.forEach(value => variant.add(new Option(value, value)));
+  variant.disabled = !canChoose;
+  variant.value = options.includes(selectedValue) ? selectedValue : '';
+}
 function updateOwnedDeviceDetail(category, selectedValue = '') {
   const row = ownedDesktopFieldsMap.find(([key]) => key === category);
   if (!row) return;
@@ -292,16 +346,25 @@ function updateOwnedDeviceDetail(category, selectedValue = '') {
   options.forEach(value => detail.add(new Option(value, value)));
   detail.disabled = !brand;
   detail.value = options.includes(selectedValue) ? selectedValue : '';
+  updateOwnedDeviceVariant(category);
 }
 function resetOwnedDeviceDetails() {
-  ownedDesktopFieldsMap.forEach(([key, , , detailId]) => {
+  ownedDesktopFieldsMap.forEach(([key, , , detailId, variantId]) => {
     const detail = document.getElementById(detailId);
     detail.replaceChildren(new Option('Önce marka seç', ''));
     detail.disabled = true;
+    if (variantId) {
+      const variant = document.getElementById(variantId);
+      variant.replaceChildren(new Option('Önce seri seç', ''));
+      variant.disabled = true;
+    }
   });
 }
 ownedDesktopFieldsMap.forEach(([key, , brandId]) => {
   document.getElementById(brandId).addEventListener('change', () => updateOwnedDeviceDetail(key));
+});
+ownedDesktopFieldsMap.forEach(([key, , , detailId, variantId]) => {
+  if (variantId) document.getElementById(detailId).addEventListener('change', () => updateOwnedDeviceVariant(key));
 });
 function updateOwnedDeviceTypeFields() {
   const isLaptop = ownedDeviceType.value === 'laptop';
@@ -332,6 +395,9 @@ function startOwnedDeviceEdit(device = null) {
     ownedDesktopFieldsMap.forEach(([key, , brandId, detailId]) => {
       document.getElementById(brandId).value = details[key] || '';
       updateOwnedDeviceDetail(key, details[`${key}Detail`] || '');
+    });
+    ownedDesktopFieldsMap.forEach(([key, , , , variantId, variantKey]) => {
+      if (variantId) updateOwnedDeviceVariant(key, details[variantKey] || '');
     });
   }
   updateOwnedDeviceTypeFields();
@@ -367,7 +433,7 @@ function renderOwnedDevices() {
     actions.append(edit, remove); top.append(titleWrap, actions); card.append(top);
     const rows = device.device_type === 'laptop'
       ? [['Marka', details.brand], ['Model', details.model], ['İşlemci', details.processor], ['RAM', details.ram], ['Depolama', details.storage], ['Ekran kartı', details.graphics], ['Ekran', details.screen], ['İşletim sistemi', details.os]]
-      : ownedDesktopFieldsMap.map(([key, label]) => [label, [details[key], details[`${key}Detail`]].filter(Boolean).join(' · ')]);
+      : ownedDesktopFieldsMap.map(([key, label, , , , variantKey]) => [label, [details[key], details[`${key}Detail`], variantKey ? details[variantKey] : ''].filter(Boolean).join(' · ')]);
     const list = document.createElement('dl'); list.className = 'saved-device-details';
     rows.filter(([, value]) => value).forEach(([label, value]) => { const item = document.createElement('div'); const key = document.createElement('dt'); key.textContent = label; const val = document.createElement('dd'); val.textContent = value; item.append(key, val); list.append(item); });
     if (!list.children.length) { const empty = document.createElement('p'); empty.className = 'saved-device-no-details'; empty.textContent = 'Henüz özellik eklenmemiş.'; card.append(empty); }
@@ -624,11 +690,15 @@ ownedDeviceForm.addEventListener('submit', async event => {
   if (type === 'laptop') {
     details = Object.fromEntries(ownedLaptopFieldsMap.map(([key, , id]) => [key, String(document.getElementById(id).value || '').trim()]).filter(([, value]) => value));
   } else {
-    ownedDesktopFieldsMap.forEach(([key, , brandId, detailId]) => {
+    ownedDesktopFieldsMap.forEach(([key, , brandId, detailId, variantId, variantKey]) => {
       const brand = String(document.getElementById(brandId).value || '').trim();
       const series = String(document.getElementById(detailId).value || '').trim();
       if (brand) details[key] = brand;
       if (series) details[`${key}Detail`] = series;
+      if (variantId) {
+        const variant = String(document.getElementById(variantId).value || '').trim();
+        if (variant) details[variantKey] = variant;
+      }
     });
   }
   if (type === 'laptop' && (!details.brand || !details.model)) { showMessage('Dizüstü bilgisayar için marka ve model bilgisi gerekli.', 'error'); return; }
