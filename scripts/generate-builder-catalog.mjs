@@ -40,10 +40,12 @@ for (const [memoryType, kits] of Object.entries(data.ramKitsByType)) for (const 
   const speed = kit.spec.match(new RegExp(`${memoryType}-(\\d+)`, 'i'))?.[1];
   const latency = kit.spec.match(/CL\d+/i)?.[0];
   const modules = kit.name.match(/\((\d+)×/)?.[1];
-  add('ram', kit.id, kit.name, kit.name.startsWith('CORSAIR') ? 'CORSAIR' : 'Kingston', kit.code, kit.spec, { capacity_gb: kit.capacity, memory_type: memoryType, ...(speed ? { speed_mts: Number(speed) } : {}), ...(latency ? { cas_latency: latency } : {}), ...(modules ? { module_count: Number(modules) } : {}), model_code: kit.code }, kit.code);
+  const brand = kit.brand || (kit.name.startsWith('CORSAIR') ? 'CORSAIR' : kit.name.startsWith('Samsung') ? 'Samsung' : 'Kingston');
+  add('ram', kit.id, kit.name, brand, kit.code, kit.spec, { capacity_gb: kit.capacity, memory_type: memoryType, ...(speed ? { speed_mts: Number(speed) } : {}), ...(latency ? { cas_latency: latency } : {}), ...(modules ? { module_count: Number(modules) } : {}), model_code: kit.code }, kit.code);
 }
 for (const [brand, cards] of Object.entries(data.graphicsCards)) for (const card of cards) {
-  add('gpu', card.id, card.name, brand, card.name.replace(`${brand} `, ''), `${card.series} · referans güç önerisi ${card.psuMin} W. Kart üreticisine göre soğutucu ve boyut değişebilir.`, { gpu_chip: card.name, series: card.series, recommended_psu_w: card.psuMin });
+  const productBrand = card.brand || brand;
+  add('gpu', card.id, card.name, productBrand, card.name.replace(`${productBrand} `, ''), `${card.series} · referans güç önerisi ${card.psuMin} W.`, { gpu_chip: card.name, series: card.series, recommended_psu_w: card.psuMin });
 }
 for (const productsByType of Object.values(data.storageProducts)) for (const product of productsByType) {
   const driveType = product.spec.includes('NVMe') ? 'NVMe SSD' : product.spec.includes('SATA') && product.spec.includes('SSD') ? 'SATA SSD' : 'Sabit disk (HDD)';
@@ -63,5 +65,5 @@ const sqlArray = values => `array[${values.map(sqlText).join(', ')}]::text[]`;
 const categoryInsert = `insert into public.catalog_categories (id, name, description, icon, tone, sort_order, search_terms) values (${sqlText(category.id)}, ${sqlText(category.name)}, ${sqlText(category.description)}, ${sqlText(category.icon)}, ${sqlText(category.tone)}, ${category.sortOrder}, ${sqlArray(category.searchTerms)}) on conflict (id) do nothing;`;
 const productInsert = `insert into public.catalog_products (id, slug, category_id, name, description, brand, model, sku, image_path, price, currency, stock, status, sort_order, search_terms, attributes) values\n${products.map(product => `  (${sqlText(product.id)}::uuid, ${sqlText(product.slug)}, ${sqlText(product.categoryId)}, ${sqlText(product.name)}, ${sqlText(product.description)}, ${sqlText(product.brand)}, ${sqlText(product.model)}, ${sqlText(product.sku)}, '', null, 'TRY', null, 'active', ${product.sortOrder}, ${sqlArray(product.searchTerms)}, ${sqlText(JSON.stringify(product.attributes))}::jsonb)`).join(',\n')}\non conflict (slug) do nothing;`;
 const migration = `-- Seed the real model names already offered by the system builder into the public catalog.\n-- Run after 20261031000100_product_catalog.sql. IDs/slugs are stable and safe to rerun.\n${categoryInsert}\n\n${productInsert}\n`;
-await writeFile('supabase/migrations/20261102000400_seed_builder_catalog_products.sql', migration);
+await writeFile('supabase/migrations/20261103000100_expand_component_catalog.sql', migration.replace('Seed the real model names already offered by the system builder into the public catalog.', 'Expand the existing component catalog with additional verified brand and model options.'));
 console.log(`Generated ${products.length} component products.`);

@@ -19,16 +19,29 @@ const motherboardsBySocket = {
   LGA1700: [
     { id: 'asus-tuf-b760-plus-wifi', name: 'ASUS TUF GAMING B760-PLUS WIFI', chipset: 'Intel B760', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b760-plus-wifi/techspec/' },
     { id: 'asus-prime-b760m-a-d4', name: 'ASUS PRIME B760M-A D4', chipset: 'Intel B760', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/prime/prime-b760m-a-d4/techspec/' },
-    { id: 'msi-mag-b760-tomahawk-wifi', name: 'MSI MAG B760 TOMAHAWK WIFI', chipset: 'Intel B760', memory: 'DDR5', form: 'ATX', url: 'https://us.msi.com/Motherboard/MAG-B760-TOMAHAWK-WIFI/Specification' }
+    { id: 'msi-mag-b760-tomahawk-wifi', name: 'MSI MAG B760 TOMAHAWK WIFI', chipset: 'Intel B760', memory: 'DDR5', form: 'ATX', url: 'https://us.msi.com/Motherboard/MAG-B760-TOMAHAWK-WIFI/Specification' },
+    { id: 'gigabyte-b760-gaming-x-ax', name: 'GIGABYTE B760 GAMING X AX', chipset: 'Intel B760', memory: 'DDR5', form: 'ATX' },
+    { id: 'gigabyte-b760m-ds3h-ddr4', name: 'GIGABYTE B760M DS3H DDR4', chipset: 'Intel B760', memory: 'DDR4', form: 'Micro-ATX' },
+    { id: 'msi-pro-b760m-a-wifi-ddr4', name: 'MSI PRO B760M-A WIFI DDR4', chipset: 'Intel B760', memory: 'DDR4', form: 'Micro-ATX' },
+    { id: 'asus-prime-z790-p-wifi', name: 'ASUS PRIME Z790-P WIFI', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' },
+    { id: 'gigabyte-z790-aorus-elite-ax', name: 'GIGABYTE Z790 AORUS ELITE AX', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' },
+    { id: 'msi-pro-z790-a-max-wifi', name: 'MSI PRO Z790-A MAX WIFI', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' }
   ],
   LGA1851: [
     { id: 'asus-tuf-z890-plus-wifi', name: 'ASUS TUF GAMING Z890-PLUS WIFI', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z890-plus-wifi/techspec/' },
     { id: 'asus-prime-b860m-a-wifi', name: 'ASUS PRIME B860M-A WIFI', chipset: 'Intel B860', memory: 'DDR5', form: 'Micro-ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-b860m-a-wifi/' },
-    { id: 'msi-pro-z890-s-wifi-pz', name: 'MSI PRO Z890-S WIFI PZ', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX', url: 'https://storage-asset.msi.com/datasheet/mb/in/PRO-Z890-S-WIFI-PZ.pdf' }
+    { id: 'msi-pro-z890-s-wifi-pz', name: 'MSI PRO Z890-S WIFI PZ', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX', url: 'https://storage-asset.msi.com/datasheet/mb/in/PRO-Z890-S-WIFI-PZ.pdf' },
+    { id: 'gigabyte-z890-aorus-elite-wifi7', name: 'GIGABYTE Z890 AORUS ELITE WIFI7', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX' },
+    { id: 'msi-mag-z890-tomahawk-wifi', name: 'MSI MAG Z890 TOMAHAWK WIFI', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX' }
   ],
   AM5: [
     { id: 'asus-tuf-b650-plus-wifi', name: 'ASUS TUF GAMING B650-PLUS WIFI', chipset: 'AMD B650', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b650-plus-wifi/techspec/' },
-    { id: 'asus-prime-b650m-a-wifi-ii', name: 'ASUS PRIME B650M-A WIFI II', chipset: 'AMD B650', memory: 'DDR5', form: 'Micro-ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-b650m-a-wifi-ii/' }
+    { id: 'asus-prime-b650m-a-wifi-ii', name: 'ASUS PRIME B650M-A WIFI II', chipset: 'AMD B650', memory: 'DDR5', form: 'Micro-ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-b650m-a-wifi-ii/' },
+    { id: 'gigabyte-b650-aorus-elite-ax', name: 'GIGABYTE B650 AORUS ELITE AX', chipset: 'AMD B650', memory: 'DDR5', form: 'ATX', url: 'https://www.gigabyte.com/Motherboard/B650-AORUS-ELITE-AX-rev-12/sp' },
+    { id: 'msi-b650-gaming-plus-wifi', name: 'MSI B650 GAMING PLUS WIFI', chipset: 'AMD B650', memory: 'DDR5', form: 'ATX', url: 'https://us.msi.com/Motherboard/B650-GAMING-PLUS-WIFI/Specification' },
+    { id: 'msi-mag-x870-tomahawk-wifi', name: 'MSI MAG X870 TOMAHAWK WIFI', chipset: 'AMD X870', memory: 'DDR5', form: 'ATX' },
+    { id: 'gigabyte-x870-aorus-elite-wifi7', name: 'GIGABYTE X870 AORUS ELITE WIFI7', chipset: 'AMD X870', memory: 'DDR5', form: 'ATX' },
+    { id: 'asus-tuf-b850-plus-wifi', name: 'ASUS TUF GAMING B850-PLUS WIFI', chipset: 'AMD B850', memory: 'DDR5', form: 'ATX' }
   ]
 };
 
@@ -36,12 +49,17 @@ const ramKitsByType = {
   DDR4: [
     { id: 'kingston-fury-beast-ddr4-16', name: 'Kingston FURY Beast 16GB (2×8GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 16, code: 'KF432C16BBK2/16', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F16' },
     { id: 'kingston-fury-beast-ddr4-32', name: 'Kingston FURY Beast 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'KF432C16BBK2/32', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F32' },
-    { id: 'kingston-fury-beast-ddr4-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 64, code: 'KF432C16BBK2/64', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F64' }
+    { id: 'kingston-fury-beast-ddr4-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 64, code: 'KF432C16BBK2/64', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F64' },
+    { id: 'corsair-vengeance-lpx-ddr4-16', name: 'CORSAIR VENGEANCE LPX 16GB (2×8GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 16, code: 'CMK16GX4M2E3200C16', brand: 'CORSAIR' },
+    { id: 'corsair-vengeance-lpx-ddr4-32', name: 'CORSAIR VENGEANCE LPX 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'CMK32GX4M2E3200C16', brand: 'CORSAIR' }
   ],
   DDR5: [
     { id: 'kingston-fury-beast-ddr5-32', name: 'Kingston FURY Beast 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 32, code: 'KF560C30BBEK2-32', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-32' },
     { id: 'corsair-vengeance-ddr5-32', name: 'CORSAIR VENGEANCE 32GB (2×16GB)', spec: 'DDR5-6000 · CL36', capacity: 32, code: 'CMK32GX5M2E6000C36', url: 'https://www.corsair.com/us/en/p/memory/cmk32gx5m2e6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mt-s-c36-memory-kit-black-cmk32gx5m2e6000c36' },
-    { id: 'kingston-fury-beast-ddr5-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 64, code: 'KF560C30BBEK2-64', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-64' }
+    { id: 'kingston-fury-beast-ddr5-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 64, code: 'KF560C30BBEK2-64', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-64' },
+    { id: 'kingston-fury-beast-rgb-ddr5-32', name: 'Kingston FURY Beast RGB 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 32, code: 'KF560C30BBEAK2-32', brand: 'Kingston' },
+    { id: 'corsair-vengeance-ddr5-64', name: 'CORSAIR VENGEANCE 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · Kit of 2', capacity: 64, code: 'CMK64GX5M2B6000C30', brand: 'CORSAIR' },
+    { id: 'samsung-ddr5-5600-16', name: 'Samsung DDR5 16GB (1×16GB) UDIMM', spec: 'DDR5-5600 · CL46 · UDIMM · tek modül', capacity: 16, code: 'M323R2GA3DB0-CWM', brand: 'Samsung', url: 'https://semiconductor.samsung.com/dram/module/udimm/m323r2ga3db0-cwm/' }
   ]
 };
 
@@ -53,7 +71,13 @@ const graphicsCards = {
     { id: 'geforce-rtx-5070', name: 'NVIDIA GeForce RTX 5070', series: 'GeForce RTX 50 · Blackwell', psuMin: 650 },
     { id: 'geforce-rtx-5060-ti', name: 'NVIDIA GeForce RTX 5060 Ti', series: 'GeForce RTX 50 · Blackwell', psuMin: 600 },
     { id: 'geforce-rtx-5060', name: 'NVIDIA GeForce RTX 5060', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 },
-    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 }
+    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 },
+    { id: 'gigabyte-rtx-5070-gaming-oc', name: 'GIGABYTE GeForce RTX 5070 GAMING OC 12G', series: 'RTX 5070 · GDDR7 · 12 GB', psuMin: 750, brand: 'GIGABYTE' },
+    { id: 'asus-tuf-rtx-5070-oc', name: 'ASUS TUF Gaming GeForce RTX 5070 OC 12GB', series: 'RTX 5070 · GDDR7 · 12 GB', psuMin: 750, brand: 'ASUS' },
+    { id: 'msi-rtx-5070-ventus-3x-oc', name: 'MSI GeForce RTX 5070 12G VENTUS 3X OC', series: 'RTX 5070 · GDDR7 · 12 GB', psuMin: 650, brand: 'MSI' },
+    { id: 'gigabyte-rtx-5070-ti-gaming-oc', name: 'GIGABYTE GeForce RTX 5070 Ti GAMING OC 16G', series: 'RTX 5070 Ti · GDDR7 · 16 GB', psuMin: 750, brand: 'GIGABYTE' },
+    { id: 'asus-prime-rtx-5070-ti-oc', name: 'ASUS Prime GeForce RTX 5070 Ti OC 16GB', series: 'RTX 5070 Ti · GDDR7 · 16 GB', psuMin: 750, brand: 'ASUS' },
+    { id: 'msi-rtx-5060-ti-ventus-2x-oc', name: 'MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS', series: 'RTX 5060 Ti · GDDR7 · 16 GB', psuMin: 600, brand: 'MSI' }
   ],
   AMD: [
     { id: 'radeon-rx-9070-xt', name: 'AMD Radeon RX 9070 XT', series: 'Radeon RX 9000 · RDNA 4', psuMin: 750 },
@@ -63,7 +87,10 @@ const graphicsCards = {
     { id: 'radeon-rx-7900-xtx', name: 'AMD Radeon RX 7900 XTX', series: 'Radeon RX 7000 · RDNA 3', psuMin: 800 },
     { id: 'radeon-rx-7900-xt', name: 'AMD Radeon RX 7900 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 750 },
     { id: 'radeon-rx-7800-xt', name: 'AMD Radeon RX 7800 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 },
-    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 }
+    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 },
+    { id: 'gigabyte-rx-9070-xt-gaming-oc', name: 'GIGABYTE Radeon RX 9070 XT GAMING OC 16G', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'GIGABYTE' },
+    { id: 'asus-tuf-rx-9070-xt-oc', name: 'ASUS TUF Gaming Radeon RX 9070 XT OC 16GB', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'ASUS' },
+    { id: 'asus-prime-rx-9070-xt-oc', name: 'ASUS Prime Radeon RX 9070 XT OC 16GB', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'ASUS' }
   ]
 };
 

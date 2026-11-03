@@ -1733,6 +1733,192 @@
       }
     },
     {
+      "id": "ca5983a6-43ab-52ca-86c0-7c2cf9df33b6",
+      "slug": "build-motherboard-gigabyte-b760-gaming-x-ax",
+      "categoryId": "motherboard",
+      "name": "GIGABYTE B760 GAMING X AX",
+      "description": "Intel B760 · LGA1700 · DDR5 · ATX",
+      "brand": "GIGABYTE",
+      "model": "GIGABYTE B760 GAMING X AX",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 60,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GIGABYTE B760 GAMING X AX",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1700",
+        "chipset": "Intel B760",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "b2cdeef6-62a6-5f1a-88db-9533133502aa",
+      "slug": "build-motherboard-gigabyte-b760m-ds3h-ddr4",
+      "categoryId": "motherboard",
+      "name": "GIGABYTE B760M DS3H DDR4",
+      "description": "Intel B760 · LGA1700 · DDR4 · Micro-ATX",
+      "brand": "GIGABYTE",
+      "model": "GIGABYTE B760M DS3H DDR4",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 61,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GIGABYTE B760M DS3H DDR4",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1700",
+        "chipset": "Intel B760",
+        "memory_type": "DDR4",
+        "form_factor": "Micro-ATX"
+      }
+    },
+    {
+      "id": "8ac11a42-9dd4-58bf-8fac-80f86a1be5f6",
+      "slug": "build-motherboard-msi-pro-b760m-a-wifi-ddr4",
+      "categoryId": "motherboard",
+      "name": "MSI PRO B760M-A WIFI DDR4",
+      "description": "Intel B760 · LGA1700 · DDR4 · Micro-ATX",
+      "brand": "MSI",
+      "model": "MSI PRO B760M-A WIFI DDR4",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 62,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "MSI PRO B760M-A WIFI DDR4",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1700",
+        "chipset": "Intel B760",
+        "memory_type": "DDR4",
+        "form_factor": "Micro-ATX"
+      }
+    },
+    {
+      "id": "5d8c0c8c-5b01-5c83-8f93-80ff7fb79bb8",
+      "slug": "build-motherboard-asus-prime-z790-p-wifi",
+      "categoryId": "motherboard",
+      "name": "ASUS PRIME Z790-P WIFI",
+      "description": "Intel Z790 · LGA1700 · DDR5 · ATX",
+      "brand": "ASUS",
+      "model": "ASUS PRIME Z790-P WIFI",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 63,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ASUS",
+        "ASUS PRIME Z790-P WIFI",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1700",
+        "chipset": "Intel Z790",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "221f370f-13ee-5fca-833e-ac057a85775e",
+      "slug": "build-motherboard-gigabyte-z790-aorus-elite-ax",
+      "categoryId": "motherboard",
+      "name": "GIGABYTE Z790 AORUS ELITE AX",
+      "description": "Intel Z790 · LGA1700 · DDR5 · ATX",
+      "brand": "GIGABYTE",
+      "model": "GIGABYTE Z790 AORUS ELITE AX",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 64,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GIGABYTE Z790 AORUS ELITE AX",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1700",
+        "chipset": "Intel Z790",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "d6944a0d-cf0c-5726-bb98-feefffdd8245",
+      "slug": "build-motherboard-msi-pro-z790-a-max-wifi",
+      "categoryId": "motherboard",
+      "name": "MSI PRO Z790-A MAX WIFI",
+      "description": "Intel Z790 · LGA1700 · DDR5 · ATX",
+      "brand": "MSI",
+      "model": "MSI PRO Z790-A MAX WIFI",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 65,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "MSI PRO Z790-A MAX WIFI",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1700",
+        "chipset": "Intel Z790",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
       "id": "8b9b208d-281d-5844-8458-ac734b577cc1",
       "slug": "build-motherboard-asus-tuf-z890-plus-wifi",
       "categoryId": "motherboard",
@@ -1746,7 +1932,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 60,
+      "sortOrder": 66,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1777,7 +1963,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 61,
+      "sortOrder": 67,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1808,12 +1994,74 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 62,
+      "sortOrder": 68,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
         "MSI",
         "MSI PRO Z890-S WIFI PZ",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1851",
+        "chipset": "Intel Z890",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "1e607f17-f073-5734-9556-171fe1269bc0",
+      "slug": "build-motherboard-gigabyte-z890-aorus-elite-wifi7",
+      "categoryId": "motherboard",
+      "name": "GIGABYTE Z890 AORUS ELITE WIFI7",
+      "description": "Intel Z890 · LGA1851 · DDR5 · ATX",
+      "brand": "GIGABYTE",
+      "model": "GIGABYTE Z890 AORUS ELITE WIFI7",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 69,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GIGABYTE Z890 AORUS ELITE WIFI7",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "LGA1851",
+        "chipset": "Intel Z890",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "cc54fa10-2fdd-5e11-9795-1b22ebff16a2",
+      "slug": "build-motherboard-msi-mag-z890-tomahawk-wifi",
+      "categoryId": "motherboard",
+      "name": "MSI MAG Z890 TOMAHAWK WIFI",
+      "description": "Intel Z890 · LGA1851 · DDR5 · ATX",
+      "brand": "MSI",
+      "model": "MSI MAG Z890 TOMAHAWK WIFI",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 70,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "MSI MAG Z890 TOMAHAWK WIFI",
         "motherboard",
         "sistem toplama",
         "bileşen"
@@ -1839,7 +2087,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 63,
+      "sortOrder": 71,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1870,7 +2118,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 64,
+      "sortOrder": 72,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1888,6 +2136,161 @@
       }
     },
     {
+      "id": "2e1a584a-3e99-5977-a8c5-f986d253f040",
+      "slug": "build-motherboard-gigabyte-b650-aorus-elite-ax",
+      "categoryId": "motherboard",
+      "name": "GIGABYTE B650 AORUS ELITE AX",
+      "description": "AMD B650 · AM5 · DDR5 · ATX",
+      "brand": "GIGABYTE",
+      "model": "GIGABYTE B650 AORUS ELITE AX",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 73,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GIGABYTE B650 AORUS ELITE AX",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "chipset": "AMD B650",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "38a409d9-32b2-596b-a3c1-57e99d8469a0",
+      "slug": "build-motherboard-msi-b650-gaming-plus-wifi",
+      "categoryId": "motherboard",
+      "name": "MSI B650 GAMING PLUS WIFI",
+      "description": "AMD B650 · AM5 · DDR5 · ATX",
+      "brand": "MSI",
+      "model": "MSI B650 GAMING PLUS WIFI",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 74,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "MSI B650 GAMING PLUS WIFI",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "chipset": "AMD B650",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "33d33164-e984-539e-abb9-f70c0810c7b3",
+      "slug": "build-motherboard-msi-mag-x870-tomahawk-wifi",
+      "categoryId": "motherboard",
+      "name": "MSI MAG X870 TOMAHAWK WIFI",
+      "description": "AMD X870 · AM5 · DDR5 · ATX",
+      "brand": "MSI",
+      "model": "MSI MAG X870 TOMAHAWK WIFI",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 75,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "MSI MAG X870 TOMAHAWK WIFI",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "chipset": "AMD X870",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "212ce346-b74b-5643-a642-2d3baf81c256",
+      "slug": "build-motherboard-gigabyte-x870-aorus-elite-wifi7",
+      "categoryId": "motherboard",
+      "name": "GIGABYTE X870 AORUS ELITE WIFI7",
+      "description": "AMD X870 · AM5 · DDR5 · ATX",
+      "brand": "GIGABYTE",
+      "model": "GIGABYTE X870 AORUS ELITE WIFI7",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 76,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GIGABYTE X870 AORUS ELITE WIFI7",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "chipset": "AMD X870",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
+      "id": "ae475c26-a8ea-5aaa-89ea-114e7b35844c",
+      "slug": "build-motherboard-asus-tuf-b850-plus-wifi",
+      "categoryId": "motherboard",
+      "name": "ASUS TUF GAMING B850-PLUS WIFI",
+      "description": "AMD B850 · AM5 · DDR5 · ATX",
+      "brand": "ASUS",
+      "model": "ASUS TUF GAMING B850-PLUS WIFI",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 77,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ASUS",
+        "ASUS TUF GAMING B850-PLUS WIFI",
+        "motherboard",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "chipset": "AMD B850",
+        "memory_type": "DDR5",
+        "form_factor": "ATX"
+      }
+    },
+    {
       "id": "e7ac9018-ff93-5b4f-ba37-66dccb5a06a1",
       "slug": "build-ram-kingston-fury-beast-ddr4-16",
       "categoryId": "ram",
@@ -1901,7 +2304,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 65,
+      "sortOrder": 78,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1934,7 +2337,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 66,
+      "sortOrder": 79,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1967,7 +2370,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 67,
+      "sortOrder": 80,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1987,6 +2390,72 @@
       }
     },
     {
+      "id": "f0f5bd5e-7b95-5ef8-ba14-3d69045bade0",
+      "slug": "build-ram-corsair-vengeance-lpx-ddr4-16",
+      "categoryId": "ram",
+      "name": "CORSAIR VENGEANCE LPX 16GB (2×8GB)",
+      "description": "DDR4-3200 · CL16 · Kit of 2",
+      "brand": "CORSAIR",
+      "model": "CMK16GX4M2E3200C16",
+      "sku": "CMK16GX4M2E3200C16",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 81,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "CORSAIR",
+        "CMK16GX4M2E3200C16",
+        "ram",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "capacity_gb": 16,
+        "memory_type": "DDR4",
+        "speed_mts": 3200,
+        "cas_latency": "CL16",
+        "module_count": 2,
+        "model_code": "CMK16GX4M2E3200C16"
+      }
+    },
+    {
+      "id": "1f3428c6-0925-5455-b4e1-97284b8f0f2d",
+      "slug": "build-ram-corsair-vengeance-lpx-ddr4-32",
+      "categoryId": "ram",
+      "name": "CORSAIR VENGEANCE LPX 32GB (2×16GB)",
+      "description": "DDR4-3200 · CL16 · Kit of 2",
+      "brand": "CORSAIR",
+      "model": "CMK32GX4M2E3200C16",
+      "sku": "CMK32GX4M2E3200C16",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 82,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "CORSAIR",
+        "CMK32GX4M2E3200C16",
+        "ram",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "capacity_gb": 32,
+        "memory_type": "DDR4",
+        "speed_mts": 3200,
+        "cas_latency": "CL16",
+        "module_count": 2,
+        "model_code": "CMK32GX4M2E3200C16"
+      }
+    },
+    {
       "id": "1a27fa93-89c8-5ae3-97d5-4488121a7017",
       "slug": "build-ram-kingston-fury-beast-ddr5-32",
       "categoryId": "ram",
@@ -2000,7 +2469,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 68,
+      "sortOrder": 83,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2033,7 +2502,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 69,
+      "sortOrder": 84,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2066,7 +2535,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 70,
+      "sortOrder": 85,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2086,11 +2555,110 @@
       }
     },
     {
+      "id": "0906dbaa-c985-5d0a-8712-471456870cca",
+      "slug": "build-ram-kingston-fury-beast-rgb-ddr5-32",
+      "categoryId": "ram",
+      "name": "Kingston FURY Beast RGB 32GB (2×16GB)",
+      "description": "DDR5-6000 · CL30 · AMD EXPO",
+      "brand": "Kingston",
+      "model": "KF560C30BBEAK2-32",
+      "sku": "KF560C30BBEAK2-32",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 86,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Kingston",
+        "KF560C30BBEAK2-32",
+        "ram",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "capacity_gb": 32,
+        "memory_type": "DDR5",
+        "speed_mts": 6000,
+        "cas_latency": "CL30",
+        "module_count": 2,
+        "model_code": "KF560C30BBEAK2-32"
+      }
+    },
+    {
+      "id": "f82b5064-31e1-5566-a690-0ce68b2023c5",
+      "slug": "build-ram-corsair-vengeance-ddr5-64",
+      "categoryId": "ram",
+      "name": "CORSAIR VENGEANCE 64GB (2×32GB)",
+      "description": "DDR5-6000 · CL30 · Kit of 2",
+      "brand": "CORSAIR",
+      "model": "CMK64GX5M2B6000C30",
+      "sku": "CMK64GX5M2B6000C30",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 87,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "CORSAIR",
+        "CMK64GX5M2B6000C30",
+        "ram",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "capacity_gb": 64,
+        "memory_type": "DDR5",
+        "speed_mts": 6000,
+        "cas_latency": "CL30",
+        "module_count": 2,
+        "model_code": "CMK64GX5M2B6000C30"
+      }
+    },
+    {
+      "id": "d6760a36-2daa-5717-9a6a-d135eb60e828",
+      "slug": "build-ram-samsung-ddr5-5600-16",
+      "categoryId": "ram",
+      "name": "Samsung DDR5 16GB (1×16GB) UDIMM",
+      "description": "DDR5-5600 · CL46 · UDIMM · tek modül",
+      "brand": "Samsung",
+      "model": "M323R2GA3DB0-CWM",
+      "sku": "M323R2GA3DB0-CWM",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 88,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Samsung",
+        "M323R2GA3DB0-CWM",
+        "ram",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "capacity_gb": 16,
+        "memory_type": "DDR5",
+        "speed_mts": 5600,
+        "cas_latency": "CL46",
+        "module_count": 1,
+        "model_code": "M323R2GA3DB0-CWM"
+      }
+    },
+    {
       "id": "67dffad6-6ed8-5367-a7c6-fbe32f8a761c",
       "slug": "build-gpu-geforce-rtx-5090",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5090",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 1000 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 1000 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5090",
       "sku": "",
@@ -2099,7 +2667,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 71,
+      "sortOrder": 89,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2120,7 +2688,7 @@
       "slug": "build-gpu-geforce-rtx-5080",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5080",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 850 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 850 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5080",
       "sku": "",
@@ -2129,7 +2697,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 72,
+      "sortOrder": 90,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2150,7 +2718,7 @@
       "slug": "build-gpu-geforce-rtx-5070-ti",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5070 Ti",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 750 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 750 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5070 Ti",
       "sku": "",
@@ -2159,7 +2727,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 73,
+      "sortOrder": 91,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2180,7 +2748,7 @@
       "slug": "build-gpu-geforce-rtx-5070",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5070",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 650 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 650 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5070",
       "sku": "",
@@ -2189,7 +2757,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 74,
+      "sortOrder": 92,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2210,7 +2778,7 @@
       "slug": "build-gpu-geforce-rtx-5060-ti",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5060 Ti",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 600 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 600 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5060 Ti",
       "sku": "",
@@ -2219,7 +2787,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 75,
+      "sortOrder": 93,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2240,7 +2808,7 @@
       "slug": "build-gpu-geforce-rtx-5060",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5060",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 550 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 550 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5060",
       "sku": "",
@@ -2249,7 +2817,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 76,
+      "sortOrder": 94,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2270,7 +2838,7 @@
       "slug": "build-gpu-geforce-rtx-5050",
       "categoryId": "gpu",
       "name": "NVIDIA GeForce RTX 5050",
-      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 550 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "GeForce RTX 50 · Blackwell · referans güç önerisi 550 W.",
       "brand": "NVIDIA",
       "model": "GeForce RTX 5050",
       "sku": "",
@@ -2279,7 +2847,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 77,
+      "sortOrder": 95,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2296,11 +2864,191 @@
       }
     },
     {
+      "id": "b27b6413-7201-56ce-ac17-5159879e2d30",
+      "slug": "build-gpu-gigabyte-rtx-5070-gaming-oc",
+      "categoryId": "gpu",
+      "name": "GIGABYTE GeForce RTX 5070 GAMING OC 12G",
+      "description": "RTX 5070 · GDDR7 · 12 GB · referans güç önerisi 750 W.",
+      "brand": "GIGABYTE",
+      "model": "GeForce RTX 5070 GAMING OC 12G",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 96,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GeForce RTX 5070 GAMING OC 12G",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "GIGABYTE GeForce RTX 5070 GAMING OC 12G",
+        "series": "RTX 5070 · GDDR7 · 12 GB",
+        "recommended_psu_w": 750
+      }
+    },
+    {
+      "id": "1b115ec8-15cd-5452-be2d-e027c7667076",
+      "slug": "build-gpu-asus-tuf-rtx-5070-oc",
+      "categoryId": "gpu",
+      "name": "ASUS TUF Gaming GeForce RTX 5070 OC 12GB",
+      "description": "RTX 5070 · GDDR7 · 12 GB · referans güç önerisi 750 W.",
+      "brand": "ASUS",
+      "model": "TUF Gaming GeForce RTX 5070 OC 12GB",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 97,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ASUS",
+        "TUF Gaming GeForce RTX 5070 OC 12GB",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "ASUS TUF Gaming GeForce RTX 5070 OC 12GB",
+        "series": "RTX 5070 · GDDR7 · 12 GB",
+        "recommended_psu_w": 750
+      }
+    },
+    {
+      "id": "b14ee1fc-2741-5267-a9ec-a0880587a0ab",
+      "slug": "build-gpu-msi-rtx-5070-ventus-3x-oc",
+      "categoryId": "gpu",
+      "name": "MSI GeForce RTX 5070 12G VENTUS 3X OC",
+      "description": "RTX 5070 · GDDR7 · 12 GB · referans güç önerisi 650 W.",
+      "brand": "MSI",
+      "model": "GeForce RTX 5070 12G VENTUS 3X OC",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 98,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "GeForce RTX 5070 12G VENTUS 3X OC",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "MSI GeForce RTX 5070 12G VENTUS 3X OC",
+        "series": "RTX 5070 · GDDR7 · 12 GB",
+        "recommended_psu_w": 650
+      }
+    },
+    {
+      "id": "e794eab1-aa93-58f8-98c7-aa9b149ad7d9",
+      "slug": "build-gpu-gigabyte-rtx-5070-ti-gaming-oc",
+      "categoryId": "gpu",
+      "name": "GIGABYTE GeForce RTX 5070 Ti GAMING OC 16G",
+      "description": "RTX 5070 Ti · GDDR7 · 16 GB · referans güç önerisi 750 W.",
+      "brand": "GIGABYTE",
+      "model": "GeForce RTX 5070 Ti GAMING OC 16G",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 99,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "GeForce RTX 5070 Ti GAMING OC 16G",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "GIGABYTE GeForce RTX 5070 Ti GAMING OC 16G",
+        "series": "RTX 5070 Ti · GDDR7 · 16 GB",
+        "recommended_psu_w": 750
+      }
+    },
+    {
+      "id": "387bef94-cb4a-5c97-b3d5-851ee89ed69f",
+      "slug": "build-gpu-asus-prime-rtx-5070-ti-oc",
+      "categoryId": "gpu",
+      "name": "ASUS Prime GeForce RTX 5070 Ti OC 16GB",
+      "description": "RTX 5070 Ti · GDDR7 · 16 GB · referans güç önerisi 750 W.",
+      "brand": "ASUS",
+      "model": "Prime GeForce RTX 5070 Ti OC 16GB",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 100,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ASUS",
+        "Prime GeForce RTX 5070 Ti OC 16GB",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "ASUS Prime GeForce RTX 5070 Ti OC 16GB",
+        "series": "RTX 5070 Ti · GDDR7 · 16 GB",
+        "recommended_psu_w": 750
+      }
+    },
+    {
+      "id": "202ccfd0-3598-5e0f-bd58-4ce92d59a3c5",
+      "slug": "build-gpu-msi-rtx-5060-ti-ventus-2x-oc",
+      "categoryId": "gpu",
+      "name": "MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+      "description": "RTX 5060 Ti · GDDR7 · 16 GB · referans güç önerisi 600 W.",
+      "brand": "MSI",
+      "model": "GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 101,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+        "series": "RTX 5060 Ti · GDDR7 · 16 GB",
+        "recommended_psu_w": 600
+      }
+    },
+    {
       "id": "4e2b356c-3706-5c0c-bb8e-c1c859c4aa94",
       "slug": "build-gpu-radeon-rx-9070-xt",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 9070 XT",
-      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 750 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 750 W.",
       "brand": "AMD",
       "model": "Radeon RX 9070 XT",
       "sku": "",
@@ -2309,7 +3057,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 78,
+      "sortOrder": 102,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2330,7 +3078,7 @@
       "slug": "build-gpu-radeon-rx-9070",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 9070",
-      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 650 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 650 W.",
       "brand": "AMD",
       "model": "Radeon RX 9070",
       "sku": "",
@@ -2339,7 +3087,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 79,
+      "sortOrder": 103,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2360,7 +3108,7 @@
       "slug": "build-gpu-radeon-rx-9070-gre",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 9070 GRE",
-      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 750 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 750 W.",
       "brand": "AMD",
       "model": "Radeon RX 9070 GRE",
       "sku": "",
@@ -2369,7 +3117,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 80,
+      "sortOrder": 104,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2390,7 +3138,7 @@
       "slug": "build-gpu-radeon-rx-9060-xt",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 9060 XT",
-      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 650 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 9000 · RDNA 4 · referans güç önerisi 650 W.",
       "brand": "AMD",
       "model": "Radeon RX 9060 XT",
       "sku": "",
@@ -2399,7 +3147,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 81,
+      "sortOrder": 105,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2420,7 +3168,7 @@
       "slug": "build-gpu-radeon-rx-7900-xtx",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 7900 XTX",
-      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 800 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 800 W.",
       "brand": "AMD",
       "model": "Radeon RX 7900 XTX",
       "sku": "",
@@ -2429,7 +3177,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 82,
+      "sortOrder": 106,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2450,7 +3198,7 @@
       "slug": "build-gpu-radeon-rx-7900-xt",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 7900 XT",
-      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 750 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 750 W.",
       "brand": "AMD",
       "model": "Radeon RX 7900 XT",
       "sku": "",
@@ -2459,7 +3207,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 83,
+      "sortOrder": 107,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2480,7 +3228,7 @@
       "slug": "build-gpu-radeon-rx-7800-xt",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 7800 XT",
-      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 700 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 700 W.",
       "brand": "AMD",
       "model": "Radeon RX 7800 XT",
       "sku": "",
@@ -2489,7 +3237,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 84,
+      "sortOrder": 108,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2510,7 +3258,7 @@
       "slug": "build-gpu-radeon-rx-7700-xt",
       "categoryId": "gpu",
       "name": "AMD Radeon RX 7700 XT",
-      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 700 W. Kart üreticisine göre soğutucu ve boyut değişebilir.",
+      "description": "Radeon RX 7000 · RDNA 3 · referans güç önerisi 700 W.",
       "brand": "AMD",
       "model": "Radeon RX 7700 XT",
       "sku": "",
@@ -2519,7 +3267,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 85,
+      "sortOrder": 109,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2536,6 +3284,96 @@
       }
     },
     {
+      "id": "3c1c2f63-c6a2-5a5a-9c2a-7d712b6dcb82",
+      "slug": "build-gpu-gigabyte-rx-9070-xt-gaming-oc",
+      "categoryId": "gpu",
+      "name": "GIGABYTE Radeon RX 9070 XT GAMING OC 16G",
+      "description": "RX 9070 XT · GDDR6 · 16 GB · referans güç önerisi 850 W.",
+      "brand": "GIGABYTE",
+      "model": "Radeon RX 9070 XT GAMING OC 16G",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 110,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "GIGABYTE",
+        "Radeon RX 9070 XT GAMING OC 16G",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "GIGABYTE Radeon RX 9070 XT GAMING OC 16G",
+        "series": "RX 9070 XT · GDDR6 · 16 GB",
+        "recommended_psu_w": 850
+      }
+    },
+    {
+      "id": "28eee772-47cf-552e-b6bb-7915fc0a099f",
+      "slug": "build-gpu-asus-tuf-rx-9070-xt-oc",
+      "categoryId": "gpu",
+      "name": "ASUS TUF Gaming Radeon RX 9070 XT OC 16GB",
+      "description": "RX 9070 XT · GDDR6 · 16 GB · referans güç önerisi 850 W.",
+      "brand": "ASUS",
+      "model": "TUF Gaming Radeon RX 9070 XT OC 16GB",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 111,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ASUS",
+        "TUF Gaming Radeon RX 9070 XT OC 16GB",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "ASUS TUF Gaming Radeon RX 9070 XT OC 16GB",
+        "series": "RX 9070 XT · GDDR6 · 16 GB",
+        "recommended_psu_w": 850
+      }
+    },
+    {
+      "id": "9a119bce-ff71-508d-a6de-6f1c1c2e7bcc",
+      "slug": "build-gpu-asus-prime-rx-9070-xt-oc",
+      "categoryId": "gpu",
+      "name": "ASUS Prime Radeon RX 9070 XT OC 16GB",
+      "description": "RX 9070 XT · GDDR6 · 16 GB · referans güç önerisi 850 W.",
+      "brand": "ASUS",
+      "model": "Prime Radeon RX 9070 XT OC 16GB",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 112,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ASUS",
+        "Prime Radeon RX 9070 XT OC 16GB",
+        "gpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "gpu_chip": "ASUS Prime Radeon RX 9070 XT OC 16GB",
+        "series": "RX 9070 XT · GDDR6 · 16 GB",
+        "recommended_psu_w": 850
+      }
+    },
+    {
       "id": "9f0d46d7-dba4-5e17-ab67-b9c04be8ec91",
       "slug": "build-disk-samsung-990-evo-plus-1tb",
       "categoryId": "disk",
@@ -2549,7 +3387,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 86,
+      "sortOrder": 113,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2580,7 +3418,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 87,
+      "sortOrder": 114,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2611,7 +3449,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 88,
+      "sortOrder": 115,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2642,7 +3480,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 89,
+      "sortOrder": 116,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2673,7 +3511,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 90,
+      "sortOrder": 117,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2704,7 +3542,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 91,
+      "sortOrder": 118,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2735,7 +3573,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 92,
+      "sortOrder": 119,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2767,7 +3605,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 93,
+      "sortOrder": 120,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2799,7 +3637,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 94,
+      "sortOrder": 121,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2831,7 +3669,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 95,
+      "sortOrder": 122,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2863,7 +3701,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 96,
+      "sortOrder": 123,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2893,7 +3731,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 97,
+      "sortOrder": 124,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2923,7 +3761,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 98,
+      "sortOrder": 125,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2953,7 +3791,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 99,
+      "sortOrder": 126,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2983,7 +3821,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 100,
+      "sortOrder": 127,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3013,7 +3851,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 101,
+      "sortOrder": 128,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3043,7 +3881,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 102,
+      "sortOrder": 129,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3073,7 +3911,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 103,
+      "sortOrder": 130,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3103,7 +3941,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 104,
+      "sortOrder": 131,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
