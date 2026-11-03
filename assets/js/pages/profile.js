@@ -32,6 +32,18 @@ function openProfilePanel(name, updateHash = true) {
   });
   if (updateHash && location.hash !== `#${panelName}`) history.replaceState(null, '', `#${panelName}`);
 }
+function updateOverviewStats() {
+  const systemCount = savedSystemBuilds.length;
+  const addressCount = addresses.length;
+  const systemCountEl = document.getElementById('overviewSystemCount');
+  const systemDetailEl = document.getElementById('overviewSystemDetail');
+  const addressCountEl = document.getElementById('overviewAddressCount');
+  const addressDetailEl = document.getElementById('overviewAddressDetail');
+  if (systemCountEl) systemCountEl.textContent = `${systemCount} / 3`;
+  if (systemDetailEl) systemDetailEl.textContent = systemCount ? `${systemCount} kayıtlı taslak` : 'Kayıtlı sistemin yok';
+  if (addressCountEl) addressCountEl.textContent = String(addressCount);
+  if (addressDetailEl) addressDetailEl.textContent = addressCount ? `${addressCount} adres hesabında kayıtlı` : 'Henüz adres eklemedin';
+}
 
 document.getElementById('profileContent').addEventListener('click', event => {
   const tab = event.target.closest('[data-profile-tab]');
@@ -96,6 +108,7 @@ function clearAddressForm() {
   closeAddressEditor();
 }
 function renderAddresses() {
+  updateOverviewStats();
   addressList.replaceChildren();
   if (!addresses.length) {
     const empty = document.createElement('div');
@@ -178,6 +191,7 @@ function displaySystemComponent(id, payload) {
 }
 function renderSavedSystems() {
   if (!savedSystemList) return;
+  updateOverviewStats();
   const buildBySlot = new Map(savedSystemBuilds.map(row => [Number(row.slot), row]));
   savedSystemList.replaceChildren(...[1, 2, 3].map(slot => {
     const row = buildBySlot.get(slot);
@@ -260,6 +274,7 @@ async function loadAccount() {
   emailUpdatesPreference.checked = communicationPreferencesReady && Boolean(profile.email_marketing_opt_in);
   document.getElementById('profileGreeting').textContent = (profile.full_name || user.email?.split('@')[0] || 'müşterimiz').split(' ')[0];
   addresses = (addressRows || []).map(address => ({ ...address, is_default: Boolean(address.is_default) }));
+  updateOverviewStats();
   document.getElementById('addressSummary').textContent = addresses.length ? `${addresses.length} kayıtlı adres` : 'Henüz adres eklemedin';
   document.getElementById('addressIsDefault').checked = defaultAddressFeatureReady && !addresses.some(address => address.is_default);
   renderAddresses();
