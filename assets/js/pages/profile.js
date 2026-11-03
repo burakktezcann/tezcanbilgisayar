@@ -79,6 +79,43 @@ function isMissingDefaultAddressColumn(error) {
 function isMissingCommunicationPreferenceColumn(error) {
   return error?.code === '42703' || /email_marketing_opt_in.*does not exist|column.*email_marketing_opt_in/i.test(String(error?.message || ''));
 }
+function formatTurkishPhone(value) {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.startsWith('0090')) digits = digits.slice(4);
+  else if (digits.startsWith('90') && digits.length >= 12) digits = digits.slice(2);
+  if (!digits.startsWith('0')) digits = `0${digits}`;
+  digits = digits.slice(0, 11);
+  const groups = [digits.slice(0, 1), digits.slice(1, 4), digits.slice(4, 7), digits.slice(7, 9), digits.slice(9, 11)].filter(Boolean);
+  return groups.join(' ');
+}
+function phoneDigitCount(value) {
+  return String(value || '').replace(/\D/g, '').length;
+}
+function attachTurkishPhoneInput(input) {
+  if (!input) return;
+  input.value = formatTurkishPhone(input.value || '0');
+  input.addEventListener('input', () => {
+    const oldValue = input.value;
+    const oldCursor = input.selectionStart ?? oldValue.length;
+    const cursorDigits = Math.max(1, phoneDigitCount(oldValue.slice(0, oldCursor)));
+    const formatted = formatTurkishPhone(oldValue);
+    input.value = formatted;
+    let position = 0;
+    let seen = 0;
+    while (position < formatted.length && seen < cursorDigits) {
+      if (/\d/.test(formatted[position])) seen += 1;
+      position += 1;
+    }
+    input.setSelectionRange(position, position);
+  });
+}
+function phoneNumberIsComplete(value) {
+  return /^0\d{10}$/.test(String(value || '').replace(/\D/g, ''));
+}
+const profilePhoneInput = document.getElementById('profilePhone');
+const addressPhoneInput = document.getElementById('addressPhone');
+attachTurkishPhoneInput(profilePhoneInput);
+attachTurkishPhoneInput(addressPhoneInput);
 async function fetchAddresses(userId) {
   let result = await client.from('customer_addresses')
     .select('id, label, recipient_name, phone, address_line, district, city, postal_code, is_default, created_at')
@@ -108,6 +145,7 @@ function showSetup() {
 }
 function clearAddressForm() {
   addressForm.reset();
+  addressPhoneInput.value = '0';
   document.getElementById('addressId').value = '';
   document.getElementById('addressFormTitle').textContent = 'Yeni adres ekle';
   document.getElementById('saveAddress').textContent = 'Adresi kaydet';
@@ -627,7 +665,7 @@ async function loadAccount() {
     return;
   }
   document.getElementById('profileFullName').value = profile.full_name || '';
-  document.getElementById('profilePhone').value = profile.phone || '';
+  profilePhoneInput.value = formatTurkishPhone(profile.phone || '0');
   emailUpdatesPreference.checked = communicationPreferencesReady && Boolean(profile.email_marketing_opt_in);
   document.getElementById('profileGreeting').textContent = (profile.full_name || user.email?.split('@')[0] || 'müşterimiz').split(' ')[0];
   addresses = (addressRows || []).map(address => ({ ...address, is_default: Boolean(address.is_default) }));
@@ -649,11 +687,17 @@ profileForm.addEventListener('submit', async event => {
     showMessage('Ad soyadını kontrol et.', 'error');
     return;
   }
+  const phoneValue = String(form.get('phone') || '').trim();
+  if (phoneDigitCount(phoneValue) > 1 && !phoneNumberIsComplete(phoneValue)) {
+    showMessage('Telefon numarası 0 ile başlayan 11 haneli bir numara olmalı.', 'error');
+    profilePhoneInput.focus();
+    return;
+  }
   setFormButton(profileForm, true);
   showMessage('Bilgilerin kaydediliyor…');
   const { error } = await client.from('profiles').update({
     full_name: fullName,
-    phone: String(form.get('phone') || '').trim() || null,
+    phone: phoneDigitCount(phoneValue) > 1 ? formatTurkishPhone(phoneValue) : null,
     updated_at: new Date().toISOString()
   }).eq('id', currentUser.id);
   setFormButton(profileForm, false);
@@ -691,6 +735,12 @@ addressForm.addEventListener('submit', async event => {
     city: String(form.get('city') || '').trim(),
     postal_code: String(form.get('postalCode') || '').trim() || null
   };
+  if (!phoneNumberIsComplete(values.phone)) {
+    showMessage('Telefon numarası 0 ile başlayan 11 haneli bir numara olmalı.', 'error');
+    addressPhoneInput.focus();
+    return;
+  }
+  values.phone = formatTurkishPhone(values.phone);
   const previousDefault = addresses.find(address => address.is_default);
   const wantsDefault = defaultAddressFeatureReady && (document.getElementById('addressIsDefault').checked || (!addressId && !addresses.length));
   setFormButton(addressForm, true);
@@ -754,7 +804,7 @@ addressList.addEventListener('click', async event => {
     document.getElementById('addressId').value = address.id;
     document.getElementById('addressLabel').value = address.label;
     document.getElementById('recipientName').value = address.recipient_name;
-    document.getElementById('addressPhone').value = address.phone;
+    addressPhoneInput.value = formatTurkishPhone(address.phone || '0');
     document.getElementById('addressLine').value = address.address_line;
     document.getElementById('addressDistrict').value = address.district;
     document.getElementById('addressCity').value = address.city;
