@@ -286,25 +286,30 @@ function renderParts() {
   partsGrid.replaceChildren(...rows.map(item => {
     const card = document.createElement('article'); card.className = 'parts-product-card';
     const art = document.createElement('div'); art.className = 'parts-product-art';
+    const detailUrl = `urun.html?slug=${encodeURIComponent(item.slug || '')}`;
+    const imageLink = document.createElement('a'); imageLink.className = 'parts-product-image-link'; imageLink.href = detailUrl; imageLink.setAttribute('aria-label', `${item.name} ürün ayrıntıları`);
     const imagePath = imageAllowed(item.image) ? item.image : '';
     if (imagePath) {
       const image = document.createElement('img'); image.src = imagePath; image.alt = ''; image.loading = 'lazy';
-      image.addEventListener('error', () => image.replaceWith(iconFor(item)), { once: true }); art.append(image);
-    } else art.append(iconFor(item));
+      image.addEventListener('error', () => image.replaceWith(iconFor(item)), { once: true }); imageLink.append(image);
+    } else imageLink.append(iconFor(item));
+    art.append(imageLink);
     const heart = document.createElement('button'); heart.type = 'button'; heart.className = 'parts-product-heart'; heart.dataset.favoriteId = item.id;
     heart.setAttribute('aria-pressed', String(favorites.includes(item.id)));
     heart.setAttribute('aria-label', favorites.includes(item.id) ? `${item.name} favorilerden çıkar` : `${item.name} favorilere ekle`);
     heart.innerHTML = `<i class="fa-${favorites.includes(item.id) ? 'solid' : 'regular'} fa-heart" aria-hidden="true"></i>`; art.append(heart);
     const body = document.createElement('div'); body.className = 'parts-product-copy';
     const brand = document.createElement('span'); brand.className = 'parts-product-brand'; brand.textContent = item.brand || 'Bilgisayar parçası';
-    const title = document.createElement('h2'); title.textContent = item.name;
+    const title = document.createElement('h2');
+    const titleLink = document.createElement('a'); titleLink.className = 'parts-product-detail-link'; titleLink.href = detailUrl; titleLink.textContent = item.name; title.append(titleLink);
     const detail = document.createElement('p'); detail.textContent = item.description || item.model || '';
     const specs = document.createElement('ul'); specs.className = 'parts-product-specs';
     productSpecifications(item).forEach(value => { const line = document.createElement('li'); line.textContent = value; specs.append(line); });
     specs.hidden = !specs.children.length;
     const category = document.createElement('span'); category.className = 'parts-product-category'; category.textContent = partsCategoryNames[item.categoryId] || 'Parça';
+    const more = document.createElement('a'); more.className = 'parts-product-more'; more.href = detailUrl; more.innerHTML = 'Ürün ayrıntıları <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
     const price = document.createElement('strong'); price.className = 'parts-product-price'; price.textContent = displayPrice(item);
-    body.append(brand, title, detail, specs, category, price); card.append(art, body); return card;
+    body.append(brand, title, detail, specs, category, price, more); card.append(art, body); return card;
   }));
   partsEmpty.hidden = rows.length > 0;
   partsGrid.hidden = rows.length === 0;
