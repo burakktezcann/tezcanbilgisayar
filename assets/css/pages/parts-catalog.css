@@ -36,4 +36,7 @@
 .parts-compare-tray-actions a:focus-visible,.parts-compare-tray-actions button:focus-visible{outline:3px solid #6686ff;outline-offset:3px}
 .parts-product-compare{border-radius:999px}
 .parts-product-compare[aria-pressed=true]{border-color:#b9c9ff;color:#174db8;background:#edf3ff}
+.parts-add-shopping-cart{display:inline-flex;width:100%;min-height:40px;align-items:center;justify-content:center;gap:8px;margin-top:10px;border:0;border-radius:11px;color:#fff;background:linear-gradient(135deg,#0875e1,#3157e8);font:inherit;font-size:.72rem;font-weight:780;cursor:pointer;box-shadow:0 5px 13px #0875e126;transition:transform .16s,background .16s}
+.parts-add-shopping-cart:hover:not(:disabled){transform:translateY(-1px);background:#0756b8}
+.parts-add-shopping-cart:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 @media(max-width:600px){.parts-compare-tray{bottom:8px;align-items:stretch;flex-direction:column;gap:12px;margin:14px 0 18px;padding:13px;border-radius:16px}.parts-compare-tray-copy{align-items:flex-start}.parts-compare-tray-icon{width:38px;height:38px;flex-basis:38px}.parts-compare-tray-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}.parts-compare-tray-actions button,.parts-compare-tray-actions a{min-width:0;min-height:42px;padding:0 9px;font-size:.72rem}}

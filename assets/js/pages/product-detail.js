@@ -2,6 +2,7 @@ const productDetailRoot = document.getElementById('productDetail');
 const productLoading = document.getElementById('productLoading');
 const productNotFound = document.getElementById('productNotFound');
 const productFavoriteButton = document.getElementById('productFavorite');
+const productAddToCartButton = document.getElementById('productAddToCart');
 const detailQuery = new URLSearchParams(location.search);
 const requestedSlug = detailQuery.get('slug') || '';
 const favoriteStorageBase = 'tezcan-product-favorites';
@@ -288,6 +289,9 @@ productFavoriteButton.addEventListener('click', () => {
   detailFavorites = detailFavorites.includes(currentProduct.id)
     ? detailFavorites.filter(id => id !== currentProduct.id) : [...detailFavorites, currentProduct.id];
   writeFavoriteIds();
+});
+productAddToCartButton.addEventListener('click', () => {
+  if (currentProduct) window.TezcanShoppingCart?.add(currentProduct);
 });
 productCompareButton.addEventListener('click', () => {
   if (!currentProduct) return;

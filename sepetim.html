@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#071629">
+  <title>Sepetim | Tezcan Bilgisayar</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/brand/tezcan-favicon-32.png">
+  <link rel="stylesheet" href="assets/css/design-tokens.css">
+  <link rel="stylesheet" href="assets/css/pages/shopping-cart.css">
+</head>
+<body class="shopping-cart-page">
+  <main class="shopping-cart-main">
+    <div class="shopping-cart-wrap">
+      <nav class="shopping-breadcrumbs" aria-label="Sayfa konumu"><a href="index.html">Ana sayfa</a><span aria-hidden="true">/</span><span aria-current="page">Sepetim</span></nav>
+      <header class="shopping-cart-heading">
+        <div><span class="shopping-eyebrow">ALIŞVERİŞ SEPETİ</span><h1>Sepetim</h1><p>Eklediğin ürünleri ve adetlerini buradan yönetebilirsin.</p></div>
+        <span class="shopping-prelaunch-badge"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Satış öncesi hazırlık</span>
+      </header>
+      <p class="shopping-status" id="shoppingCartStatus" role="status" aria-live="polite">Sepetin yükleniyor…</p>
+      <div class="shopping-cart-layout" id="shoppingCartLayout" hidden>
+        <section class="shopping-cart-items-panel" aria-label="Sepet ürünleri">
+          <div class="shopping-items-heading"><div><h2>Sepetindeki ürünler</h2><span id="shoppingCartItemCount">0 ürün</span></div><button type="button" id="clearShoppingCart" class="shopping-clear-button">Sepeti temizle</button></div>
+          <div id="shoppingCartItems" class="shopping-cart-items"></div>
+          <div class="shopping-continue"><a href="bilgisayar-parcalari.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Alışverişe devam et</a></div>
+        </section>
+        <aside class="shopping-summary" aria-label="Sepet özeti">
+          <h2>Sipariş özeti</h2>
+          <div class="shopping-summary-line"><span>Ara toplam</span><strong id="shoppingSubtotal">—</strong></div>
+          <div class="shopping-summary-line"><span>İndirim</span><strong id="shoppingDiscount">—</strong></div>
+          <div class="shopping-summary-line"><span>Kargo</span><strong class="shopping-summary-muted">Sipariş aşamasında</strong></div>
+          <div class="shopping-summary-total"><span>Genel toplam</span><strong id="shoppingGrandTotal">Siparişe açıldığında hesaplanacak</strong></div>
+          <button type="button" class="shopping-checkout-button" disabled>Sipariş ve ödeme henüz açık değil</button>
+          <p class="shopping-summary-note">Şirket kuruluşu ve satış süreçleri tamamlanmadığı için bu sepet henüz siparişe dönüştürülemez. Fiyat ve stok bilgileri satın alma öncesinde kesinleştirilir.</p>
+        </aside>
+      </div>
+      <section class="shopping-cart-empty" id="shoppingCartEmpty" hidden>
+        <span class="shopping-empty-icon"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i></span>
+        <h2>Sepetin henüz boş</h2><p>Beğendiğin parçaları sepete eklediğinde burada görebilirsin.</p>
+        <a class="shopping-primary-link" href="bilgisayar-parcalari.html">Ürünleri keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </section>
+    </div>
+  </main>
+  <script src="assets/js/site-shell.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="assets/js/config/supabase-config.js" defer></script>
+  <script src="assets/js/account-indicator.js" defer></script>
+  <script src="assets/js/common/catalog-utils.js" defer></script>
+  <script src="assets/js/common/shopping-cart.js" defer></script>
+  <script src="assets/js/pages/shopping-cart-page.js" defer></script>
+</body>
+</html>

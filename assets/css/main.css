@@ -122,6 +122,15 @@ main{overflow:hidden}.hero-wrap{padding:27px 0 18px}.hero{position:relative;disp
 /* Product comparison */
 .product-card-actions{display:grid;gap:7px}
 .product-card-actions .add-to-cart{min-height:40px}
+.product-card-actions .add-to-offer-list,.product-card-actions .add-shopping-cart{display:inline-flex;width:100%;min-height:40px;align-items:center;justify-content:center;gap:8px;border-radius:11px;font:inherit;font-size:.75rem;font-weight:780;cursor:pointer;transition:background .16s,border-color .16s,transform .16s}
+.product-card-actions .add-to-offer-list{border:1px solid #dbe4f2;color:#34527f;background:#fff}
+.product-card-actions .add-to-offer-list:hover{border-color:#b8c8ff;color:#0756b8;background:#f5f7ff}
+.product-card-actions .add-shopping-cart{border:0;color:#fff;background:linear-gradient(135deg,#0875e1,#3157e8);box-shadow:0 5px 13px #0875e126}
+.product-card-actions .add-shopping-cart:hover:not(:disabled){transform:translateY(-1px);background:#0756b8}
+.product-card-actions .add-shopping-cart:disabled{opacity:.52;cursor:not-allowed}
+.shopping-cart-toast{position:fixed;right:20px;bottom:20px;z-index:3000;max-width:min(420px,calc(100vw - 32px));padding:13px 16px;border:1px solid #dce6f3;border-radius:13px;color:#1c3150;background:#fff;box-shadow:0 12px 36px #13234229;font-size:.78rem;font-weight:700;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .18s,transform .18s}
+.shopping-cart-toast.is-visible{opacity:1;transform:translateY(0)}
+.shopping-cart-toast[data-kind="error"]{border-color:#f1cdd0;color:#9f303a;background:#fff7f7}
 .compare-product{min-height:38px;border:1px solid #dfe5f0;border-radius:10px;color:#34435e;background:#fff;font-size:.76rem;font-weight:750}
 .compare-product:hover,.compare-product[aria-pressed="true"]{border-color:#bcc8ff;color:#0756B8;background:#f3f5ff}
 .compare-bar{position:fixed;right:20px;bottom:18px;left:20px;z-index:1500;display:flex;max-width:820px;min-height:66px;align-items:center;justify-content:space-between;gap:14px;margin:auto;padding:10px 14px 10px 20px;border:1px solid #e2e8f4;border-radius:17px;background:#fff;box-shadow:0 14px 46px #07162930;font-size:.85rem}

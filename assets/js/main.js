@@ -136,13 +136,20 @@ function createProductCard(item,{isProduct=false}={}){
   }
   const addButton=document.createElement('button');
   addButton.type='button';
-  addButton.className='add-to-cart';
-  addButton.dataset.addToCart=item.id;
-  addButton.textContent=isProduct?'Ürün listeme ekle':'İlgileniyorum';
+  addButton.className='add-to-offer-list';
+  addButton.dataset.addToOfferList=item.id;
+  addButton.textContent=isProduct?'İlgi listeme ekle':'İlgileniyorum';
   const actions=document.createElement('div');
   actions.className='product-card-actions';
   actions.append(addButton);
   if(isProduct){
+    const shoppingButton=document.createElement('button');
+    shoppingButton.type='button';
+    shoppingButton.className='add-shopping-cart';
+    shoppingButton.dataset.addShoppingCart=item.id;
+    shoppingButton.innerHTML='<i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span>Sepete ekle</span>';
+    if(item.stock===0){shoppingButton.disabled=true;shoppingButton.title='Stokta bulunmuyor';}
+    actions.append(shoppingButton);
     if(['cpu','motherboard','ram','gpu','disk','case','psu'].includes(item.categoryId)){
       const builderButton=document.createElement('button');
       builderButton.type='button';
@@ -428,7 +435,7 @@ function renderCart(){
   const counts={};
   quoteIds.forEach(id=>counts[id]=(counts[id]||0)+1);
   const total=quoteIds.length;
-  document.getElementById('cartCount').textContent=total;
+  document.getElementById('offerListCount').textContent=total;
   document.getElementById('sectionCartCount').textContent='('+total+')';
   sendQuote.disabled=total===0;
   cartList.replaceChildren();
@@ -586,7 +593,7 @@ document.addEventListener('keydown',event=>{
   if(event.key==='Escape'&&!quickComponentMenu.hidden){quickCategoryMenuClose();quickComponentToggle.focus();}
 });
 showAllProducts.addEventListener('click',resetProductCategory);
-document.getElementById('openCart').addEventListener('click',openCart);
+document.getElementById('openCart')?.addEventListener('click',openCart);
 document.getElementById('openCartFromProducts').addEventListener('click',openCart);
 document.getElementById('closeCart').addEventListener('click',closeCart);
 cartOverlay.addEventListener('click',event=>{if(event.target===cartOverlay)closeCart();});
@@ -611,9 +618,15 @@ document.addEventListener('click',event=>{
   if(favoriteButton){toggleFavorite(favoriteButton.dataset.favoriteProduct);return;}
   const compareButton=event.target.closest('[data-compare-product]');
   if(compareButton){toggleCompare(compareButton.dataset.compareProduct);return;}
-  const addButton=event.target.closest('[data-add-to-cart]');
+  const shoppingButton=event.target.closest('[data-add-shopping-cart]');
+  if(shoppingButton){
+    const item=cartItemsById.get(shoppingButton.dataset.addShoppingCart);
+    if(item)window.TezcanShoppingCart?.add(item);
+    return;
+  }
+  const addButton=event.target.closest('[data-add-to-offer-list]');
   if(addButton){
-    quoteIds.push(addButton.dataset.addToCart);savedQuoteIds=[...quoteIds];saveQuote();renderCart();openCart();return;
+    quoteIds.push(addButton.dataset.addToOfferList);savedQuoteIds=[...quoteIds];saveQuote();renderCart();openCart();return;
   }
   const removeButton=event.target.closest('[data-remove-item]');
   if(removeButton){

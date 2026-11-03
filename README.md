@@ -107,6 +107,10 @@ Sipariş durum kodları: `received` (Sipariş alındı), `awaiting_payment` (Öd
 
 Bu migration yalnızca şema ve erişim kurallarını hazırlar; yönetim ekranı, sepetten sipariş oluşturma, stok ayırma, ödeme sağlayıcısı, kargo servisi veya müşteriye sipariş takibi eklemez. Şirket kuruluşu ve ödeme/teslimat süreçleri doğrulanana kadar sipariş ve ödeme akışları kapalı kalmalıdır.
 
+### Sepet hazırlığı
+
+`sepetim.html` ve `assets/js/common/shopping-cart.js` ziyaretçinin sepetini tarayıcıda saklar; katalog ve ürün ayrıntı sayfalarından ürün eklemeyi, adedi artırıp azaltmayı, kaldırmayı ve stokta bilinen üst sınıra uymayı sağlar. Ürünlere `attributes.discount_percent` eklenmişse indirim ara toplamda hesaplanır. Kesin kargo politikası/fiyatı henüz belirlenmediği ve satış başlamadığı için genel toplam siparişe açılana kadar gösterilmez; ödeme ve siparişe geçiş düğmesi devre dışıdır. Tarayıcı sepeti henüz kullanıcı hesabına veya veritabanına eşitlenmez ve sipariş kaydı oluşturmaz.
+
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 
 ## Ana sayfa kategori seçimi

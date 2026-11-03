@@ -381,10 +381,13 @@ function renderParts() {
     specs.hidden = !specs.children.length;
     const category = document.createElement('span'); category.className = 'parts-product-category'; category.textContent = partsCategoryNames[item.categoryId] || 'Parça';
     const more = document.createElement('a'); more.className = 'parts-product-more'; more.href = detailUrl; more.innerHTML = 'Ürün ayrıntıları <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
+    const shoppingButton = document.createElement('button'); shoppingButton.type = 'button'; shoppingButton.className = 'parts-add-shopping-cart'; shoppingButton.dataset.addShoppingCart = item.id;
+    shoppingButton.innerHTML = '<i class="fa-solid fa-cart-plus" aria-hidden="true"></i><span>Sepete ekle</span>';
+    if (item.stock === 0) { shoppingButton.disabled = true; shoppingButton.title = 'Stokta bulunmuyor'; }
     const compareButton = document.createElement('button'); compareButton.type = 'button'; compareButton.className = 'parts-product-compare';
     compareButton.dataset.compareId = item.id; compareButton.dataset.compareCategory = item.categoryId; compareButton.setAttribute('aria-pressed', 'false');
     const price = document.createElement('strong'); price.className = 'parts-product-price'; price.textContent = displayPrice(item);
-    body.append(brand, title, detail, specs, category, price, compareButton, more); card.append(art, body); return card;
+    body.append(brand, title, detail, specs, category, price, shoppingButton, compareButton, more); card.append(art, body); return card;
   }));
   partsGrid.querySelectorAll('[data-compare-id]').forEach(button => {
     const selected = comparedProductIds.includes(button.dataset.compareId);
@@ -428,6 +431,12 @@ partsFilterFields.addEventListener('change', event => {
 });
 document.getElementById('clearPartsFilters').addEventListener('click', () => { selectedFacets.clear(); renderFilters(); renderParts(); });
 partsGrid.addEventListener('click', event => {
+  const shoppingButton = event.target.closest('[data-add-shopping-cart]');
+  if (shoppingButton) {
+    const product = allParts.find(item => item.id === shoppingButton.dataset.addShoppingCart);
+    if (product) window.TezcanShoppingCart?.add(product);
+    return;
+  }
   const compareButton = event.target.closest('[data-compare-id]');
   if (compareButton) {
     const id = compareButton.dataset.compareId;

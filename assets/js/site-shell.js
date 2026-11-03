@@ -33,9 +33,7 @@
   const categoryLinks = navItems.map(([href, label, icon], index) =>
     `<a class="shared-category-link${index === 0 ? ' is-build' : ''}" href="${asset(href)}"><i class="fa-solid ${icon}" aria-hidden="true"></i><span>${label}</span></a>`
   ).join('');
-  const cartAction = isHome
-    ? '<button class="shared-action" id="openCart" type="button" aria-label="Ürün grubunu aç"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i><span>Ürünler</span><b class="shared-count" id="cartCount">0</b></button>'
-    : `<a class="shared-action" href="${asset('bilgisayar-parcalari.html')}"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i><span>Ürünler</span></a>`;
+  const cartAction = `<a class="shared-action shared-shopping-cart" href="${asset('sepetim.html')}" aria-label="Sepetim"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span>Sepetim</span><b class="shared-count" id="shoppingCartCount" data-shopping-cart-count hidden>0</b></a>`;
   const header = `<div class="shared-announcement"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Tezcan Bilgisayar kuruluş öncesi hazırlık aşamasındadır</div>
   <header class="shared-header"><div class="shared-header-inner">
     <a class="shared-brand" href="${asset('index.html')}" aria-label="Tezcan Bilgisayar ana sayfa"><img src="${asset('assets/images/brand/tezcan-mark.webp')}" alt="" width="512" height="512" fetchpriority="high" decoding="async"><span>TEZCAN<small>BİLGİSAYAR</small></span></a>
@@ -65,6 +63,21 @@
     else document.body.insertAdjacentHTML('beforeend', footer);
   }
   document.querySelectorAll('[data-shared-year]').forEach(node => { node.textContent = String(new Date().getFullYear()); });
+  const syncShoppingCartBadge = () => {
+    let count = 0;
+    try {
+      const rows = JSON.parse(localStorage.getItem('tezcan-shopping-cart-v1') || '[]');
+      if (Array.isArray(rows)) count = rows.reduce((sum, row) => sum + (Number.isInteger(row?.quantity) && row.quantity > 0 ? row.quantity : 0), 0);
+    } catch {}
+    document.querySelectorAll('[data-shopping-cart-count]').forEach(badge => {
+      badge.textContent = String(count);
+      badge.hidden = count === 0;
+      badge.closest('a')?.setAttribute('aria-label', count ? `Sepetim, ${count} ürün` : 'Sepetim');
+    });
+  };
+  syncShoppingCartBadge();
+  document.addEventListener('tezcan:cart-change', syncShoppingCartBadge);
+  window.addEventListener('storage', event => { if (event.key === 'tezcan-shopping-cart-v1') syncShoppingCartBadge(); });
   const favoriteBadge = document.getElementById(isHome ? 'headerFavoriteCount' : 'partsFavoriteCount');
   const syncFavoriteBadge = () => {
     try {
