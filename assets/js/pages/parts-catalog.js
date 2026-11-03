@@ -53,6 +53,45 @@ const facetsByCategory = {
   accessories: [['brand', 'Marka'], ['attributes.device_type', 'Ürün türü'], ['attributes.interface', 'Bağlantı']],
   software: [['brand', 'Marka'], ['attributes.software_type', 'Yazılım türü'], ['attributes.license_type', 'Lisans türü']]
 };
+// These curated values make each catalog branch understandable before its full
+// inventory is entered. Options without matching products stay disabled.
+const suggestedFacetOptions = {
+  computers: {
+    brand: ['ASUS', 'Acer', 'Lenovo', 'HP', 'Dell', 'MSI', 'Apple', 'Casper', 'Monster', 'Samsung', 'Huawei', 'LG'],
+    'attributes.device_type': ['Dizüstü bilgisayar', 'Masaüstü bilgisayar', 'Hepsi bir arada bilgisayar', 'Mini PC', 'İş istasyonu'],
+    'attributes.processor': ['Intel Core i3', 'Intel Core i5', 'Intel Core i7', 'Intel Core i9', 'AMD Ryzen 3', 'AMD Ryzen 5', 'AMD Ryzen 7', 'AMD Ryzen 9']
+  },
+  peripherals: {
+    brand: ['Logitech', 'Razer', 'Corsair', 'SteelSeries', 'HyperX', 'ASUS', 'MSI', 'Acer', 'Samsung', 'Philips', 'ViewSonic', 'BenQ'],
+    'attributes.device_type': ['Monitör', 'Klavye', 'Fare', 'Kulaklık', 'Hoparlör', 'Webcam', 'Mikrofon', 'Mousepad', 'Çizim tableti'],
+    'attributes.connection': ['Kablolu', 'Kablosuz', 'Bluetooth', 'USB', '2.4 GHz']
+  },
+  gaming: {
+    brand: ['Sony', 'Microsoft', 'Nintendo', 'Logitech', 'Razer', 'GameSir', 'Thrustmaster', 'Meta'],
+    'attributes.device_type': ['Oyun kolu', 'Oyun konsolu', 'Direksiyon seti', 'VR başlığı', 'Oyun kulaklığı', 'Taşınabilir oyun cihazı'],
+    'attributes.platform': ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobil']
+  },
+  networking: {
+    brand: ['TP-Link', 'ASUS', 'Zyxel', 'Keenetic', 'MikroTik', 'Ubiquiti', 'Huawei', 'Mercusys'],
+    'attributes.device_type': ['Modem', 'Router', 'Mesh sistemi', 'Ağ anahtarı (Switch)', 'Access point', 'USB Wi-Fi adaptörü', 'Ağ kartı'],
+    'attributes.wifi_standard': ['Wi-Fi 5', 'Wi-Fi 6', 'Wi-Fi 6E', 'Wi-Fi 7']
+  },
+  office: {
+    brand: ['HP', 'Canon', 'Epson', 'Brother', 'Xerox', 'Kyocera', 'Logitech', 'Fellowes'],
+    'attributes.device_type': ['Yazıcı', 'Tarayıcı', 'Çok işlevli yazıcı', 'Projeksiyon cihazı', 'Belge öğütücü', 'Sunum kumandası'],
+    'attributes.print_type': ['Lazer', 'Mürekkep püskürtmeli', 'Tanklı mürekkep']
+  },
+  accessories: {
+    brand: ['UGREEN', 'Anker', 'Baseus', 'Belkin', 'Logitech', 'Kingston', 'Sandisk', 'TP-Link'],
+    'attributes.device_type': ['Kablo', 'Adaptör', 'USB çoklayıcı', 'Dönüştürücü', 'Dizüstü çantası', 'Soğutucu stand', 'Kart okuyucu'],
+    'attributes.interface': ['USB-A', 'USB-C', 'HDMI', 'DisplayPort', 'Ethernet', 'Bluetooth']
+  },
+  software: {
+    brand: ['Microsoft', 'ESET', 'Bitdefender', 'Norton', 'Adobe', 'Autodesk'],
+    'attributes.software_type': ['İşletim sistemi', 'Ofis yazılımı', 'Güvenlik yazılımı', 'Tasarım yazılımı', 'Yedekleme yazılımı'],
+    'attributes.license_type': ['Bireysel', 'Aile', 'Kurumsal', '1 yıllık', 'Süresiz']
+  }
+};
 const requestedCategory = new URLSearchParams(location.search).get('category') || 'components';
 let selectedPartCategory = ['components', ...partsCategoryIds].includes(requestedCategory) ? requestedCategory : 'components';
 let allParts = [];
@@ -191,9 +230,10 @@ function addFacetGroup(container, key, label, options) {
   options.forEach(option => {
     const row = document.createElement('label'); row.className = 'parts-filter-option';
     const input = document.createElement('input'); input.type = 'checkbox'; input.dataset.facet = key; input.value = facetToken(option.value);
+    input.disabled = option.count === 0;
     input.checked = selectedFacets.get(key)?.has(input.value) || false;
     const text = document.createElement('span'); text.textContent = facetLabel(option.value, key);
-    const count = document.createElement('small'); count.textContent = String(option.count);
+    const count = document.createElement('small'); count.textContent = option.count ? String(option.count) : 'Yakında';
     row.append(input, text, count); list.append(row);
   });
   fieldset.append(list); container.append(fieldset);
@@ -213,6 +253,8 @@ function renderFilters() {
         const values = Array.isArray(value) ? value : String(value).split(/[,;|]+/).map(part => part.trim()).filter(Boolean);
         values.forEach(item => { const token = facetToken(item); counts.set(token, (counts.get(token) || 0) + 1); });
       });
+      const suggested = suggestedFacetOptions[selectedPartCategory]?.[key] || [];
+      suggested.forEach(value => { if (!counts.has(value)) counts.set(value, 0); });
       const options = [...counts].map(([value, count]) => ({ value, count })).sort((a, b) => {
         const aNum = Number(a.value), bNum = Number(b.value);
         return Number.isFinite(aNum) && Number.isFinite(bNum) ? aNum - bNum : a.value.localeCompare(b.value, 'tr');
