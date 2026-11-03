@@ -99,6 +99,14 @@ Canlı site için yönetilen Supabase kullanılmalı; kişisel bilgisayardaki Do
 
 E-posta bilgilendirme seçimi kullanıcı profilinde bir tercih kaydı olarak tutulur; varsayılanı kapalıdır. Bu tercih tek başına e-posta gönderimi başlatmaz. E-posta sağlayıcısı, gönderim amacı ve ilgili yasal metinler hazır olana kadar pazarlama e-postası gönderilmez. Sipariş/ödeme özelliği şirket bilgileri, gerçek katalog/fiyat/stok, teslimat-iade süreçleri, güvenli ödeme sağlayıcısı ve hukuki metinler doğrulanmadan etkinleştirilmemelidir.
 
+### Sipariş veritabanı temeli
+
+`supabase/migrations/20261103000200_order_management.sql` siparişler, ürün satırları, sipariş anındaki teslimat/fatura adresi kopyaları, durum geçmişi, ödeme referansları ve kargo kayıtları tablolarını oluşturur. Migration, mevcut katalog ve müşteri tablolarından sonra uygulanmalıdır. Canlı veritabanına uygulamadan önce yedek alıp SQL'i inceleyin.
+
+Sipariş durum kodları: `received` (Sipariş alındı), `awaiting_payment` (Ödeme bekleniyor), `paid` (Ödeme onaylandı), `preparing` (Hazırlanıyor), `shipped` (Kargoya verildi), `delivered` (Teslim edildi), `cancelled` (İptal edildi), `refunded` (İade edildi). Veritabanı izin verilen durum geçişlerini de denetler ve her değişikliği otomatik olarak geçmişe kaydeder. Müşteriler yalnızca kendi sipariş, ürün, adres, durum geçmişi ve kargo kayıtlarını okuyabilir; sipariş oluşturma ve ödeme yazımı güvenilir sunucu tarafı entegrasyonuna bırakılmıştır. Ödeme tablosu kart numarası/CVC saklamaz ve doğrudan müşteri erişimine kapalıdır.
+
+Bu migration yalnızca şema ve erişim kurallarını hazırlar; yönetim ekranı, sepetten sipariş oluşturma, stok ayırma, ödeme sağlayıcısı, kargo servisi veya müşteriye sipariş takibi eklemez. Şirket kuruluşu ve ödeme/teslimat süreçleri doğrulanana kadar sipariş ve ödeme akışları kapalı kalmalıdır.
+
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 
 ## Ana sayfa kategori seçimi
