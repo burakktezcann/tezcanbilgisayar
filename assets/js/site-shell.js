@@ -63,11 +63,17 @@
     else document.body.insertAdjacentHTML('beforeend', footer);
   }
   document.querySelectorAll('[data-shared-year]').forEach(node => { node.textContent = String(new Date().getFullYear()); });
-  const syncShoppingCartBadge = () => {
-    let count = 0;
+  let activeCartStorageKey = 'tezcan-shopping-cart-v1';
+  const syncShoppingCartBadge = event => {
+    if (event?.detail?.storageKey) activeCartStorageKey = event.detail.storageKey;
+    if (window.TezcanShoppingCart?.activeStorageKey) activeCartStorageKey = window.TezcanShoppingCart.activeStorageKey;
+    let count = Number(window.TezcanShoppingCart?.count?.());
+    if (!Number.isInteger(count) || count < 0) count = 0;
     try {
-      const rows = JSON.parse(localStorage.getItem('tezcan-shopping-cart-v1') || '[]');
-      if (Array.isArray(rows)) count = rows.reduce((sum, row) => sum + (Number.isInteger(row?.quantity) && row.quantity > 0 ? row.quantity : 0), 0);
+      if (!window.TezcanShoppingCart) {
+        const rows = JSON.parse(localStorage.getItem(activeCartStorageKey) || '[]');
+        if (Array.isArray(rows)) count = rows.reduce((sum, row) => sum + (Number.isInteger(row?.quantity) && row.quantity > 0 ? row.quantity : 0), 0);
+      }
     } catch {}
     document.querySelectorAll('[data-shopping-cart-count]').forEach(badge => {
       badge.textContent = String(count);
@@ -77,7 +83,20 @@
   };
   syncShoppingCartBadge();
   document.addEventListener('tezcan:cart-change', syncShoppingCartBadge);
-  window.addEventListener('storage', event => { if (event.key === 'tezcan-shopping-cart-v1') syncShoppingCartBadge(); });
+  window.addEventListener('storage', event => {
+    if (event.key === activeCartStorageKey) syncShoppingCartBadge();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    const config = window.SUPABASE_CONFIG || {};
+    if (!config.url || !config.publishableKey || !window.supabase?.createClient) return;
+    const authClient = window.supabase.createClient(config.url, config.publishableKey);
+    const updateAccountCart = user => {
+      activeCartStorageKey = user ? `tezcan-shopping-cart-v1-user-${user.id}` : 'tezcan-shopping-cart-v1';
+      syncShoppingCartBadge();
+    };
+    authClient.auth.getSession().then(({ data }) => updateAccountCart(data?.session?.user || null)).catch(() => {});
+    authClient.auth.onAuthStateChange((_event, session) => updateAccountCart(session?.user || null));
+  });
   const favoriteBadge = document.getElementById(isHome ? 'headerFavoriteCount' : 'partsFavoriteCount');
   const syncFavoriteBadge = () => {
     try {

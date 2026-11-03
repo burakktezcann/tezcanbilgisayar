@@ -109,7 +109,7 @@ Bu migration yalnızca şema ve erişim kurallarını hazırlar; yönetim ekran�
 
 ### Sepet hazırlığı
 
-`sepetim.html` ve `assets/js/common/shopping-cart.js` ziyaretçinin sepetini tarayıcıda saklar; katalog ve ürün ayrıntı sayfalarından ürün eklemeyi, adedi artırıp azaltmayı, kaldırmayı ve stokta bilinen üst sınıra uymayı sağlar. Ürünlere `attributes.discount_percent` eklenmişse indirim ara toplamda hesaplanır. Kesin kargo politikası/fiyatı henüz belirlenmediği ve satış başlamadığı için genel toplam siparişe açılana kadar gösterilmez; ödeme ve siparişe geçiş düğmesi devre dışıdır. Tarayıcı sepeti henüz kullanıcı hesabına veya veritabanına eşitlenmez ve sipariş kaydı oluşturmaz.
+`sepetim.html` ve `assets/js/common/shopping-cart.js` ziyaretçinin sepetini yönetir. Oturum açılmadığında sepet bu tarayıcıda saklanır; kullanıcı giriş yaptığında misafir sepeti hesabındaki sepetle birleştirilir. Giriş yapan kullanıcının sepeti cihazda hesaba özel anahtarla tutulur ve `20261103000300_customer_cart.sql` uygulandıktan sonra Supabase'e eşitlenir. Sepet satırlarına kullanıcı yalnızca kendi hesabından erişebilir. Ürünlere `attributes.discount_percent` eklenmişse indirim ara toplamda hesaplanır. Kesin kargo politikası/fiyatı henüz belirlenmediği ve satış başlamadığı için ödeme ve siparişe geçiş düğmesi devre dışıdır; bu özellik sipariş kaydı oluşturmaz.
 
 Mevcut çalışma ortamında Docker Desktop yüklü, ancak Docker motoru çalışmıyor ve Supabase CLI bulunmuyor. Yerel Supabase servisi bu nedenle başlatılmadı; yapılandırma ve migration dosyaları hazırlandı.
 

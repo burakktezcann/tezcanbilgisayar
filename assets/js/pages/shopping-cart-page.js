@@ -75,7 +75,7 @@ function productStatus(product, quantity) {
 }
 
 function renderItem(row) {
-  const product = cartProducts.find(item => item.id === row.id);
+  const product = cartProducts.find(item => item.id === row.id || (row.slug && item.slug === row.slug));
   const item = document.createElement('article'); item.className = 'shopping-cart-item';
   const art = document.createElement('div'); art.className = 'shopping-item-image';
   if (product && window.TezcanCatalogUtils.validImagePath(product.image)) {
@@ -127,7 +127,7 @@ function renderCartPage() {
   document.getElementById('shoppingCartItemCount').textContent = `${cart.count()} ürün`;
   cartItemsRoot.replaceChildren(...rows.map(renderItem));
 
-  const products = rows.map(row => cartProducts.find(product => product.id === row.id));
+  const products = rows.map(row => cartProducts.find(product => product.id === row.id || (row.slug && product.slug === row.slug)));
   const allPricesKnown = cartCatalogReady && products.every(product => product && Number.isFinite(product.price) && product.price >= 0);
   const currencies = new Set(products.filter(Boolean).map(product => product.currency || 'TRY'));
   const currencyConsistent = currencies.size <= 1;
@@ -164,7 +164,7 @@ cartItemsRoot.addEventListener('click', event => {
 });
 document.getElementById('clearShoppingCart').addEventListener('click', () => cart.clear());
 document.addEventListener('tezcan:cart-change', renderCartPage);
-window.addEventListener('storage', event => { if (event.key === cart.storageKey) renderCartPage(); });
+window.addEventListener('storage', event => { if (event.key === cart.activeStorageKey) renderCartPage(); });
 
 loadCartProducts().then(() => {
   renderCartPage();
