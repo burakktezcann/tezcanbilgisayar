@@ -72,6 +72,33 @@
 .preference-sync-note{margin:0 0 14px;padding:11px 13px;border-radius:10px;color:#76541d;background:#fff7e6;font-size:.76rem;line-height:1.5}.preference-sync-note[hidden]{display:none}
 @media(max-width:620px){.saved-system-grid{grid-template-columns:1fr}}
 
+.owned-device-editor{margin-top:18px}
+.owned-device-editor .profile-section-heading{margin-bottom:15px}
+.owned-device-fields[hidden]{display:none}
+.owned-device-hint{margin:2px 0 10px;padding:12px 14px;border:1px solid #dbe6fa;border-radius:12px;color:#53627a;background:#f5f8ff;font-size:.8rem;line-height:1.5}
+.owned-brand-grid .field{min-width:0}
+.owned-brand-grid select,.owned-device-editor select{width:100%;min-height:44px;padding:0 12px;border:1px solid #dfe5ee;border-radius:10px;color:var(--ink);background:#fff;font:inherit;font-size:.88rem}
+.owned-brand-grid select:focus,.owned-device-editor select:focus{outline:3px solid #0875e120;border-color:#8094ff}
+.saved-device-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.saved-device-card{min-width:0;padding:17px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(150deg,#fff,#fbfcff)}
+.saved-device-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.saved-device-type{color:var(--blue);font-size:.62rem;font-weight:850;letter-spacing:.09em}
+.saved-device-card h3{margin:5px 0 0;color:var(--ink);font-size:1rem;line-height:1.35;overflow-wrap:anywhere}
+.saved-device-actions{display:flex;flex:0 0 auto;gap:6px}
+.saved-device-actions .secondary-button{min-height:34px}
+.saved-device-actions [data-delete-owned-device]{color:#a33b47}
+.saved-device-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0 0}
+.saved-device-details>div{min-width:0;padding:9px 10px;border-radius:10px;background:#f4f6fa}
+.saved-device-details dt{color:#7c899f;font-size:.65rem;font-weight:700}
+.saved-device-details dd{margin:4px 0 0;color:#24334d;font-size:.76rem;font-weight:750;line-height:1.35;overflow-wrap:anywhere}
+.saved-device-no-details{margin:14px 0 0;color:var(--muted);font-size:.78rem}
+.saved-device-empty{display:grid;justify-items:center;gap:8px;padding:30px 18px;border:1px dashed #d5dce8;border-radius:15px;color:var(--muted);text-align:center}
+.saved-device-empty>span{display:grid;width:46px;height:46px;place-items:center;border-radius:14px;color:var(--blue);background:#edf1ff;font-size:1.35rem}
+.saved-device-empty strong{color:var(--ink);font-size:.9rem}
+.saved-device-empty p{max-width:360px;margin:0;font-size:.78rem;line-height:1.5}
+@media(max-width:680px){.saved-device-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.owned-device-editor{padding:14px}.saved-device-card{padding:14px}.saved-device-card-top{flex-direction:column}.saved-device-actions{width:100%}.saved-device-actions button{flex:1}.saved-device-details{gap:6px}.saved-device-details>div{padding:8px}}
+
 /* Account overview focuses on saved data instead of repeating the side navigation. */
 .profile-account-status{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid #d5efe3;border-radius:999px;color:#16734f;background:#effaf5;font-size:.72rem;font-weight:760;white-space:nowrap}
 .profile-account-status i{font-size:.78rem}

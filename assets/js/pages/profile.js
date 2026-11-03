@@ -17,14 +17,22 @@ const emailUpdatesPreference = document.getElementById('emailUpdatesPreference')
 const addressEditor = document.getElementById('addressEditor');
 const savedSystemList = document.getElementById('savedSystemList');
 const systemsLoadNote = document.getElementById('systemsLoadNote');
+const ownedDeviceList = document.getElementById('ownedDeviceList');
+const ownedDevicesNote = document.getElementById('ownedDevicesNote');
+const ownedDeviceForm = document.getElementById('ownedDeviceForm');
+const ownedDeviceEditor = document.getElementById('ownedDeviceEditor');
+const ownedDeviceType = document.getElementById('ownedDeviceType');
+const ownedLaptopFields = document.getElementById('ownedLaptopFields');
+const ownedDesktopFields = document.getElementById('ownedDesktopFields');
 let savedSystemBuilds = [];
+let ownedDevices = [];
 let currentUser = null;
 let addresses = [];
 let defaultAddressFeatureReady = true;
 let communicationPreferencesReady = true;
 
 function openProfilePanel(name, updateHash = true) {
-  const panelName = ['overview', 'personal', 'addresses', 'security', 'systems', 'preferences', 'cards', 'iban'].includes(name) ? name : 'overview';
+  const panelName = ['overview', 'personal', 'addresses', 'security', 'systems', 'owned', 'preferences', 'cards', 'iban'].includes(name) ? name : 'overview';
   document.querySelectorAll('[data-profile-panel]').forEach(panel => { panel.hidden = panel.dataset.profilePanel !== panelName; });
   document.querySelectorAll('.profile-nav [data-profile-tab]').forEach(button => {
     if (button.dataset.profileTab === panelName) button.setAttribute('aria-current', 'page');
@@ -234,6 +242,95 @@ async function loadSavedSystems() {
   renderSavedSystems();
 }
 
+const ownedDesktopFieldsMap = [
+  ['cpu', 'İşlemci', 'ownedDesktopCpu'], ['motherboard', 'Anakart', 'ownedDesktopMotherboard'],
+  ['ram', 'RAM', 'ownedDesktopRam'], ['gpu', 'Ekran kartı', 'ownedDesktopGpu'],
+  ['storage', 'Depolama', 'ownedDesktopStorage'], ['case', 'Kasa', 'ownedDesktopCase'],
+  ['cooling', 'Soğutucu', 'ownedDesktopCooling'], ['psu', 'Güç kaynağı', 'ownedDesktopPsu']
+];
+const ownedLaptopFieldsMap = [
+  ['brand', 'Marka', 'ownedLaptopBrand'], ['model', 'Model', 'ownedLaptopModel'], ['processor', 'İşlemci', 'ownedLaptopCpu'],
+  ['ram', 'RAM', 'ownedLaptopRam'], ['storage', 'Depolama', 'ownedLaptopStorage'], ['graphics', 'Ekran kartı', 'ownedLaptopGpu'],
+  ['screen', 'Ekran', 'ownedLaptopScreen'], ['os', 'İşletim sistemi', 'ownedLaptopOs']
+];
+function updateOwnedDeviceTypeFields() {
+  const isLaptop = ownedDeviceType.value === 'laptop';
+  ownedLaptopFields.hidden = !isLaptop;
+  ownedDesktopFields.hidden = !ownedDeviceType.value || isLaptop;
+}
+function clearOwnedDeviceForm() {
+  ownedDeviceForm.reset();
+  document.getElementById('ownedDeviceId').value = '';
+  document.getElementById('ownedDeviceFormTitle').textContent = 'Bilgisayarını ekle';
+  document.getElementById('saveOwnedDevice').textContent = 'Cihazı kaydet';
+  ownedDeviceEditor.hidden = true;
+  updateOwnedDeviceTypeFields();
+}
+function startOwnedDeviceEdit(device = null) {
+  ownedDeviceForm.reset();
+  document.getElementById('ownedDeviceId').value = device?.id || '';
+  document.getElementById('ownedDeviceFormTitle').textContent = device ? 'Bilgisayar bilgilerini düzenle' : 'Bilgisayarını ekle';
+  document.getElementById('saveOwnedDevice').textContent = device ? 'Değişiklikleri kaydet' : 'Cihazı kaydet';
+  ownedDeviceType.value = device?.device_type || '';
+  document.getElementById('ownedDeviceName').value = device?.name || '';
+  const details = device?.details || {};
+  const fields = device?.device_type === 'laptop' ? ownedLaptopFieldsMap : ownedDesktopFieldsMap;
+  fields.forEach(([key, , id]) => { document.getElementById(id).value = details[key] || ''; });
+  updateOwnedDeviceTypeFields();
+  ownedDeviceEditor.hidden = false;
+  ownedDeviceEditor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  ownedDeviceType.focus({ preventScroll: true });
+}
+function renderOwnedDevices() {
+  if (!ownedDeviceList) return;
+  ownedDeviceList.replaceChildren();
+  if (!ownedDevices.length) {
+    const empty = document.createElement('div');
+    empty.className = 'saved-device-empty';
+    const icon = document.createElement('span'); icon.setAttribute('aria-hidden', 'true'); icon.textContent = '▣';
+    const title = document.createElement('strong'); title.textContent = 'Henüz bilgisayar eklemedin';
+    const description = document.createElement('p'); description.textContent = 'Kullandığın cihazı ekleyerek özelliklerini tek bir yerde saklayabilirsin.';
+    empty.append(icon, title, description);
+    ownedDeviceList.append(empty);
+    return;
+  }
+  ownedDevices.forEach(device => {
+    const details = device.details || {};
+    const card = document.createElement('article');
+    card.className = 'saved-device-card';
+    const top = document.createElement('div'); top.className = 'saved-device-card-top';
+    const titleWrap = document.createElement('div');
+    const type = document.createElement('span'); type.className = 'saved-device-type'; type.textContent = device.device_type === 'laptop' ? 'DİZÜSTÜ BİLGİSAYAR' : 'MASAÜSTÜ BİLGİSAYAR';
+    const title = document.createElement('h3'); title.textContent = device.name || (device.device_type === 'laptop' ? [details.brand, details.model].filter(Boolean).join(' ') || 'Dizüstü bilgisayar' : 'Masaüstü bilgisayar');
+    titleWrap.append(type, title);
+    const actions = document.createElement('div'); actions.className = 'saved-device-actions';
+    const edit = document.createElement('button'); edit.type = 'button'; edit.className = 'secondary-button'; edit.dataset.editOwnedDevice = device.id; edit.textContent = 'Düzenle';
+    const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'secondary-button'; remove.dataset.deleteOwnedDevice = device.id; remove.textContent = 'Sil';
+    actions.append(edit, remove); top.append(titleWrap, actions); card.append(top);
+    const rows = device.device_type === 'laptop'
+      ? [['Marka', details.brand], ['Model', details.model], ['İşlemci', details.processor], ['RAM', details.ram], ['Depolama', details.storage], ['Ekran kartı', details.graphics], ['Ekran', details.screen], ['İşletim sistemi', details.os]]
+      : ownedDesktopFieldsMap.map(([key, label]) => [label, details[key]]);
+    const list = document.createElement('dl'); list.className = 'saved-device-details';
+    rows.filter(([, value]) => value).forEach(([label, value]) => { const item = document.createElement('div'); const key = document.createElement('dt'); key.textContent = label; const val = document.createElement('dd'); val.textContent = value; item.append(key, val); list.append(item); });
+    if (!list.children.length) { const empty = document.createElement('p'); empty.className = 'saved-device-no-details'; empty.textContent = 'Henüz özellik eklenmemiş.'; card.append(empty); }
+    else card.append(list);
+    ownedDeviceList.append(card);
+  });
+}
+async function loadOwnedDevices() {
+  if (!currentUser || !ownedDeviceList) return;
+  const { data, error } = await client.from('customer_owned_devices').select('id,device_type,name,details,created_at,updated_at').eq('user_id', currentUser.id).order('created_at', { ascending: false });
+  if (error) {
+    ownedDevicesNote.hidden = false;
+    ownedDevicesNote.textContent = 'Cihaz kayıtlarını etkinleştirmek için yeni veritabanı güncellemesi uygulanmalı.';
+    ownedDevices = [];
+  } else {
+    ownedDevicesNote.hidden = true;
+    ownedDevices = data || [];
+  }
+  renderOwnedDevices();
+}
+
 async function loadAccount() {
   if (!client) {
     showSetup();
@@ -265,6 +362,7 @@ async function loadAccount() {
   }
   const { data: addressRows, error: addressError } = await fetchAddresses(user.id);
   await loadSavedSystems();
+  await loadOwnedDevices();
   if (addressError) {
     showSetup();
     return;
@@ -454,6 +552,42 @@ document.getElementById('profileSignOut').addEventListener('click', async () => 
   const { error } = await client.auth.signOut();
   if (error) showMessage('Çıkış yapılamadı. Lütfen tekrar dene.', 'error');
   else window.location.replace('hesap.html');
+});
+
+document.getElementById('addOwnedDevice').addEventListener('click', () => startOwnedDeviceEdit());
+document.getElementById('cancelOwnedDevice').addEventListener('click', clearOwnedDeviceForm);
+ownedDeviceType.addEventListener('change', updateOwnedDeviceTypeFields);
+ownedDeviceForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!client || !currentUser) return;
+  const type = ownedDeviceType.value;
+  if (!['laptop', 'desktop'].includes(type)) { showMessage('Önce bilgisayar türünü seç.', 'error'); return; }
+  const fields = type === 'laptop' ? ownedLaptopFieldsMap : ownedDesktopFieldsMap;
+  const details = Object.fromEntries(fields.map(([key, , id]) => [key, String(document.getElementById(id).value || '').trim()]).filter(([, value]) => value));
+  if (type === 'laptop' && (!details.brand || !details.model)) { showMessage('Dizüstü bilgisayar için marka ve model bilgisi gerekli.', 'error'); return; }
+  const nameInput = String(document.getElementById('ownedDeviceName').value || '').trim();
+  const deviceName = nameInput || (type === 'laptop' ? `${details.brand} ${details.model}`.trim() : 'Masaüstü bilgisayar');
+  const deviceId = document.getElementById('ownedDeviceId').value;
+  const payload = { device_type: type, name: deviceName, details, updated_at: new Date().toISOString() };
+  const button = document.getElementById('saveOwnedDevice'); button.disabled = true; button.textContent = 'Kaydediliyor…';
+  const result = deviceId
+    ? await client.from('customer_owned_devices').update(payload).eq('id', deviceId).eq('user_id', currentUser.id).select('id,device_type,name,details,created_at,updated_at').single()
+    : await client.from('customer_owned_devices').insert({ ...payload, user_id: currentUser.id }).select('id,device_type,name,details,created_at,updated_at').single();
+  button.disabled = false; button.textContent = deviceId ? 'Değişiklikleri kaydet' : 'Cihazı kaydet';
+  if (result.error) { showMessage('Bilgisayarın kaydedilemedi. Biraz sonra tekrar dene.', 'error'); return; }
+  if (deviceId) ownedDevices = ownedDevices.map(device => device.id === deviceId ? result.data : device);
+  else ownedDevices = [result.data, ...ownedDevices];
+  clearOwnedDeviceForm(); renderOwnedDevices(); showMessage('Bilgisayarın hesabına kaydedildi.', 'success');
+});
+ownedDeviceList.addEventListener('click', async event => {
+  const edit = event.target.closest('[data-edit-owned-device]');
+  if (edit) { const device = ownedDevices.find(row => row.id === edit.dataset.editOwnedDevice); if (device) startOwnedDeviceEdit(device); return; }
+  const remove = event.target.closest('[data-delete-owned-device]');
+  if (!remove || !window.confirm('Bu bilgisayar kaydını silmek istiyor musun?')) return;
+  remove.disabled = true;
+  const { error } = await client.from('customer_owned_devices').delete().eq('id', remove.dataset.deleteOwnedDevice).eq('user_id', currentUser.id);
+  if (error) { remove.disabled = false; showMessage('Bilgisayar kaydı silinemedi. Lütfen tekrar dene.', 'error'); return; }
+  ownedDevices = ownedDevices.filter(row => row.id !== remove.dataset.deleteOwnedDevice); renderOwnedDevices(); showMessage('Bilgisayar kaydı silindi.', 'success');
 });
 
 loadAccount();

@@ -19,6 +19,7 @@
           <button type="button" class="profile-nav-item" data-profile-tab="iban"><span class="profile-nav-icon" aria-hidden="true">₺</span> IBAN bilgilerim</button>
           <button type="button" class="profile-nav-item" data-profile-tab="addresses"><span class="profile-nav-icon" aria-hidden="true">⌖</span> Adreslerim</button>
           <button type="button" class="profile-nav-item" data-profile-tab="systems"><span class="profile-nav-icon" aria-hidden="true">▦</span> Kayıtlı sistemlerim</button>
+          <button type="button" class="profile-nav-item" data-profile-tab="owned"><span class="profile-nav-icon" aria-hidden="true">▣</span> Sahip olduğum ürünler</button>
           <p class="profile-nav-group-title">FAVORİLER</p>
           <a class="profile-nav-item" href="favorilerim.html"><span class="profile-nav-icon" aria-hidden="true">♡</span> Favorilerim</a>
           <button class="profile-nav-item profile-signout" id="profileSignOut" type="button"><span class="profile-nav-icon" aria-hidden="true">↪</span> Çıkış yap</button>
@@ -40,6 +41,45 @@
             <div class="profile-section-heading"><div><span class="profile-eyebrow">BİLGİSAYAR TOPLAMA</span><h2>Kayıtlı sistemlerim</h2><p>Taslakların bu hesaba otomatik kaydedilir. İstediğin sistemden kaldığın yerden devam edebilirsin.</p></div></div>
             <p class="systems-load-note" id="systemsLoadNote" role="status" hidden></p>
             <div class="saved-system-grid" id="savedSystemList"></div>
+          </section>
+          <section class="profile-panel" data-profile-panel="owned" hidden>
+            <div class="profile-section-heading"><div><span class="profile-eyebrow">CİHAZ ENVANTERİM</span><h2>Sahip olduğum ürünler</h2><p>Kullandığın dizüstü veya masaüstü bilgisayarı kaydet. Bilgiler yalnızca hesabında görünür ve dilediğinde düzenleyebilirsin.</p></div><button class="account-submit profile-add-address" id="addOwnedDevice" type="button">＋ Cihaz ekle</button></div>
+            <p class="systems-load-note" id="ownedDevicesNote" role="status" hidden></p>
+            <div class="saved-device-grid" id="ownedDeviceList"></div>
+            <div class="address-editor owned-device-editor" id="ownedDeviceEditor" hidden>
+              <form id="ownedDeviceForm">
+                <input type="hidden" id="ownedDeviceId">
+                <div class="profile-section-heading"><div><h3 id="ownedDeviceFormTitle">Bilgisayarını ekle</h3><p>Önce cihaz türünü seç; forma yalnızca bildiğin bilgileri gir. Eksik parçaları boş bırakabilirsin.</p></div></div>
+                <div class="profile-grid">
+                  <div class="field"><label for="ownedDeviceType">Bilgisayar türü</label><select id="ownedDeviceType" required><option value="">Seç</option><option value="laptop">Dizüstü bilgisayar</option><option value="desktop">Masaüstü bilgisayar</option></select></div>
+                  <div class="field"><label for="ownedDeviceName">Cihaz adı (isteğe bağlı)</label><input id="ownedDeviceName" maxlength="60" placeholder="Örn. İş bilgisayarım"></div>
+                </div>
+                <div id="ownedLaptopFields" class="profile-grid owned-device-fields" hidden>
+                  <div class="field"><label for="ownedLaptopBrand">Marka</label><select id="ownedLaptopBrand"><option value="">Marka seç</option><option>Apple</option><option>ASUS</option><option>Acer</option><option>Lenovo</option><option>HP</option><option>Dell</option><option>MSI</option><option>GIGABYTE</option><option>Huawei</option><option>Monster</option><option>Casper</option><option>Samsung</option><option>Diğer</option></select></div>
+                  <div class="field"><label for="ownedLaptopModel">Model</label><input id="ownedLaptopModel" maxlength="100" placeholder="Örn. Lenovo Legion 5"></div>
+                  <div class="field"><label for="ownedLaptopCpu">İşlemci</label><input id="ownedLaptopCpu" maxlength="100" placeholder="Örn. Intel Core i7-13620H"></div>
+                  <div class="field"><label for="ownedLaptopRam">Bellek (RAM)</label><select id="ownedLaptopRam"><option value="">Seçmek isteğe bağlı</option><option>8 GB</option><option>16 GB</option><option>24 GB</option><option>32 GB</option><option>64 GB</option><option>Diğer / bilmiyorum</option></select></div>
+                  <div class="field"><label for="ownedLaptopStorage">Depolama</label><input id="ownedLaptopStorage" maxlength="80" placeholder="Örn. 1 TB SSD"></div>
+                  <div class="field"><label for="ownedLaptopGpu">Ekran kartı</label><input id="ownedLaptopGpu" maxlength="100" placeholder="Örn. NVIDIA GeForce RTX 4060 Laptop GPU"></div>
+                  <div class="field"><label for="ownedLaptopScreen">Ekran</label><input id="ownedLaptopScreen" maxlength="80" placeholder="Örn. 15,6 inç · 144 Hz"></div>
+                  <div class="field"><label for="ownedLaptopOs">İşletim sistemi</label><select id="ownedLaptopOs"><option value="">Seçmek isteğe bağlı</option><option>Windows 11</option><option>Windows 10</option><option>macOS</option><option>Linux</option><option>İşletim sistemi yok</option><option>Diğer / bilmiyorum</option></select></div>
+                </div>
+                <div id="ownedDesktopFields" class="owned-device-fields" hidden>
+                  <p class="owned-device-hint">Parça başlıklarından bildiklerini seç. Her parçada marka seçmek yeterli; sistemin tamamlanmış olması gerekmez.</p>
+                  <div class="profile-grid owned-brand-grid">
+                    <div class="field"><label for="ownedDesktopCpu">İşlemci markası</label><select id="ownedDesktopCpu"><option value="">Seçmek isteğe bağlı</option><option>Intel</option><option>AMD</option></select></div>
+                    <div class="field"><label for="ownedDesktopMotherboard">Anakart markası</label><select id="ownedDesktopMotherboard"><option value="">Seçmek isteğe bağlı</option><option>ASUS</option><option>MSI</option><option>GIGABYTE</option><option>ASRock</option><option>Diğer / bilmiyorum</option></select></div>
+                    <div class="field"><label for="ownedDesktopRam">RAM markası</label><select id="ownedDesktopRam"><option value="">Seçmek isteğe bağlı</option><option>Kingston</option><option>CORSAIR</option><option>Samsung</option><option>G.SKILL</option><option>Crucial</option><option>Diğer / bilmiyorum</option></select></div>
+                    <div class="field"><label for="ownedDesktopGpu">Ekran kartı markası</label><select id="ownedDesktopGpu"><option value="">Seçmek isteğe bağlı</option><option>NVIDIA</option><option>AMD</option><option>ASUS</option><option>MSI</option><option>GIGABYTE</option><option>Sapphire</option><option>Diğer / bilmiyorum</option></select></div>
+                    <div class="field"><label for="ownedDesktopStorage">Depolama markası</label><select id="ownedDesktopStorage"><option value="">Seçmek isteğe bağlı</option><option>Samsung</option><option>Kingston</option><option>Western Digital</option><option>Crucial</option><option>Seagate</option><option>ADATA</option><option>Diğer / bilmiyorum</option></select></div>
+                    <div class="field"><label for="ownedDesktopCase">Kasa markası</label><select id="ownedDesktopCase"><option value="">Seçmek isteğe bağlı</option><option>CORSAIR</option><option>NZXT</option><option>ASUS</option><option>Cooler Master</option><option>Lian Li</option><option>Fractal Design</option><option>Diğer / bilmiyorum</option></select></div>
+                    <div class="field"><label for="ownedDesktopCooling">Soğutucu markası</label><select id="ownedDesktopCooling"><option value="">Seçmek isteğe bağlı</option><option>ARCTIC</option><option>NZXT</option><option>CORSAIR</option><option>DeepCool</option><option>Cooler Master</option><option>Noctua</option><option>Diğer / bilmiyorum</option></select></div>
+                    <div class="field"><label for="ownedDesktopPsu">Güç kaynağı markası</label><select id="ownedDesktopPsu"><option value="">Seçmek isteğe bağlı</option><option>CORSAIR</option><option>MSI</option><option>Seasonic</option><option>be quiet!</option><option>FSP</option><option>Cooler Master</option><option>Diğer / bilmiyorum</option></select></div>
+                  </div>
+                </div>
+                <div class="profile-actions"><button class="account-submit" type="submit" id="saveOwnedDevice">Cihazı kaydet</button><button class="secondary-button" id="cancelOwnedDevice" type="button">Vazgeç</button></div>
+              </form>
+            </div>
           </section>
           <section class="profile-panel" data-profile-panel="addresses" hidden><div class="profile-section-heading"><div><span class="profile-eyebrow">TESLİMAT BİLGİLERİ</span><h2>Adreslerim</h2><p id="addressSummary">Adreslerini kaydet, düzenle veya varsayılan adresini seç.</p></div><button class="account-submit profile-add-address" id="addAddress" type="button">＋ Adres ekle</button></div>
         <div class="saved-address-list" id="addressList"></div>
