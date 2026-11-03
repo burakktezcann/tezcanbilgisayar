@@ -760,6 +760,69 @@ function showFamilies() {
     button.append(copy, note);
     return button;
   }));
+  configurePicker(familyChoices, list, {
+    brand: null,
+    series: family => {
+      const id = family.id;
+      if (id.startsWith('ultra')) return 'Core Ultra';
+      if (id.startsWith('i3')) return 'Core i3';
+      if (id.startsWith('i5')) return 'Core i5';
+      if (id.startsWith('i7')) return 'Core i7';
+      if (id.startsWith('i9')) return 'Core i9';
+      return family.name.split(' · ')[0];
+    },
+    limit: 6,
+    seriesLabel: 'İşlemci serisi'
+  });
+}
+
+// Product groups stay compact and can be narrowed without scrolling through every item.
+function configurePicker(container, items, { brand = item => item.brand || item.name.split(/\s+/)[0], series = () => '', limit = 6, brandLabel = 'Marka', seriesLabel = 'Seri' } = {}) {
+  const parent = container.parentElement;
+  let controls = parent.querySelector(`.picker-controls[data-for="${container.id}"]`);
+  if (!controls) {
+    controls = document.createElement('div');
+    controls.className = 'picker-controls';
+    controls.dataset.for = container.id;
+    controls.innerHTML = `<label><span>${brandLabel}</span><select data-picker-brand aria-label="${brandLabel} filtresi"><option value="">Tüm markalar</option></select></label><label><span>${seriesLabel}</span><select data-picker-series aria-label="${seriesLabel} filtresi"><option value="">Tüm seriler</option></select></label><span class="picker-result" aria-live="polite"></span><button type="button" class="picker-more" hidden></button>`;
+    parent.insertBefore(controls, container);
+    controls.addEventListener('change', apply);
+    controls.querySelector('.picker-more').addEventListener('click', event => {
+      controls.dataset.expanded = controls.dataset.expanded === 'true' ? 'false' : 'true';
+      event.currentTarget.setAttribute('aria-expanded', String(controls.dataset.expanded === 'true'));
+      apply();
+    });
+  }
+  const brandSelect = controls.querySelector('[data-picker-brand]');
+  const seriesSelect = controls.querySelector('[data-picker-series]');
+  const oldBrand = brandSelect.value;
+  const oldSeries = seriesSelect.value;
+  const unique = getter => [...new Set(items.map(item => getter ? getter(item) : '').filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b), 'tr'));
+  const brands = brand ? unique(brand) : [];
+  const seriesList = series ? unique(series) : [];
+  brandSelect.parentElement.hidden = !brand || brands.length < 2;
+  seriesSelect.parentElement.hidden = !series || seriesList.length < 2;
+  const fill = (select, values, first, previous) => {
+    select.replaceChildren(new Option(first, ''), ...values.map(value => new Option(value, value)));
+    select.value = values.includes(previous) ? previous : '';
+  };
+  if (brand) fill(brandSelect, brands, 'Tüm markalar', oldBrand);
+  if (series) fill(seriesSelect, seriesList, seriesLabel === 'Kapasite' ? 'Tüm kapasiteler' : 'Tüm seriler', oldSeries);
+  [...container.children].forEach((card, index) => {
+    card.dataset.pickerBrand = brand ? String(brand(items[index]) || '') : '';
+    card.dataset.pickerSeries = series ? String(series(items[index]) || '') : '';
+  });
+  function apply() {
+    const cards = [...container.children];
+    const visible = cards.filter(card => (!brandSelect.value || card.dataset.pickerBrand === brandSelect.value) && (!seriesSelect.value || card.dataset.pickerSeries === seriesSelect.value));
+    const expanded = controls.dataset.expanded === 'true';
+    cards.forEach(card => { card.hidden = !visible.includes(card) || (!expanded && visible.indexOf(card) >= limit); });
+    const more = controls.querySelector('.picker-more');
+    more.hidden = visible.length <= limit;
+    more.textContent = expanded ? 'Daha az göster' : `Daha fazla göster (${visible.length - limit})`;
+    controls.querySelector('.picker-result').textContent = `${visible.length} ürün`;
+  }
+  apply();
 }
 function renderModels() {
   const family = getFamily();
@@ -780,6 +843,7 @@ function renderModels() {
     button.append(name, detail, chip);
     return button;
   }));
+  configurePicker(modelChoices, matches.map(model => ({ name: modelLabel(family, model) })), { brand: null, series: null, limit: 8 });
   document.getElementById('noModels').hidden = matches.length > 0;
 }
 function renderMotherboards() {
@@ -809,6 +873,7 @@ function renderMotherboards() {
     if (board.url) { const source = document.createElement('a'); source.className = 'board-source'; source.href = board.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗'; article.append(source); }
     return article;
   }));
+  configurePicker(motherboardChoices, boards, { brand: board => board.name.split(/\s+/)[0], series: board => board.chipset, limit: 6 });
   document.getElementById('noMotherboards').hidden = boards.length > 0;
 }
 function renderRamKits() {
@@ -842,6 +907,7 @@ function renderRamKits() {
     if (kit.url) { const source = document.createElement('a'); source.className = 'board-source'; source.href = kit.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün sayfası ↗'; article.append(source); }
     return article;
   }));
+  configurePicker(ramChoices, kits, { brand: kit => kit.brand || kit.name.split(/\s+/)[0], series: kit => (kit.spec.match(/DDR\d-?\d+/i) || [kit.spec.split(' · ')[0]])[0], limit: 6 });
   document.getElementById('noRam').hidden = kits.length > 0;
 }
 function renderGraphicsCards() {
@@ -864,6 +930,7 @@ function renderGraphicsCards() {
     button.append(name, series, chip);
     return button;
   }));
+  configurePicker(gpuChoices, matches, { brand: card => card.brand || card.name.split(/\s+/)[0], series: card => (card.name.match(/(?:RTX|RX)\s?\d{4}(?:\s?Ti)?/i) || [card.series.split(' · ')[0]])[0], limit: 6, seriesLabel: 'Ekran kartı serisi' });
   document.getElementById('noGpu').hidden = matches.length > 0 || !selection.gpuBrand;
 }
 function renderStorageProducts() {
@@ -891,6 +958,7 @@ function renderStorageProducts() {
     if (product.url) { const source = document.createElement('a'); source.className = 'board-source'; source.href = product.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün bilgisi ↗'; article.append(source); }
     return article;
   }));
+  configurePicker(storageChoices, matches, { brand: product => product.name.split(/\s+/)[0], series: product => product.capacity, limit: 6, seriesLabel: 'Kapasite' });
   document.getElementById('noStorage').hidden = matches.length > 0 || !selection.storageType;
 }
 function renderCases() {
@@ -919,6 +987,7 @@ function renderCases() {
     article.append(button, source);
     return article;
   }));
+  configurePicker(caseChoices, matches, { brand: item => item.name.split(/\s+/)[0], series: item => item.supports.includes('ATX') ? 'ATX destekli' : 'Kompakt', limit: 6, seriesLabel: 'Boyut' });
   document.getElementById('noCases').hidden = matches.length > 0;
 }
 function renderCpuCoolers() {
@@ -936,6 +1005,7 @@ function renderCpuCoolers() {
     const source = document.createElement('a'); source.className = 'board-source'; source.href = item.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗';
     card.append(button, source); return card;
   }));
+  configurePicker(coolerChoices, matches, { brand: item => item.name.split(/\s+/)[0], series: item => item.type, limit: 6, seriesLabel: 'Soğutma türü' });
   document.getElementById('noCoolers').hidden = matches.length > 0;
 }
 function renderPowerSupplies() {
@@ -963,6 +1033,7 @@ function renderPowerSupplies() {
     article.append(button, source);
     return article;
   }));
+  configurePicker(psuChoices, matches, { brand: item => item.name.split(/\s+/)[0], series: item => `${Math.floor(item.watts / 100) * 100} W sınıfı`, limit: 6, seriesLabel: 'Güç' });
   document.getElementById('noPsu').hidden = matches.length > 0;
 }
 function updateStage() {
