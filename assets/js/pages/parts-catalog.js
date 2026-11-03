@@ -187,6 +187,12 @@ async function loadParts() {
   renderCategoryButtons(); renderPageHeading(); renderFilters(); renderParts();
 }
 function renderCategoryButtons() {
+  const isComponentCatalog = selectedPartCategory === 'components' || componentPartIds.includes(selectedPartCategory);
+  partsCategoryNav.hidden = !isComponentCatalog;
+  if (!isComponentCatalog) {
+    partsCategoryNav.replaceChildren();
+    return;
+  }
   const categories = [{ id: 'components', label: 'Tüm Parçalar', icon: 'fa-layer-group' }, ...componentPartIds.map(id => ({ id, label: partsCategoryPluralNames[id], icon: partsIcons[id] }))];
   partsCategoryNav.replaceChildren(...categories.map(category => {
     const button = document.createElement('button'); button.type = 'button'; button.dataset.partCategory = category.id;
