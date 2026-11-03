@@ -1640,6 +1640,267 @@
       }
     },
     {
+      "id": "6b3d128b-c58f-587c-b8b4-5985e971ba51",
+      "slug": "build-cpu-amd-ryzen5-7000-7600x",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 5 · 7000 Serisi 7600X",
+      "description": "Oyun ve çok yönlü kullanım · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7600X",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 57,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7600X",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 5 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "0a0ea86e-ffc2-5e12-8784-8d73b8416429",
+      "slug": "build-cpu-amd-ryzen5-7000-7600",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 5 · 7000 Serisi 7600",
+      "description": "Oyun ve çok yönlü kullanım · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7600",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 58,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7600",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 5 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "7bb5e706-2b37-5255-9432-65f09425aa53",
+      "slug": "build-cpu-amd-ryzen7-7000-7800x3d",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 7 · 7000 Serisi 7800X3D",
+      "description": "Yüksek performans ve oyun · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7800X3D",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 59,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7800X3D",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 7 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "e31cf75b-9256-5715-bce4-b8ca9605b053",
+      "slug": "build-cpu-amd-ryzen7-7000-7700x",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 7 · 7000 Serisi 7700X",
+      "description": "Yüksek performans ve oyun · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7700X",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 60,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7700X",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 7 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "6d4ff5d6-3495-5200-bf4a-86325a5694d0",
+      "slug": "build-cpu-amd-ryzen7-7000-7700",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 7 · 7000 Serisi 7700",
+      "description": "Yüksek performans ve oyun · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7700",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 61,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7700",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 7 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "f5bb36cf-d7de-54d8-bcf1-46014eb678db",
+      "slug": "build-cpu-amd-ryzen9-7000-7950x3d",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 9 · 7000 Serisi 7950X3D",
+      "description": "Üst seviye üretkenlik · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7950X3D",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 62,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7950X3D",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 9 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "53dddb99-ebe3-578a-b017-69d13934fcfc",
+      "slug": "build-cpu-amd-ryzen9-7000-7950x",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 9 · 7000 Serisi 7950X",
+      "description": "Üst seviye üretkenlik · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7950X",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 63,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7950X",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 9 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "39a70c36-7c8e-5ef9-8adc-5b2666be6324",
+      "slug": "build-cpu-amd-ryzen9-7000-7900x",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 9 · 7000 Serisi 7900X",
+      "description": "Üst seviye üretkenlik · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7900X",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 64,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7900X",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 9 · 7000 Serisi"
+      }
+    },
+    {
+      "id": "8d31882a-46f6-5b1d-9cd1-fd61cd0f532c",
+      "slug": "build-cpu-amd-ryzen9-7000-7900",
+      "categoryId": "cpu",
+      "name": "AMD Ryzen 9 · 7000 Serisi 7900",
+      "description": "Üst seviye üretkenlik · Ryzen 7000 · AM5 · Üretici model adı",
+      "brand": "AMD",
+      "model": "7900",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 65,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "AMD",
+        "7900",
+        "cpu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "socket": "AM5",
+        "family": "Ryzen 9 · 7000 Serisi"
+      }
+    },
+    {
       "id": "3ff5ff7c-1c85-5483-97ba-9be15e56d4e1",
       "slug": "build-motherboard-asus-tuf-b760-plus-wifi",
       "categoryId": "motherboard",
@@ -1653,7 +1914,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 57,
+      "sortOrder": 66,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1684,7 +1945,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 58,
+      "sortOrder": 67,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1715,7 +1976,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 59,
+      "sortOrder": 68,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1746,7 +2007,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 60,
+      "sortOrder": 69,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1777,7 +2038,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 61,
+      "sortOrder": 70,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1808,7 +2069,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 62,
+      "sortOrder": 71,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1839,7 +2100,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 63,
+      "sortOrder": 72,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1870,7 +2131,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 64,
+      "sortOrder": 73,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1901,7 +2162,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 65,
+      "sortOrder": 74,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1932,7 +2193,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 66,
+      "sortOrder": 75,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1963,7 +2224,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 67,
+      "sortOrder": 76,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -1994,7 +2255,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 68,
+      "sortOrder": 77,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2025,7 +2286,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 69,
+      "sortOrder": 78,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2056,7 +2317,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 70,
+      "sortOrder": 79,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2087,7 +2348,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 71,
+      "sortOrder": 80,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2118,7 +2379,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 72,
+      "sortOrder": 81,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2149,7 +2410,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 73,
+      "sortOrder": 82,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2180,7 +2441,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 74,
+      "sortOrder": 83,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2211,7 +2472,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 75,
+      "sortOrder": 84,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2242,7 +2503,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 76,
+      "sortOrder": 85,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2273,7 +2534,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 77,
+      "sortOrder": 86,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2304,7 +2565,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 78,
+      "sortOrder": 87,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2337,7 +2598,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 79,
+      "sortOrder": 88,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2370,7 +2631,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 80,
+      "sortOrder": 89,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2403,7 +2664,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 81,
+      "sortOrder": 90,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2436,7 +2697,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 82,
+      "sortOrder": 91,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2469,7 +2730,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 83,
+      "sortOrder": 92,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2502,7 +2763,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 84,
+      "sortOrder": 93,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2535,7 +2796,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 85,
+      "sortOrder": 94,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2568,7 +2829,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 86,
+      "sortOrder": 95,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2601,7 +2862,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 87,
+      "sortOrder": 96,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2634,7 +2895,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 88,
+      "sortOrder": 97,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2667,7 +2928,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 89,
+      "sortOrder": 98,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2697,7 +2958,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 90,
+      "sortOrder": 99,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2727,7 +2988,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 91,
+      "sortOrder": 100,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2757,7 +3018,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 92,
+      "sortOrder": 101,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2787,7 +3048,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 93,
+      "sortOrder": 102,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2817,7 +3078,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 94,
+      "sortOrder": 103,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2847,7 +3108,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 95,
+      "sortOrder": 104,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2877,7 +3138,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 96,
+      "sortOrder": 105,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2907,7 +3168,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 97,
+      "sortOrder": 106,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2937,7 +3198,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 98,
+      "sortOrder": 107,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2967,7 +3228,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 99,
+      "sortOrder": 108,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -2997,7 +3258,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 100,
+      "sortOrder": 109,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3027,7 +3288,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 101,
+      "sortOrder": 110,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3057,7 +3318,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 102,
+      "sortOrder": 111,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3087,7 +3348,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 103,
+      "sortOrder": 112,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3117,7 +3378,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 104,
+      "sortOrder": 113,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3147,7 +3408,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 105,
+      "sortOrder": 114,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3177,7 +3438,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 106,
+      "sortOrder": 115,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3207,7 +3468,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 107,
+      "sortOrder": 116,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3237,7 +3498,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 108,
+      "sortOrder": 117,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3267,7 +3528,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 109,
+      "sortOrder": 118,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3297,7 +3558,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 110,
+      "sortOrder": 119,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3327,7 +3588,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 111,
+      "sortOrder": 120,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3357,7 +3618,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 112,
+      "sortOrder": 121,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3387,7 +3648,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 113,
+      "sortOrder": 122,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3418,7 +3679,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 114,
+      "sortOrder": 123,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3436,6 +3697,192 @@
       }
     },
     {
+      "id": "66f3e529-ac54-57d0-86c9-ba845df11957",
+      "slug": "build-disk-kingston-nv3-1tb",
+      "categoryId": "disk",
+      "name": "Kingston NV3 1TB",
+      "description": "NVMe M.2 2280 · PCIe 4.0 x4",
+      "brand": "Kingston",
+      "model": "SNV3S/1000G",
+      "sku": "SNV3S/1000G",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 124,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Kingston",
+        "SNV3S/1000G",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "NVMe SSD",
+        "capacity_gb": 1000,
+        "interface": "M.2 NVMe",
+        "model_code": "SNV3S/1000G"
+      }
+    },
+    {
+      "id": "e53d1364-2d40-5675-a313-4d5a2ad41ab6",
+      "slug": "build-disk-kingston-nv3-2tb",
+      "categoryId": "disk",
+      "name": "Kingston NV3 2TB",
+      "description": "NVMe M.2 2280 · PCIe 4.0 x4",
+      "brand": "Kingston",
+      "model": "SNV3S/2000G",
+      "sku": "SNV3S/2000G",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 125,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Kingston",
+        "SNV3S/2000G",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "NVMe SSD",
+        "capacity_gb": 2000,
+        "interface": "M.2 NVMe",
+        "model_code": "SNV3S/2000G"
+      }
+    },
+    {
+      "id": "f93c2fdd-bd46-5875-89bf-c0e4a81d4e7b",
+      "slug": "build-disk-crucial-p3-plus-1tb",
+      "categoryId": "disk",
+      "name": "Crucial P3 Plus 1TB",
+      "description": "NVMe M.2 2280 · PCIe 4.0 x4",
+      "brand": "Crucial",
+      "model": "CT1000P3PSSD8",
+      "sku": "CT1000P3PSSD8",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 126,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Crucial",
+        "CT1000P3PSSD8",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "NVMe SSD",
+        "capacity_gb": 1000,
+        "interface": "M.2 NVMe",
+        "model_code": "CT1000P3PSSD8"
+      }
+    },
+    {
+      "id": "2c67b851-76f1-5581-a869-6604a4d2f08c",
+      "slug": "build-disk-crucial-p3-plus-2tb",
+      "categoryId": "disk",
+      "name": "Crucial P3 Plus 2TB",
+      "description": "NVMe M.2 2280 · PCIe 4.0 x4",
+      "brand": "Crucial",
+      "model": "CT2000P3PSSD8",
+      "sku": "CT2000P3PSSD8",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 127,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Crucial",
+        "CT2000P3PSSD8",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "NVMe SSD",
+        "capacity_gb": 2000,
+        "interface": "M.2 NVMe",
+        "model_code": "CT2000P3PSSD8"
+      }
+    },
+    {
+      "id": "c22a1f45-b2d1-580e-8897-7239959b1145",
+      "slug": "build-disk-wd-black-sn850x-1tb",
+      "categoryId": "disk",
+      "name": "WD_BLACK SN850X 1TB",
+      "description": "NVMe M.2 2280 · PCIe 4.0 x4",
+      "brand": "WD_BLACK",
+      "model": "WDS100T2X0E",
+      "sku": "WDS100T2X0E",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 128,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "WD_BLACK",
+        "WDS100T2X0E",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "NVMe SSD",
+        "capacity_gb": 1000,
+        "interface": "M.2 NVMe",
+        "model_code": "WDS100T2X0E"
+      }
+    },
+    {
+      "id": "a9a30f06-91f1-505c-9e11-517270844d7c",
+      "slug": "build-disk-wd-black-sn850x-2tb",
+      "categoryId": "disk",
+      "name": "WD_BLACK SN850X 2TB",
+      "description": "NVMe M.2 2280 · PCIe 4.0 x4",
+      "brand": "WD_BLACK",
+      "model": "WDS200T2X0E",
+      "sku": "WDS200T2X0E",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 129,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "WD_BLACK",
+        "WDS200T2X0E",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "NVMe SSD",
+        "capacity_gb": 2000,
+        "interface": "M.2 NVMe",
+        "model_code": "WDS200T2X0E"
+      }
+    },
+    {
       "id": "8fd0f8ea-83f5-5735-9367-0c9b76fccd4e",
       "slug": "build-disk-crucial-mx500-1tb",
       "categoryId": "disk",
@@ -3449,7 +3896,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 115,
+      "sortOrder": 130,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3480,7 +3927,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 116,
+      "sortOrder": 131,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3498,6 +3945,68 @@
       }
     },
     {
+      "id": "62948895-307c-5a34-857c-cc6c27f7065c",
+      "slug": "build-disk-samsung-870-evo-2tb",
+      "categoryId": "disk",
+      "name": "Samsung 870 EVO 2TB",
+      "description": "2.5 inç · SATA 6Gb/s · SSD",
+      "brand": "Samsung",
+      "model": "MZ-77E2T0",
+      "sku": "MZ-77E2T0",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 132,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Samsung",
+        "MZ-77E2T0",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "SATA SSD",
+        "capacity_gb": 2000,
+        "interface": "SATA III",
+        "model_code": "MZ-77E2T0"
+      }
+    },
+    {
+      "id": "1074996f-5d6a-5c9b-8ddd-ef536ba1ff7c",
+      "slug": "build-disk-crucial-mx500-2tb",
+      "categoryId": "disk",
+      "name": "Crucial MX500 2TB",
+      "description": "2.5 inç · SATA 6Gb/s · SSD",
+      "brand": "Crucial",
+      "model": "CT2000MX500SSD1",
+      "sku": "CT2000MX500SSD1",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 133,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Crucial",
+        "CT2000MX500SSD1",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "SATA SSD",
+        "capacity_gb": 2000,
+        "interface": "SATA III",
+        "model_code": "CT2000MX500SSD1"
+      }
+    },
+    {
       "id": "29226ba7-ffe0-5836-958e-5d4339db8489",
       "slug": "build-disk-wd-blue-1tb",
       "categoryId": "disk",
@@ -3511,7 +4020,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 117,
+      "sortOrder": 134,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3542,7 +4051,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 118,
+      "sortOrder": 135,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3560,6 +4069,37 @@
       }
     },
     {
+      "id": "c9b51e40-ed9c-5867-a13f-40c3c2e1aa43",
+      "slug": "build-disk-seagate-barracuda-4tb",
+      "categoryId": "disk",
+      "name": "Seagate BarraCuda 4TB",
+      "description": "3.5 inç · SATA 6Gb/s · 5400 RPM · 256 MB önbellek",
+      "brand": "Seagate",
+      "model": "ST4000DM004",
+      "sku": "ST4000DM004",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 136,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Seagate",
+        "ST4000DM004",
+        "disk",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "drive_type": "Sabit disk (HDD)",
+        "capacity_gb": 4000,
+        "interface": "SATA III",
+        "model_code": "ST4000DM004"
+      }
+    },
+    {
       "id": "4e6ea7e9-0efc-5430-bf00-c5de3c21d939",
       "slug": "build-case-nzxt-h5-flow",
       "categoryId": "case",
@@ -3573,7 +4113,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 119,
+      "sortOrder": 137,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3605,7 +4145,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 120,
+      "sortOrder": 138,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3637,7 +4177,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 121,
+      "sortOrder": 139,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3669,7 +4209,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 122,
+      "sortOrder": 140,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3688,6 +4228,166 @@
       }
     },
     {
+      "id": "44a84e91-645b-5685-a845-9a3e1d40dbb6",
+      "slug": "build-case-corsair-3000d-airflow",
+      "categoryId": "case",
+      "name": "CORSAIR 3000D AIRFLOW",
+      "description": "Mid-tower · hava akışı odaklı ön panel",
+      "brand": "CORSAIR",
+      "model": "CORSAIR 3000D AIRFLOW",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 141,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "CORSAIR",
+        "CORSAIR 3000D AIRFLOW",
+        "case",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "form_factor": "Mid Tower",
+        "board_support": "ATX, Micro-ATX",
+        "gpu_clearance_mm": 360,
+        "cpu_cooler_clearance_mm": 170,
+        "psu_clearance_mm": 220
+      }
+    },
+    {
+      "id": "1746f216-bbd1-5cb9-912b-70bcee400a24",
+      "slug": "build-case-corsair-5000d-airflow",
+      "categoryId": "case",
+      "name": "CORSAIR 5000D AIRFLOW",
+      "description": "Mid-tower · geniş iç hacim ve hava akışı",
+      "brand": "CORSAIR",
+      "model": "CORSAIR 5000D AIRFLOW",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 142,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "CORSAIR",
+        "CORSAIR 5000D AIRFLOW",
+        "case",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "form_factor": "Mid Tower",
+        "board_support": "ATX, Micro-ATX",
+        "gpu_clearance_mm": 400,
+        "cpu_cooler_clearance_mm": 170,
+        "psu_clearance_mm": 250
+      }
+    },
+    {
+      "id": "ab10de4a-9a4a-5ad9-8396-a47f9e663d11",
+      "slug": "build-case-nzxt-h6-flow",
+      "categoryId": "case",
+      "name": "NZXT H6 Flow",
+      "description": "Çift bölmeli mid-tower · panoramik cam",
+      "brand": "NZXT",
+      "model": "NZXT H6 Flow",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 143,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "NZXT",
+        "NZXT H6 Flow",
+        "case",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "form_factor": "Mid Tower",
+        "board_support": "ATX, Micro-ATX, Mini-ITX",
+        "gpu_clearance_mm": 365,
+        "cpu_cooler_clearance_mm": 163,
+        "psu_clearance_mm": 200
+      }
+    },
+    {
+      "id": "e977287f-3153-5b11-a1f9-a00c87b637d8",
+      "slug": "build-case-fractal-pop-air",
+      "categoryId": "case",
+      "name": "Fractal Design Pop Air",
+      "description": "Mid-tower · mesh ön panel",
+      "brand": "Fractal",
+      "model": "Fractal Design Pop Air",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 144,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Fractal",
+        "Fractal Design Pop Air",
+        "case",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "form_factor": "Mid Tower",
+        "board_support": "ATX, Micro-ATX, Mini-ITX",
+        "gpu_clearance_mm": 405,
+        "cpu_cooler_clearance_mm": 170,
+        "psu_clearance_mm": 170
+      }
+    },
+    {
+      "id": "2af65679-0e4a-594c-bb99-9233baf9c0aa",
+      "slug": "build-case-lian-li-lancool-216",
+      "categoryId": "case",
+      "name": "Lian Li LANCOOL 216",
+      "description": "Mid-tower · yüksek hava akışlı ön panel",
+      "brand": "Lian",
+      "model": "Lian Li LANCOOL 216",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 145,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Lian",
+        "Lian Li LANCOOL 216",
+        "case",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "form_factor": "Mid Tower",
+        "board_support": "ATX, Micro-ATX, Mini-ITX",
+        "gpu_clearance_mm": 392,
+        "cpu_cooler_clearance_mm": 180,
+        "psu_clearance_mm": 220
+      }
+    },
+    {
       "id": "b85bb446-e229-535b-8d8c-aae6dba7dcf4",
       "slug": "build-cooling-bequiet-pure-rock-3-black",
       "categoryId": "cooling",
@@ -3701,7 +4401,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 123,
+      "sortOrder": 146,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3731,7 +4431,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 124,
+      "sortOrder": 147,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3761,7 +4461,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 125,
+      "sortOrder": 148,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3774,6 +4474,156 @@
       "attributes": {
         "cooler_type": "Sıvı soğutma",
         "radiator_mm": 240,
+        "socket_support": "LGA1700, LGA1851, AM5"
+      }
+    },
+    {
+      "id": "ee37f894-b225-5f1f-bda7-93e234e9ec1b",
+      "slug": "build-cooling-arctic-liquid-freezer-iii-360",
+      "categoryId": "cooling",
+      "name": "ARCTIC Liquid Freezer III 360",
+      "description": "Sıvı soğutma · 360 mm radyatör · PWM fanlar · desteklenen soketler: LGA1700, LGA1851, AM5",
+      "brand": "ARCTIC",
+      "model": "ARCTIC Liquid Freezer III 360",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 149,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ARCTIC",
+        "ARCTIC Liquid Freezer III 360",
+        "cooling",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "cooler_type": "Sıvı soğutma",
+        "radiator_mm": 360,
+        "socket_support": "LGA1700, LGA1851, AM5"
+      }
+    },
+    {
+      "id": "b25bda1f-3148-5fed-99cb-9a0eaebb7182",
+      "slug": "build-cooling-arctic-freezer-36",
+      "categoryId": "cooling",
+      "name": "ARCTIC Freezer 36",
+      "description": "Hava soğutma · 159 mm · çift kule fan düzeni · desteklenen soketler: LGA1700, LGA1851, AM5",
+      "brand": "ARCTIC",
+      "model": "ARCTIC Freezer 36",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 150,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "ARCTIC",
+        "ARCTIC Freezer 36",
+        "cooling",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "cooler_type": "Hava soğutma",
+        "height_mm": 159,
+        "socket_support": "LGA1700, LGA1851, AM5"
+      }
+    },
+    {
+      "id": "57cdfe7b-680f-581f-828b-a5782ceef825",
+      "slug": "build-cooling-cooler-master-hyper-212-halo",
+      "categoryId": "cooling",
+      "name": "Cooler Master Hyper 212 Halo Black",
+      "description": "Hava soğutma · 154 mm · 120 mm Halo fan · desteklenen soketler: LGA1700, LGA1851, AM5",
+      "brand": "Cooler",
+      "model": "Cooler Master Hyper 212 Halo Black",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 151,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Cooler",
+        "Cooler Master Hyper 212 Halo Black",
+        "cooling",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "cooler_type": "Hava soğutma",
+        "height_mm": 154,
+        "socket_support": "LGA1700, LGA1851, AM5"
+      }
+    },
+    {
+      "id": "d0961132-e7e9-5ae7-8570-9974414ce24b",
+      "slug": "build-cooling-deepcool-ak620",
+      "categoryId": "cooling",
+      "name": "DeepCool AK620",
+      "description": "Hava soğutma · 160 mm · çift kule · çift 120 mm fan · desteklenen soketler: LGA1700, LGA1851, AM5",
+      "brand": "DeepCool",
+      "model": "DeepCool AK620",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 152,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "DeepCool",
+        "DeepCool AK620",
+        "cooling",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "cooler_type": "Hava soğutma",
+        "height_mm": 160,
+        "socket_support": "LGA1700, LGA1851, AM5"
+      }
+    },
+    {
+      "id": "1c447aca-ef2f-5e76-954b-8fb6cdf11014",
+      "slug": "build-cooling-nzxt-kraken-plus-360",
+      "categoryId": "cooling",
+      "name": "NZXT Kraken Plus 360",
+      "description": "Sıvı soğutma · 360 mm radyatör · LCD ekran · desteklenen soketler: LGA1700, LGA1851, AM5",
+      "brand": "NZXT",
+      "model": "NZXT Kraken Plus 360",
+      "sku": "",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 153,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "NZXT",
+        "NZXT Kraken Plus 360",
+        "cooling",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "cooler_type": "Sıvı soğutma",
+        "radiator_mm": 360,
         "socket_support": "LGA1700, LGA1851, AM5"
       }
     },
@@ -3791,7 +4641,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 126,
+      "sortOrder": 154,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3821,7 +4671,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 127,
+      "sortOrder": 155,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3851,7 +4701,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 128,
+      "sortOrder": 156,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3881,7 +4731,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 129,
+      "sortOrder": 157,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3911,7 +4761,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 130,
+      "sortOrder": 158,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3941,7 +4791,7 @@
       "currency": "TRY",
       "stock": null,
       "status": "active",
-      "sortOrder": 131,
+      "sortOrder": 159,
       "isBestseller": false,
       "isCampaign": false,
       "searchTerms": [
@@ -3955,6 +4805,156 @@
         "power_w": 1000,
         "efficiency": "80+ Gold",
         "length_mm": 140
+      }
+    },
+    {
+      "id": "0ef22d0f-3346-5272-87b4-a4639ca8eb59",
+      "slug": "build-psu-seasonic-focus-gx-850",
+      "categoryId": "psu",
+      "name": "Seasonic FOCUS GX-850",
+      "description": "850 W · 80 PLUS Gold · tam modüler · ATX · uzunluk 140 mm",
+      "brand": "Seasonic",
+      "model": "Seasonic FOCUS GX-850",
+      "sku": "SEASONIC-FOCUS-GX-850",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 160,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Seasonic",
+        "Seasonic FOCUS GX-850",
+        "psu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "power_w": 850,
+        "efficiency": "80+ Gold",
+        "length_mm": 140
+      }
+    },
+    {
+      "id": "6391e580-dcd8-5ad7-bade-cde5b768d191",
+      "slug": "build-psu-seasonic-focus-gx-1000",
+      "categoryId": "psu",
+      "name": "Seasonic FOCUS GX-1000",
+      "description": "1000 W · 80 PLUS Gold · tam modüler · ATX · uzunluk 140 mm",
+      "brand": "Seasonic",
+      "model": "Seasonic FOCUS GX-1000",
+      "sku": "SEASONIC-FOCUS-GX-1000",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 161,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "Seasonic",
+        "Seasonic FOCUS GX-1000",
+        "psu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "power_w": 1000,
+        "efficiency": "80+ Gold",
+        "length_mm": 140
+      }
+    },
+    {
+      "id": "e4f84fb1-9826-56df-bd3b-40cf39d7b5f5",
+      "slug": "build-psu-msi-mag-a750gl-pcie5",
+      "categoryId": "psu",
+      "name": "MSI MAG A750GL PCIE5",
+      "description": "750 W · 80 PLUS Gold · tam modüler · PCIe 5.0 · uzunluk 140 mm",
+      "brand": "MSI",
+      "model": "MSI MAG A750GL PCIE5",
+      "sku": "MSI-MAG-A750GL-PCIE5",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 162,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "MSI",
+        "MSI MAG A750GL PCIE5",
+        "psu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "power_w": 750,
+        "efficiency": "80+ Gold",
+        "length_mm": 140
+      }
+    },
+    {
+      "id": "3dcf4f19-29cd-5ab9-8e88-b2e0cb82160a",
+      "slug": "build-psu-corsair-rm750x",
+      "categoryId": "psu",
+      "name": "CORSAIR RM750x",
+      "description": "750 W · 80 PLUS Gold · tam modüler · ATX · uzunluk 160 mm",
+      "brand": "CORSAIR",
+      "model": "CORSAIR RM750x",
+      "sku": "CORSAIR-RM750X",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 163,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "CORSAIR",
+        "CORSAIR RM750x",
+        "psu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "power_w": 750,
+        "efficiency": "80+ Gold",
+        "length_mm": 160
+      }
+    },
+    {
+      "id": "dae70fe4-f226-5809-8fc5-507dfd8f2e90",
+      "slug": "build-psu-bequiet-pure-power-12-m-850w",
+      "categoryId": "psu",
+      "name": "be quiet! Pure Power 12 M 850W",
+      "description": "850 W · 80 PLUS Gold · tam modüler · ATX 3.1 · uzunluk 160 mm",
+      "brand": "be",
+      "model": "be quiet! Pure Power 12 M 850W",
+      "sku": "BEQUIET-PURE-POWER-12-M-850W",
+      "image": "",
+      "price": null,
+      "currency": "TRY",
+      "stock": null,
+      "status": "active",
+      "sortOrder": 164,
+      "isBestseller": false,
+      "isCampaign": false,
+      "searchTerms": [
+        "be",
+        "be quiet! Pure Power 12 M 850W",
+        "psu",
+        "sistem toplama",
+        "bileşen"
+      ],
+      "attributes": {
+        "power_w": 850,
+        "efficiency": "80+ Gold",
+        "length_mm": 160
       }
     }
   ]

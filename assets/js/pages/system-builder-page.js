@@ -11,7 +11,10 @@ const processorFamilies = {
   amd: [
     { id: 'ryzen5', name: 'Ryzen 5', note: 'Oyun ve çok yönlü kullanım', generation: 'Ryzen 9000 / 8000G · AM5', socket: 'AM5', models: ['9600X', '9600', '9500F', '8600G', '8500G'] },
     { id: 'ryzen7', name: 'Ryzen 7', note: 'Yüksek performans', generation: 'Ryzen 9000 / 8000G · AM5', socket: 'AM5', models: ['9850X3D', '9800X3D', '9700X', '9700F', '8700G'] },
-    { id: 'ryzen9', name: 'Ryzen 9', note: 'Üst seviye performans', generation: 'Ryzen 9000 · AM5', socket: 'AM5', models: ['9950X3D2 Dual Edition', '9950X3D', '9950X', '9900X3D', '9900X'] }
+    { id: 'ryzen9', name: 'Ryzen 9', note: 'Üst seviye performans', generation: 'Ryzen 9000 · AM5', socket: 'AM5', models: ['9950X3D2 Dual Edition', '9950X3D', '9950X', '9900X3D', '9900X'] },
+    { id: 'ryzen5-7000', name: 'Ryzen 5 · 7000 Serisi', note: 'Oyun ve çok yönlü kullanım', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7600X', '7600'] },
+    { id: 'ryzen7-7000', name: 'Ryzen 7 · 7000 Serisi', note: 'Yüksek performans ve oyun', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7800X3D', '7700X', '7700'] },
+    { id: 'ryzen9-7000', name: 'Ryzen 9 · 7000 Serisi', note: 'Üst seviye üretkenlik', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7950X3D', '7950X', '7900X', '7900'] }
   ]
 };
 
@@ -97,15 +100,24 @@ const graphicsCards = {
 const storageProducts = {
   nvme: [
     { id: 'samsung-990-evo-plus-1tb', name: 'Samsung 990 EVO Plus 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 / 5.0 x2', capacity: '1 TB', code: 'MZ-V9S1T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-evo-plus/' },
-    { id: 'samsung-990-evo-plus-2tb', name: 'Samsung 990 EVO Plus 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 / 5.0 x2', capacity: '2 TB', code: 'MZ-V9S2T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-evo-plus/' }
+    { id: 'samsung-990-evo-plus-2tb', name: 'Samsung 990 EVO Plus 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 / 5.0 x2', capacity: '2 TB', code: 'MZ-V9S2T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-evo-plus/' },
+    { id: 'kingston-nv3-1tb', name: 'Kingston NV3 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'SNV3S/1000G', url: 'https://www.kingston.com/en/ssd/nv3-nvme-pcie-ssd' },
+    { id: 'kingston-nv3-2tb', name: 'Kingston NV3 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'SNV3S/2000G', url: 'https://www.kingston.com/en/ssd/nv3-nvme-pcie-ssd' },
+    { id: 'crucial-p3-plus-1tb', name: 'Crucial P3 Plus 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'CT1000P3PSSD8' },
+    { id: 'crucial-p3-plus-2tb', name: 'Crucial P3 Plus 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'CT2000P3PSSD8' },
+    { id: 'wd-black-sn850x-1tb', name: 'WD_BLACK SN850X 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'WDS100T2X0E' },
+    { id: 'wd-black-sn850x-2tb', name: 'WD_BLACK SN850X 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'WDS200T2X0E' }
   ],
   sata: [
     { id: 'crucial-mx500-1tb', name: 'Crucial MX500 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'CT1000MX500SSD1', url: 'https://www.crucial.com/ssd/mx500/ct1000mx500ssd1' },
-    { id: 'samsung-870-evo-1tb', name: 'Samsung 870 EVO 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'MZ-77E1T0', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/870-evo/' }
+    { id: 'samsung-870-evo-1tb', name: 'Samsung 870 EVO 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'MZ-77E1T0', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/870-evo/' },
+    { id: 'samsung-870-evo-2tb', name: 'Samsung 870 EVO 2TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '2 TB', code: 'MZ-77E2T0' },
+    { id: 'crucial-mx500-2tb', name: 'Crucial MX500 2TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '2 TB', code: 'CT2000MX500SSD1' }
   ],
   hdd: [
     { id: 'wd-blue-1tb', name: 'WD Blue 1TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 64 MB önbellek', capacity: '1 TB', code: 'WD10EZEX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' },
-    { id: 'wd-blue-2tb', name: 'WD Blue 2TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 256 MB önbellek', capacity: '2 TB', code: 'WD20EZBX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' }
+    { id: 'wd-blue-2tb', name: 'WD Blue 2TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 256 MB önbellek', capacity: '2 TB', code: 'WD20EZBX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' },
+    { id: 'seagate-barracuda-4tb', name: 'Seagate BarraCuda 4TB', spec: '3.5 inç · SATA 6Gb/s · 5400 RPM · 256 MB önbellek', capacity: '4 TB', code: 'ST4000DM004', url: 'https://www.seagate.com/as/en/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/' }
   ]
 };
 
@@ -113,13 +125,23 @@ const pcCases = [
   { id: 'nzxt-h5-flow', name: 'NZXT H5 Flow', supports: ['ATX', 'Micro-ATX'], gpu: 410, cooler: 170, psu: 200, radiators: [120, 140, 240, 280, 360], note: 'Mid-tower · hava akışlı ön panel', url: 'https://nzxt.com/products/h5-flow' },
   { id: 'corsair-4000d-airflow', name: 'CORSAIR 4000D Airflow', supports: ['ATX', 'Micro-ATX'], gpu: 360, cooler: 170, psu: 220, radiators: [120, 140, 240, 280, 360], note: 'Mid-tower · mesh ön panel', url: 'https://www.corsair.com/us/en/p/pc-cases/cc-9011200-ww/4000d-airflow-tempered-glass-mid-tower-atx-case-black-cc-9011200-ww' },
   { id: 'asus-prime-ap201', name: 'ASUS Prime AP201', supports: ['Micro-ATX'], gpu: 338, cooler: 170, psu: 180, radiators: [120, 140, 240, 280], note: 'Kompakt kasa · Micro-ATX / Mini-ITX', url: 'https://www.asus.com/us/motherboards-components/cases/prime/asus-prime-ap201-microatx-case/techspec/' },
-  { id: 'cooler-master-q300l', name: 'Cooler Master MasterBox Q300L', supports: ['Micro-ATX'], gpu: 360, cooler: 159, psu: 160, radiators: [120, 240], note: 'Mini tower · Micro-ATX / Mini-ITX', url: 'https://www.coolermaster.com/en-us/products/masterbox-q300l.html' }
+  { id: 'cooler-master-q300l', name: 'Cooler Master MasterBox Q300L', supports: ['Micro-ATX'], gpu: 360, cooler: 159, psu: 160, radiators: [120, 240], note: 'Mini tower · Micro-ATX / Mini-ITX', url: 'https://www.coolermaster.com/en-us/products/masterbox-q300l.html' },
+  { id: 'corsair-3000d-airflow', name: 'CORSAIR 3000D AIRFLOW', supports: ['ATX', 'Micro-ATX'], gpu: 360, cooler: 170, psu: 220, radiators: [120, 240, 280, 360], note: 'Mid-tower · hava akışı odaklı ön panel', url: 'https://www.corsair.com/ww/en/p/pc-cases/CC-9011251-WW/3000d-tempered-glass-mid-tower-black-cc-9011251-ww' },
+  { id: 'corsair-5000d-airflow', name: 'CORSAIR 5000D AIRFLOW', supports: ['ATX', 'Micro-ATX'], gpu: 400, cooler: 170, psu: 250, radiators: [120, 240, 280, 360], note: 'Mid-tower · geniş iç hacim ve hava akışı', url: 'https://www.corsair.com/us/en/c/pc-cases/mid-tower' },
+  { id: 'nzxt-h6-flow', name: 'NZXT H6 Flow', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 365, cooler: 163, psu: 200, radiators: [120, 240, 280, 360], note: 'Çift bölmeli mid-tower · panoramik cam', url: 'https://nzxt.com/products/h6-flow' },
+  { id: 'fractal-pop-air', name: 'Fractal Design Pop Air', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 405, cooler: 170, psu: 170, radiators: [120, 240, 280], note: 'Mid-tower · mesh ön panel', url: 'https://www.fractal-design.com/products/cases/pop/pop-air/' },
+  { id: 'lian-li-lancool-216', name: 'Lian Li LANCOOL 216', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 392, cooler: 180, psu: 220, radiators: [120, 240, 280, 360], note: 'Mid-tower · yüksek hava akışlı ön panel', url: 'https://lian-li.com/product/lancool-216/' }
 ];
 
 const cpuCoolers = [
   { id: 'bequiet-pure-rock-3-black', name: 'be quiet! PURE ROCK 3 Black', type: 'Hava soğutma', height: 154, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '154 mm · 190 W TDP · 120 mm fan', url: 'https://www.bequiet.com/en/cpucooler/5591' },
   { id: 'arctic-liquid-freezer-iii-pro-240', name: 'ARCTIC Liquid Freezer III Pro 240', type: 'Sıvı soğutma', radiator: 240, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '240 mm radyatör · 38 mm radyatör kalınlığı', url: 'https://www.arctic.de/en/Liquid-Freezer-III-Pro-240/ACFRE00178A' },
-  { id: 'nzxt-kraken-plus-240', name: 'NZXT Kraken Plus 240', type: 'Sıvı soğutma', radiator: 240, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '240 mm radyatör · LCD ekran', url: 'https://nzxt.com/products/kraken-plus-240' }
+  { id: 'nzxt-kraken-plus-240', name: 'NZXT Kraken Plus 240', type: 'Sıvı soğutma', radiator: 240, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '240 mm radyatör · LCD ekran', url: 'https://nzxt.com/products/kraken-plus-240' },
+  { id: 'arctic-liquid-freezer-iii-360', name: 'ARCTIC Liquid Freezer III 360', type: 'Sıvı soğutma', radiator: 360, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '360 mm radyatör · PWM fanlar', url: 'https://www.arctic.de/en/Liquid-Freezer-III-360' },
+  { id: 'arctic-freezer-36', name: 'ARCTIC Freezer 36', type: 'Hava soğutma', height: 159, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '159 mm · çift kule fan düzeni', url: 'https://www.arctic.de/en/Freezer-36/ACFRE00121A' },
+  { id: 'cooler-master-hyper-212-halo', name: 'Cooler Master Hyper 212 Halo Black', type: 'Hava soğutma', height: 154, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '154 mm · 120 mm Halo fan', url: 'https://www.coolermaster.com/en-global/products/hyper-212-halo-black/' },
+  { id: 'deepcool-ak620', name: 'DeepCool AK620', type: 'Hava soğutma', height: 160, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '160 mm · çift kule · çift 120 mm fan', url: 'https://www.deepcool.com/products/Cooling/cpuaircoolers/AK620High-PerformanceDualTowerCPU-Cooler/2021/13067.shtml' },
+  { id: 'nzxt-kraken-plus-360', name: 'NZXT Kraken Plus 360', type: 'Sıvı soğutma', radiator: 360, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '360 mm radyatör · LCD ekran', url: 'https://nzxt.com/products/kraken-plus-360' }
 ];
 
 const powerSupplies = [
@@ -128,7 +150,12 @@ const powerSupplies = [
   { id: 'corsair-rm750e', name: 'CORSAIR RM750e (2025)', watts: 750, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/explorer/diy-builder/power-supply-units/corsair-rme-series-2025/' },
   { id: 'msi-mag-a850gl', name: 'MSI MAG A850GL PCIE5', watts: 850, length: 140, spec: '80 PLUS Gold · PCIe 5.0 · tam modüler', url: 'https://www.msi.com/Power-Supply/MAG-A850GL-PCIE5/Specification' },
   { id: 'corsair-rm850e', name: 'CORSAIR RM850e (2025)', watts: 850, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/p/psu/cp-9020336-na/rm850e-atx-3-1-low-noise-atx-power-supply-with-thermalprotect-12v-2x6-cable-cp-9020336-na' },
-  { id: 'corsair-rm1000e', name: 'CORSAIR RM1000e (2025)', watts: 1000, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/p/psu/cp-9020337-na/rm1000e-atx-3-1-low-noise-atx-power-supply-with-thermalprotect-12v-2x6-cable-cp-9020337-na' }
+  { id: 'corsair-rm1000e', name: 'CORSAIR RM1000e (2025)', watts: 1000, length: 140, spec: '80 PLUS Gold · ATX 3.1 · 12V-2x6', url: 'https://www.corsair.com/us/en/p/psu/cp-9020337-na/rm1000e-atx-3-1-low-noise-atx-power-supply-with-thermalprotect-12v-2x6-cable-cp-9020337-na' },
+  { id: 'seasonic-focus-gx-850', name: 'Seasonic FOCUS GX-850', watts: 850, length: 140, spec: '80 PLUS Gold · tam modüler · ATX', url: 'https://seasonic.com/focus-gx-atx-3/' },
+  { id: 'seasonic-focus-gx-1000', name: 'Seasonic FOCUS GX-1000', watts: 1000, length: 140, spec: '80 PLUS Gold · tam modüler · ATX', url: 'https://seasonic.com/focus-gx-atx-3/' },
+  { id: 'msi-mag-a750gl-pcie5', name: 'MSI MAG A750GL PCIE5', watts: 750, length: 140, spec: '80 PLUS Gold · tam modüler · PCIe 5.0', url: 'https://www.msi.com/Power-Supply/MAG-A750GL-PCIE5' },
+  { id: 'corsair-rm750x', name: 'CORSAIR RM750x', watts: 750, length: 160, spec: '80 PLUS Gold · tam modüler · ATX', url: 'https://www.corsair.com/us/en/c/psu' },
+  { id: 'bequiet-pure-power-12-m-850w', name: 'be quiet! Pure Power 12 M 850W', watts: 850, length: 160, spec: '80 PLUS Gold · tam modüler · ATX 3.1', url: 'https://www.bequiet.com/en/powersupply/4073' }
 ];
 
 const storageKey = 'tezcan-system-builder-cpu-v1';
