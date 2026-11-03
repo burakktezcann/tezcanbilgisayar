@@ -101,3 +101,45 @@
   .system-tab{min-height:70px;padding:7px 6px}
 }
 .build-mark{overflow:hidden;border:1px solid #1d4a76;background:#030a18}.build-mark img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+
+/* Keep every product step visually consistent and remove nested scroll areas. */
+.build-steps-card,.selection-card,.build-summary-card{box-shadow:none;border-color:#e7ebf1}
+.build-steps-card{border-radius:13px}
+.build-steps{gap:2px}
+.build-step{grid-template-columns:25px minmax(0,1fr) 16px;min-height:48px;padding:6px 9px;border:0;border-radius:8px}
+.build-step .step-icon{display:none}
+.build-step.is-current{border:0;color:#0756B8;background:#f3f6fb}
+.build-step[aria-current="step"]{box-shadow:inset 3px 0 #0875e1}
+.build-step.is-next{opacity:.58}
+.steps-note{display:none}
+.selection-card{border-radius:13px}
+.selection-header{padding-bottom:14px}
+.selection-header h2{font-size:1.12rem}
+.builder-message:not(:empty){border:1px solid #e8edf4;color:#526078;background:#f7f9fc}
+.selected-brand{padding:0;color:#53627a;background:transparent}
+.model-grid,.motherboard-grid,.ram-grid,.case-grid,.cooler-grid,.psu-grid{max-height:none;overflow:visible;gap:8px;padding:0}
+.model-card,.motherboard-card,.ram-card,.case-card,.cooler-card,.psu-card{gap:7px;padding:13px;border:1px solid #e9edf2;border-radius:10px;box-shadow:none!important;background:#fff}
+.model-card:hover,.model-card[aria-pressed="true"],.motherboard-card:has([aria-pressed="true"]),.ram-card:has([aria-pressed="true"]),.case-card:has([aria-pressed="true"]),.cooler-card:has([aria-pressed="true"]),.psu-card:has([aria-pressed="true"]){border-color:#a8bfdc;background:#f8fbff;box-shadow:none!important}
+.model-card[aria-pressed="true"]{outline:0}
+.model-card strong,.motherboard-name,.ram-choice strong,.case-name,.cooler-choice strong,.psu-name{font-size:.76rem;font-weight:750;line-height:1.4}
+.model-card span,.motherboard-specs,.ram-choice .ram-spec,.case-note,.cooler-choice small,.psu-spec{color:#718096;font-size:.63rem;line-height:1.45}
+.model-card .model-chip,.motherboard-badges span{padding:0;color:#66758b;background:transparent;font-size:.61rem;font-weight:650}
+.motherboard-badges span+span:before{content:"·";margin-right:8px;color:#b2bbc8}
+.motherboard-note{display:none}
+.case-card .motherboard-badges span{padding:0;color:#718096;background:transparent;font-size:.61rem}
+.case-note+.motherboard-badges span+span:before{content:"·";margin-right:7px;color:#b2bbc8}
+.cooler-type,.psu-watts{color:#53627a!important;font-size:.64rem!important;font-weight:700!important}
+.board-source{font-size:.62rem;text-decoration:none}
+.brand-choice,.family-choice,.ram-capacity-picker button{box-shadow:none}
+.brand-choice:hover,.family-choice:hover,.family-choice[aria-pressed="true"],.gpu-brand-choice[aria-pressed="true"],.ram-capacity-picker button:hover,.ram-capacity-picker button[aria-pressed="true"]{transform:none;border-color:#b9c9dd;color:#24476f;background:#f6f8fb;box-shadow:none}
+.brand-choice[aria-pressed="true"]{border-color:#b9c9dd;background:#f6f8fb}
+.compatibility-note{margin:11px 0 0;padding:0;border:0;color:#778398;background:transparent;font-size:.64rem}
+.compatibility-note span{color:#8793a5}
+@media(max-width:720px){
+  .build-step{grid-template-columns:minmax(0,1fr);min-height:60px;padding:7px 3px;border:1px solid #e9edf5;text-align:center}
+  .build-step.is-current{border-color:#d5deef;background:#f4f7fb}
+  .build-step .step-number{color:#64748b;background:#f0f3f8}
+  .build-step.is-current .step-number{color:#fff;background:#315fe7}
+  .model-grid,.motherboard-grid,.ram-grid,.case-grid,.cooler-grid,.psu-grid{grid-template-columns:1fr;max-height:none;overflow:visible}
+  .model-card,.motherboard-card,.ram-card,.case-card,.cooler-card,.psu-card{padding:12px}
+}

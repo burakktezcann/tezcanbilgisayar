@@ -1,9 +1,13 @@
 const processorFamilies = {
   intel: [
     { id: 'i3', name: 'Core i3', note: 'Günlük kullanım', generation: '12.–14. nesil · LGA1700', socket: 'LGA1700', models: ['i3-14100', 'i3-14100F', 'i3-13100', 'i3-13100F', 'i3-12100', 'i3-12100F'] },
-    { id: 'i5', name: 'Core i5', note: 'Oyun ve çok yönlü kullanım', generation: '12.–14. nesil · LGA1700', socket: 'LGA1700', models: ['i5-14600K', 'i5-14600KF', 'i5-14500', 'i5-14400', 'i5-14400F', 'i5-13600K', 'i5-13600KF', 'i5-13400F', 'i5-12600K', 'i5-12400F'] },
+    { id: 'i5', name: 'Core i5', note: 'Oyun ve çok yönlü kullanım', generation: '12.–14. nesil · LGA1700', socket: 'LGA1700', models: ['i5-14600K', 'i5-14600KF', 'i5-14500', 'i5-14400', 'i5-14400F', 'i5-13600K', 'i5-13600KF', 'i5-13400F', 'i5-12600K', 'i5-12400', 'i5-12400F'] },
     { id: 'i7', name: 'Core i7', note: 'Yüksek performans', generation: '12.–14. nesil · LGA1700', socket: 'LGA1700', models: ['i7-14700K', 'i7-14700KF', 'i7-14700F', 'i7-13700K', 'i7-13700KF', 'i7-12700K', 'i7-12700F'] },
     { id: 'i9', name: 'Core i9', note: 'Üst seviye performans', generation: '12.–14. nesil · LGA1700', socket: 'LGA1700', models: ['i9-14900K', 'i9-14900KF', 'i9-14900F', 'i9-13900K', 'i9-13900KF', 'i9-12900K', 'i9-12900KF'] },
+    { id: 'i3-10-11', name: 'Core i3 · 10/11. Nesil', note: 'Önceki nesil sistemler', generation: '10.–11. nesil · LGA1200', socket: 'LGA1200', models: ['i3-10100', 'i3-10100F', 'i3-10300', 'i3-10105', 'i3-10105F', 'i3-10325', 'i3-11100B'] },
+    { id: 'i5-10-11', name: 'Core i5 · 10/11. Nesil', note: 'Önceki nesil sistemler', generation: '10.–11. nesil · LGA1200', socket: 'LGA1200', models: ['i5-10400', 'i5-10400F', 'i5-10500', 'i5-10600K', 'i5-10600KF', 'i5-11400', 'i5-11400F', 'i5-11500', 'i5-11600K', 'i5-11600KF'] },
+    { id: 'i7-10-11', name: 'Core i7 · 10/11. Nesil', note: 'Önceki nesil sistemler', generation: '10.–11. nesil · LGA1200', socket: 'LGA1200', models: ['i7-10700', 'i7-10700F', 'i7-10700K', 'i7-10700KF', 'i7-11700', 'i7-11700F', 'i7-11700K', 'i7-11700KF'] },
+    { id: 'i9-10-11', name: 'Core i9 · 10/11. Nesil', note: 'Önceki nesil sistemler', generation: '10.–11. nesil · LGA1200', socket: 'LGA1200', models: ['i9-10850K', 'i9-10900', 'i9-10900K', 'i9-10900KF', 'i9-11900', 'i9-11900K', 'i9-11900KF'] },
     { id: 'ultra5', name: 'Core Ultra 5', note: 'Yeni nesil masaüstü', generation: 'Series 2 · LGA1851', socket: 'LGA1851', models: ['250K Plus', '250KF Plus', '245K', '245KF', '225', '225F'] },
     { id: 'ultra7', name: 'Core Ultra 7', note: 'Yeni nesil yüksek performans', generation: 'Series 2 · LGA1851', socket: 'LGA1851', models: ['270K Plus', '265K', '265KF'] },
     { id: 'ultra9', name: 'Core Ultra 9', note: 'Yeni nesil üst seviye', generation: 'Series 2 · LGA1851', socket: 'LGA1851', models: ['285K', '285'] }
@@ -14,11 +18,21 @@ const processorFamilies = {
     { id: 'ryzen9', name: 'Ryzen 9', note: 'Üst seviye performans', generation: 'Ryzen 9000 · AM5', socket: 'AM5', models: ['9950X3D2 Dual Edition', '9950X3D', '9950X', '9900X3D', '9900X'] },
     { id: 'ryzen5-7000', name: 'Ryzen 5 · 7000 Serisi', note: 'Oyun ve çok yönlü kullanım', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7600X', '7600'] },
     { id: 'ryzen7-7000', name: 'Ryzen 7 · 7000 Serisi', note: 'Yüksek performans ve oyun', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7800X3D', '7700X', '7700'] },
-    { id: 'ryzen9-7000', name: 'Ryzen 9 · 7000 Serisi', note: 'Üst seviye üretkenlik', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7950X3D', '7950X', '7900X', '7900'] }
+    { id: 'ryzen9-7000', name: 'Ryzen 9 · 7000 Serisi', note: 'Üst seviye üretkenlik', generation: 'Ryzen 7000 · AM5', socket: 'AM5', models: ['7950X3D', '7950X', '7900X3D', '7900X', '7900'] },
+    { id: 'ryzen5-am4', name: 'Ryzen 5 · 5000 Serisi', note: 'Önceki nesil sistemler', generation: 'Ryzen 5000 · AM4', socket: 'AM4', models: ['5600', '5600X', '5600G', '5600GT', '5500', '5500GT', '5700X', '5700G', '5800X', '5800XT'] },
+    { id: 'ryzen7-am4', name: 'Ryzen 7 · 5000 Serisi', note: 'Önceki nesil yüksek performans', generation: 'Ryzen 5000 · AM4', socket: 'AM4', models: ['5700X3D', '5800X3D', '5800X', '5800XT'] },
+    { id: 'ryzen9-am4', name: 'Ryzen 9 · 5000 Serisi', note: 'Önceki nesil üst seviye', generation: 'Ryzen 5000 · AM4', socket: 'AM4', models: ['5900X', '5950X'] }
   ]
 };
 
 const motherboardsBySocket = {
+  LGA1200: [
+    { id: 'asus-tuf-z590-plus-wifi', name: 'ASUS TUF GAMING Z590-PLUS WIFI', chipset: 'Intel Z590', memory: 'DDR4', form: 'ATX', url: 'https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z590-plus-wifi/' },
+    { id: 'asus-prime-b560-plus', name: 'ASUS PRIME B560-PLUS', chipset: 'Intel B560', memory: 'DDR4', form: 'ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-b560-plus/' },
+    { id: 'msi-mag-z590-tomahawk-wifi', name: 'MSI MAG Z590 TOMAHAWK WIFI', chipset: 'Intel Z590', memory: 'DDR4', form: 'ATX', url: 'https://www.msi.com/Motherboard/MAG-Z590-TOMAHAWK-WIFI/Specification' },
+    { id: 'gigabyte-z590-aorus-elite-ax', name: 'GIGABYTE Z590 AORUS ELITE AX', chipset: 'Intel Z590', memory: 'DDR4', form: 'ATX', url: 'https://www.gigabyte.com/Motherboard/Z590-AORUS-ELITE-AX-rev-10' },
+    { id: 'msi-b560m-pro-vdh-wifi', name: 'MSI B560M PRO-VDH WIFI', chipset: 'Intel B560', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.msi.com/Motherboard/B560M-PRO-VDH-WIFI/Specification' }
+  ],
   LGA1700: [
     { id: 'asus-tuf-b760-plus-wifi', name: 'ASUS TUF GAMING B760-PLUS WIFI', chipset: 'Intel B760', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b760-plus-wifi/techspec/' },
     { id: 'asus-prime-b760m-a-d4', name: 'ASUS PRIME B760M-A D4', chipset: 'Intel B760', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/prime/prime-b760m-a-d4/techspec/' },
@@ -28,14 +42,22 @@ const motherboardsBySocket = {
     { id: 'msi-pro-b760m-a-wifi-ddr4', name: 'MSI PRO B760M-A WIFI DDR4', chipset: 'Intel B760', memory: 'DDR4', form: 'Micro-ATX' },
     { id: 'asus-prime-z790-p-wifi', name: 'ASUS PRIME Z790-P WIFI', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' },
     { id: 'gigabyte-z790-aorus-elite-ax', name: 'GIGABYTE Z790 AORUS ELITE AX', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' },
-    { id: 'msi-pro-z790-a-max-wifi', name: 'MSI PRO Z790-A MAX WIFI', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' }
+    { id: 'msi-pro-z790-a-max-wifi', name: 'MSI PRO Z790-A MAX WIFI', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX' },
+    { id: 'asus-rog-strix-z790-e-gaming-wifi-ii', name: 'ASUS ROG STRIX Z790-E GAMING WIFI II', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX', url: 'https://rog.asus.com/motherboards/rog-strix/rog-strix-z790-e-gaming-wifi-ii/' },
+    { id: 'asus-prime-z790m-plus-d4', name: 'ASUS PRIME Z790M-PLUS D4', chipset: 'Intel Z790', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-z790m-plus-d4/' },
+    { id: 'msi-mag-z790-tomahawk-max-wifi', name: 'MSI MAG Z790 TOMAHAWK MAX WIFI', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX', url: 'https://www.msi.com/Motherboard/MAG-Z790-TOMAHAWK-MAX-WIFI/Specification' },
+    { id: 'gigabyte-z790-aorus-elite-ax-ice', name: 'GIGABYTE Z790 AORUS ELITE AX ICE', chipset: 'Intel Z790', memory: 'DDR5', form: 'ATX', url: 'https://www.gigabyte.com/Motherboard/Z790-AORUS-ELITE-AX-ICE' },
+    { id: 'asrock-b760m-pro-rs-d4', name: 'ASRock B760M Pro RS/D4', chipset: 'Intel B760', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.asrock.com/mb/Intel/B760M%20Pro%20RS-D4/' }
   ],
   LGA1851: [
     { id: 'asus-tuf-z890-plus-wifi', name: 'ASUS TUF GAMING Z890-PLUS WIFI', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z890-plus-wifi/techspec/' },
     { id: 'asus-prime-b860m-a-wifi', name: 'ASUS PRIME B860M-A WIFI', chipset: 'Intel B860', memory: 'DDR5', form: 'Micro-ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-b860m-a-wifi/' },
     { id: 'msi-pro-z890-s-wifi-pz', name: 'MSI PRO Z890-S WIFI PZ', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX', url: 'https://storage-asset.msi.com/datasheet/mb/in/PRO-Z890-S-WIFI-PZ.pdf' },
     { id: 'gigabyte-z890-aorus-elite-wifi7', name: 'GIGABYTE Z890 AORUS ELITE WIFI7', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX' },
-    { id: 'msi-mag-z890-tomahawk-wifi', name: 'MSI MAG Z890 TOMAHAWK WIFI', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX' }
+    { id: 'msi-mag-z890-tomahawk-wifi', name: 'MSI MAG Z890 TOMAHAWK WIFI', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX' },
+    { id: 'asus-rog-strix-z890-e-gaming-wifi', name: 'ASUS ROG STRIX Z890-E GAMING WIFI', chipset: 'Intel Z890', memory: 'DDR5', form: 'ATX', url: 'https://rog.asus.com/motherboards/rog-strix/rog-strix-z890-e-gaming-wifi/' },
+    { id: 'msi-mag-b860-tomahawk-wifi', name: 'MSI MAG B860 TOMAHAWK WIFI', chipset: 'Intel B860', memory: 'DDR5', form: 'ATX', url: 'https://www.msi.com/Motherboard/MAG-B860-TOMAHAWK-WIFI/Specification' },
+    { id: 'gigabyte-b860-aorus-elite-wifi7', name: 'GIGABYTE B860 AORUS ELITE WIFI7', chipset: 'Intel B860', memory: 'DDR5', form: 'ATX', url: 'https://www.gigabyte.com/Motherboard/B860-AORUS-ELITE-WIFI7' }
   ],
   AM5: [
     { id: 'asus-tuf-b650-plus-wifi', name: 'ASUS TUF GAMING B650-PLUS WIFI', chipset: 'AMD B650', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b650-plus-wifi/techspec/' },
@@ -44,7 +66,21 @@ const motherboardsBySocket = {
     { id: 'msi-b650-gaming-plus-wifi', name: 'MSI B650 GAMING PLUS WIFI', chipset: 'AMD B650', memory: 'DDR5', form: 'ATX', url: 'https://us.msi.com/Motherboard/B650-GAMING-PLUS-WIFI/Specification' },
     { id: 'msi-mag-x870-tomahawk-wifi', name: 'MSI MAG X870 TOMAHAWK WIFI', chipset: 'AMD X870', memory: 'DDR5', form: 'ATX' },
     { id: 'gigabyte-x870-aorus-elite-wifi7', name: 'GIGABYTE X870 AORUS ELITE WIFI7', chipset: 'AMD X870', memory: 'DDR5', form: 'ATX' },
-    { id: 'asus-tuf-b850-plus-wifi', name: 'ASUS TUF GAMING B850-PLUS WIFI', chipset: 'AMD B850', memory: 'DDR5', form: 'ATX' }
+    { id: 'asus-tuf-b850-plus-wifi', name: 'ASUS TUF GAMING B850-PLUS WIFI', chipset: 'AMD B850', memory: 'DDR5', form: 'ATX' },
+    { id: 'asus-rog-strix-x870e-e-gaming-wifi', name: 'ASUS ROG STRIX X870E-E GAMING WIFI', chipset: 'AMD X870E', memory: 'DDR5', form: 'ATX', url: 'https://rog.asus.com/motherboards/rog-strix/rog-strix-x870e-e-gaming-wifi/' },
+    { id: 'msi-mag-b850-tomahawk-max-wifi', name: 'MSI MAG B850 TOMAHAWK MAX WIFI', chipset: 'AMD B850', memory: 'DDR5', form: 'ATX', url: 'https://www.msi.com/Motherboard/MAG-B850-TOMAHAWK-MAX-WIFI/Specification' },
+    { id: 'gigabyte-b850-aorus-elite-wifi7', name: 'GIGABYTE B850 AORUS ELITE WIFI7', chipset: 'AMD B850', memory: 'DDR5', form: 'ATX', url: 'https://www.gigabyte.com/Motherboard/B850-AORUS-ELITE-WIFI7' },
+    { id: 'asrock-b850-steel-legend-wifi', name: 'ASRock B850 Steel Legend WiFi', chipset: 'AMD B850', memory: 'DDR5', form: 'ATX', url: 'https://www.asrock.com/mb/AMD/B850%20Steel%20Legend%20WiFi/' },
+    { id: 'asus-prime-x870-p-wifi', name: 'ASUS PRIME X870-P WIFI', chipset: 'AMD X870', memory: 'DDR5', form: 'ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-x870-p-wifi/' }
+  ],
+  AM4: [
+    { id: 'asus-tuf-b550-plus-wifi-ii', name: 'ASUS TUF GAMING B550-PLUS WIFI II', chipset: 'AMD B550', memory: 'DDR4', form: 'ATX', url: 'https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b550-plus-wifi-ii/' },
+    { id: 'asus-prime-b550m-a-wifi-ii', name: 'ASUS PRIME B550M-A WIFI II', chipset: 'AMD B550', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.asus.com/motherboards-components/motherboards/prime/prime-b550m-a-wifi-ii/' },
+    { id: 'msi-mag-b550-tomahawk-max-wifi', name: 'MSI MAG B550 TOMAHAWK MAX WIFI', chipset: 'AMD B550', memory: 'DDR4', form: 'ATX', url: 'https://www.msi.com/Motherboard/MAG-B550-TOMAHAWK-MAX-WIFI/Specification' },
+    { id: 'msi-b550m-pro-vdh-wifi', name: 'MSI B550M PRO-VDH WIFI', chipset: 'AMD B550', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.msi.com/Motherboard/B550M-PRO-VDH-WIFI/Specification' },
+    { id: 'gigabyte-b550-aorus-elite-v2', name: 'GIGABYTE B550 AORUS ELITE V2', chipset: 'AMD B550', memory: 'DDR4', form: 'ATX', url: 'https://www.gigabyte.com/Motherboard/B550-AORUS-ELITE-V2-rev-10' },
+    { id: 'gigabyte-b550m-ds3h', name: 'GIGABYTE B550M DS3H', chipset: 'AMD B550', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.gigabyte.com/Motherboard/B550M-DS3H-rev-15' },
+    { id: 'asrock-b550m-pro4', name: 'ASRock B550M Pro4', chipset: 'AMD B550', memory: 'DDR4', form: 'Micro-ATX', url: 'https://www.asrock.com/mb/AMD/B550M%20Pro4/' }
   ]
 };
 
@@ -54,7 +90,12 @@ const ramKitsByType = {
     { id: 'kingston-fury-beast-ddr4-32', name: 'Kingston FURY Beast 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'KF432C16BBK2/32', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F32' },
     { id: 'kingston-fury-beast-ddr4-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 64, code: 'KF432C16BBK2/64', url: 'https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F64' },
     { id: 'corsair-vengeance-lpx-ddr4-16', name: 'CORSAIR VENGEANCE LPX 16GB (2×8GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 16, code: 'CMK16GX4M2E3200C16', brand: 'CORSAIR' },
-    { id: 'corsair-vengeance-lpx-ddr4-32', name: 'CORSAIR VENGEANCE LPX 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'CMK32GX4M2E3200C16', brand: 'CORSAIR' }
+    { id: 'corsair-vengeance-lpx-ddr4-32', name: 'CORSAIR VENGEANCE LPX 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'CMK32GX4M2E3200C16', brand: 'CORSAIR' },
+    { id: 'corsair-vengeance-lpx-ddr4-64', name: 'CORSAIR VENGEANCE LPX 64GB (2×32GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 64, code: 'CMK64GX4M2E3200C16', brand: 'CORSAIR' },
+    { id: 'gskill-ripjaws-v-ddr4-32', name: 'G.SKILL Ripjaws V 32GB (2×16GB)', spec: 'DDR4-3600 · CL18 · Kit of 2', capacity: 32, code: 'F4-3600C18D-32GVK', brand: 'G.SKILL', url: 'https://www.gskill.com/product/165/184/1536052590/F4-3600C18D-32GVK' },
+    { id: 'gskill-ripjaws-v-ddr4-64', name: 'G.SKILL Ripjaws V 64GB (2×32GB)', spec: 'DDR4-3600 · CL18 · Kit of 2', capacity: 64, code: 'F4-3600C18D-64GVK', brand: 'G.SKILL', url: 'https://www.gskill.com/product/165/184/1536052590/F4-3600C18D-64GVK' },
+    { id: 'crucial-pro-ddr4-32', name: 'Crucial Pro 32GB (2×16GB)', spec: 'DDR4-3200 · CL22 · Kit of 2', capacity: 32, code: 'CP2K16G4DFRA32A', brand: 'Crucial', url: 'https://www.crucial.com/memory/ddr4/cp2k16g4dfra32a' },
+    { id: 'teamgroup-vulcan-z-ddr4-32', name: 'TeamGroup T-FORCE VULCAN Z 32GB (2×16GB)', spec: 'DDR4-3200 · CL16 · Kit of 2', capacity: 32, code: 'TLZGD432G3200HC16FDC01', brand: 'TeamGroup' }
   ],
   DDR5: [
     { id: 'kingston-fury-beast-ddr5-32', name: 'Kingston FURY Beast 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 32, code: 'KF560C30BBEK2-32', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-32' },
@@ -62,19 +103,51 @@ const ramKitsByType = {
     { id: 'kingston-fury-beast-ddr5-64', name: 'Kingston FURY Beast 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 64, code: 'KF560C30BBEK2-64', url: 'https://www.kingston.com/en/memory/search?partid=KF560C30BBEK2-64' },
     { id: 'kingston-fury-beast-rgb-ddr5-32', name: 'Kingston FURY Beast RGB 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 32, code: 'KF560C30BBEAK2-32', brand: 'Kingston' },
     { id: 'corsair-vengeance-ddr5-64', name: 'CORSAIR VENGEANCE 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · Kit of 2', capacity: 64, code: 'CMK64GX5M2B6000C30', brand: 'CORSAIR' },
-    { id: 'samsung-ddr5-5600-16', name: 'Samsung DDR5 16GB (1×16GB) UDIMM', spec: 'DDR5-5600 · CL46 · UDIMM · tek modül', capacity: 16, code: 'M323R2GA3DB0-CWM', brand: 'Samsung', url: 'https://semiconductor.samsung.com/dram/module/udimm/m323r2ga3db0-cwm/' }
+    { id: 'samsung-ddr5-5600-16', name: 'Samsung DDR5 16GB (1×16GB) UDIMM', spec: 'DDR5-5600 · CL46 · UDIMM · tek modül', capacity: 16, code: 'M323R2GA3DB0-CWM', brand: 'Samsung', url: 'https://semiconductor.samsung.com/dram/module/udimm/m323r2ga3db0-cwm/' },
+    { id: 'gskill-trident-z5-neo-ddr5-32', name: 'G.SKILL Trident Z5 Neo 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 32, code: 'F5-6000J3038F16GX2-TZ5N', brand: 'G.SKILL', url: 'https://www.gskill.com/product/165/393/1662622664/F5-6000J3038F16GX2-TZ5N' },
+    { id: 'gskill-trident-z5-neo-ddr5-64', name: 'G.SKILL Trident Z5 Neo 64GB (2×32GB)', spec: 'DDR5-6000 · CL30 · AMD EXPO', capacity: 64, code: 'F5-6000J3040G32GX2-TZ5N', brand: 'G.SKILL', url: 'https://www.gskill.com/product/165/393/1662622664/F5-6000J3040G32GX2-TZ5N' },
+    { id: 'corsair-vengeance-ddr5-96', name: 'CORSAIR VENGEANCE 96GB (2×48GB)', spec: 'DDR5-6000 · CL30 · Kit of 2', capacity: 96, code: 'CMK96GX5M2B6000C30', brand: 'CORSAIR' },
+    { id: 'kingston-fury-renegade-ddr5-32', name: 'Kingston FURY Renegade 32GB (2×16GB)', spec: 'DDR5-6400 · CL32 · XMP 3.0', capacity: 32, code: 'KF564C32RSK2-32', brand: 'Kingston' },
+    { id: 'teamgroup-delta-rgb-ddr5-32', name: 'TeamGroup T-FORCE DELTA RGB 32GB (2×16GB)', spec: 'DDR5-6000 · CL38 · Kit of 2', capacity: 32, code: 'FF3D532G6000HC38ADC01', brand: 'TeamGroup' },
+    { id: 'teamgroup-delta-rgb-ddr5-64', name: 'TeamGroup T-FORCE DELTA RGB 64GB (2×32GB)', spec: 'DDR5-6000 · CL38 · Kit of 2', capacity: 64, code: 'FF3D564G6000HC38ADC01', brand: 'TeamGroup' },
+    { id: 'adata-xpg-lancer-ddr5-32', name: 'ADATA XPG LANCER 32GB (2×16GB)', spec: 'DDR5-6000 · CL30 · Kit of 2', capacity: 32, code: 'AX5U6000C3016G-DCLABK', brand: 'ADATA' },
+    { id: 'crucial-pro-ddr5-32', name: 'Crucial Pro DDR5 32GB (2×16GB)', spec: 'DDR5-5600 · CL46 · Kit of 2', capacity: 32, code: 'CP2K16G56C46U5', brand: 'Crucial' },
+    { id: 'crucial-pro-ddr5-64', name: 'Crucial Pro DDR5 64GB (2×32GB)', spec: 'DDR5-5600 · CL46 · Kit of 2', capacity: 64, code: 'CP2K32G56C46U5', brand: 'Crucial' }
   ]
 };
 
 const graphicsCards = {
   NVIDIA: [
-    { id: 'geforce-rtx-5090', name: 'NVIDIA GeForce RTX 5090', series: 'GeForce RTX 50 · Blackwell', psuMin: 1000 },
-    { id: 'geforce-rtx-5080', name: 'NVIDIA GeForce RTX 5080', series: 'GeForce RTX 50 · Blackwell', psuMin: 850 },
-    { id: 'geforce-rtx-5070-ti', name: 'NVIDIA GeForce RTX 5070 Ti', series: 'GeForce RTX 50 · Blackwell', psuMin: 750 },
-    { id: 'geforce-rtx-5070', name: 'NVIDIA GeForce RTX 5070', series: 'GeForce RTX 50 · Blackwell', psuMin: 650 },
-    { id: 'geforce-rtx-5060-ti', name: 'NVIDIA GeForce RTX 5060 Ti', series: 'GeForce RTX 50 · Blackwell', psuMin: 600 },
-    { id: 'geforce-rtx-5060', name: 'NVIDIA GeForce RTX 5060', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 },
-    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'GeForce RTX 50 · Blackwell', psuMin: 550 },
+    { id: 'geforce-rtx-5090', name: 'NVIDIA GeForce RTX 5090', series: 'RTX 50 · Blackwell · 32 GB GDDR7', psuMin: 1000 },
+    { id: 'geforce-rtx-5080', name: 'NVIDIA GeForce RTX 5080', series: 'RTX 50 · Blackwell · 16 GB GDDR7', psuMin: 850 },
+    { id: 'geforce-rtx-5070-ti', name: 'NVIDIA GeForce RTX 5070 Ti', series: 'RTX 50 · Blackwell · 16 GB GDDR7', psuMin: 750 },
+    { id: 'geforce-rtx-5070', name: 'NVIDIA GeForce RTX 5070', series: 'RTX 50 · Blackwell · 12 GB GDDR7', psuMin: 650 },
+    { id: 'geforce-rtx-5060-ti', name: 'NVIDIA GeForce RTX 5060 Ti', series: 'RTX 50 · Blackwell · 8 / 16 GB GDDR7', psuMin: 600 },
+    { id: 'geforce-rtx-5060', name: 'NVIDIA GeForce RTX 5060', series: 'RTX 50 · Blackwell · 8 GB GDDR7', psuMin: 550 },
+    { id: 'geforce-rtx-5050', name: 'NVIDIA GeForce RTX 5050', series: 'RTX 50 · Blackwell · 8 GB GDDR7', psuMin: 550 },
+    { id: 'geforce-rtx-4090', name: 'NVIDIA GeForce RTX 4090', series: 'RTX 40 · Ada Lovelace · 24 GB GDDR6X', psuMin: 850 },
+    { id: 'geforce-rtx-4080-super', name: 'NVIDIA GeForce RTX 4080 SUPER', series: 'RTX 40 · Ada Lovelace · 16 GB GDDR6X', psuMin: 750 },
+    { id: 'geforce-rtx-4080', name: 'NVIDIA GeForce RTX 4080', series: 'RTX 40 · Ada Lovelace · 16 GB GDDR6X', psuMin: 750 },
+    { id: 'geforce-rtx-4070-ti-super', name: 'NVIDIA GeForce RTX 4070 Ti SUPER', series: 'RTX 40 · Ada Lovelace · 16 GB GDDR6X', psuMin: 700 },
+    { id: 'geforce-rtx-4070-ti', name: 'NVIDIA GeForce RTX 4070 Ti', series: 'RTX 40 · Ada Lovelace · 12 GB GDDR6X', psuMin: 700 },
+    { id: 'geforce-rtx-4070-super', name: 'NVIDIA GeForce RTX 4070 SUPER', series: 'RTX 40 · Ada Lovelace · 12 GB GDDR6X', psuMin: 650 },
+    { id: 'geforce-rtx-4070', name: 'NVIDIA GeForce RTX 4070', series: 'RTX 40 · Ada Lovelace · 12 GB GDDR6X', psuMin: 650 },
+    { id: 'geforce-rtx-4060-ti', name: 'NVIDIA GeForce RTX 4060 Ti', series: 'RTX 40 · Ada Lovelace · 8 / 16 GB GDDR6', psuMin: 550 },
+    { id: 'geforce-rtx-4060', name: 'NVIDIA GeForce RTX 4060', series: 'RTX 40 · Ada Lovelace · 8 GB GDDR6', psuMin: 550 },
+    { id: 'geforce-rtx-3090', name: 'NVIDIA GeForce RTX 3090', series: 'RTX 30 · Ampere · 24 GB GDDR6X', psuMin: 750 },
+    { id: 'geforce-rtx-3080-ti', name: 'NVIDIA GeForce RTX 3080 Ti', series: 'RTX 30 · Ampere · 12 GB GDDR6X', psuMin: 750 },
+    { id: 'geforce-rtx-3080', name: 'NVIDIA GeForce RTX 3080', series: 'RTX 30 · Ampere · 10 / 12 GB GDDR6X', psuMin: 750 },
+    { id: 'geforce-rtx-3070-ti', name: 'NVIDIA GeForce RTX 3070 Ti', series: 'RTX 30 · Ampere · 8 GB GDDR6X', psuMin: 650 },
+    { id: 'geforce-rtx-3070', name: 'NVIDIA GeForce RTX 3070', series: 'RTX 30 · Ampere · 8 GB GDDR6', psuMin: 650 },
+    { id: 'geforce-rtx-3060-ti', name: 'NVIDIA GeForce RTX 3060 Ti', series: 'RTX 30 · Ampere · 8 GB GDDR6', psuMin: 600 },
+    { id: 'geforce-rtx-3060', name: 'NVIDIA GeForce RTX 3060', series: 'RTX 30 · Ampere · 8 / 12 GB GDDR6', psuMin: 550 },
+    { id: 'geforce-rtx-3050', name: 'NVIDIA GeForce RTX 3050', series: 'RTX 30 · Ampere · 6 / 8 GB GDDR6', psuMin: 550 },
+    { id: 'geforce-gtx-1660-super', name: 'NVIDIA GeForce GTX 1660 SUPER', series: 'GTX 16 · Turing · 6 GB GDDR6', psuMin: 450 },
+    { id: 'asus-tuf-rtx-4060-ti-8gb', name: 'ASUS TUF Gaming GeForce RTX 4060 Ti OC 8GB', series: 'RTX 4060 Ti · GDDR6 · 8 GB · 650 W öneri', psuMin: 650, brand: 'ASUS' },
+    { id: 'msi-rtx-4060-ti-ventus-8gb', name: 'MSI GeForce RTX 4060 Ti VENTUS 2X BLACK 8G OC', series: 'RTX 4060 Ti · GDDR6 · 8 GB', psuMin: 550, brand: 'MSI' },
+    { id: 'gigabyte-rtx-4060-ti-gaming-oc-8gb', name: 'GIGABYTE GeForce RTX 4060 Ti GAMING OC 8G', series: 'RTX 4060 Ti · GDDR6 · 8 GB', psuMin: 550, brand: 'GIGABYTE' },
+    { id: 'asus-tuf-rtx-4070-super-oc', name: 'ASUS TUF Gaming GeForce RTX 4070 SUPER OC', series: 'RTX 4070 SUPER · GDDR6X · 12 GB', psuMin: 750, brand: 'ASUS' },
+    { id: 'zotac-rtx-4060-ti-twin-edge-8gb', name: 'ZOTAC GAMING GeForce RTX 4060 Ti Twin Edge 8GB', series: 'RTX 4060 Ti · GDDR6 · 8 GB', psuMin: 550, brand: 'ZOTAC' },
     { id: 'gigabyte-rtx-5070-gaming-oc', name: 'GIGABYTE GeForce RTX 5070 GAMING OC 12G', series: 'RTX 5070 · GDDR7 · 12 GB', psuMin: 750, brand: 'GIGABYTE' },
     { id: 'asus-tuf-rtx-5070-oc', name: 'ASUS TUF Gaming GeForce RTX 5070 OC 12GB', series: 'RTX 5070 · GDDR7 · 12 GB', psuMin: 750, brand: 'ASUS' },
     { id: 'msi-rtx-5070-ventus-3x-oc', name: 'MSI GeForce RTX 5070 12G VENTUS 3X OC', series: 'RTX 5070 · GDDR7 · 12 GB', psuMin: 650, brand: 'MSI' },
@@ -83,17 +156,29 @@ const graphicsCards = {
     { id: 'msi-rtx-5060-ti-ventus-2x-oc', name: 'MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS', series: 'RTX 5060 Ti · GDDR7 · 16 GB', psuMin: 600, brand: 'MSI' }
   ],
   AMD: [
-    { id: 'radeon-rx-9070-xt', name: 'AMD Radeon RX 9070 XT', series: 'Radeon RX 9000 · RDNA 4', psuMin: 750 },
-    { id: 'radeon-rx-9070', name: 'AMD Radeon RX 9070', series: 'Radeon RX 9000 · RDNA 4', psuMin: 650 },
-    { id: 'radeon-rx-9070-gre', name: 'AMD Radeon RX 9070 GRE', series: 'Radeon RX 9000 · RDNA 4', psuMin: 750 },
-    { id: 'radeon-rx-9060-xt', name: 'AMD Radeon RX 9060 XT', series: 'Radeon RX 9000 · RDNA 4', psuMin: 650 },
-    { id: 'radeon-rx-7900-xtx', name: 'AMD Radeon RX 7900 XTX', series: 'Radeon RX 7000 · RDNA 3', psuMin: 800 },
-    { id: 'radeon-rx-7900-xt', name: 'AMD Radeon RX 7900 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 750 },
-    { id: 'radeon-rx-7800-xt', name: 'AMD Radeon RX 7800 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 },
-    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'Radeon RX 7000 · RDNA 3', psuMin: 700 },
+    { id: 'radeon-rx-9070-xt', name: 'AMD Radeon RX 9070 XT', series: 'RX 9000 · RDNA 4 · 16 GB GDDR6', psuMin: 750 },
+    { id: 'radeon-rx-9070', name: 'AMD Radeon RX 9070', series: 'RX 9000 · RDNA 4 · 16 GB GDDR6', psuMin: 650 },
+    { id: 'radeon-rx-9070-gre', name: 'AMD Radeon RX 9070 GRE', series: 'RX 9000 · RDNA 4 · 12 GB GDDR6', psuMin: 750 },
+    { id: 'radeon-rx-9060-xt', name: 'AMD Radeon RX 9060 XT', series: 'RX 9000 · RDNA 4 · 8 / 16 GB GDDR6', psuMin: 650 },
+    { id: 'radeon-rx-7900-xtx', name: 'AMD Radeon RX 7900 XTX', series: 'RX 7000 · RDNA 3 · 24 GB GDDR6', psuMin: 800 },
+    { id: 'radeon-rx-7900-xt', name: 'AMD Radeon RX 7900 XT', series: 'RX 7000 · RDNA 3 · 20 GB GDDR6', psuMin: 750 },
+    { id: 'radeon-rx-7900-gre', name: 'AMD Radeon RX 7900 GRE', series: 'RX 7000 · RDNA 3 · 16 GB GDDR6', psuMin: 700 },
+    { id: 'radeon-rx-7800-xt', name: 'AMD Radeon RX 7800 XT', series: 'RX 7000 · RDNA 3 · 16 GB GDDR6', psuMin: 700 },
+    { id: 'radeon-rx-7700-xt', name: 'AMD Radeon RX 7700 XT', series: 'RX 7000 · RDNA 3 · 12 GB GDDR6', psuMin: 700 },
+    { id: 'radeon-rx-7600-xt', name: 'AMD Radeon RX 7600 XT', series: 'RX 7000 · RDNA 3 · 16 GB GDDR6', psuMin: 650 },
+    { id: 'radeon-rx-7600', name: 'AMD Radeon RX 7600', series: 'RX 7000 · RDNA 3 · 8 GB GDDR6', psuMin: 550 },
+    { id: 'radeon-rx-6750-xt', name: 'AMD Radeon RX 6750 XT', series: 'RX 6000 · RDNA 2 · 12 GB GDDR6', psuMin: 650 },
+    { id: 'radeon-rx-6700-xt', name: 'AMD Radeon RX 6700 XT', series: 'RX 6000 · RDNA 2 · 12 GB GDDR6', psuMin: 650 },
+    { id: 'radeon-rx-6650-xt', name: 'AMD Radeon RX 6650 XT', series: 'RX 6000 · RDNA 2 · 8 GB GDDR6', psuMin: 600 },
+    { id: 'radeon-rx-6600-xt', name: 'AMD Radeon RX 6600 XT', series: 'RX 6000 · RDNA 2 · 8 GB GDDR6', psuMin: 600 },
+    { id: 'radeon-rx-6600', name: 'AMD Radeon RX 6600', series: 'RX 6000 · RDNA 2 · 8 GB GDDR6', psuMin: 550 },
     { id: 'gigabyte-rx-9070-xt-gaming-oc', name: 'GIGABYTE Radeon RX 9070 XT GAMING OC 16G', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'GIGABYTE' },
     { id: 'asus-tuf-rx-9070-xt-oc', name: 'ASUS TUF Gaming Radeon RX 9070 XT OC 16GB', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'ASUS' },
-    { id: 'asus-prime-rx-9070-xt-oc', name: 'ASUS Prime Radeon RX 9070 XT OC 16GB', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'ASUS' }
+    { id: 'asus-prime-rx-9070-xt-oc', name: 'ASUS Prime Radeon RX 9070 XT OC 16GB', series: 'RX 9070 XT · GDDR6 · 16 GB', psuMin: 850, brand: 'ASUS' },
+    { id: 'sapphire-pulse-rx-7800-xt', name: 'SAPPHIRE PULSE Radeon RX 7800 XT 16GB', series: 'RX 7800 XT · GDDR6 · 16 GB', psuMin: 700, brand: 'Sapphire' },
+    { id: 'powercolor-hellhound-rx-7800-xt', name: 'PowerColor Hellhound Radeon RX 7800 XT 16GB', series: 'RX 7800 XT · GDDR6 · 16 GB', psuMin: 700, brand: 'PowerColor' },
+    { id: 'xfx-qick-rx-7800-xt', name: 'XFX SPEEDSTER QICK 319 Radeon RX 7800 XT', series: 'RX 7800 XT · GDDR6 · 16 GB', psuMin: 700, brand: 'XFX' },
+    { id: 'gigabyte-rx-7600-xt-gaming-oc', name: 'GIGABYTE Radeon RX 7600 XT GAMING OC 16G', series: 'RX 7600 XT · GDDR6 · 16 GB', psuMin: 650, brand: 'GIGABYTE' }
   ]
 };
 
@@ -106,18 +191,34 @@ const storageProducts = {
     { id: 'crucial-p3-plus-1tb', name: 'Crucial P3 Plus 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'CT1000P3PSSD8' },
     { id: 'crucial-p3-plus-2tb', name: 'Crucial P3 Plus 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'CT2000P3PSSD8' },
     { id: 'wd-black-sn850x-1tb', name: 'WD_BLACK SN850X 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'WDS100T2X0E' },
-    { id: 'wd-black-sn850x-2tb', name: 'WD_BLACK SN850X 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'WDS200T2X0E' }
+    { id: 'wd-black-sn850x-2tb', name: 'WD_BLACK SN850X 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'WDS200T2X0E' },
+    { id: 'samsung-990-pro-1tb', name: 'Samsung 990 PRO 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'MZ-V9P1T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-pro/' },
+    { id: 'samsung-990-pro-2tb', name: 'Samsung 990 PRO 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'MZ-V9P2T0BW', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/990-pro/' },
+    { id: 'kingston-kc3000-1tb', name: 'Kingston KC3000 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 · 3D TLC NAND', capacity: '1 TB', code: 'SKC3000S/1024G', url: 'https://www.kingston.com/en/ssd/kc3000-nvme-m2-solid-state-drive' },
+    { id: 'kingston-kc3000-2tb', name: 'Kingston KC3000 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4 · 3D TLC NAND', capacity: '2 TB', code: 'SKC3000D/2048G', url: 'https://www.kingston.com/en/ssd/kc3000-nvme-m2-solid-state-drive' },
+    { id: 'wd-black-sn770-1tb', name: 'WD_BLACK SN770 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'WDS100T3X0E', url: 'https://www.westerndigital.com/products/internal-drives/wd-black-sn770-nvme-ssd' },
+    { id: 'lexar-nm790-1tb', name: 'Lexar NM790 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'LNM790X001T-RNNNG', url: 'https://www.lexar.com/product/lexar-nm790-m-2-2280-pcie-gen-4x4-nvme-ssd/' },
+    { id: 'lexar-nm790-2tb', name: 'Lexar NM790 2TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '2 TB', code: 'LNM790X002T-RNNNG', url: 'https://www.lexar.com/product/lexar-nm790-m-2-2280-pcie-gen-4x4-nvme-ssd/' },
+    { id: 'corsair-mp600-core-xt-1tb', name: 'CORSAIR MP600 CORE XT 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'CSSD-F1000GBMP600CXT', url: 'https://www.corsair.com/us/en/p/data-storage/cssd-f1000gbmp600cxt/mp600-core-xt-1tb-pcie-gen-4-x4-nvme-m-2-ssd-cssd-f1000gbmp600cxt' },
+    { id: 'crucial-t500-1tb', name: 'Crucial T500 1TB', spec: 'NVMe M.2 2280 · PCIe 4.0 x4', capacity: '1 TB', code: 'CT1000T500SSD8', url: 'https://www.crucial.com/ssd/t500/ct1000t500ssd8' }
   ],
   sata: [
     { id: 'crucial-mx500-1tb', name: 'Crucial MX500 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'CT1000MX500SSD1', url: 'https://www.crucial.com/ssd/mx500/ct1000mx500ssd1' },
     { id: 'samsung-870-evo-1tb', name: 'Samsung 870 EVO 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'MZ-77E1T0', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/870-evo/' },
     { id: 'samsung-870-evo-2tb', name: 'Samsung 870 EVO 2TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '2 TB', code: 'MZ-77E2T0' },
-    { id: 'crucial-mx500-2tb', name: 'Crucial MX500 2TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '2 TB', code: 'CT2000MX500SSD1' }
+    { id: 'crucial-mx500-2tb', name: 'Crucial MX500 2TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '2 TB', code: 'CT2000MX500SSD1' },
+    { id: 'samsung-870-evo-500gb', name: 'Samsung 870 EVO 500GB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '500 GB', code: 'MZ-77E500', url: 'https://semiconductor.samsung.com/consumer-storage/internal-ssd/870-evo/' },
+    { id: 'kingston-kc600-1tb', name: 'Kingston KC600 1TB', spec: '2.5 inç · SATA 6Gb/s · 3D TLC NAND', capacity: '1 TB', code: 'SKC600/1024G', url: 'https://www.kingston.com/en/ssd/kc600-sata-solid-state-drive' },
+    { id: 'wd-blue-sa510-1tb', name: 'WD Blue SA510 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'WDS100T3B0A', url: 'https://www.westerndigital.com/products/internal-drives/wd-blue-sa510-sata-2-5-ssd' },
+    { id: 'sandisk-ultra-3d-1tb', name: 'SanDisk Ultra 3D 1TB', spec: '2.5 inç · SATA 6Gb/s · SSD', capacity: '1 TB', code: 'SDSSDH3-1T00-G26', url: 'https://www.westerndigital.com/products/internal-drives/sandisk-ultra-3d-sata-ssd' }
   ],
   hdd: [
     { id: 'wd-blue-1tb', name: 'WD Blue 1TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 64 MB önbellek', capacity: '1 TB', code: 'WD10EZEX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' },
     { id: 'wd-blue-2tb', name: 'WD Blue 2TB Desktop HDD', spec: '3.5 inç · SATA · 7200 RPM · 256 MB önbellek', capacity: '2 TB', code: 'WD20EZBX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' },
-    { id: 'seagate-barracuda-4tb', name: 'Seagate BarraCuda 4TB', spec: '3.5 inç · SATA 6Gb/s · 5400 RPM · 256 MB önbellek', capacity: '4 TB', code: 'ST4000DM004', url: 'https://www.seagate.com/as/en/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/' }
+    { id: 'seagate-barracuda-4tb', name: 'Seagate BarraCuda 4TB', spec: '3.5 inç · SATA 6Gb/s · 5400 RPM · 256 MB önbellek', capacity: '4 TB', code: 'ST4000DM004', url: 'https://www.seagate.com/as/en/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/' },
+    { id: 'seagate-barracuda-2tb', name: 'Seagate BarraCuda 2TB', spec: '3.5 inç · SATA 6Gb/s · 7200 RPM · 256 MB önbellek', capacity: '2 TB', code: 'ST2000DM008', url: 'https://www.seagate.com/as/en/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/' },
+    { id: 'seagate-barracuda-8tb', name: 'Seagate BarraCuda 8TB', spec: '3.5 inç · SATA 6Gb/s · 5400 RPM', capacity: '8 TB', code: 'ST8000DM004', url: 'https://www.seagate.com/as/en/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/' },
+    { id: 'wd-blue-4tb', name: 'WD Blue 4TB Desktop HDD', spec: '3.5 inç · SATA · 5400 RPM · 256 MB önbellek', capacity: '4 TB', code: 'WD40EZAX', url: 'https://www.wd.com/content/store/en-in/products/internal-drives/wd-blue-desktop-sata-hdd.html' }
   ]
 };
 
@@ -130,7 +231,12 @@ const pcCases = [
   { id: 'corsair-5000d-airflow', name: 'CORSAIR 5000D AIRFLOW', supports: ['ATX', 'Micro-ATX'], gpu: 400, cooler: 170, psu: 250, radiators: [120, 240, 280, 360], note: 'Mid-tower · geniş iç hacim ve hava akışı', url: 'https://www.corsair.com/us/en/c/pc-cases/mid-tower' },
   { id: 'nzxt-h6-flow', name: 'NZXT H6 Flow', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 365, cooler: 163, psu: 200, radiators: [120, 240, 280, 360], note: 'Çift bölmeli mid-tower · panoramik cam', url: 'https://nzxt.com/products/h6-flow' },
   { id: 'fractal-pop-air', name: 'Fractal Design Pop Air', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 405, cooler: 170, psu: 170, radiators: [120, 240, 280], note: 'Mid-tower · mesh ön panel', url: 'https://www.fractal-design.com/products/cases/pop/pop-air/' },
-  { id: 'lian-li-lancool-216', name: 'Lian Li LANCOOL 216', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 392, cooler: 180, psu: 220, radiators: [120, 240, 280, 360], note: 'Mid-tower · yüksek hava akışlı ön panel', url: 'https://lian-li.com/product/lancool-216/' }
+  { id: 'lian-li-lancool-216', name: 'Lian Li LANCOOL 216', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 392, cooler: 180, psu: 220, radiators: [120, 240, 280, 360], note: 'Mid-tower · yüksek hava akışlı ön panel', url: 'https://lian-li.com/product/lancool-216/' },
+  { id: 'corsair-3500x', name: 'CORSAIR 3500X', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 410, cooler: 170, psu: 180, radiators: [120, 240, 280, 360], note: 'Mid-tower · panoramik cam tasarım', url: 'https://www.corsair.com/us/en/p/pc-cases/cc-9011276-ww/3500x-mid-tower-pc-case-cc-9011276-ww' },
+  { id: 'nzxt-h7-flow', name: 'NZXT H7 Flow', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 410, cooler: 185, psu: 200, radiators: [120, 140, 240, 280, 360, 420], note: 'Mid-tower · geniş hava akışı', url: 'https://nzxt.com/products/h7-flow' },
+  { id: 'fractal-north', name: 'Fractal Design North', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 355, cooler: 170, psu: 155, radiators: [120, 240, 280, 360], note: 'Mid-tower · ahşap ön panel detayları', url: 'https://www.fractal-design.com/products/cases/north/north/charcoal-black-tg-dark/' },
+  { id: 'lian-li-o11-dynamic-evo', name: 'Lian Li O11 Dynamic EVO', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 426, cooler: 167, psu: 220, radiators: [120, 240, 280, 360], note: 'Çift bölmeli mid-tower · çoklu radyatör desteği', url: 'https://lian-li.com/product/o11-dynamic-evo/' },
+  { id: 'montech-air-903-max', name: 'MONTECH AIR 903 MAX', supports: ['ATX', 'Micro-ATX', 'Mini-ITX'], gpu: 400, cooler: 180, psu: 240, radiators: [120, 240, 280, 360], note: 'Mid-tower · mesh ön panel ve dört fan', url: 'https://www.montechpc.com/en/products_detail.php?nid=355' }
 ];
 
 const cpuCoolers = [
@@ -141,7 +247,13 @@ const cpuCoolers = [
   { id: 'arctic-freezer-36', name: 'ARCTIC Freezer 36', type: 'Hava soğutma', height: 159, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '159 mm · çift kule fan düzeni', url: 'https://www.arctic.de/en/Freezer-36/ACFRE00121A' },
   { id: 'cooler-master-hyper-212-halo', name: 'Cooler Master Hyper 212 Halo Black', type: 'Hava soğutma', height: 154, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '154 mm · 120 mm Halo fan', url: 'https://www.coolermaster.com/en-global/products/hyper-212-halo-black/' },
   { id: 'deepcool-ak620', name: 'DeepCool AK620', type: 'Hava soğutma', height: 160, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '160 mm · çift kule · çift 120 mm fan', url: 'https://www.deepcool.com/products/Cooling/cpuaircoolers/AK620High-PerformanceDualTowerCPU-Cooler/2021/13067.shtml' },
-  { id: 'nzxt-kraken-plus-360', name: 'NZXT Kraken Plus 360', type: 'Sıvı soğutma', radiator: 360, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '360 mm radyatör · LCD ekran', url: 'https://nzxt.com/products/kraken-plus-360' }
+  { id: 'nzxt-kraken-plus-360', name: 'NZXT Kraken Plus 360', type: 'Sıvı soğutma', radiator: 360, sockets: ['LGA1700', 'LGA1851', 'AM5'], spec: '360 mm radyatör · LCD ekran', url: 'https://nzxt.com/products/kraken-plus-360' },
+  { id: 'noctua-nh-d15-g2', name: 'Noctua NH-D15 G2', type: 'Hava soğutma', height: 168, sockets: ['LGA1700', 'LGA1851', 'AM4', 'AM5'], spec: '168 mm · çift kule · 2×140 mm fan', url: 'https://noctua.at/en/nh-d15-g2' },
+  { id: 'deepcool-ak400', name: 'DeepCool AK400', type: 'Hava soğutma', height: 155, sockets: ['LGA1200', 'LGA1700', 'LGA1851', 'AM4', 'AM5'], spec: '155 mm · tek kule · 120 mm fan', url: 'https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-ZERO-DARK-PLUS/2022/15946.shtml' },
+  { id: 'thermalright-peerless-assassin-120-se', name: 'Thermalright Peerless Assassin 120 SE', type: 'Hava soğutma', height: 155, sockets: ['LGA1200', 'LGA1700', 'LGA1851', 'AM4', 'AM5'], spec: '155 mm · çift kule · çift 120 mm fan', url: 'https://www.thermalright.com/product/peerless-assassin-120-se/' },
+  { id: 'corsair-nautilus-360-rs', name: 'CORSAIR NAUTILUS 360 RS', type: 'Sıvı soğutma', radiator: 360, sockets: ['LGA1700', 'LGA1851', 'AM4', 'AM5'], spec: '360 mm radyatör · üç adet 120 mm fan', url: 'https://www.corsair.com/us/en/p/cpu-coolers/cw-9060095-ww/nautilus-360-rs-liquid-cpu-cooler-cw-9060095-ww' },
+  { id: 'arctic-liquid-freezer-iii-280', name: 'ARCTIC Liquid Freezer III 280', type: 'Sıvı soğutma', radiator: 280, sockets: ['LGA1700', 'LGA1851', 'AM4', 'AM5'], spec: '280 mm radyatör · çift 140 mm fan', url: 'https://www.arctic.de/en/Liquid-Freezer-III-280/ACFRE00135A' },
+  { id: 'thermalright-phantom-spirit-120-se', name: 'Thermalright Phantom Spirit 120 SE', type: 'Hava soğutma', height: 154, sockets: ['LGA1200', 'LGA1700', 'LGA1851', 'AM4', 'AM5'], spec: '154 mm · çift kule · çift 120 mm fan', url: 'https://www.thermalright.com/product/phantom-spirit-120-se/' }
 ];
 
 const powerSupplies = [
@@ -155,7 +267,13 @@ const powerSupplies = [
   { id: 'seasonic-focus-gx-1000', name: 'Seasonic FOCUS GX-1000', watts: 1000, length: 140, spec: '80 PLUS Gold · tam modüler · ATX', url: 'https://seasonic.com/focus-gx-atx-3/' },
   { id: 'msi-mag-a750gl-pcie5', name: 'MSI MAG A750GL PCIE5', watts: 750, length: 140, spec: '80 PLUS Gold · tam modüler · PCIe 5.0', url: 'https://www.msi.com/Power-Supply/MAG-A750GL-PCIE5' },
   { id: 'corsair-rm750x', name: 'CORSAIR RM750x', watts: 750, length: 160, spec: '80 PLUS Gold · tam modüler · ATX', url: 'https://www.corsair.com/us/en/c/psu' },
-  { id: 'bequiet-pure-power-12-m-850w', name: 'be quiet! Pure Power 12 M 850W', watts: 850, length: 160, spec: '80 PLUS Gold · tam modüler · ATX 3.1', url: 'https://www.bequiet.com/en/powersupply/4073' }
+  { id: 'bequiet-pure-power-12-m-850w', name: 'be quiet! Pure Power 12 M 850W', watts: 850, length: 160, spec: '80 PLUS Gold · tam modüler · ATX 3.1', url: 'https://www.bequiet.com/en/powersupply/4073' },
+  { id: 'bequiet-pure-power-12-m-650w', name: 'be quiet! Pure Power 12 M 650W', watts: 650, length: 160, spec: '80 PLUS Gold · ATX 3.1 · PCIe 5.1', url: 'https://www.bequiet.com/en/powersupply/4071' },
+  { id: 'seasonic-vertex-gx-850', name: 'Seasonic VERTEX GX-850', watts: 850, length: 160, spec: '80 PLUS Gold · tam modüler · ATX 3.0', url: 'https://seasonic.com/vertex-gx/' },
+  { id: 'msi-mag-a1000gl-pcie5', name: 'MSI MAG A1000GL PCIE5', watts: 1000, length: 150, spec: '80 PLUS Gold · tam modüler · PCIe 5.0', url: 'https://www.msi.com/Power-Supply/MAG-A1000GL-PCIE5' },
+  { id: 'fsp-hydro-g-pro-850', name: 'FSP Hydro G PRO 850W', watts: 850, length: 150, spec: '80 PLUS Gold · tam modüler · ATX', url: 'https://www.fsplifestyle.com/en/product/HYDROGPRO850W.html' },
+  { id: 'thermaltake-toughpower-gf-a3-850', name: 'Thermaltake Toughpower GF A3 850W', watts: 850, length: 140, spec: '80 PLUS Gold · tam modüler · PCIe 5.0', url: 'https://www.thermaltake.com/toughpower-gf-a3-850w-gold-tt-premium-edition.html' },
+  { id: 'corsair-rm1200x-shift', name: 'CORSAIR RM1200x SHIFT', watts: 1200, length: 180, spec: '80 PLUS Gold · ATX 3.1 · yandan bağlantılar', url: 'https://www.corsair.com/us/en/p/psu/cp-9020254-na/rm1200x-shift-fully-modular-atx-power-supply-cp-9020254-na' }
 ];
 
 const storageKey = 'tezcan-system-builder-cpu-v1';
@@ -687,8 +805,8 @@ function renderMotherboards() {
     specs.textContent = `${board.chipset} · ${board.socket}`;
     const note = document.createElement('span'); note.className = 'motherboard-note'; note.textContent = board.note || 'Bu anakart soketi seçtiğin işlemci ailesiyle eşleşiyor.';
     button.append(heading, badges, specs, note);
-    const source = document.createElement('a'); source.className = 'board-source'; source.href = board.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗';
-    article.append(button, source);
+    article.append(button);
+    if (board.url) { const source = document.createElement('a'); source.className = 'board-source'; source.href = board.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici özellikleri ↗'; article.append(source); }
     return article;
   }));
   document.getElementById('noMotherboards').hidden = boards.length > 0;
@@ -720,8 +838,8 @@ function renderRamKits() {
     const spec = document.createElement('span'); spec.className = 'ram-spec'; spec.textContent = kit.spec;
     const code = document.createElement('small'); code.textContent = `Ürün kodu: ${kit.code}`;
     button.append(name, spec, code);
-    const source = document.createElement('a'); source.className = 'board-source'; source.href = kit.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün sayfası ↗';
-    article.append(button, source);
+    article.append(button);
+    if (kit.url) { const source = document.createElement('a'); source.className = 'board-source'; source.href = kit.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün sayfası ↗'; article.append(source); }
     return article;
   }));
   document.getElementById('noRam').hidden = kits.length > 0;
@@ -769,8 +887,8 @@ function renderStorageProducts() {
     const spec = document.createElement('span'); spec.textContent = product.spec;
     const chip = document.createElement('span'); chip.className = 'model-chip'; chip.textContent = `${product.capacity} · ${product.code}`;
     button.append(name, spec, chip);
-    const source = document.createElement('a'); source.className = 'board-source'; source.href = product.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün bilgisi ↗';
-    article.append(button, source);
+    article.append(button);
+    if (product.url) { const source = document.createElement('a'); source.className = 'board-source'; source.href = product.url; source.target = '_blank'; source.rel = 'noopener noreferrer'; source.textContent = 'Üretici ürün bilgisi ↗'; article.append(source); }
     return article;
   }));
   document.getElementById('noStorage').hidden = matches.length > 0 || !selection.storageType;
