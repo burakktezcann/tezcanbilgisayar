@@ -262,9 +262,14 @@ async function loadCatalog(){
       const response=await fetch('assets/data/builder-products.json',{cache:'no-store'});
       if(response.ok)builderData=await response.json();
     }catch{}
-    const products=[...data.products];
+    const builderProducts=builderData?.products||[];
+    const builderBySlug=new Map(builderProducts.map(product=>[product.slug,product]));
+    const products=data.products.map(product=>{
+      const fallback=builderBySlug.get(product.slug);
+      return fallback?{...fallback,...product,image:product.image||fallback.image}:product;
+    });
     const knownSlugs=new Set(products.map(product=>product.slug).filter(Boolean));
-    (builderData?.products||[]).forEach(product=>{if(!knownSlugs.has(product.slug)){products.push(product);knownSlugs.add(product.slug);}});
+    builderProducts.forEach(product=>{if(!knownSlugs.has(product.slug)){products.push(product);knownSlugs.add(product.slug);}});
     const categories=[...data.categories];
     if(builderData?.category&&!categories.some(category=>category.id===builderData.category.id))categories.push(builderData.category);
     catalog={...data,categories,products,currency:data.currency||'TRY'};

@@ -181,7 +181,7 @@ async function loadParts() {
   const slugs = new Set(live.map(item => item.slug).filter(Boolean));
   const enrichedLive = live.map(item => {
     const bundledItem = bundledBySlug.get(item.slug);
-    return bundledItem ? { ...bundledItem, ...item, attributes: { ...bundledItem.attributes, ...item.attributes } } : item;
+    return bundledItem ? { ...bundledItem, ...item, image: item.image || bundledItem.image, attributes: { ...bundledItem.attributes, ...item.attributes } } : item;
   });
   allParts = [...enrichedLive, ...bundled.filter(item => !item.slug || !slugs.has(item.slug))];
   renderCategoryButtons(); renderPageHeading(); renderFilters(); renderParts();

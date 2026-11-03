@@ -276,7 +276,7 @@ async function loadProduct() {
     } catch {}
   }
   const product = liveProduct && bundledRow
-    ? { ...normalizeDetailProduct(bundledRow, 'bundle'), ...liveProduct, attributes: { ...bundledRow.attributes, ...liveProduct.attributes } }
+    ? { ...normalizeDetailProduct(bundledRow, 'bundle'), ...liveProduct, image: liveProduct.image || normalizeDetailProduct(bundledRow, 'bundle').image, attributes: { ...bundledRow.attributes, ...liveProduct.attributes } }
     : liveProduct || (bundledRow ? normalizeDetailProduct(bundledRow, 'bundle') : null);
   if (!product) { productLoading.hidden = true; productNotFound.hidden = false; return; }
   const related = bundledProducts.map(item => normalizeDetailProduct(item, 'bundle'));

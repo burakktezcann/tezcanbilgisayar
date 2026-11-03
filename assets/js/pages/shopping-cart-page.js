@@ -49,7 +49,7 @@ async function loadCartProducts() {
       if (!error) (data || []).forEach(row => {
         const live = normalizeCartProduct(row, 'db');
         const bundledRow = productsBySlug.get(live.slug);
-        productsById.set(live.id, bundledRow ? { ...bundledRow, ...live, attributes: { ...bundledRow.attributes, ...live.attributes } } : live);
+        productsById.set(live.id, bundledRow ? { ...bundledRow, ...live, image: live.image || bundledRow.image, attributes: { ...bundledRow.attributes, ...live.attributes } } : live);
       });
     } catch { /* Use the bundled catalog when the live catalog is unavailable. */ }
   }
