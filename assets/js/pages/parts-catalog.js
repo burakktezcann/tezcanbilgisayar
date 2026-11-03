@@ -272,15 +272,16 @@ function renderCompareTray() {
     ? 'Karşılaştırmak için aynı kategoriden en az 2 ürün seç.'
     : `${partsCategoryPluralNames[products[0].categoryId] || 'Ürünler'} yan yana incelenmeye hazır.`;
   const openLink = document.getElementById('openComparePage');
-  openLink.setAttribute('aria-disabled', 'false');
-  openLink.tabIndex = 0;
-  openLink.href = 'karsilastir.html';
+  const readyToCompare = count >= 2;
+  openLink.setAttribute('aria-disabled', String(!readyToCompare));
+  openLink.tabIndex = readyToCompare ? 0 : -1;
+  openLink.href = readyToCompare ? 'karsilastir.html' : '#partsProductGrid';
   const toolbarLink = document.getElementById('partsCompareToolbarLink');
   const toolbarCount = document.getElementById('partsCompareToolbarCount');
   toolbarCount.textContent = String(count);
-  toolbarLink.setAttribute('aria-disabled', 'false');
-  toolbarLink.tabIndex = 0;
-  toolbarLink.href = 'karsilastir.html';
+  toolbarLink.setAttribute('aria-disabled', String(!readyToCompare));
+  toolbarLink.tabIndex = readyToCompare ? 0 : -1;
+  toolbarLink.href = readyToCompare ? 'karsilastir.html' : '#partsProductGrid';
 }
 function productSpecifications(product) {
   const specs = product.attributes || {};
