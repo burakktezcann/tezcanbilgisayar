@@ -81,7 +81,11 @@ function renderProductCompareButton() {
   productCompareStatus.textContent = categoryMismatch
     ? 'Karşılaştırma listen başka bir ürün kategorisi içeriyor. Önce karşılaştırma sayfasından listenizi temizleyin.'
     : maxReached ? 'En fazla üç ürün karşılaştırabilirsin.' : '';
-  document.getElementById('productCompareOpen').hidden = products.length < 2;
+  const openLink = document.getElementById('productCompareOpen');
+  openLink.hidden = products.length === 0;
+  openLink.innerHTML = products.length >= 2
+    ? 'Karşılaştırma sayfasını aç <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>'
+    : 'Karşılaştırma listeme git <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
 }
 async function syncDetailFavorites() {
   if (!detailClient || !detailFavoriteUser || !detailFavoriteSyncReady) return;

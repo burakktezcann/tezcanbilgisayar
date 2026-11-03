@@ -263,16 +263,27 @@ function renderCompareTray() {
     try { localStorage.setItem(compareStorageKey, JSON.stringify(comparedProductIds)); } catch {}
   }
   partsCompareTray.hidden = products.length === 0;
-  if (!products.length) return;
+  if (!products.length) {
+    const toolbarLink = document.getElementById('partsCompareToolbarLink');
+    document.getElementById('partsCompareToolbarCount').textContent = '0';
+    toolbarLink.setAttribute('aria-disabled', 'true'); toolbarLink.tabIndex = -1; toolbarLink.href = '#partsProductGrid';
+    return;
+  }
   const count = products.length;
   document.getElementById('partsCompareCount').textContent = `${count} ürün seçildi`;
   document.getElementById('partsCompareHint').textContent = count < 2
     ? 'Karşılaştırmak için aynı kategoriden en az 2 ürün seç.'
     : `${partsCategoryPluralNames[products[0].categoryId] || 'Ürünler'} yan yana incelenmeye hazır.`;
   const openLink = document.getElementById('openComparePage');
-  openLink.setAttribute('aria-disabled', String(count < 2));
-  openLink.tabIndex = count < 2 ? -1 : 0;
-  openLink.href = count < 2 ? '#partsProductGrid' : 'karsilastir.html';
+  openLink.setAttribute('aria-disabled', 'false');
+  openLink.tabIndex = 0;
+  openLink.href = 'karsilastir.html';
+  const toolbarLink = document.getElementById('partsCompareToolbarLink');
+  const toolbarCount = document.getElementById('partsCompareToolbarCount');
+  toolbarCount.textContent = String(count);
+  toolbarLink.setAttribute('aria-disabled', 'false');
+  toolbarLink.tabIndex = 0;
+  toolbarLink.href = 'karsilastir.html';
 }
 function productSpecifications(product) {
   const specs = product.attributes || {};
