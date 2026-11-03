@@ -243,16 +243,66 @@ async function loadSavedSystems() {
 }
 
 const ownedDesktopFieldsMap = [
-  ['cpu', 'İşlemci', 'ownedDesktopCpu'], ['motherboard', 'Anakart', 'ownedDesktopMotherboard'],
-  ['ram', 'RAM', 'ownedDesktopRam'], ['gpu', 'Ekran kartı', 'ownedDesktopGpu'],
-  ['storage', 'Depolama', 'ownedDesktopStorage'], ['case', 'Kasa', 'ownedDesktopCase'],
-  ['cooling', 'Soğutucu', 'ownedDesktopCooling'], ['psu', 'Güç kaynağı', 'ownedDesktopPsu']
+  ['cpu', 'İşlemci', 'ownedDesktopCpu', 'ownedDesktopCpuDetail'], ['motherboard', 'Anakart', 'ownedDesktopMotherboard', 'ownedDesktopMotherboardDetail'],
+  ['ram', 'RAM', 'ownedDesktopRam', 'ownedDesktopRamDetail'], ['gpu', 'Ekran kartı', 'ownedDesktopGpu', 'ownedDesktopGpuDetail'],
+  ['storage', 'SSD / Depolama', 'ownedDesktopStorage', 'ownedDesktopStorageDetail'], ['case', 'Kasa', 'ownedDesktopCase', 'ownedDesktopCaseDetail'],
+  ['cooling', 'Soğutucu', 'ownedDesktopCooling', 'ownedDesktopCoolingDetail'], ['psu', 'Güç kaynağı', 'ownedDesktopPsu', 'ownedDesktopPsuDetail']
 ];
 const ownedLaptopFieldsMap = [
   ['brand', 'Marka', 'ownedLaptopBrand'], ['model', 'Model', 'ownedLaptopModel'], ['processor', 'İşlemci', 'ownedLaptopCpu'],
   ['ram', 'RAM', 'ownedLaptopRam'], ['storage', 'Depolama', 'ownedLaptopStorage'], ['graphics', 'Ekran kartı', 'ownedLaptopGpu'],
   ['screen', 'Ekran', 'ownedLaptopScreen'], ['os', 'İşletim sistemi', 'ownedLaptopOs']
 ];
+const ownedDeviceSeries = {
+  cpu: {
+    Intel: ['Core i3', 'Core i5', 'Core i7', 'Core i9', 'Core 3', 'Core 5', 'Core 7', 'Core Ultra 5', 'Core Ultra 7', 'Core Ultra 9'],
+    AMD: ['Ryzen 3', 'Ryzen 5', 'Ryzen 7', 'Ryzen 9', 'Ryzen Threadripper']
+  },
+  motherboard: {
+    ASUS: ['ROG', 'TUF Gaming', 'PRIME', 'ProArt'], MSI: ['MEG', 'MPG', 'MAG', 'PRO'],
+    GIGABYTE: ['AORUS', 'GAMING', 'UD', 'DS3H'], ASRock: ['Taichi', 'Steel Legend', 'Pro RS', 'Pro']
+  },
+  ram: {
+    Kingston: ['FURY Beast', 'FURY Renegade', 'ValueRAM'], CORSAIR: ['VENGEANCE', 'Dominator'],
+    Samsung: ['DDR4', 'DDR5'], 'G.SKILL': ['Ripjaws', 'Trident Z'], Crucial: ['Pro', 'Pro Overclocking']
+  },
+  storage: {
+    Samsung: ['990 PRO', '990 EVO', '870 EVO'], Kingston: ['NV3', 'KC3000', 'FURY Renegade'],
+    'Western Digital': ['WD_BLACK SN850X', 'WD Blue'], Crucial: ['P3 Plus', 'MX500'],
+    Seagate: ['BarraCuda HDD', 'FireCuda SSD'], ADATA: ['LEGEND', 'XPG GAMMIX'], CORSAIR: ['MP600', 'MP700']
+  },
+  gpu: {
+    NVIDIA: ['GeForce RTX 50 Serisi', 'GeForce RTX 40 Serisi', 'GeForce GTX'],
+    AMD: ['Radeon RX 9000 Serisi', 'Radeon RX 7000 Serisi', 'Radeon RX 6000 Serisi'],
+    ASUS: ['ROG', 'TUF Gaming', 'PRIME', 'Dual'], MSI: ['SUPRIM', 'GAMING', 'VENTUS'],
+    GIGABYTE: ['AORUS', 'GAMING OC', 'EAGLE'], Sapphire: ['NITRO+', 'PULSE', 'PURE']
+  },
+  case: { CORSAIR: ['4000D', '3000D', '5000D'], NZXT: ['H5', 'H6', 'H7'], ASUS: ['Prime', 'TUF Gaming', 'ROG'], 'Cooler Master': ['MasterBox', 'MasterFrame'], 'Lian Li': ['LANCOOL', 'O11'], 'Fractal Design': ['Pop', 'North', 'Meshify'] },
+  cooling: { ARCTIC: ['Freezer 36', 'Liquid Freezer'], NZXT: ['Kraken'], CORSAIR: ['iCUE H Series'], DeepCool: ['AK Series', 'LS Series'], 'Cooler Master': ['Hyper', 'MasterLiquid'], Noctua: ['NH Series'] },
+  psu: { CORSAIR: ['RM Series', 'RMx Series'], MSI: ['MAG GL', 'MPG A Series'], Seasonic: ['FOCUS GX', 'VERTEX GX'], 'be quiet!': ['Pure Power', 'Straight Power'], FSP: ['Hydro G', 'Vita'], 'Cooler Master': ['MWE Gold', 'V Gold'] }
+};
+function updateOwnedDeviceDetail(category, selectedValue = '') {
+  const row = ownedDesktopFieldsMap.find(([key]) => key === category);
+  if (!row) return;
+  const [, , brandId, detailId] = row;
+  const brand = document.getElementById(brandId).value;
+  const detail = document.getElementById(detailId);
+  const options = ownedDeviceSeries[category]?.[brand] || (brand ? ['Diğer / bilmiyorum'] : []);
+  detail.replaceChildren(new Option(brand ? 'Seri / aile seç' : 'Önce marka seç', ''));
+  options.forEach(value => detail.add(new Option(value, value)));
+  detail.disabled = !brand;
+  detail.value = options.includes(selectedValue) ? selectedValue : '';
+}
+function resetOwnedDeviceDetails() {
+  ownedDesktopFieldsMap.forEach(([key, , , detailId]) => {
+    const detail = document.getElementById(detailId);
+    detail.replaceChildren(new Option('Önce marka seç', ''));
+    detail.disabled = true;
+  });
+}
+ownedDesktopFieldsMap.forEach(([key, , brandId]) => {
+  document.getElementById(brandId).addEventListener('change', () => updateOwnedDeviceDetail(key));
+});
 function updateOwnedDeviceTypeFields() {
   const isLaptop = ownedDeviceType.value === 'laptop';
   ownedLaptopFields.hidden = !isLaptop;
@@ -260,6 +310,7 @@ function updateOwnedDeviceTypeFields() {
 }
 function clearOwnedDeviceForm() {
   ownedDeviceForm.reset();
+  resetOwnedDeviceDetails();
   document.getElementById('ownedDeviceId').value = '';
   document.getElementById('ownedDeviceFormTitle').textContent = 'Bilgisayarını ekle';
   document.getElementById('saveOwnedDevice').textContent = 'Cihazı kaydet';
@@ -268,14 +319,21 @@ function clearOwnedDeviceForm() {
 }
 function startOwnedDeviceEdit(device = null) {
   ownedDeviceForm.reset();
+  resetOwnedDeviceDetails();
   document.getElementById('ownedDeviceId').value = device?.id || '';
   document.getElementById('ownedDeviceFormTitle').textContent = device ? 'Bilgisayar bilgilerini düzenle' : 'Bilgisayarını ekle';
   document.getElementById('saveOwnedDevice').textContent = device ? 'Değişiklikleri kaydet' : 'Cihazı kaydet';
   ownedDeviceType.value = device?.device_type || '';
   document.getElementById('ownedDeviceName').value = device?.name || '';
   const details = device?.details || {};
-  const fields = device?.device_type === 'laptop' ? ownedLaptopFieldsMap : ownedDesktopFieldsMap;
-  fields.forEach(([key, , id]) => { document.getElementById(id).value = details[key] || ''; });
+  if (device?.device_type === 'laptop') {
+    ownedLaptopFieldsMap.forEach(([key, , id]) => { document.getElementById(id).value = details[key] || ''; });
+  } else {
+    ownedDesktopFieldsMap.forEach(([key, , brandId, detailId]) => {
+      document.getElementById(brandId).value = details[key] || '';
+      updateOwnedDeviceDetail(key, details[`${key}Detail`] || '');
+    });
+  }
   updateOwnedDeviceTypeFields();
   ownedDeviceEditor.hidden = false;
   ownedDeviceEditor.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -309,7 +367,7 @@ function renderOwnedDevices() {
     actions.append(edit, remove); top.append(titleWrap, actions); card.append(top);
     const rows = device.device_type === 'laptop'
       ? [['Marka', details.brand], ['Model', details.model], ['İşlemci', details.processor], ['RAM', details.ram], ['Depolama', details.storage], ['Ekran kartı', details.graphics], ['Ekran', details.screen], ['İşletim sistemi', details.os]]
-      : ownedDesktopFieldsMap.map(([key, label]) => [label, details[key]]);
+      : ownedDesktopFieldsMap.map(([key, label]) => [label, [details[key], details[`${key}Detail`]].filter(Boolean).join(' · ')]);
     const list = document.createElement('dl'); list.className = 'saved-device-details';
     rows.filter(([, value]) => value).forEach(([label, value]) => { const item = document.createElement('div'); const key = document.createElement('dt'); key.textContent = label; const val = document.createElement('dd'); val.textContent = value; item.append(key, val); list.append(item); });
     if (!list.children.length) { const empty = document.createElement('p'); empty.className = 'saved-device-no-details'; empty.textContent = 'Henüz özellik eklenmemiş.'; card.append(empty); }
@@ -562,8 +620,17 @@ ownedDeviceForm.addEventListener('submit', async event => {
   if (!client || !currentUser) return;
   const type = ownedDeviceType.value;
   if (!['laptop', 'desktop'].includes(type)) { showMessage('Önce bilgisayar türünü seç.', 'error'); return; }
-  const fields = type === 'laptop' ? ownedLaptopFieldsMap : ownedDesktopFieldsMap;
-  const details = Object.fromEntries(fields.map(([key, , id]) => [key, String(document.getElementById(id).value || '').trim()]).filter(([, value]) => value));
+  let details = {};
+  if (type === 'laptop') {
+    details = Object.fromEntries(ownedLaptopFieldsMap.map(([key, , id]) => [key, String(document.getElementById(id).value || '').trim()]).filter(([, value]) => value));
+  } else {
+    ownedDesktopFieldsMap.forEach(([key, , brandId, detailId]) => {
+      const brand = String(document.getElementById(brandId).value || '').trim();
+      const series = String(document.getElementById(detailId).value || '').trim();
+      if (brand) details[key] = brand;
+      if (series) details[`${key}Detail`] = series;
+    });
+  }
   if (type === 'laptop' && (!details.brand || !details.model)) { showMessage('Dizüstü bilgisayar için marka ve model bilgisi gerekli.', 'error'); return; }
   const nameInput = String(document.getElementById('ownedDeviceName').value || '').trim();
   const deviceName = nameInput || (type === 'laptop' ? `${details.brand} ${details.model}`.trim() : 'Masaüstü bilgisayar');
