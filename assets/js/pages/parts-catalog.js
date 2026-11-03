@@ -187,20 +187,8 @@ async function loadParts() {
   renderCategoryButtons(); renderPageHeading(); renderFilters(); renderParts();
 }
 function renderCategoryButtons() {
-  const isComponentCatalog = selectedPartCategory === 'components' || componentPartIds.includes(selectedPartCategory);
-  partsCategoryNav.hidden = !isComponentCatalog;
-  if (!isComponentCatalog) {
-    partsCategoryNav.replaceChildren();
-    return;
-  }
-  const categories = [{ id: 'components', label: 'Tüm Parçalar', icon: 'fa-layer-group' }, ...componentPartIds.map(id => ({ id, label: partsCategoryPluralNames[id], icon: partsIcons[id] }))];
-  partsCategoryNav.replaceChildren(...categories.map(category => {
-    const button = document.createElement('button'); button.type = 'button'; button.dataset.partCategory = category.id;
-    button.setAttribute('aria-pressed', String(selectedPartCategory === category.id));
-    const icon = document.createElement('i'); icon.className = `fa-solid ${category.icon}`; icon.setAttribute('aria-hidden', 'true');
-    const label = document.createElement('span'); label.textContent = category.label;
-    button.append(icon, label); return button;
-  }));
+  partsCategoryNav.hidden = true;
+  partsCategoryNav.replaceChildren();
 }
 function renderPageHeading() {
   const isComponents = selectedPartCategory === 'components';
@@ -244,11 +232,31 @@ function addFacetGroup(container, key, label, options) {
   });
   fieldset.append(list); container.append(fieldset);
 }
+function addComponentCategoryFilter(container) {
+  if (!['components', ...componentPartIds].includes(selectedPartCategory)) return;
+  const fieldset = document.createElement('fieldset'); fieldset.className = 'parts-filter-group parts-category-filter-group';
+  const legend = document.createElement('legend'); legend.textContent = 'Parça kategorisi'; fieldset.append(legend);
+  const list = document.createElement('div'); list.className = 'parts-filter-options';
+  const categories = [{ id: 'components', label: 'Tüm Parçalar', icon: 'fa-layer-group' }, ...componentPartIds.map(id => ({ id, label: partsCategoryPluralNames[id], icon: partsIcons[id] }))];
+  categories.forEach(category => {
+    const row = document.createElement('label'); row.className = 'parts-filter-option parts-category-filter-option';
+    const input = document.createElement('input'); input.type = 'radio'; input.name = 'partsComponentCategory'; input.dataset.componentCategory = category.id; input.checked = selectedPartCategory === category.id;
+    const text = document.createElement('span'); text.textContent = category.label;
+    const count = document.createElement('small');
+    const productCount = category.id === 'components'
+      ? allParts.filter(product => componentPartIds.includes(product.categoryId)).length
+      : allParts.filter(product => product.categoryId === category.id).length;
+    count.textContent = String(productCount);
+    row.append(input, text, count); list.append(row);
+  });
+  fieldset.append(list); container.append(fieldset);
+}
 function renderFilters() {
   const category = categoryProducts();
   partsFilterFields.replaceChildren();
+  addComponentCategoryFilter(partsFilterFields);
   if (selectedPartCategory === 'components') {
-    const note = document.createElement('p'); note.className = 'parts-filter-hint'; note.textContent = 'Özellik filtrelerini görmek için yukarıdan bir parça türü seç.'; partsFilterFields.append(note);
+    const note = document.createElement('p'); note.className = 'parts-filter-hint'; note.textContent = 'Teknik özellik filtreleri için soldan bir parça kategorisi seç.'; partsFilterFields.append(note);
   } else {
     const definitions = facetsByCategory[selectedPartCategory] || [];
     definitions.forEach(([key, label]) => {
@@ -466,7 +474,16 @@ partsCategoryNav.addEventListener('click', event => {
 });
 partsFilterFields.addEventListener('change', event => {
   const input = event.target;
-  if (input.matches('[data-facet]')) {
+  if (input.matches('[data-component-category]')) {
+    selectedPartCategory = input.dataset.componentCategory;
+    selectedFacets.clear();
+    const nextUrl = new URL(location.href);
+    if (selectedPartCategory === 'components') nextUrl.searchParams.delete('category');
+    else nextUrl.searchParams.set('category', selectedPartCategory);
+    history.replaceState({}, '', nextUrl);
+    renderPageHeading(); renderFilters(); renderParts();
+    return;
+  } else if (input.matches('[data-facet]')) {
     const key = input.dataset.facet; const selected = selectedFacets.get(key) || new Set();
     if (input.checked) selected.add(input.value); else selected.delete(input.value);
     if (selected.size) selectedFacets.set(key, selected); else selectedFacets.delete(key);
