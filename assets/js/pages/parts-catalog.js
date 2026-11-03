@@ -3,6 +3,7 @@ const partsEmpty = document.getElementById('partsEmpty');
 const partsQuery = document.getElementById('searchInput') || document.getElementById('partsQuery');
 const partsSort = document.getElementById('partsSort');
 const partsCount = document.getElementById('partsResultCount');
+const partsPagination = document.getElementById('partsPagination');
 const partsCategoryNav = document.getElementById('partsCategories');
 const partsFilterFields = document.getElementById('partsFilterFields');
 const partsFavoriteCount = document.getElementById('partsFavoriteCount');
@@ -62,6 +63,9 @@ let remoteFavorites = new Set();
 let favoriteCloudReady = false;
 let favoriteSyncTimer = 0;
 let selectedFacets = new Map();
+const PARTS_PAGE_SIZE = 12;
+let partsCurrentPage = 1;
+let partsResultSignature = '';
 let comparedProductIds = readIds(compareStorageKey);
 
 function readIds(key) {
@@ -320,13 +324,48 @@ function matchesFacets(product) {
   }
   return true;
 }
+function renderPartsPagination(total, totalPages, startIndex, endIndex) {
+  if (!partsPagination) return;
+  partsPagination.replaceChildren();
+  partsPagination.hidden = totalPages <= 1;
+  if (totalPages <= 1) return;
+  const makeButton = (label, page, options = {}) => {
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'parts-page-button'; button.textContent = label;
+    button.dataset.page = String(page); button.disabled = Boolean(options.disabled);
+    if (options.current) { button.classList.add('is-current'); button.setAttribute('aria-current', 'page'); }
+    button.setAttribute('aria-label', options.label || `Sayfa ${page}`);
+    partsPagination.append(button);
+  };
+  const summary = document.createElement('span'); summary.className = 'parts-page-summary';
+  summary.textContent = `${startIndex + 1}–${endIndex} / ${total} ürün`;
+  partsPagination.append(summary);
+  makeButton('‹', Math.max(1, partsCurrentPage - 1), { disabled: partsCurrentPage === 1, label: 'Önceki sayfa' });
+  const pages = [...new Set([1, partsCurrentPage - 1, partsCurrentPage, partsCurrentPage + 1, totalPages])].filter(page => page >= 1 && page <= totalPages).sort((a, b) => a - b);
+  let previous = 0;
+  for (const page of pages) {
+    if (previous && page - previous > 1) {
+      const dots = document.createElement('span'); dots.className = 'parts-page-dots'; dots.textContent = '…'; partsPagination.append(dots);
+    }
+    makeButton(String(page), page, { current: page === partsCurrentPage }); previous = page;
+  }
+  makeButton('›', Math.min(totalPages, partsCurrentPage + 1), { disabled: partsCurrentPage === totalPages, label: 'Sonraki sayfa' });
+}
+
 function renderParts() {
   const query = partsQuery.value.trim().toLocaleLowerCase('tr-TR');
+  const signature = JSON.stringify({ category: selectedPartCategory, query, sort: partsSort.value, facets: [...selectedFacets].map(([key, values]) => [key, [...values].sort()]) });
+  if (signature !== partsResultSignature) { partsCurrentPage = 1; partsResultSignature = signature; }
   let rows = categoryProducts().filter(item => `${item.name} ${item.brand} ${item.model} ${item.sku} ${item.description} ${item.searchTerms.join(' ')} ${JSON.stringify(item.attributes)}`.toLocaleLowerCase('tr-TR').includes(query) && matchesFacets(item));
   if (partsSort.value === 'name') rows.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
   if (partsSort.value === 'price') rows.sort((a, b) => (Number.isFinite(b.price) ? 1 : 0) - (Number.isFinite(a.price) ? 1 : 0) || (a.price ?? Infinity) - (b.price ?? Infinity));
-  partsCount.textContent = `${rows.length} ürün gösteriliyor`;
-  partsGrid.replaceChildren(...rows.map(item => {
+  const totalPages = Math.max(1, Math.ceil(rows.length / PARTS_PAGE_SIZE));
+  partsCurrentPage = Math.min(partsCurrentPage, totalPages);
+  const startIndex = (partsCurrentPage - 1) * PARTS_PAGE_SIZE;
+  const pageRows = rows.slice(startIndex, startIndex + PARTS_PAGE_SIZE);
+  partsCount.textContent = rows.length ? `${startIndex + 1}–${Math.min(startIndex + PARTS_PAGE_SIZE, rows.length)} / ${rows.length} ürün` : '0 ürün';
+  renderPartsPagination(rows.length, totalPages, startIndex, Math.min(startIndex + PARTS_PAGE_SIZE, rows.length));
+  partsGrid.replaceChildren(...pageRows.map(item => {
     const card = document.createElement('article'); card.className = 'parts-product-card';
     const art = document.createElement('div'); art.className = 'parts-product-art';
     const detailUrl = `urun.html?slug=${encodeURIComponent(item.slug || '')}`;
@@ -370,6 +409,13 @@ function renderParts() {
   partsGrid.hidden = rows.length === 0;
   renderCompareTray();
 }
+partsPagination?.addEventListener('click', event => {
+  const button = event.target.closest('[data-page]');
+  if (!button || button.disabled) return;
+  partsCurrentPage = Number(button.dataset.page);
+  renderParts();
+  partsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 partsCategoryNav.addEventListener('click', event => {
   const button = event.target.closest('[data-part-category]'); if (!button) return;
   selectedPartCategory = button.dataset.partCategory; selectedFacets.clear();
