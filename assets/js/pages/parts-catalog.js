@@ -6,12 +6,14 @@ const partsCount = document.getElementById('partsResultCount');
 const partsCategoryNav = document.getElementById('partsCategories');
 const partsFilterFields = document.getElementById('partsFilterFields');
 const partsFavoriteCount = document.getElementById('partsFavoriteCount');
+const partsCompareTray = document.getElementById('partsCompareTray');
 const partsTitle = document.getElementById('partsPageTitle');
 const partsBreadcrumb = document.getElementById('partsBreadcrumb');
 const componentPartIds = ['cpu', 'motherboard', 'ram', 'gpu', 'disk', 'case', 'cooling', 'psu'];
 const otherProductCategories = ['computers', 'peripherals', 'gaming', 'networking', 'office', 'accessories', 'software'];
 const partsCategoryIds = [...componentPartIds, ...otherProductCategories];
 const guestFavoriteKey = 'tezcan-product-favorites';
+const compareStorageKey = 'tezcan-product-compare';
 const partsConfig = window.SUPABASE_CONFIG || {};
 const partsClient = partsConfig.url && partsConfig.publishableKey && window.supabase?.createClient
   ? window.supabase.createClient(partsConfig.url, partsConfig.publishableKey) : null;
@@ -60,6 +62,7 @@ let remoteFavorites = new Set();
 let favoriteCloudReady = false;
 let favoriteSyncTimer = 0;
 let selectedFacets = new Map();
+let comparedProductIds = readIds(compareStorageKey);
 
 function readIds(key) {
   try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value.filter(id => typeof id === 'string') : []; }
@@ -242,6 +245,35 @@ function displayPrice(product) {
     ? new Intl.NumberFormat('tr-TR', { style: 'currency', currency: /^[A-Z]{3}$/.test(product.currency || '') ? product.currency : 'TRY' }).format(product.price)
     : 'Fiyat bilgisi hazırlanıyor';
 }
+function comparedProducts() { return comparedProductIds.map(id => allParts.find(item => item.id === id)).filter(Boolean); }
+function saveComparedProducts() {
+  try { localStorage.setItem(compareStorageKey, JSON.stringify(comparedProductIds)); } catch {}
+  renderCompareTray();
+}
+function renderCompareTray() {
+  if (!partsCompareTray) return;
+  let products = comparedProducts();
+  if (products.length !== comparedProductIds.length) {
+    comparedProductIds = products.map(item => item.id);
+    try { localStorage.setItem(compareStorageKey, JSON.stringify(comparedProductIds)); } catch {}
+  }
+  if (products.length && products.some(item => item.categoryId !== products[0].categoryId)) {
+    products = products.filter(item => item.categoryId === products[0].categoryId);
+    comparedProductIds = products.map(item => item.id);
+    try { localStorage.setItem(compareStorageKey, JSON.stringify(comparedProductIds)); } catch {}
+  }
+  partsCompareTray.hidden = products.length === 0;
+  if (!products.length) return;
+  const count = products.length;
+  document.getElementById('partsCompareCount').textContent = `${count} ürün seçildi`;
+  document.getElementById('partsCompareHint').textContent = count < 2
+    ? 'Karşılaştırmak için aynı kategoriden en az 2 ürün seç.'
+    : `${partsCategoryPluralNames[products[0].categoryId] || 'Ürünler'} yan yana incelenmeye hazır.`;
+  const openLink = document.getElementById('openComparePage');
+  openLink.setAttribute('aria-disabled', String(count < 2));
+  openLink.tabIndex = count < 2 ? -1 : 0;
+  openLink.href = count < 2 ? '#partsProductGrid' : 'karsilastir.html';
+}
 function productSpecifications(product) {
   const specs = product.attributes || {};
   const keys = {
@@ -308,11 +340,24 @@ function renderParts() {
     specs.hidden = !specs.children.length;
     const category = document.createElement('span'); category.className = 'parts-product-category'; category.textContent = partsCategoryNames[item.categoryId] || 'Parça';
     const more = document.createElement('a'); more.className = 'parts-product-more'; more.href = detailUrl; more.innerHTML = 'Ürün ayrıntıları <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
+    const compareButton = document.createElement('button'); compareButton.type = 'button'; compareButton.className = 'parts-product-compare';
+    compareButton.dataset.compareId = item.id; compareButton.dataset.compareCategory = item.categoryId; compareButton.setAttribute('aria-pressed', 'false');
     const price = document.createElement('strong'); price.className = 'parts-product-price'; price.textContent = displayPrice(item);
-    body.append(brand, title, detail, specs, category, price, more); card.append(art, body); return card;
+    body.append(brand, title, detail, specs, category, price, compareButton, more); card.append(art, body); return card;
   }));
+  partsGrid.querySelectorAll('[data-compare-id]').forEach(button => {
+    const selected = comparedProductIds.includes(button.dataset.compareId);
+    const selectedProducts = comparedProducts();
+    const categoryMismatch = selectedProducts.length > 0 && !selected && selectedProducts[0].categoryId !== button.dataset.compareCategory;
+    const maxReached = selectedProducts.length >= 3 && !selected;
+    button.setAttribute('aria-pressed', String(selected));
+    button.disabled = categoryMismatch || maxReached;
+    button.title = categoryMismatch ? 'Yalnızca aynı kategorideki ürünler karşılaştırılabilir.' : maxReached ? 'En fazla üç ürün karşılaştırabilirsin.' : '';
+    button.innerHTML = `<i class="fa-solid ${selected ? 'fa-check' : 'fa-scale-balanced'}" aria-hidden="true"></i><span>${selected ? 'Karşılaştırmada' : 'Karşılaştır'}</span>`;
+  });
   partsEmpty.hidden = rows.length > 0;
   partsGrid.hidden = rows.length === 0;
+  renderCompareTray();
 }
 partsCategoryNav.addEventListener('click', event => {
   const button = event.target.closest('[data-part-category]'); if (!button) return;
@@ -335,9 +380,24 @@ partsFilterFields.addEventListener('change', event => {
 });
 document.getElementById('clearPartsFilters').addEventListener('click', () => { selectedFacets.clear(); renderFilters(); renderParts(); });
 partsGrid.addEventListener('click', event => {
+  const compareButton = event.target.closest('[data-compare-id]');
+  if (compareButton) {
+    const id = compareButton.dataset.compareId;
+    const product = allParts.find(item => item.id === id);
+    if (!product) return;
+    const selected = comparedProducts();
+    if (comparedProductIds.includes(id)) comparedProductIds = comparedProductIds.filter(value => value !== id);
+    else if (selected.length >= 3) return;
+    else if (selected.length && selected[0].categoryId !== product.categoryId) {
+      document.getElementById('partsCompareHint').textContent = 'Birlikte karşılaştırmak için aynı kategoriden ürün seç.';
+      return;
+    } else comparedProductIds = [...comparedProductIds, id];
+    saveComparedProducts(); renderParts(); return;
+  }
   const button = event.target.closest('[data-favorite-id]'); if (!button) return;
   const id = button.dataset.favoriteId; favorites = favorites.includes(id) ? favorites.filter(value => value !== id) : [...favorites, id]; saveFavorites(); renderParts();
 });
+document.getElementById('clearCompareSelection')?.addEventListener('click', () => { comparedProductIds = []; saveComparedProducts(); renderParts(); });
 partsQuery.value = new URLSearchParams(location.search).get('q') || '';
 partsQuery.addEventListener('input', renderParts);
 partsSort.addEventListener('change', renderParts);
@@ -347,5 +407,8 @@ if (partsClient) {
   partsClient.auth.getSession().then(({ data }) => activateFavoriteUser(data?.session?.user || null)).catch(() => activateFavoriteUser(null));
   partsClient.auth.onAuthStateChange((_event, session) => setTimeout(() => activateFavoriteUser(session?.user || null), 0));
 } else { favorites = readIds(guestFavoriteKey); saveFavorites(); }
-window.addEventListener('storage', event => { if (event.key === favoriteKey) { favorites = readIds(favoriteKey); partsFavoriteCount.textContent = String(favorites.length); renderParts(); } });
+window.addEventListener('storage', event => {
+  if (event.key === favoriteKey) { favorites = readIds(favoriteKey); partsFavoriteCount.textContent = String(favorites.length); renderParts(); }
+  if (event.key === compareStorageKey) { comparedProductIds = readIds(compareStorageKey); renderCompareTray(); renderParts(); }
+});
 loadParts();

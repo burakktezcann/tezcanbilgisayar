@@ -5,6 +5,9 @@ const productFavoriteButton = document.getElementById('productFavorite');
 const detailQuery = new URLSearchParams(location.search);
 const requestedSlug = detailQuery.get('slug') || '';
 const favoriteStorageBase = 'tezcan-product-favorites';
+const compareStorageKey = 'tezcan-product-compare';
+const productCompareButton = document.getElementById('productCompare');
+const productCompareStatus = document.getElementById('productCompareStatus');
 const detailCategoryNames = {
   cpu: 'İşlemci', motherboard: 'Anakart', ram: 'RAM', gpu: 'Ekran kartı', disk: 'Depolama',
   case: 'Kasa', cooling: 'İşlemci soğutucusu', psu: 'Güç kaynağı', computers: 'Bilgisayar',
@@ -36,6 +39,7 @@ const detailConfig = window.SUPABASE_CONFIG || {};
 const detailClient = detailConfig.url && detailConfig.publishableKey && window.supabase?.createClient
   ? window.supabase.createClient(detailConfig.url, detailConfig.publishableKey) : null;
 let currentProduct = null;
+let detailCatalogProducts = [];
 let detailFavorites = [];
 let detailFavoriteKey = favoriteStorageBase;
 let detailFavoriteUser = null;
@@ -58,6 +62,26 @@ function renderFavoriteButton() {
   const active = detailFavorites.includes(currentProduct.id);
   productFavoriteButton.setAttribute('aria-pressed', String(active));
   productFavoriteButton.innerHTML = `<i class="fa-${active ? 'solid' : 'regular'} fa-heart" aria-hidden="true"></i><span>${active ? 'Favorilerimden çıkar' : 'Favorilerime ekle'}</span>`;
+}
+function readComparedIds() {
+  try { const ids = JSON.parse(localStorage.getItem(compareStorageKey) || '[]'); return Array.isArray(ids) ? ids.filter(id => typeof id === 'string') : []; }
+  catch { return []; }
+}
+function renderProductCompareButton() {
+  if (!currentProduct) return;
+  const ids = readComparedIds();
+  const selected = ids.includes(currentProduct.id);
+  const products = ids.map(id => detailCatalogProducts.find(item => item.id === id)).filter(Boolean);
+  const categoryMismatch = products.some(item => item.categoryId !== currentProduct.categoryId);
+  const maxReached = products.length >= 3 && !selected;
+  productCompareButton.setAttribute('aria-pressed', String(selected));
+  productCompareButton.disabled = categoryMismatch || maxReached;
+  productCompareButton.innerHTML = `<i class="fa-solid ${selected ? 'fa-check' : 'fa-scale-balanced'}" aria-hidden="true"></i><span>${selected ? 'Karşılaştırmadan çıkar' : 'Karşılaştırmaya ekle'}</span>`;
+  productCompareStatus.hidden = !(categoryMismatch || maxReached);
+  productCompareStatus.textContent = categoryMismatch
+    ? 'Karşılaştırma listen başka bir ürün kategorisi içeriyor. Önce karşılaştırma sayfasından listenizi temizleyin.'
+    : maxReached ? 'En fazla üç ürün karşılaştırabilirsin.' : '';
+  document.getElementById('productCompareOpen').hidden = products.length < 2;
 }
 async function syncDetailFavorites() {
   if (!detailClient || !detailFavoriteUser || !detailFavoriteSyncReady) return;
@@ -198,6 +222,7 @@ function renderRelatedProducts(product, products) {
 }
 function renderProduct(product, products) {
   currentProduct = product;
+  detailCatalogProducts = products;
   const categoryName = detailCategoryNames[product.categoryId] || 'Ürün';
   document.getElementById('productBreadcrumb').textContent = product.name;
   document.getElementById('productBrand').textContent = product.brand || categoryName;
@@ -225,6 +250,7 @@ function renderProduct(product, products) {
   renderProductSpecs(product);
   renderRelatedProducts(product, products);
   renderFavoriteButton();
+  renderProductCompareButton();
   const title = `${product.name} özellikleri ve ürün bilgileri | Tezcan Bilgisayar`;
   const description = `${product.name}${product.description ? ` — ${product.description}` : ''}. Teknik özellikleri ve ürün bilgilerini Tezcan Bilgisayar'da inceleyin.`.slice(0, 300);
   const canonical = new URL(`urun.html?slug=${encodeURIComponent(product.slug || '')}`, 'https://www.tezcanbilgisayar.com/').href;
@@ -274,6 +300,19 @@ productFavoriteButton.addEventListener('click', () => {
     ? detailFavorites.filter(id => id !== currentProduct.id) : [...detailFavorites, currentProduct.id];
   writeFavoriteIds();
 });
+productCompareButton.addEventListener('click', () => {
+  if (!currentProduct) return;
+  let ids = readComparedIds();
+  if (ids.includes(currentProduct.id)) ids = ids.filter(id => id !== currentProduct.id);
+  else {
+    const selected = ids.map(id => detailCatalogProducts.find(item => item.id === id)).filter(Boolean);
+    ids = selected.map(item => item.id);
+    if (selected.length >= 3 || selected.some(item => item.categoryId !== currentProduct.categoryId)) { renderProductCompareButton(); return; }
+    ids = [...ids, currentProduct.id];
+  }
+  try { localStorage.setItem(compareStorageKey, JSON.stringify(ids)); } catch {}
+  renderProductCompareButton();
+});
 document.getElementById('productShare').addEventListener('click', async event => {
   const button = event.currentTarget;
   const original = button.innerHTML;
@@ -283,6 +322,7 @@ document.getElementById('productShare').addEventListener('click', async event =>
   } catch {}
 });
 document.getElementById('currentYear').textContent = String(new Date().getFullYear());
+window.addEventListener('storage', event => { if (event.key === compareStorageKey) renderProductCompareButton(); });
 if (detailClient) {
   detailClient.auth.getSession().then(({ data }) => activateFavoriteAccount(data?.session?.user || null)).catch(() => activateFavoriteAccount(null));
   detailClient.auth.onAuthStateChange((_event, session) => setTimeout(() => activateFavoriteAccount(session?.user || null), 0));
