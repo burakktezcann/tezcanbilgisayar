@@ -1,6 +1,6 @@
 const partsGrid = document.getElementById('partsProductGrid');
 const partsEmpty = document.getElementById('partsEmpty');
-const partsQuery = document.getElementById('partsQuery');
+const partsQuery = document.getElementById('searchInput') || document.getElementById('partsQuery');
 const partsSort = document.getElementById('partsSort');
 const partsCount = document.getElementById('partsResultCount');
 const partsCategoryNav = document.getElementById('partsCategories');
@@ -412,8 +412,9 @@ document.getElementById('clearCompareSelection')?.addEventListener('click', () =
 partsQuery.value = new URLSearchParams(location.search).get('q') || '';
 partsQuery.addEventListener('input', renderParts);
 partsSort.addEventListener('change', renderParts);
-document.getElementById('partsSearch').addEventListener('submit', event => { event.preventDefault(); renderParts(); });
-document.getElementById('currentYear').textContent = String(new Date().getFullYear());
+(document.getElementById('partsSearch') || document.getElementById('siteSearch')).addEventListener('submit', event => { event.preventDefault(); renderParts(); });
+const yearElement = document.getElementById('currentYear');
+if (yearElement) yearElement.textContent = String(new Date().getFullYear());
 if (partsClient) {
   partsClient.auth.getSession().then(({ data }) => activateFavoriteUser(data?.session?.user || null)).catch(() => activateFavoriteUser(null));
   partsClient.auth.onAuthStateChange((_event, session) => setTimeout(() => activateFavoriteUser(session?.user || null), 0));
